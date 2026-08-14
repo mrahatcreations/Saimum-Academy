@@ -67,7 +67,7 @@ function App() {
               <h2>Recent Activities</h2>
               <button className={styles.btnPrimary}>View All</button>
             </div>
-            <div className={styles.card}>
+            <div className={styles.cardContent}>
               <div className={styles.emptyState}>
                 <p>No recent activities found.</p>
               </div>

@@ -4,14 +4,13 @@
   width: 100%;
 }
 
-/* Sidebar Styling */
+/* Sidebar Styling - Structured and compact */
 .sidebar {
-  width: 260px;
+  width: 240px;
   background-color: var(--bg-surface);
   border-right: 1px solid var(--border-light);
   display: flex;
   flex-direction: column;
-  padding: var(--space-4);
   position: sticky;
   top: 0;
   height: 100vh;
@@ -21,13 +20,14 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-6);
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .logoBox {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background-color: var(--brand-orange);
   color: white;
   border-radius: var(--radius-md);
@@ -35,13 +35,17 @@
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
 }
 
 .brandName {
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   letter-spacing: -0.01em;
+}
+
+.nav {
+  padding: var(--space-4) var(--space-3);
 }
 
 .navSection {
@@ -50,21 +54,23 @@
 
 .navLabel {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--text-tertiary);
   margin-bottom: var(--space-2);
+  margin-left: var(--space-2);
   letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .navItem {
   display: block;
   padding: var(--space-2) var(--space-3);
-  margin-bottom: var(--space-1);
+  margin-bottom: 2px;
   color: var(--text-secondary);
   border-radius: var(--radius-md);
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .navItem:hover {
@@ -75,6 +81,8 @@
 .navItem.active {
   background-color: var(--brand-orange-alpha);
   color: var(--brand-orange-dark);
+  border-left: 3px solid var(--brand-orange);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
   font-weight: 600;
 }
 
@@ -84,31 +92,30 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  background-color: var(--bg-body);
 }
 
 .topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-6);
-  background-color: var(--bg-body);
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
   position: sticky;
   top: 0;
   z-index: 10;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background-color: rgba(245, 245, 247, 0.8);
-  border-bottom: 1px solid var(--border-light);
 }
 
 .pageTitle h1 {
-  font-size: 1.75rem;
-  margin-bottom: 4px;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .pageTitle p {
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  margin-top: 2px;
 }
 
 .profile {
@@ -117,8 +124,8 @@
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background-color: var(--text-primary);
   color: white;
   border-radius: var(--radius-full);
@@ -126,22 +133,21 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
-/* Content Area */
+/* Content Area - Data dense, sharp */
 .content {
-  padding: var(--space-6);
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: var(--space-5);
+  max-width: 1400px;
   width: 100%;
 }
 
 .cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--space-4);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-5);
 }
 
 .statCard {
@@ -149,60 +155,67 @@
   padding: var(--space-4);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
+  /* Removed shadow, relying on crisp borders for structure */
 }
 
 .statLabel {
   display: block;
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
   margin-bottom: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .statValue {
-  font-size: 2.25rem;
-  letter-spacing: -0.03em;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
 .section {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-5);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
 }
 
 .sectionHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .sectionHeader h2 {
-  font-size: 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 .btnPrimary {
   background-color: var(--brand-orange);
   color: white;
-  padding: 8px 16px;
-  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  border: 1px solid transparent;
 }
 
 .btnPrimary:hover {
   background-color: var(--brand-orange-dark);
 }
 
-.card {
-  background-color: var(--bg-surface);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
-  padding: var(--space-6);
+.cardContent {
+  padding: var(--space-4);
 }
 
 .emptyState {
   text-align: center;
   color: var(--text-tertiary);
-  padding: var(--space-8) 0;
+  padding: var(--space-6) 0;
+  font-size: 0.85rem;
 }
