@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Plus, Search, MoreHorizontal } from 'lucide-react';
 import styles from '../App.module.css';
 import AddBranchModal from '../components/modals/AddBranchModal';

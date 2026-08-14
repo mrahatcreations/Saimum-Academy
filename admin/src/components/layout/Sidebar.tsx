@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -8,8 +7,7 @@ import {
   BookOpen, 
   Settings, 
   LogOut, 
-  ChevronLeft,
-  ChevronRight
+  ChevronLeft
 } from 'lucide-react';
 import styles from '../../App.module.css';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Users, Building2, Search, ArrowRight, TrendingUp } from 'lucide-react';
 import styles from '../App.module.css';
 
@@ -87,14 +86,14 @@ export default function Dashboard() {
 
             {/* Card 3: Pending Admissions */}
             <div className={styles.dashCardDashed}>
-              <div className={styles.cardHeader}>
-                <span className={styles.cardTitle}>Pending Admissions</span>
-              </div>
-              <div style={{marginTop: 'auto'}}>
-                <div style={{display: 'inline-flex', alignItems: 'center', background: '#FEF3C7', color: '#D97706', fontSize: '0.75rem', padding: '4px 10px', borderRadius: '12px', fontWeight: 700, marginBottom: '14px'}}>
+              <div>
+                <div className={styles.cardTitle} style={{marginBottom: '8px'}}>Pending Admissions</div>
+                <div style={{display: 'inline-flex', alignItems: 'center', background: '#FEF3C7', color: '#D97706', fontSize: '0.75rem', padding: '4px 10px', borderRadius: '12px', fontWeight: 700}}>
                   Action Required
                 </div>
-                
+              </div>
+              
+              <div style={{marginTop: 'auto'}}>
                 <div className={styles.mockBarChart}>
                   <div className={`${styles.bar} ${styles.bar1}`} title="Dhaka: 40%">
                     <span>Dhaka</span>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Plus } from 'lucide-react';
 import styles from '../../App.module.css';
 import { useLocation } from 'react-router-dom';
