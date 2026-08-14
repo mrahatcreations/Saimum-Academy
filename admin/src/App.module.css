@@ -14,8 +14,9 @@
   flex-direction: column;
   position: relative;
   z-index: 20;
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
+  overflow: visible;
 }
 
 .sidebar.collapsed {
@@ -24,43 +25,39 @@
 
 .collapseBtn {
   position: absolute;
-  right: -16px;
-  top: 48px;
-  width: 32px;
-  height: 32px;
+  right: -14px;
+  top: 44px;
+  width: 28px;
+  height: 28px;
   background: var(--bg-surface);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-float);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 1rem;
   color: var(--text-primary);
   cursor: pointer;
   z-index: 30;
   border: 1px solid var(--border-dashed);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.collapseBtn:hover {
+  background-color: var(--bg-surface-hover);
+  transform: scale(1.08);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 40px 0 40px 24px;
-  justify-content: flex-start;
-  height: 108px;
-  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 36px 0 36px 26px;
+  height: 104px;
   overflow: hidden;
-}
-
-.collapsed .brand {
-  padding: 40px 0;
-  justify-content: center;
 }
 
 .logoImage {
   height: 28px;
-  width: auto;
+  width: 28px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -69,112 +66,101 @@
   font-weight: 800;
   font-size: 1.25rem;
   letter-spacing: -0.02em;
+  margin-left: 12px;
   opacity: 1;
-  transition: opacity 0.2s ease, max-width 0.3s ease;
+  transform: translateX(0);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
-  max-width: 120px;
-  overflow: hidden;
 }
 
 .collapsed .brandName {
   opacity: 0;
-  max-width: 0;
-  visibility: hidden;
+  transform: translateX(-10px);
+  pointer-events: none;
 }
 
 .nav {
-  padding: 0 16px;
+  padding: 0 14px;
   flex: 1;
   overflow-x: hidden;
-  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.collapsed .nav {
-  padding: 0 12px;
+  overflow-y: auto;
 }
 
 .navSection {
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .navLabel {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--text-tertiary);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+  padding-left: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   opacity: 1;
-  transition: opacity 0.2s ease, max-height 0.3s ease, margin 0.3s ease;
+  transform: translateX(0);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
-  max-height: 20px;
-  overflow: hidden;
 }
 
 .collapsed .navLabel {
   opacity: 0;
-  max-height: 0;
-  margin-bottom: 0;
-  visibility: hidden;
+  transform: translateX(-10px);
 }
 
 .navItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
+  padding: 12px 14px;
   margin-bottom: 4px;
   color: var(--text-secondary);
   border-radius: 12px;
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   white-space: nowrap;
   overflow: hidden;
-}
-
-.collapsed .navItem {
-  justify-content: center;
-  padding: 12px 0;
-  gap: 0;
 }
 
 .navIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
+  width: 24px;
+  height: 24px;
   font-size: 1.1rem;
   opacity: 0.7;
   flex-shrink: 0;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .navItem.active .navIcon {
   opacity: 1;
+  color: var(--brand-orange);
 }
 
 .navText {
+  margin-left: 12px;
   opacity: 1;
-  transition: opacity 0.2s ease, max-width 0.3s ease, margin 0.3s ease;
+  transform: translateX(0);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
-  overflow: hidden;
-  max-width: 150px;
 }
 
 .collapsed .navText {
   opacity: 0;
-  max-width: 0;
-  margin: 0;
-  visibility: hidden;
+  transform: translateX(-10px);
+  pointer-events: none;
 }
 
 .iconRotator {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .iconRotator.rotated {
@@ -189,7 +175,6 @@
 .navItem.active {
   background-color: var(--bg-nav-active);
   color: var(--text-primary);
-  font-weight: 700;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -197,11 +182,6 @@
   background-color: #1E293B;
   color: #FFFFFF;
   border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.navItem.active .navIcon {
-  opacity: 1;
-  color: var(--brand-orange);
 }
 
 .navDot {
@@ -214,14 +194,9 @@
 .dotBlue { background: #6366F1; }
 
 .sidebarFooter {
-  padding: 32px 16px;
+  padding: 24px 14px;
   margin-top: auto;
   overflow: hidden;
-  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.collapsed .sidebarFooter {
-  padding: 32px 12px;
 }
 
 /* Main Area */
