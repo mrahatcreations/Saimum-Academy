@@ -1,4 +1,18 @@
 import React from 'react';
+import { 
+  LayoutDashboard, 
+  Users, 
+  Building2, 
+  LibraryBig, 
+  BookOpen, 
+  Settings, 
+  LogOut, 
+  Bell, 
+  TrendingUp, 
+  ChevronLeft, 
+  Plus, 
+  Search 
+} from 'lucide-react';
 import styles from './App.module.css';
 
 function App() {
@@ -6,7 +20,9 @@ function App() {
     <div className={styles.layout}>
       {/* Sidebar */}
       <aside className={styles.sidebar}>
-        <div className={styles.collapseBtn}>&lt;</div>
+        <div className={styles.collapseBtn}>
+          <ChevronLeft size={16} />
+        </div>
         
         <div className={styles.brand}>
           <img src="/logo.png" alt="Saimum Logo" className={styles.logoImage} />
@@ -17,19 +33,19 @@ function App() {
           <div className={styles.navSection}>
             <span className={styles.navLabel}>MAIN MENU</span>
             <a href="#" className={`${styles.navItem} ${styles.active}`}>
-              <span className={styles.navIcon}>⊞</span> Dashboard
+              <span className={styles.navIcon}><LayoutDashboard size={18} /></span> Dashboard
             </a>
             <a href="#" className={styles.navItem}>
-              <span className={styles.navIcon}>👥</span> Students
+              <span className={styles.navIcon}><Users size={18} /></span> Students
             </a>
             <a href="#" className={styles.navItem}>
-              <span className={styles.navIcon}>🏢</span> Branches
+              <span className={styles.navIcon}><Building2 size={18} /></span> Branches
             </a>
             <a href="#" className={styles.navItem}>
-              <span className={styles.navIcon}>📑</span> Departments
+              <span className={styles.navIcon}><LibraryBig size={18} /></span> Departments
             </a>
             <a href="#" className={styles.navItem}>
-              <span className={styles.navIcon}>📚</span> Subjects
+              <span className={styles.navIcon}><BookOpen size={18} /></span> Subjects
             </a>
           </div>
           
@@ -46,10 +62,10 @@ function App() {
         
         <div className={styles.sidebarFooter}>
           <a href="#" className={styles.navItem}>
-            <span className={styles.navIcon}>⚙️</span> Settings
+            <span className={styles.navIcon}><Settings size={18} /></span> Settings
           </a>
           <a href="#" className={styles.navItem}>
-            <span className={styles.navIcon}>🚪</span> Log Out
+            <span className={styles.navIcon}><LogOut size={18} /></span> Log Out
           </a>
         </div>
       </aside>
@@ -68,7 +84,9 @@ function App() {
             </div>
           </div>
           <div className={styles.profile}>
-            <div className={styles.actionBtn}>+</div>
+            <div className={styles.actionBtn}>
+              <Plus size={20} />
+            </div>
             <div className={styles.avatar}>
               <img src="https://i.pravatar.cc/150?img=11" alt="Super Admin" />
             </div>
@@ -89,7 +107,7 @@ function App() {
                 <div className={styles.dashCardDashed}>
                   <div className={styles.cardHeader}>
                     <span className={styles.cardTitle}>Total<br/>Students</span>
-                    <span className={styles.cardIcon}>🎓</span>
+                    <span className={styles.cardIcon}><Users size={18} /></span>
                   </div>
                   <div>
                     <div style={{display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '16px'}}>
@@ -107,11 +125,13 @@ function App() {
                   </div>
                 </div>
 
-                {/* Card 2: Revenue / Collection Mockup - renamed to Active Branches */}
+                {/* Card 2: Active Branches */}
                 <div className={styles.dashCardDashed}>
                   <div className={styles.cardHeader}>
                     <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                      <div style={{width: 24, height: 24, borderRadius: '50%', background: '#E0E7FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366F1', fontSize: '12px'}}>🏢</div>
+                      <div style={{width: 28, height: 28, borderRadius: '50%', background: '#E0E7FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366F1'}}>
+                        <Building2 size={16} />
+                      </div>
                       <span className={styles.cardTitle}>Active Branches</span>
                     </div>
                   </div>
@@ -151,7 +171,7 @@ function App() {
                 </div>
               </div>
 
-              {/* Recently Payments -> Recent Registrations */}
+              {/* Recent Registrations */}
               <div>
                 <h3 className={styles.recentPaymentsHeader}>Recent Registrations</h3>
                 <div className={styles.recentPaymentsGrid}>
@@ -213,7 +233,7 @@ function App() {
             <div className={styles.sectionHeader}>
               <h2>Recent Activities</h2>
               <div className={styles.searchBox}>
-                <span>🔍 Search</span>
+                <Search size={16} /> <span>Search</span>
               </div>
             </div>
             
