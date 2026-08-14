@@ -170,7 +170,12 @@ export default function Dashboard() {
         <div className={styles.sectionHeader}>
           <h2>Recent Activities</h2>
           <div className={styles.searchBox}>
-            <Search size={16} /> <span>Search</span>
+            <Search size={15} className={styles.searchIcon} />
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              className={styles.searchInput}
+            />
           </div>
         </div>
         

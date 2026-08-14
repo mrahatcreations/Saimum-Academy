@@ -750,13 +750,42 @@
 
 .searchBox {
   background-color: var(--bg-body);
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   gap: 8px;
   color: var(--text-tertiary);
-  font-size: 0.9rem;
+  border: 1px solid var(--border-light);
+  width: 200px;
+  transition: all 0.2s ease;
+}
+
+.searchBox:focus-within {
+  border-color: var(--brand-orange);
+  background-color: var(--bg-surface);
+  box-shadow: 0 0 0 3px rgba(255, 121, 14, 0.1);
+  color: var(--text-primary);
+}
+
+.searchIcon {
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: var(--text-tertiary);
+  font-size: 0.82rem;
 }
 
 .tableHeader {
