@@ -1,6 +1,6 @@
 import React from 'react';
 import { Users, Building2, Search } from 'lucide-react';
-import styles from '../../App.module.css';
+import styles from '../App.module.css';
 
 export default function Dashboard() {
   return (
