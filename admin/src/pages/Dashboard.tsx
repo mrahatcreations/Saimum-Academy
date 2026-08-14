@@ -37,23 +37,37 @@ export default function Dashboard() {
             {/* Card 2: Active Branches */}
             <div className={styles.dashCardDashed}>
               <div className={styles.cardHeader}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                  <div style={{width: 32, height: 32, borderRadius: '50%', background: '#E0E7FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366F1'}}>
-                    <Building2 size={16} />
+                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                  <div style={{width: 34, height: 34, borderRadius: '50%', background: '#EDE9FE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7C3AED', flexShrink: 0}}>
+                    <Building2 size={17} />
                   </div>
                   <span className={styles.cardTitle}>Active Branches</span>
                 </div>
               </div>
               
-              {/* Organic Multi-Wave Sparkline */}
-              <div style={{margin: '16px 0'}}>
-                <svg width="100%" height="36" viewBox="0 0 160 36" fill="none" style={{overflow: 'visible'}}>
+              {/* Dynamic Fluctuating Sparkline with Baseline & Faded Tail */}
+              <div style={{margin: '12px 0', height: '52px', display: 'flex', alignItems: 'center'}}>
+                <svg width="100%" height="52" viewBox="0 0 200 52" fill="none" style={{overflow: 'visible'}}>
+                  {/* Subtle horizontal reference line */}
+                  <line x1="0" y1="26" x2="200" y2="26" stroke="#F1F5F9" strokeWidth="1.5" />
+                  
+                  {/* Main realistic stock/activity sparkline */}
                   <path 
-                    d="M 4 24 C 24 6, 44 30, 68 14 C 92 0, 116 26, 136 10 C 146 3, 154 14, 158 6" 
-                    stroke="#10B981" 
-                    strokeWidth="2.5" 
+                    d="M 6 32 C 14 26, 20 20, 28 22 C 36 24, 42 36, 50 32 C 58 28, 64 24, 72 26 C 80 28, 86 38, 92 34 C 98 30, 104 12, 114 12 C 124 12, 128 26, 136 24 C 144 22, 148 34, 156 30 C 162 26, 166 12, 172 10" 
+                    stroke="#14B8A6" 
+                    strokeWidth="2.4" 
                     strokeLinecap="round" 
                     strokeLinejoin="round"
+                  />
+                  
+                  {/* Faded projected tail on the right */}
+                  <path 
+                    d="M 172 10 C 176 8, 180 20, 184 15 C 188 10, 192 18, 196 14" 
+                    stroke="#14B8A6" 
+                    strokeWidth="2.2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    strokeOpacity="0.3"
                   />
                 </svg>
               </div>
@@ -65,8 +79,8 @@ export default function Dashboard() {
                     <TrendingUp size={14} /> +1 <span style={{color: 'var(--text-tertiary)', fontWeight: 500}}>this year</span>
                   </p>
                 </div>
-                <button className={styles.circleBtn} title="View Branches">
-                  <ArrowRight size={15} />
+                <button className={styles.pillActionBtn} title="View Branches">
+                  <ArrowRight size={16} />
                 </button>
               </div>
             </div>
