@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Building2, Search } from 'lucide-react';
+import { Users, Building2, Search, ArrowRight, TrendingUp } from 'lucide-react';
 import styles from '../App.module.css';
 
 export default function Dashboard() {
@@ -45,26 +45,29 @@ export default function Dashboard() {
                 </div>
               </div>
               
-              {/* SVG Mock line chart - Beautiful curve, edge to edge */}
-              <div style={{margin: 'auto -24px 0 -24px', overflow: 'hidden'}}>
-                <svg width="100%" height="45" viewBox="0 0 200 45" preserveAspectRatio="none" style={{display: 'block'}}>
-                  <path d="M0 25 C 30 5, 70 45, 100 25 C 130 5, 170 45, 200 25" fill="none" stroke="#34D399" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M0 25 C 30 5, 70 45, 100 25 C 130 5, 170 45, 200 25 L 200 45 L 0 45 Z" fill="url(#gradient)" stroke="none" opacity="0.5"/>
-                  <defs>
-                    <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#34D399"/>
-                      <stop offset="100%" stopColor="#34D399" stopOpacity="0"/>
-                    </linearGradient>
-                  </defs>
+              {/* Organic Multi-Wave Sparkline */}
+              <div style={{margin: '16px 0'}}>
+                <svg width="100%" height="36" viewBox="0 0 160 36" fill="none" style={{overflow: 'visible'}}>
+                  <path 
+                    d="M 4 24 C 24 6, 44 30, 68 14 C 92 0, 116 26, 136 10 C 146 3, 154 14, 158 6" 
+                    stroke="#10B981" 
+                    strokeWidth="2.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </div>
 
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '16px'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto'}}>
                 <div>
                   <h2 className={styles.statValue}>04</h2>
-                  <p style={{fontSize: '0.8rem', color: '#10B981', fontWeight: 700}}>↗ +1 <span style={{color: 'var(--text-tertiary)', fontWeight: 600}}>this year</span></p>
+                  <p style={{fontSize: '0.8rem', color: '#10B981', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px'}}>
+                    <TrendingUp size={14} /> +1 <span style={{color: 'var(--text-tertiary)', fontWeight: 500}}>this year</span>
+                  </p>
                 </div>
-                <div style={{width: 32, height: 32, minWidth: 32, flexShrink: 0, borderRadius: '50%', background: 'var(--text-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>→</div>
+                <button className={styles.circleBtn} title="View Branches">
+                  <ArrowRight size={15} />
+                </button>
               </div>
             </div>
 
@@ -74,14 +77,20 @@ export default function Dashboard() {
                 <span className={styles.cardTitle}>Pending Admissions</span>
               </div>
               <div style={{marginTop: 'auto'}}>
-                <div style={{background: '#FEF3C7', color: '#D97706', fontSize: '0.75rem', padding: '4px 10px', borderRadius: '12px', display: 'inline-block', fontWeight: 700, marginBottom: '16px'}}>
+                <div style={{display: 'inline-flex', alignItems: 'center', background: '#FEF3C7', color: '#D97706', fontSize: '0.75rem', padding: '4px 10px', borderRadius: '12px', fontWeight: 700, marginBottom: '14px'}}>
                   Action Required
                 </div>
                 
                 <div className={styles.mockBarChart}>
-                  <div className={`${styles.bar} ${styles.bar1}`} title="Dhaka: 40%">Dhk</div>
-                  <div className={`${styles.bar} ${styles.bar2}`} title="Mirpur: 70%">Mir</div>
-                  <div className={`${styles.bar} ${styles.bar3}`} title="Uttara: 100%">Utt</div>
+                  <div className={`${styles.bar} ${styles.bar1}`} title="Dhaka: 40%">
+                    <span>Dhaka</span>
+                  </div>
+                  <div className={`${styles.bar} ${styles.bar2}`} title="Mirpur: 70%">
+                    <span>Mirpur</span>
+                  </div>
+                  <div className={`${styles.bar} ${styles.bar3}`} title="Uttara: 100%">
+                    <span>Uttara</span>
+                  </div>
                 </div>
               </div>
             </div>
