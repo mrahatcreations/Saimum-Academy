@@ -790,3 +790,237 @@
   background-color: var(--bg-surface-hover);
   color: var(--text-primary);
 }
+
+/* ==========================================================================
+   MOBILE APP STYLES & RESPONSIVE DRAWER / BOTTOM NAVIGATION
+   ========================================================================== */
+
+/* Mobile Hamburger Button (Hidden on Desktop) */
+.mobileHamburgerBtn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile Drawer Close Button */
+.mobileDrawerCloseBtn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+/* Mobile Backdrop Overlay */
+.mobileBackdrop {
+  display: none;
+}
+
+/* Mobile Bottom Navigation Bar (Hidden on Desktop) */
+.mobileBottomNav {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE MEDIA QUERIES (TABLETS & PHONES)
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .topGrid {
+    grid-template-columns: 1fr;
+  }
+  .threeCardsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .content {
+    padding: 0 24px 32px 24px;
+  }
+  .topbar {
+    padding: 24px 24px 20px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Hide desktop-only collapse button on mobile */
+  .collapseBtn {
+    display: none !important;
+  }
+
+  /* Hamburger & Drawer Close Button visible */
+  .mobileHamburgerBtn {
+    display: flex;
+  }
+  
+  .mobileDrawerCloseBtn {
+    display: block;
+  }
+
+  /* Mobile Backdrop */
+  .mobileBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    z-index: 998;
+    animation: fadeIn 0.25s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Sidebar Wrapper as Mobile Off-Canvas Drawer */
+  .sidebarWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .sidebarWrapper.mobileDrawerOpen {
+    transform: translateX(0);
+  }
+
+  .sidebar {
+    width: 280px !important;
+    height: 100vh;
+  }
+
+  .brandName, .navText, .navLabel {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  /* Topbar Mobile Adaptation */
+  .topbar {
+    padding: 16px 16px 14px 16px;
+    height: 64px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-light);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .pageTitleGroup {
+    gap: 12px;
+  }
+
+  .pageTitle h1 {
+    font-size: 1.25rem;
+  }
+
+  .togglePills {
+    display: none; /* Clean app aesthetic: hide sub-toggles on small screens */
+  }
+
+  .actionBtn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Content Mobile Adaptation with Bottom Nav Safe Padding */
+  .content {
+    padding: 16px 16px 88px 16px;
+  }
+
+  /* Cards Grid: Clean Single Column Phone Flow */
+  .threeCardsRow {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .recentPaymentsGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .topGrid {
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  /* Section Table Horizontal Scroll & Responsive Padding */
+  .section {
+    padding: 18px 16px;
+    border-radius: 18px;
+    overflow-x: auto;
+  }
+
+  .table {
+    min-width: 600px;
+  }
+
+  /* Native App-Style Bottom Navigation Bar */
+  .mobileBottomNav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-light);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+    z-index: 900;
+    padding: 6px 12px 10px 12px;
+    justify-content: space-around;
+    align-items: center;
+    backdrop-filter: blur(12px);
+  }
+
+  .mobileNavItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: transparent;
+    border: none;
+    color: var(--text-tertiary);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.2s ease;
+    padding: 4px 0;
+  }
+
+  .mobileNavItem span {
+    letter-spacing: -0.01em;
+  }
+
+  .mobileNavActive {
+    color: var(--brand-orange) !important;
+    font-weight: 700;
+  }
+
+  .mobileNavActive svg {
+    transform: scale(1.1);
+  }
+}

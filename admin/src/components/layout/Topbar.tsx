@@ -1,9 +1,13 @@
-import { Plus, Sun, Moon } from 'lucide-react';
+import { Plus, Sun, Moon, Menu } from 'lucide-react';
 import styles from '../../App.module.css';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 
-export default function Topbar() {
+interface TopbarProps {
+  onMenuClick?: () => void;
+}
+
+export default function Topbar({ onMenuClick }: TopbarProps) {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   
@@ -17,9 +21,20 @@ export default function Topbar() {
   return (
     <header className={styles.topbar}>
       <div className={styles.pageTitleGroup}>
+        {/* Mobile Hamburger Button */}
+        <button 
+          className={styles.mobileHamburgerBtn} 
+          onClick={onMenuClick} 
+          title="Open Menu"
+          aria-label="Open Navigation Menu"
+        >
+          <Menu size={22} />
+        </button>
+
         <div className={styles.pageTitle}>
           <h1 key={title} className={styles.titleTransition}>{title}</h1>
         </div>
+        
         <div className={styles.togglePills}>
           <div className={`${styles.togglePill} ${styles.active}`}>Overview</div>
           <div className={styles.togglePill}>Analytics</div>

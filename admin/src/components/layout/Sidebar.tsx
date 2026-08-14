@@ -14,15 +14,16 @@ import styles from '../../App.module.css';
 interface SidebarProps {
   isCollapsed: boolean;
   toggleSidebar: () => void;
+  closeMobileDrawer?: () => void;
 }
 
-export default function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
+export default function Sidebar({ isCollapsed, toggleSidebar, closeMobileDrawer }: SidebarProps) {
   const getNavClass = ({ isActive }: { isActive: boolean }) => 
     isActive ? `${styles.navItem} ${styles.active}` : styles.navItem;
 
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
-      {/* Collapse Toggle Button */}
+      {/* Collapse Toggle Button (Desktop) */}
       <div className={styles.collapseBtn} onClick={toggleSidebar}>
         <div className={`${styles.iconRotator} ${isCollapsed ? styles.rotated : ''}`}>
           <ChevronLeft size={16} />
@@ -35,6 +36,12 @@ export default function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
           <img src="/logo.png" alt="Saimum Logo" className={styles.logoImage} />
           <span className={styles.brandName}>Saimum</span>
         </div>
+        {/* Mobile Close Button */}
+        {closeMobileDrawer && (
+          <button className={styles.mobileDrawerCloseBtn} onClick={closeMobileDrawer} aria-label="Close Menu">
+            ✕
+          </button>
+        )}
       </div>
       
       {/* 2. Body: Navigation Menus (Independently Scrollable) */}
