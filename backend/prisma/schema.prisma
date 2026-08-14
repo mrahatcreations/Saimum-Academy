@@ -1,0 +1,193 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------------------
+// ENUMS
+// -----------------------------------------------------------------------------
+
+enum BranchType {
+  PHYSICAL
+  ONLINE
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum RegistrationStatus {
+  APPLICANT
+  VIVA_PENDING
+  SELECTED
+  WORKSHOP
+  EXAM_PENDING
+  REGULAR_STUDENT
+  REJECTED
+}
+
+// -----------------------------------------------------------------------------
+// CORE ACADEMY STRUCTURE
+// -----------------------------------------------------------------------------
+
+model Branch {
+  id          String   @id @default(uuid())
+  name        String
+  code        String?  @unique
+  type        BranchType @default(PHYSICAL)
+  status      Status   @default(ACTIVE)
+  
+  // Relations
+  departments DepartmentBranch[]
+  subjects    BranchSubject[]
+  registrations Registration[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Department {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  status      Status   @default(ACTIVE)
+  
+  // Relations
+  branches    DepartmentBranch[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Many-to-Many mapping for Department <-> Branch
+model DepartmentBranch {
+  id           String   @id @default(uuid())
+  branchId     String
+  departmentId String
+  
+  branch       Branch     @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+
+  subjects     BranchSubject[]
+
+  @@unique([branchId, departmentId])
+}
+
+model Subject {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String?
+  status      Status   @default(ACTIVE)
+
+  // Relations
+  branchOfferings BranchSubject[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// OFFERINGS & BATCHES
+// -----------------------------------------------------------------------------
+
+// Maps a Master Subject to a specific Branch and Department
+model BranchSubject {
+  id                 String   @id @default(uuid())
+  branchId           String
+  subjectId          String
+  departmentBranchId String
+  status             Status   @default(ACTIVE)
+
+  branch             Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  subject            Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  departmentBranch   DepartmentBranch @relation(fields: [departmentBranchId], references: [id])
+  
+  batches            Batch[]
+
+  @@unique([branchId, subjectId])
+}
+
+model Batch {
+  id              String   @id @default(uuid())
+  name            String
+  branchSubjectId String
+  status          Status   @default(ACTIVE)
+
+  branchSubject   BranchSubject @relation(fields: [branchSubjectId], references: [id], onDelete: Cascade)
+  memberships     BatchMembership[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// STUDENTS & ADMISSION
+// -----------------------------------------------------------------------------
+
+// Single human entity
+model Person {
+  id          String   @id @default(uuid())
+  fullName    String
+  phone       String?  @unique
+  email       String?  @unique
+  dateOfBirth DateTime?
+  
+  registrations Registration[]
+  studentProfile Student?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// A single admission lifecycle (Applicant -> Viva -> Workshop -> Regular)
+model Registration {
+  id          String   @id @default(uuid())
+  personId    String
+  branchId    String
+  year        Int
+  status      RegistrationStatus @default(APPLICANT)
+  
+  person      Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+  branch      Branch   @relation(fields: [branchId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Created only when someone becomes a regular student
+model Student {
+  id          String   @id @default(uuid())
+  studentId   String   @unique
+  personId    String   @unique
+  status      Status   @default(ACTIVE)
+
+  person      Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+  batchMemberships BatchMembership[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BatchMembership {
+  id          String   @id @default(uuid())
+  studentId   String
+  batchId     String
+  joinedAt    DateTime @default(now())
+  status      Status   @default(ACTIVE)
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  batch       Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, batchId])
+}
