@@ -713,19 +713,22 @@
 
 .tableHeader {
   display: grid;
-  grid-template-columns: 0.2fr 2fr 1.5fr 1fr 1.5fr 1fr 0.5fr;
-  padding-bottom: 16px;
+  grid-template-columns: 40px 2.2fr 1.5fr 1.2fr 1.2fr 1fr 90px;
+  gap: 16px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--border-light);
   color: var(--text-tertiary);
   font-weight: 600;
-  font-size: 0.85rem;
-  margin-bottom: 8px;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+  align-items: center;
 }
 
 .tableRow {
   display: grid;
-  grid-template-columns: 0.2fr 2fr 1.5fr 1fr 1.5fr 1fr 0.5fr;
-  padding: 16px 0;
+  grid-template-columns: 40px 2.2fr 1.5fr 1.2fr 1.2fr 1fr 90px;
+  gap: 16px;
+  padding: 14px 0;
   align-items: center;
   font-size: 0.9rem;
   font-weight: 600;
@@ -735,12 +738,24 @@
   border-bottom: none;
 }
 
+.checkboxCell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .checkbox {
   width: 18px;
   height: 18px;
-  border-radius: 4px;
+  border-radius: 5px;
   border: 1.5px solid var(--border-dashed);
+  background: transparent;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkbox:hover {
+  border-color: var(--brand-orange);
 }
 
 .userCell {
@@ -750,21 +765,32 @@
 }
 
 .userAvatar {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   background: var(--bg-body);
   border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.statusCell {
+  display: flex;
+  align-items: center;
 }
 
 .statusPill {
-  display: inline-block;
-  padding: 6px 16px;
-  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+  border-radius: 14px;
   font-size: 0.75rem;
   font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 .statusPending {
-  background-color: #FFF3E0;
+  background-color: #FEF3C7;
   color: #D97706;
 }
 [data-theme="dark"] .statusPending {
@@ -806,19 +832,21 @@
 }
 
 .amountText {
-  font-weight: 800;
+  font-weight: 700;
+  color: var(--text-secondary);
 }
 
 .btnDetails {
   border: 1px solid var(--border-dashed);
   background: transparent;
-  padding: 6px 16px;
-  border-radius: 16px;
+  padding: 6px 14px;
+  border-radius: 14px;
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 .btnDetails:hover {
   background-color: var(--bg-surface-hover);
