@@ -28,6 +28,7 @@ This project uses a modular folder structure. Do not mix frontend and backend co
 - **Avoid Boilerplate:** Stop putting everything in generic white cards with standard shadows. Use generous whitespace, subtle separators, and tinted neutrals.
 - **Typography:** Use tight headings, loose body text, and modern fonts (e.g., Geist, Satoshi, Poppins).
 - **Motion:** Add subtle micro-interactions and smooth spring transitions to interactive elements.
+- **CRITICAL - DATA & CONTENT:** NEVER copy dummy text, dummy data, or dummy names from UI reference images or templates provided by the user. When applying a design concept from an image, ONLY extract the CSS/UI styling (colors, layout, borders, shadows). You MUST always fill the UI with actual, relevant context and data for the Saimum Academy Management System (e.g., use 'Branches', 'Students', 'Batches' instead of 'Team Payments', 'Emma Ryan').
 
 ## 4. Core Business Rules (CRITICAL)
 - **NO Duplication:** Master `Subject` is created once centrally and assigned to `Branches`. Do not recreate subjects for different branches.
