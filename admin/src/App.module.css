@@ -1108,8 +1108,73 @@
     overflow-x: auto;
   }
 
-  .table {
-    min-width: 600px;
+  /* Mobile Compact Typography & Measurements */
+  .heroAmount {
+    font-size: 1.25rem !important;
+  }
+
+  .statValue {
+    font-size: 1.35rem !important;
+  }
+
+  .cardCategoryTitle {
+    font-size: 0.9rem !important;
+  }
+
+  .recentUserName {
+    font-size: 0.82rem !important;
+  }
+
+  .recentValue {
+    font-size: 0.85rem !important;
+  }
+
+  .recentPaymentsHeader {
+    font-size: 0.95rem !important;
+    margin-bottom: 10px !important;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.05rem !important;
+  }
+
+  .dashCardDashed {
+    padding: 16px !important;
+    min-height: 160px !important;
+    border-radius: 18px !important;
+  }
+
+  .dashCardHeroWrap {
+    padding: 10px !important;
+    min-height: 160px !important;
+    border-radius: 18px !important;
+  }
+
+  .horizontalCard {
+    padding: 12px 14px !important;
+    border-radius: 14px !important;
+  }
+
+  .recentAvatar {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 8px !important;
+  }
+
+  .searchBox {
+    width: 150px !important;
+    padding: 5px 10px !important;
+  }
+
+  .statusPill {
+    padding: 4px 10px !important;
+    font-size: 0.7rem !important;
+    border-radius: 10px !important;
+  }
+
+  .tableRow {
+    padding: 10px 0 !important;
+    font-size: 0.82rem !important;
   }
 
   /* Native App-Style Bottom Navigation Bar */
@@ -1119,12 +1184,12 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 64px;
+    height: 60px;
     background: var(--bg-surface);
     border-top: 1px solid var(--border-light);
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
     z-index: 900;
-    padding: 6px 12px 10px 12px;
+    padding: 4px 12px 6px 12px;
     justify-content: space-around;
     align-items: center;
     backdrop-filter: blur(12px);
@@ -1135,17 +1200,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
+    gap: 2px;
     background: transparent;
     border: none;
     color: var(--text-tertiary);
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
     flex: 1;
     transition: all 0.2s ease;
-    padding: 4px 0;
+    padding: 3px 0;
   }
 
   .mobileNavItem span {
