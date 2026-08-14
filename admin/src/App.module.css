@@ -42,24 +42,10 @@
   padding: 40px 32px 32px 32px;
 }
 
-.logoBox {
-  width: 28px;
+.logoImage {
   height: 28px;
-  background-color: var(--brand-orange);
-  border-radius: 6px;
-  position: relative;
-}
-
-/* Create the 'Veritas' style nested square logo */
-.logoBox::after {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: white;
-  border-radius: 3px;
-  top: 8px;
-  left: 8px;
+  width: auto;
+  object-fit: contain;
 }
 
 .brandName {
@@ -107,8 +93,9 @@
 }
 
 .navItem.active {
-  background-color: var(--bg-nav-active);
+  background-color: var(--bg-surface);
   color: var(--text-primary);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
 .navIcon {
@@ -148,9 +135,36 @@
   padding: 40px 48px 32px 48px;
 }
 
+.pageTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
 .pageTitle h1 {
   font-size: 1.75rem;
   font-weight: 800;
+}
+
+.togglePills {
+  display: flex;
+  background: var(--border-light);
+  border-radius: 24px;
+  padding: 4px;
+}
+
+.togglePill {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.togglePill.active {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
 .profile {
@@ -195,17 +209,30 @@
   width: 100%;
 }
 
-.dashboardGrid {
+/* Complex Top Grid */
+.topGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.2fr;
+  grid-template-columns: 3fr 1fr; /* Left section (cards + recent), Right section (Primary card) */
   gap: 24px;
   margin-bottom: 32px;
 }
 
-/* Dashed Cards - NOW WITH WHITE BACKGROUND */
+.leftSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.threeCardsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Dashed Cards */
 .dashCardDashed {
   background-color: var(--bg-surface);
-  padding: 24px;
+  padding: 20px;
   border-radius: 24px;
   border: 1.5px dashed var(--border-dashed);
   display: flex;
@@ -252,15 +279,73 @@
 .avatarSmall:first-child { margin-left: 0; }
 
 .statValue {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 800;
   margin-bottom: 4px;
+}
+
+/* Custom Chart Mockup */
+.mockBarChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  height: 60px;
+  margin-top: 16px;
+}
+.bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: white;
+}
+.bar1 { height: 40%; background: #99F6E4; color: #115E59; }
+.bar2 { height: 60%; background: #C7D2FE; color: #3730A3; }
+.bar3 { height: 100%; background: var(--brand-orange); }
+
+/* Recently Payments */
+.recentPaymentsHeader {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.recentPaymentsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.horizontalCard {
+  background: var(--bg-surface);
+  border-radius: 20px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.recentUser {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.recentAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
 }
 
 /* Primary Gradient Card */
 .dashCardPrimary {
   background: linear-gradient(135deg, var(--brand-orange-light), var(--brand-orange));
-  padding: 24px;
+  padding: 32px 24px;
   border-radius: 24px;
   color: white;
   box-shadow: var(--shadow-button);
@@ -269,6 +354,7 @@
   justify-content: space-between;
   position: relative;
   overflow: hidden;
+  height: 100%; /* Fill the right column */
 }
 
 /* Decorative element inside gradient card */
@@ -288,22 +374,22 @@
 }
 
 .btnWhite {
-  background: white;
-  color: var(--text-primary);
-  padding: 10px 20px;
+  background: transparent;
+  color: white;
+  padding: 8px 16px;
   border-radius: 20px;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   border: none;
   cursor: pointer;
 }
 .btnDark {
   background: var(--text-primary);
   color: white;
-  padding: 10px 20px;
+  padding: 8px 24px;
   border-radius: 20px;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   border: none;
   cursor: pointer;
 }
@@ -312,7 +398,7 @@
 .section {
   background-color: var(--bg-surface);
   border-radius: 24px;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.02);
   padding: 32px;
 }
 
@@ -356,7 +442,7 @@
   align-items: center;
   font-size: 0.9rem;
   font-weight: 600;
-  border-bottom: 1px solid #F9FAFB;
+  border-bottom: 1px solid var(--border-light);
 }
 .tableRow:last-child {
   border-bottom: none;

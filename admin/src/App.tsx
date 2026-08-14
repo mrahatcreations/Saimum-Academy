@@ -9,7 +9,7 @@ function App() {
         <div className={styles.collapseBtn}>&lt;</div>
         
         <div className={styles.brand}>
-          <div className={styles.logoBox}></div>
+          <img src="/logo.png" alt="Saimum Logo" className={styles.logoImage} />
           <span className={styles.brandName}>Saimum</span>
         </div>
         
@@ -55,13 +55,18 @@ function App() {
       <main className={styles.main}>
         {/* Topbar */}
         <header className={styles.topbar}>
-          <div className={styles.pageTitle}>
-            <h1>Analytics</h1>
+          <div className={styles.pageTitleGroup}>
+            <div className={styles.pageTitle}>
+              <h1>Analytics</h1>
+            </div>
+            <div className={styles.togglePills}>
+              <div className={`${styles.togglePill} ${styles.active}`}>Full Statistics</div>
+              <div className={styles.togglePill}>Results Summary</div>
+            </div>
           </div>
           <div className={styles.profile}>
             <div className={styles.actionBtn}>+</div>
             <div className={styles.avatar}>
-              {/* Dummy Image for user avatar */}
               <img src="https://i.pravatar.cc/150?img=47" alt="User" />
             </div>
           </div>
@@ -70,69 +75,134 @@ function App() {
         {/* Page Content */}
         <div className={styles.content}>
           
-          {/* Dashboard Grid */}
-          <div className={styles.dashboardGrid}>
+          {/* Complex Top Grid */}
+          <div className={styles.topGrid}>
             
-            {/* Card 1: Team Payments */}
-            <div className={styles.dashCardDashed}>
-              <div className={styles.cardHeader}>
-                <span className={styles.cardTitle}>Team<br/>Payments</span>
-                <span className={styles.cardIcon}>🔔</span>
-              </div>
-              <div>
-                <p style={{fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', fontWeight: 600}}>
-                  🗓 07 Dec approval
-                </p>
-                <div className={styles.avatarGroup}>
-                  <img src="https://i.pravatar.cc/150?img=33" className={styles.avatarSmall} alt="User" />
-                  <img src="https://i.pravatar.cc/150?img=12" className={styles.avatarSmall} alt="User" />
-                  <img src="https://i.pravatar.cc/150?img=5" className={styles.avatarSmall} alt="User" />
-                  <div className={styles.avatarSmall}>25+</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2: Savings */}
-            <div className={styles.dashCardDashed}>
-              <div className={styles.cardHeader}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                  <div style={{width: 24, height: 24, borderRadius: '50%', background: '#E0E7FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366F1', fontSize: '12px'}}>📈</div>
-                  <span className={styles.cardTitle}>Savings</span>
-                </div>
-              </div>
+            {/* Left Section: 3 Cards + 2 Horizontal Pills */}
+            <div className={styles.leftSection}>
               
-              {/* SVG Mock line chart */}
-              <div style={{margin: '12px 0'}}>
-                <svg width="100%" height="40" viewBox="0 0 200 40" preserveAspectRatio="none">
-                  <path d="M0 30 Q 20 20, 40 30 T 80 15 T 120 25 T 160 10 T 200 20" fill="none" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
-                <div>
-                  <h2 className={styles.statValue}>$5,839</h2>
-                  <p style={{fontSize: '0.8rem', color: '#EF4444', fontWeight: 600}}>↘ -11% <span style={{color: 'var(--text-tertiary)'}}>last week</span></p>
+              <div className={styles.threeCardsRow}>
+                {/* Card 1: Team Payments */}
+                <div className={styles.dashCardDashed}>
+                  <div className={styles.cardHeader}>
+                    <span className={styles.cardTitle}>Team<br/>Payments</span>
+                    <span className={styles.cardIcon}>🔔</span>
+                  </div>
+                  <div>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '16px'}}>
+                      <div style={{background: '#3B82F6', color: 'white', fontSize: '0.6rem', padding: '2px 4px', borderRadius: '4px'}}>14</div>
+                      <p style={{fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600}}>
+                        07 Dec approval
+                      </p>
+                    </div>
+                    <div className={styles.avatarGroup}>
+                      <img src="https://i.pravatar.cc/150?img=33" className={styles.avatarSmall} alt="User" />
+                      <img src="https://i.pravatar.cc/150?img=12" className={styles.avatarSmall} alt="User" />
+                      <img src="https://i.pravatar.cc/150?img=5" className={styles.avatarSmall} alt="User" />
+                      <div className={styles.avatarSmall}>25+</div>
+                    </div>
+                  </div>
                 </div>
-                <div style={{width: 32, height: 32, borderRadius: '50%', background: 'var(--text-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>→</div>
-              </div>
-            </div>
 
-            {/* Card 3: Gradient Card */}
-            <div className={styles.dashCardPrimary}>
-              <div className={styles.cardHeader}>
-                <span className={styles.cardTitle} style={{fontSize: '2rem'}}>
-                  $95.9<br/>
-                  <span style={{fontSize: '0.85rem', fontWeight: 500, opacity: 0.9}}>Per Month</span>
-                </span>
+                {/* Card 2: Savings */}
+                <div className={styles.dashCardDashed}>
+                  <div className={styles.cardHeader}>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                      <div style={{width: 24, height: 24, borderRadius: '50%', background: '#E0E7FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366F1', fontSize: '12px'}}>📈</div>
+                      <span className={styles.cardTitle}>Savings</span>
+                    </div>
+                  </div>
+                  
+                  {/* SVG Mock line chart */}
+                  <div style={{margin: '12px 0'}}>
+                    <svg width="100%" height="40" viewBox="0 0 200 40" preserveAspectRatio="none">
+                      <path d="M0 30 Q 20 15, 40 25 T 80 15 T 120 25 T 160 5 T 200 15" fill="none" stroke="#34D399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+
+                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+                    <div>
+                      <h2 className={styles.statValue}>$5,839</h2>
+                      <p style={{fontSize: '0.75rem', color: '#EF4444', fontWeight: 600}}>↘ -11% <span style={{color: 'var(--text-tertiary)', fontWeight: 500}}>last week</span></p>
+                    </div>
+                    <div style={{width: 24, height: 24, borderRadius: '50%', background: 'var(--text-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem'}}>→</div>
+                  </div>
+                </div>
+
+                {/* Card 3: Income statistics */}
+                <div className={styles.dashCardDashed}>
+                  <div className={styles.cardHeader}>
+                    <span className={styles.cardTitle}>Income statistics</span>
+                  </div>
+                  <div>
+                    <div style={{background: '#ECFDF5', color: '#059669', fontSize: '0.75rem', padding: '2px 8px', borderRadius: '12px', display: 'inline-block', fontWeight: 600}}>
+                      +8%
+                    </div>
+                    
+                    <div className={styles.mockBarChart}>
+                      <div className={`${styles.bar} ${styles.bar1}`}>15%</div>
+                      <div className={`${styles.bar} ${styles.bar2}`}>21%</div>
+                      <div className={`${styles.bar} ${styles.bar3}`}>32%</div>
+                    </div>
+                  </div>
+                </div>
               </div>
+
+              {/* Recently Payments */}
               <div>
-                <h3 style={{fontSize: '1.25rem', lineHeight: 1.3}}>Choose Best Plan<br/>For You!</h3>
-                <div className={styles.cardActions}>
-                  <button className={styles.btnWhite}>Details</button>
-                  <button className={styles.btnDark}>Upgrade</button>
+                <h3 className={styles.recentPaymentsHeader}>Recently Payments</h3>
+                <div className={styles.recentPaymentsGrid}>
+                  
+                  <div className={styles.horizontalCard}>
+                    <div className={styles.recentUser}>
+                      <img src="https://i.pravatar.cc/150?img=33" className={styles.recentAvatar} />
+                      <div>
+                        <div style={{fontWeight: 700, fontSize: '0.9rem'}}>Emma Ryan Jr.</div>
+                        <div style={{color: 'var(--text-tertiary)', fontSize: '0.75rem', fontWeight: 500}}>Mar 9, 2023</div>
+                      </div>
+                    </div>
+                    <div style={{fontWeight: 800, fontSize: '0.95rem'}}>$4,823</div>
+                    <div className={`${styles.statusPill} ${styles.statusDone}`}>Done</div>
+                    <div style={{color: 'var(--text-tertiary)', letterSpacing: '2px'}}>•••</div>
+                  </div>
+
+                  <div className={styles.horizontalCard}>
+                    <div className={styles.recentUser}>
+                      <img src="https://i.pravatar.cc/150?img=11" className={styles.recentAvatar} />
+                      <div>
+                        <div style={{fontWeight: 700, fontSize: '0.9rem'}}>Justin Weber</div>
+                        <div style={{color: 'var(--text-tertiary)', fontSize: '0.75rem', fontWeight: 500}}>Mar 2, 2023</div>
+                      </div>
+                    </div>
+                    <div style={{fontWeight: 800, fontSize: '0.95rem'}}>$3,937</div>
+                    <div className={`${styles.statusPill} ${styles.statusPending}`}>Pending</div>
+                    <div style={{color: 'var(--text-tertiary)', letterSpacing: '2px'}}>•••</div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            {/* Right Section: Gradient Card */}
+            <div>
+              <div className={styles.dashCardPrimary}>
+                <div className={styles.cardHeader}>
+                  <span className={styles.cardTitle} style={{fontSize: '2.5rem', lineHeight: 1.1}}>
+                    $95.9<br/>
+                    <span style={{fontSize: '0.9rem', fontWeight: 500, opacity: 0.9}}>Per Month</span>
+                  </span>
+                </div>
+                <div>
+                  <h3 style={{fontSize: '1.4rem', lineHeight: 1.3}}>Choose Best Plan<br/>For You!</h3>
+                  <div className={styles.cardActions}>
+                    <button className={styles.btnWhite}>Details</button>
+                    <button className={styles.btnDark}>Upgrade</button>
+                  </div>
                 </div>
               </div>
             </div>
+
           </div>
 
           {/* Table Section */}
