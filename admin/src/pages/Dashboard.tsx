@@ -36,50 +36,50 @@ export default function Dashboard() {
             {/* Card 2: Active Branches */}
             <div className={styles.dashCardDashed}>
               <div className={styles.cardHeader}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                  <div style={{width: 34, height: 34, borderRadius: '50%', background: '#EDE9FE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7C3AED', flexShrink: 0}}>
-                    <Building2 size={17} />
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                  <div style={{width: 38, height: 38, borderRadius: '50%', background: '#EDE9FE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7C3AED', flexShrink: 0}}>
+                    <Building2 size={20} />
                   </div>
-                  <span className={styles.cardTitle}>Active Branches</span>
+                  <span className={styles.cardTitle} style={{fontSize: '1.15rem'}}>Active Branches</span>
                 </div>
               </div>
               
-              {/* Dynamic Fluctuating Sparkline with Baseline & Faded Tail */}
-              <div style={{margin: '12px 0', height: '52px', display: 'flex', alignItems: 'center'}}>
-                <svg width="100%" height="52" viewBox="0 0 200 52" fill="none" style={{overflow: 'visible'}}>
-                  {/* Subtle horizontal reference line */}
-                  <line x1="0" y1="26" x2="200" y2="26" stroke="#F1F5F9" strokeWidth="1.5" />
+              {/* Detailed High-Energy Stock/Activity Sparkline */}
+              <div style={{margin: '18px 0', height: '70px', display: 'flex', alignItems: 'center', width: '100%'}}>
+                <svg width="100%" height="70" viewBox="0 0 240 70" fill="none" preserveAspectRatio="none" style={{overflow: 'visible'}}>
+                  {/* Reference baseline */}
+                  <line x1="0" y1="42" x2="240" y2="42" stroke="#F1F5F9" strokeWidth="1.5" />
                   
-                  {/* Main realistic stock/activity sparkline */}
+                  {/* Dynamic smooth multi-fluctuation curve */}
                   <path 
-                    d="M 6 32 C 14 26, 20 20, 28 22 C 36 24, 42 36, 50 32 C 58 28, 64 24, 72 26 C 80 28, 86 38, 92 34 C 98 30, 104 12, 114 12 C 124 12, 128 26, 136 24 C 144 22, 148 34, 156 30 C 162 26, 166 12, 172 10" 
+                    d="M 4,52 C 12,42 18,30 26,32 C 34,34 38,48 44,50 C 50,52 54,38 62,38 C 70,38 74,48 80,48 C 86,48 90,56 96,56 C 104,56 108,16 118,14 C 128,12 132,36 138,38 C 144,40 148,30 154,32 C 160,34 162,54 170,54 C 176,54 178,12 184,10" 
                     stroke="#14B8A6" 
-                    strokeWidth="2.4" 
+                    strokeWidth="2.5" 
                     strokeLinecap="round" 
                     strokeLinejoin="round"
                   />
                   
-                  {/* Faded projected tail on the right */}
+                  {/* Faded rippling tail on the right */}
                   <path 
-                    d="M 172 10 C 176 8, 180 20, 184 15 C 188 10, 192 18, 196 14" 
+                    d="M 184,10 L 194,30 L 204,16 L 216,28 L 226,18 L 236,24" 
                     stroke="#14B8A6" 
                     strokeWidth="2.2" 
                     strokeLinecap="round" 
-                    strokeLinejoin="round"
-                    strokeOpacity="0.3"
+                    strokeLinejoin="round" 
+                    strokeOpacity="0.35"
                   />
                 </svg>
               </div>
 
               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto'}}>
                 <div>
-                  <h2 className={styles.statValue}>04</h2>
-                  <p style={{fontSize: '0.8rem', color: '#10B981', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px'}}>
-                    <TrendingUp size={14} /> +1 <span style={{color: 'var(--text-tertiary)', fontWeight: 500}}>this year</span>
+                  <h2 className={styles.statValue} style={{fontSize: '2rem', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '6px'}}>04</h2>
+                  <p style={{fontSize: '0.85rem', color: '#10B981', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px'}}>
+                    <TrendingUp size={15} /> +1 <span style={{color: 'var(--text-tertiary)', fontWeight: 500}}>this year</span>
                   </p>
                 </div>
                 <button className={styles.pillActionBtn} title="View Branches">
-                  <ArrowRight size={16} />
+                  <ArrowRight size={18} strokeWidth={2.2} />
                 </button>
               </div>
             </div>
