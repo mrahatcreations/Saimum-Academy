@@ -1,9 +1,11 @@
-import { Plus } from 'lucide-react';
+import { Plus, Sun, Moon } from 'lucide-react';
 import styles from '../../App.module.css';
 import { useLocation } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function Topbar() {
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
   
   // Create page title from path
   let title = 'Dashboard';
@@ -24,7 +26,14 @@ export default function Topbar() {
         </div>
       </div>
       <div className={styles.profile}>
-        <div className={styles.actionBtn}>
+        <button 
+          className={styles.actionBtn} 
+          onClick={toggleTheme} 
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        >
+          {theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}
+        </button>
+        <div className={styles.actionBtn} title="Add New">
           <Plus size={20} />
         </div>
         <div className={styles.avatar}>

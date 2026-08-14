@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './components/ui/forms.css';
+import { ThemeProvider } from './context/ThemeContext';
 import DashboardLayout from './components/layout/DashboardLayout';
 import Dashboard from './pages/Dashboard';
 import Students from './pages/Students';
@@ -9,9 +10,10 @@ import Subjects from './pages/Subjects';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<DashboardLayout />}>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="students" element={<Students />} />
           <Route path="branches" element={<Branches />} />
@@ -23,7 +25,8 @@ function App() {
           } />
         </Route>
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

@@ -42,6 +42,28 @@
   --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-body: #0B0F17;
+  --bg-surface: #111827;
+  --bg-surface-hover: #1E293B;
+  --bg-nav-active: #1F2937;
+  
+  /* Text */
+  --text-primary: #F9FAFB;
+  --text-secondary: #94A3B8;
+  --text-tertiary: #64748B;
+  
+  /* Borders */
+  --border-light: #1E293B;
+  --border-dashed: #334155;
+  
+  /* Shadows */
+  --shadow-sidebar: 4px 0 24px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.25);
+  --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
