@@ -37,7 +37,7 @@ export default function Dashboard() {
             <div className={styles.dashCardDashed}>
               <div className={styles.cardHeader}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <div style={{width: 38, height: 38, borderRadius: '50%', background: '#EDE9FE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7C3AED', flexShrink: 0}}>
+                  <div className={styles.cardIconBadge}>
                     <Building2 size={20} />
                   </div>
                   <span className={styles.cardTitle} style={{fontSize: '1.15rem'}}>Active Branches</span>
@@ -88,7 +88,7 @@ export default function Dashboard() {
             <div className={styles.dashCardDashed}>
               <div>
                 <div className={styles.cardTitle} style={{marginBottom: '8px'}}>Pending Admissions</div>
-                <div style={{display: 'inline-flex', alignItems: 'center', background: '#FEF3C7', color: '#D97706', fontSize: '0.75rem', padding: '4px 10px', borderRadius: '12px', fontWeight: 700}}>
+                <div className={styles.badgeWarning}>
                   Action Required
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function Dashboard() {
               
               <div className={styles.horizontalCard}>
                 <div className={styles.recentUser}>
-                  <img src="https://i.pravatar.cc/150?img=33" className={styles.recentAvatar} />
+                  <img src="https://i.pravatar.cc/150?img=33" className={styles.recentAvatar} alt="Rahim" />
                   <div>
                     <div style={{fontWeight: 700, fontSize: '0.9rem'}}>Rahim Uddin</div>
                     <div style={{color: 'var(--text-tertiary)', fontSize: '0.75rem', fontWeight: 500}}>Aug 15, 2026</div>
@@ -129,7 +129,7 @@ export default function Dashboard() {
 
               <div className={styles.horizontalCard}>
                 <div className={styles.recentUser}>
-                  <img src="https://i.pravatar.cc/150?img=11" className={styles.recentAvatar} />
+                  <img src="https://i.pravatar.cc/150?img=11" className={styles.recentAvatar} alt="Karim" />
                   <div>
                     <div style={{fontWeight: 700, fontSize: '0.9rem'}}>Karim Hasan</div>
                     <div style={{color: 'var(--text-tertiary)', fontSize: '0.75rem', fontWeight: 500}}>Aug 14, 2026</div>
@@ -223,7 +223,7 @@ export default function Dashboard() {
               Sadia Amin
             </div>
             <div style={{color: 'var(--text-secondary)'}}>Uttara Branch</div>
-            <div><span className={`${styles.statusPill} ${styles.statusPending}`} style={{backgroundColor: '#FEE2E2', color: '#EF4444'}}>Rejected</span></div>
+            <div><span className={`${styles.statusPill} ${styles.statusRejected}`}>Rejected</span></div>
             <div style={{color: 'var(--text-secondary)'}}>Aug 12th, 2026</div>
             <div className={styles.amountText}>Applicant</div>
             <div><button className={styles.btnDetails}>Details</button></div>

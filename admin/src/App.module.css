@@ -28,7 +28,7 @@
   top: 48px;
   width: 32px;
   height: 32px;
-  background: white;
+  background: var(--bg-surface);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-float);
   display: flex;
@@ -39,7 +39,7 @@
   color: var(--text-primary);
   cursor: pointer;
   z-index: 30;
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-dashed);
 }
 
 .brand {
@@ -187,9 +187,21 @@
 }
 
 .navItem.active {
-  background-color: var(--bg-surface);
+  background-color: var(--bg-nav-active);
   color: var(--text-primary);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .navItem.active {
+  background-color: #1E293B;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.navItem.active .navIcon {
+  opacity: 1;
+  color: var(--brand-orange);
 }
 
 .navDot {
@@ -356,6 +368,22 @@
   font-size: 1.2rem;
 }
 
+.cardIconBadge {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #EDE9FE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7C3AED;
+  flex-shrink: 0;
+}
+[data-theme="dark"] .cardIconBadge {
+  background: rgba(124, 58, 237, 0.2);
+  color: #A78BFA;
+}
+
 .avatarGroup {
   display: flex;
   align-items: center;
@@ -387,7 +415,7 @@
   height: 32px;
   min-width: 32px;
   border-radius: 50%;
-  background: var(--text-primary);
+  background: #111827;
   color: white;
   display: flex;
   align-items: center;
@@ -397,16 +425,20 @@
   transition: transform 0.2s ease, background-color 0.2s ease;
   flex-shrink: 0;
 }
+[data-theme="dark"] .circleBtn {
+  background: #F9FAFB;
+  color: #111827;
+}
 
 .circleBtn:hover {
-  background: #000000;
+  opacity: 0.9;
   transform: scale(1.05);
 }
 
 .pillActionBtn {
   width: 52px;
   height: 32px;
-  background: var(--text-primary);
+  background: #111827;
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -418,8 +450,13 @@
   flex-shrink: 0;
 }
 
+[data-theme="dark"] .pillActionBtn {
+  background: #F9FAFB;
+  color: #111827;
+}
+
 .pillActionBtn:hover {
-  background: #000000;
+  opacity: 0.9;
   transform: translateX(2px);
 }
 
@@ -449,6 +486,10 @@
 .bar1 { height: 35%; background: #FCA5A5; color: #7F1D1D; }
 .bar2 { height: 60%; background: #FDE047; color: #713F12; }
 .bar3 { height: 100%; background: #FBBF24; color: #78350F; }
+
+[data-theme="dark"] .bar1 { background: #EF4444; color: #FFFFFF; }
+[data-theme="dark"] .bar2 { background: #EAB308; color: #111827; }
+[data-theme="dark"] .bar3 { background: var(--brand-orange); color: #FFFFFF; }
 
 /* Recently Payments */
 .recentPaymentsHeader {
@@ -527,14 +568,18 @@
   cursor: pointer;
 }
 .btnDark {
-  background: var(--text-primary);
-  color: white;
+  background: #111827 !important;
+  color: #FFFFFF !important;
   padding: 8px 24px;
   border-radius: 20px;
   font-weight: 700;
   font-size: 0.8rem;
   border: none;
   cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btnDark:hover {
+  opacity: 0.85;
 }
 
 /* Table Section */
@@ -621,11 +666,44 @@
 }
 .statusPending {
   background-color: #FFF3E0;
-  color: #F59E0B;
+  color: #D97706;
 }
+[data-theme="dark"] .statusPending {
+  background-color: rgba(245, 158, 11, 0.18);
+  color: #FBBF24;
+}
+
 .statusDone {
   background-color: #ECFDF5;
-  color: #10B981;
+  color: #059669;
+}
+[data-theme="dark"] .statusDone {
+  background-color: rgba(16, 185, 129, 0.18);
+  color: #34D399;
+}
+
+.statusRejected {
+  background-color: #FEE2E2;
+  color: #DC2626;
+}
+[data-theme="dark"] .statusRejected {
+  background-color: rgba(239, 68, 68, 0.18);
+  color: #F87171;
+}
+
+.badgeWarning {
+  display: inline-flex;
+  align-items: center;
+  background-color: #FEF3C7;
+  color: #D97706;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+[data-theme="dark"] .badgeWarning {
+  background-color: rgba(245, 158, 11, 0.18);
+  color: #FBBF24;
 }
 
 .amountText {
@@ -640,4 +718,10 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btnDetails:hover {
+  background-color: var(--bg-surface-hover);
+  color: var(--text-primary);
 }
