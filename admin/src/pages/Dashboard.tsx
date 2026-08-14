@@ -37,50 +37,54 @@ export default function Dashboard() {
             <div className={styles.dashCardDashed}>
               <div className={styles.cardHeader}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <div className={styles.cardIconBadge}>
-                    <Building2 size={20} />
+                  <div className={styles.metricIconWrap}>
+                    <Building2 size={18} />
                   </div>
-                  <span className={styles.cardTitle} style={{fontSize: '1.15rem'}}>Active Branches</span>
+                  <span className={styles.cardTitle}>Active Branches</span>
                 </div>
+                <button className={styles.pillActionBtn} title="View Branches">
+                  <ArrowRight size={14} strokeWidth={2.2} />
+                </button>
               </div>
               
-              {/* Accurate Reference Sparkline */}
-              <div style={{margin: '14px 0', height: '60px', display: 'flex', alignItems: 'center', width: '100%'}}>
-                <svg width="100%" height="60" viewBox="0 0 220 60" fill="none" style={{overflow: 'visible'}}>
-                  {/* Subtle horizontal reference line */}
-                  <line x1="0" y1="32" x2="220" y2="32" stroke="#F1F5F9" strokeWidth="1.5" />
+              {/* Ultra Clean Modern Fluid Sparkline */}
+              <div className={styles.sparklineContainer}>
+                <svg width="100%" height="52" viewBox="0 0 240 52" fill="none" preserveAspectRatio="none" style={{overflow: 'visible'}}>
+                  <defs>
+                    <linearGradient id="branchSparkGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10B981" stopOpacity="0.25" />
+                      <stop offset="100%" stopColor="#10B981" stopOpacity="0.0" />
+                    </linearGradient>
+                  </defs>
                   
-                  {/* Main realistic energetic sparkline with big rounded hill & sharp rise */}
+                  {/* Subtle soft gradient area fill */}
                   <path 
-                    d="M 4,38 C 14,30 20,22 28,24 C 36,26 42,40 50,36 C 56,32 62,28 70,30 C 76,32 82,42 88,44 C 94,46 98,34 102,24 C 108,12 114,6 122,6 C 130,6 134,24 140,30 C 146,36 150,28 156,32 C 160,36 162,44 166,44 C 170,44 174,14 178,6" 
-                    stroke="#14B8A6" 
-                    strokeWidth="2.4" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
+                    d="M 0,38 C 25,38 40,28 60,30 C 80,32 95,44 115,44 C 135,44 145,18 165,16 C 185,14 195,30 210,28 C 225,26 235,10 240,8 L 240,52 L 0,52 Z" 
+                    fill="url(#branchSparkGradient)" 
                   />
                   
-                  {/* Faded sawtooth zig-zag tail on the right */}
+                  {/* Smooth confident wave curve */}
                   <path 
-                    d="M 178,6 L 186,28 L 194,12 L 204,24 L 212,14 L 218,20" 
-                    stroke="#14B8A6" 
-                    strokeWidth="2" 
+                    d="M 0,38 C 25,38 40,28 60,30 C 80,32 95,44 115,44 C 135,44 145,18 165,16 C 185,14 195,30 210,28 C 225,26 235,10 240,8" 
+                    stroke="#10B981" 
+                    strokeWidth="2.5" 
                     strokeLinecap="round" 
                     strokeLinejoin="round" 
-                    strokeOpacity="0.3"
                   />
+                  
+                  {/* Endpoint indicator */}
+                  <circle cx="240" cy="8" r="3.5" fill="#10B981" />
                 </svg>
               </div>
 
               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto'}}>
                 <div>
-                  <h2 className={styles.statValue} style={{fontSize: '2rem', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '6px'}}>04</h2>
-                  <p style={{fontSize: '0.85rem', color: '#10B981', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px'}}>
-                    <TrendingUp size={15} /> +1 <span style={{color: 'var(--text-tertiary)', fontWeight: 500}}>this year</span>
-                  </p>
+                  <div className={styles.statValue}>04</div>
+                  <div className={styles.growthBadgePositive}>
+                    <TrendingUp size={13} strokeWidth={2.5} />
+                    <span>+1 this year</span>
+                  </div>
                 </div>
-                <button className={styles.pillActionBtn} title="View Branches">
-                  <ArrowRight size={18} strokeWidth={2.2} />
-                </button>
               </div>
             </div>
 

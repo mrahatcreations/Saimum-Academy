@@ -437,60 +437,83 @@
 }
 .avatarSmall:first-child { margin-left: 0; }
 
-.statValue {
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: 4px;
-}
-
-.circleBtn {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  border-radius: 50%;
-  background: #111827;
-  color: white;
+.metricIconWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #6366F1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
   flex-shrink: 0;
 }
-[data-theme="dark"] .circleBtn {
-  background: #F9FAFB;
-  color: #111827;
+[data-theme="dark"] .metricIconWrap {
+  background: rgba(99, 102, 241, 0.2);
+  color: #818CF8;
 }
 
-.circleBtn:hover {
-  opacity: 0.9;
-  transform: scale(1.05);
+.sparklineContainer {
+  margin: 12px 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.growthBadgePositive {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10B981;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+[data-theme="dark"] .growthBadgePositive {
+  background: rgba(16, 185, 129, 0.18);
+  color: #34D399;
+}
+
+.statValue {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 6px;
 }
 
 .pillActionBtn {
-  width: 52px;
-  height: 32px;
-  background: #111827;
-  border-radius: 16px;
+  width: 44px;
+  height: 30px;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  border: none;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
 }
 
-[data-theme="dark"] .pillActionBtn {
-  background: #F9FAFB;
-  color: #111827;
+.pillActionBtn:hover {
+  background: #E5E7EB;
+  transform: translateX(2px);
 }
 
-.pillActionBtn:hover {
-  opacity: 0.9;
-  transform: translateX(2px);
+[data-theme="dark"] .pillActionBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #F9FAFB;
+}
+
+[data-theme="dark"] .pillActionBtn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Custom Chart Mockup */
