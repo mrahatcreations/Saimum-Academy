@@ -656,29 +656,77 @@
 .horizontalCard {
   background: var(--bg-surface);
   border-radius: 18px;
-  padding: 16px 20px;
+  padding: 14px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 4px 12px rgba(0,0,0,0.02);
   border: 1px solid var(--border-light);
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .horizontalCard:hover {
   transform: translateY(-1px);
+  border-color: var(--border-dashed);
 }
 
 .recentUser {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 140px;
 }
 
 .recentAvatar {
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.recentUserName {
+  font-weight: 700;
+  font-size: 0.88rem;
+  line-height: 1.2;
+}
+
+.recentUserDate {
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.recentValue {
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.recentActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.moreBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.moreBtn:hover {
+  background-color: var(--bg-surface-hover);
+  color: var(--text-primary);
 }
 
 /* Table Section */

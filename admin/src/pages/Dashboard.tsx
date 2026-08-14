@@ -136,26 +136,30 @@ export default function Dashboard() {
             <div className={styles.recentUser}>
               <img src="https://i.pravatar.cc/150?img=33" className={styles.recentAvatar} alt="Rahim" />
               <div>
-                <div style={{fontWeight: 700, fontSize: '0.9rem'}}>Rahim Uddin</div>
-                <div style={{color: 'var(--text-tertiary)', fontSize: '0.75rem', fontWeight: 500}}>Aug 15, 2026</div>
+                <div className={styles.recentUserName}>Rahim Uddin</div>
+                <div className={styles.recentUserDate}>Aug 15, 2026</div>
               </div>
             </div>
-            <div style={{fontWeight: 800, fontSize: '0.95rem'}}>Dhaka Central</div>
-            <div className={`${styles.statusPill} ${styles.statusDone}`}>Done</div>
-            <div style={{color: 'var(--text-tertiary)', letterSpacing: '2px', cursor: 'pointer'}}>•••</div>
+            <div className={styles.recentValue}>Dhaka Central</div>
+            <div className={styles.recentActions}>
+              <span className={`${styles.statusPill} ${styles.statusDone}`}>Done</span>
+              <button className={styles.moreBtn} title="Options">•••</button>
+            </div>
           </div>
 
           <div className={styles.horizontalCard}>
             <div className={styles.recentUser}>
               <img src="https://i.pravatar.cc/150?img=11" className={styles.recentAvatar} alt="Karim" />
               <div>
-                <div style={{fontWeight: 700, fontSize: '0.9rem'}}>Karim Hasan</div>
-                <div style={{color: 'var(--text-tertiary)', fontSize: '0.75rem', fontWeight: 500}}>Aug 14, 2026</div>
+                <div className={styles.recentUserName}>Karim Hasan</div>
+                <div className={styles.recentUserDate}>Aug 14, 2026</div>
               </div>
             </div>
-            <div style={{fontWeight: 800, fontSize: '0.95rem'}}>Mirpur Branch</div>
-            <div className={`${styles.statusPill} ${styles.statusPending}`}>Pending</div>
-            <div style={{color: 'var(--text-tertiary)', letterSpacing: '2px', cursor: 'pointer'}}>•••</div>
+            <div className={styles.recentValue}>Mirpur Branch</div>
+            <div className={styles.recentActions}>
+              <span className={`${styles.statusPill} ${styles.statusPending}`}>Pending</span>
+              <button className={styles.moreBtn} title="Options">•••</button>
+            </div>
           </div>
 
         </div>
