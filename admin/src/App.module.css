@@ -14,6 +14,12 @@
   flex-direction: column;
   position: relative;
   z-index: 20;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+  width: 80px;
 }
 
 .collapseBtn {
@@ -33,30 +39,58 @@
   color: var(--text-primary);
   cursor: pointer;
   z-index: 30;
+  border: 1px solid var(--border-light);
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 40px 32px 32px 32px;
+  padding: 40px 0 40px 24px;
+  justify-content: flex-start;
+  height: 108px;
+  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.collapsed .brand {
+  padding: 40px 0;
+  justify-content: center;
 }
 
 .logoImage {
   height: 28px;
   width: auto;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .brandName {
   font-weight: 800;
   font-size: 1.25rem;
   letter-spacing: -0.02em;
+  opacity: 1;
+  transition: opacity 0.2s ease, max-width 0.3s ease;
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+}
+
+.collapsed .brandName {
+  opacity: 0;
+  max-width: 0;
+  visibility: hidden;
 }
 
 .nav {
-  padding: 0 24px;
+  padding: 0 16px;
   flex: 1;
+  overflow-x: hidden;
+  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.collapsed .nav {
+  padding: 0 12px;
 }
 
 .navSection {
@@ -71,20 +105,80 @@
   margin-bottom: 16px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  opacity: 1;
+  transition: opacity 0.2s ease, max-height 0.3s ease, margin 0.3s ease;
+  white-space: nowrap;
+  max-height: 20px;
+  overflow: hidden;
+}
+
+.collapsed .navLabel {
+  opacity: 0;
+  max-height: 0;
+  margin-bottom: 0;
+  visibility: hidden;
 }
 
 .navItem {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 12px;
   margin-bottom: 4px;
   color: var(--text-secondary);
   border-radius: 12px;
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.collapsed .navItem {
+  justify-content: center;
+  padding: 12px 0;
+  gap: 0;
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  font-size: 1.1rem;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.navItem.active .navIcon {
+  opacity: 1;
+}
+
+.navText {
+  opacity: 1;
+  transition: opacity 0.2s ease, max-width 0.3s ease, margin 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 150px;
+}
+
+.collapsed .navText {
+  opacity: 0;
+  max-width: 0;
+  margin: 0;
+  visibility: hidden;
+}
+
+.iconRotator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.iconRotator.rotated {
+  transform: rotate(180deg);
 }
 
 .navItem:hover {
@@ -98,26 +192,24 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
-.navIcon {
-  font-size: 1.1rem;
-  opacity: 0.7;
-}
-.navItem.active .navIcon {
-  opacity: 1;
-}
-
 .navDot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  margin-left: 4px;
+  flex-shrink: 0;
 }
 .dotOrange { background: var(--brand-orange); }
 .dotBlue { background: #6366F1; }
 
 .sidebarFooter {
-  padding: 32px 24px;
+  padding: 32px 16px;
   margin-top: auto;
+  overflow: hidden;
+  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.collapsed .sidebarFooter {
+  padding: 32px 12px;
 }
 
 /* Main Area */
@@ -231,13 +323,13 @@
 /* Dashed Cards */
 .dashCardDashed {
   background-color: var(--bg-surface);
-  padding: 20px;
+  padding: 24px;
   border-radius: 24px;
   border: 1.5px dashed var(--border-dashed);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 180px;
+  gap: 16px;
+  height: 100%;
 }
 
 .cardHeader {
@@ -288,23 +380,27 @@
   display: flex;
   align-items: flex-end;
   gap: 12px;
-  height: 60px;
-  margin-top: 16px;
+  height: 70px;
 }
 .bar {
   flex: 1;
-  border-radius: 4px 4px 0 0;
+  border-radius: 6px 6px 0 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 4px;
-  font-size: 0.65rem;
+  padding-bottom: 6px;
+  font-size: 0.75rem;
   font-weight: 700;
   color: white;
+  transition: all 0.2s;
 }
-.bar1 { height: 40%; background: #99F6E4; color: #115E59; }
-.bar2 { height: 60%; background: #C7D2FE; color: #3730A3; }
-.bar3 { height: 100%; background: var(--brand-orange); }
+.bar:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+.bar1 { height: 35%; background: #FCA5A5; color: #7F1D1D; }
+.bar2 { height: 60%; background: #FDE047; color: #713F12; }
+.bar3 { height: 100%; background: #FBBF24; color: #78350F; }
 
 /* Recently Payments */
 .recentPaymentsHeader {

@@ -18,10 +18,10 @@ export default function Dashboard() {
                 <span className={styles.cardTitle}>Total<br/>Students</span>
                 <span className={styles.cardIcon}><Users size={18} /></span>
               </div>
-              <div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '16px'}}>
-                  <div style={{background: '#3B82F6', color: 'white', fontSize: '0.6rem', padding: '2px 4px', borderRadius: '4px'}}>NEW</div>
-                  <p style={{fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600}}>
+              <div style={{marginTop: 'auto'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px'}}>
+                  <div style={{background: '#3B82F6', color: 'white', fontSize: '0.65rem', padding: '2px 6px', borderRadius: '4px', fontWeight: 800}}>NEW</div>
+                  <p style={{fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600}}>
                     August 2026 Batch
                   </p>
                 </div>
@@ -38,26 +38,33 @@ export default function Dashboard() {
             <div className={styles.dashCardDashed}>
               <div className={styles.cardHeader}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                  <div style={{width: 28, height: 28, borderRadius: '50%', background: '#E0E7FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366F1'}}>
+                  <div style={{width: 32, height: 32, borderRadius: '50%', background: '#E0E7FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366F1'}}>
                     <Building2 size={16} />
                   </div>
                   <span className={styles.cardTitle}>Active Branches</span>
                 </div>
               </div>
               
-              {/* SVG Mock line chart */}
-              <div style={{margin: '12px 0'}}>
-                <svg width="100%" height="40" viewBox="0 0 200 40" preserveAspectRatio="none">
-                  <path d="M0 30 Q 20 15, 40 25 T 80 15 T 120 25 T 160 5 T 200 15" fill="none" stroke="#34D399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              {/* SVG Mock line chart - Beautiful curve, edge to edge */}
+              <div style={{margin: 'auto -24px 0 -24px', overflow: 'hidden'}}>
+                <svg width="100%" height="45" viewBox="0 0 200 45" preserveAspectRatio="none" style={{display: 'block'}}>
+                  <path d="M0 25 C 30 5, 70 45, 100 25 C 130 5, 170 45, 200 25" fill="none" stroke="#34D399" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M0 25 C 30 5, 70 45, 100 25 C 130 5, 170 45, 200 25 L 200 45 L 0 45 Z" fill="url(#gradient)" stroke="none" opacity="0.5"/>
+                  <defs>
+                    <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#34D399"/>
+                      <stop offset="100%" stopColor="#34D399" stopOpacity="0"/>
+                    </linearGradient>
+                  </defs>
                 </svg>
               </div>
 
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '16px'}}>
                 <div>
                   <h2 className={styles.statValue}>04</h2>
-                  <p style={{fontSize: '0.75rem', color: '#10B981', fontWeight: 600}}>↗ +1 <span style={{color: 'var(--text-tertiary)', fontWeight: 500}}>this year</span></p>
+                  <p style={{fontSize: '0.8rem', color: '#10B981', fontWeight: 700}}>↗ +1 <span style={{color: 'var(--text-tertiary)', fontWeight: 600}}>this year</span></p>
                 </div>
-                <div style={{width: 24, height: 24, borderRadius: '50%', background: 'var(--text-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem'}}>→</div>
+                <div style={{width: 32, height: 32, minWidth: 32, flexShrink: 0, borderRadius: '50%', background: 'var(--text-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>→</div>
               </div>
             </div>
 
@@ -66,15 +73,15 @@ export default function Dashboard() {
               <div className={styles.cardHeader}>
                 <span className={styles.cardTitle}>Pending Admissions</span>
               </div>
-              <div>
-                <div style={{background: '#FEF3C7', color: '#D97706', fontSize: '0.75rem', padding: '2px 8px', borderRadius: '12px', display: 'inline-block', fontWeight: 600}}>
+              <div style={{marginTop: 'auto'}}>
+                <div style={{background: '#FEF3C7', color: '#D97706', fontSize: '0.75rem', padding: '4px 10px', borderRadius: '12px', display: 'inline-block', fontWeight: 700, marginBottom: '16px'}}>
                   Action Required
                 </div>
                 
                 <div className={styles.mockBarChart}>
-                  <div className={`${styles.bar} ${styles.bar1}`} style={{background: '#FCA5A5', color: '#991B1B'}}>Dhaka</div>
-                  <div className={`${styles.bar} ${styles.bar2}`} style={{background: '#FDE047', color: '#854D0E'}}>Mirpur</div>
-                  <div className={`${styles.bar} ${styles.bar3}`} style={{background: '#FCD34D', color: '#92400E'}}>Uttara</div>
+                  <div className={`${styles.bar} ${styles.bar1}`} title="Dhaka: 40%">Dhk</div>
+                  <div className={`${styles.bar} ${styles.bar2}`} title="Mirpur: 70%">Mir</div>
+                  <div className={`${styles.bar} ${styles.bar3}`} title="Uttara: 100%">Utt</div>
                 </div>
               </div>
             </div>
