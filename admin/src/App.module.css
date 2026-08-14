@@ -313,10 +313,43 @@
   object-fit: cover;
 }
 
+.titleTransition {
+  animation: smoothTitleFade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes smoothTitleFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Content Area */
 .content {
   padding: 0 48px 48px 48px;
   width: 100%;
+}
+
+.pageTransition {
+  animation: smoothPageFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  width: 100%;
+}
+
+@keyframes smoothPageFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
 /* Complex Top Grid */

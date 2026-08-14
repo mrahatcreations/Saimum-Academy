@@ -18,7 +18,7 @@ export default function Topbar() {
     <header className={styles.topbar}>
       <div className={styles.pageTitleGroup}>
         <div className={styles.pageTitle}>
-          <h1>{title}</h1>
+          <h1 key={title} className={styles.titleTransition}>{title}</h1>
         </div>
         <div className={styles.togglePills}>
           <div className={`${styles.togglePill} ${styles.active}`}>Overview</div>
