@@ -47,9 +47,9 @@ export default function Dashboard() {
                 </button>
               </div>
               
-              {/* Ultra Clean Modern Fluid Sparkline */}
+              {/* Ultra Clean Modern Fluid Sparkline - Tall Proportions */}
               <div className={styles.sparklineContainer}>
-                <svg width="100%" height="52" viewBox="0 0 240 52" fill="none" preserveAspectRatio="none" style={{overflow: 'visible'}}>
+                <svg width="100%" height="84" viewBox="0 0 240 84" fill="none" preserveAspectRatio="none" style={{overflow: 'visible'}}>
                   <defs>
                     <linearGradient id="branchSparkGradient" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#10B981" stopOpacity="0.25" />
@@ -59,21 +59,21 @@ export default function Dashboard() {
                   
                   {/* Subtle soft gradient area fill */}
                   <path 
-                    d="M 0,38 C 25,38 40,28 60,30 C 80,32 95,44 115,44 C 135,44 145,18 165,16 C 185,14 195,30 210,28 C 225,26 235,10 240,8 L 240,52 L 0,52 Z" 
+                    d="M 0,60 C 25,60 40,40 60,44 C 80,48 95,70 115,70 C 135,70 145,24 165,18 C 185,14 195,44 210,40 C 225,36 235,12 240,10 L 240,84 L 0,84 Z" 
                     fill="url(#branchSparkGradient)" 
                   />
                   
                   {/* Smooth confident wave curve */}
                   <path 
-                    d="M 0,38 C 25,38 40,28 60,30 C 80,32 95,44 115,44 C 135,44 145,18 165,16 C 185,14 195,30 210,28 C 225,26 235,10 240,8" 
+                    d="M 0,60 C 25,60 40,40 60,44 C 80,48 95,70 115,70 C 135,70 145,24 165,18 C 185,14 195,44 210,40 C 225,36 235,12 240,10" 
                     stroke="#10B981" 
-                    strokeWidth="2.5" 
+                    strokeWidth="3" 
                     strokeLinecap="round" 
                     strokeLinejoin="round" 
                   />
                   
                   {/* Endpoint indicator */}
-                  <circle cx="240" cy="8" r="3.5" fill="#10B981" />
+                  <circle cx="240" cy="10" r="4.5" fill="#10B981" />
                 </svg>
               </div>
 
