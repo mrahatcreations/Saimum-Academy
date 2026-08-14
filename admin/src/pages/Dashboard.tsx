@@ -44,29 +44,29 @@ export default function Dashboard() {
                 </div>
               </div>
               
-              {/* Detailed High-Energy Stock/Activity Sparkline */}
-              <div style={{margin: '18px 0', height: '70px', display: 'flex', alignItems: 'center', width: '100%'}}>
-                <svg width="100%" height="70" viewBox="0 0 240 70" fill="none" preserveAspectRatio="none" style={{overflow: 'visible'}}>
-                  {/* Reference baseline */}
-                  <line x1="0" y1="42" x2="240" y2="42" stroke="#F1F5F9" strokeWidth="1.5" />
+              {/* Accurate Reference Sparkline */}
+              <div style={{margin: '14px 0', height: '60px', display: 'flex', alignItems: 'center', width: '100%'}}>
+                <svg width="100%" height="60" viewBox="0 0 220 60" fill="none" style={{overflow: 'visible'}}>
+                  {/* Subtle horizontal reference line */}
+                  <line x1="0" y1="32" x2="220" y2="32" stroke="#F1F5F9" strokeWidth="1.5" />
                   
-                  {/* Dynamic smooth multi-fluctuation curve */}
+                  {/* Main realistic energetic sparkline with big rounded hill & sharp rise */}
                   <path 
-                    d="M 4,52 C 12,42 18,30 26,32 C 34,34 38,48 44,50 C 50,52 54,38 62,38 C 70,38 74,48 80,48 C 86,48 90,56 96,56 C 104,56 108,16 118,14 C 128,12 132,36 138,38 C 144,40 148,30 154,32 C 160,34 162,54 170,54 C 176,54 178,12 184,10" 
+                    d="M 4,38 C 14,30 20,22 28,24 C 36,26 42,40 50,36 C 56,32 62,28 70,30 C 76,32 82,42 88,44 C 94,46 98,34 102,24 C 108,12 114,6 122,6 C 130,6 134,24 140,30 C 146,36 150,28 156,32 C 160,36 162,44 166,44 C 170,44 174,14 178,6" 
                     stroke="#14B8A6" 
-                    strokeWidth="2.5" 
+                    strokeWidth="2.4" 
                     strokeLinecap="round" 
                     strokeLinejoin="round"
                   />
                   
-                  {/* Faded rippling tail on the right */}
+                  {/* Faded sawtooth zig-zag tail on the right */}
                   <path 
-                    d="M 184,10 L 194,30 L 204,16 L 216,28 L 226,18 L 236,24" 
+                    d="M 178,6 L 186,28 L 194,12 L 204,24 L 212,14 L 218,20" 
                     stroke="#14B8A6" 
-                    strokeWidth="2.2" 
+                    strokeWidth="2" 
                     strokeLinecap="round" 
                     strokeLinejoin="round" 
-                    strokeOpacity="0.35"
+                    strokeOpacity="0.3"
                   />
                 </svg>
               </div>
