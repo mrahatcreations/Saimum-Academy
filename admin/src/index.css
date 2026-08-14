@@ -64,9 +64,9 @@
   --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
-html {
-  scrollbar-gutter: stable;
-  overflow-y: scroll;
+html, body {
+  height: 100vh;
+  overflow: hidden;
 }
 
 * {
@@ -80,7 +80,6 @@ body {
   background-color: var(--bg-body);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
 }
 
 h1, h2, h3, h4 {

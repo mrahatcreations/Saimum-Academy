@@ -22,18 +22,23 @@ export default function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
 
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
+      {/* Collapse Toggle Button */}
       <div className={styles.collapseBtn} onClick={toggleSidebar}>
         <div className={`${styles.iconRotator} ${isCollapsed ? styles.rotated : ''}`}>
           <ChevronLeft size={16} />
         </div>
       </div>
       
-      <div className={styles.brand}>
-        <img src="/logo.png" alt="Saimum Logo" className={styles.logoImage} />
-        <span className={styles.brandName}>Saimum</span>
+      {/* 1. Header: Logo & Brand Name */}
+      <div className={styles.sidebarHeader}>
+        <div className={styles.brand}>
+          <img src="/logo.png" alt="Saimum Logo" className={styles.logoImage} />
+          <span className={styles.brandName}>Saimum</span>
+        </div>
       </div>
       
-      <nav className={styles.nav}>
+      {/* 2. Body: Navigation Menus (Independently Scrollable) */}
+      <nav className={styles.sidebarBody}>
         <div className={styles.navSection}>
           <span className={styles.navLabel}>MAIN MENU</span>
           <NavLink to="/" className={getNavClass} end title="Dashboard">
@@ -75,6 +80,7 @@ export default function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
         </div>
       </nav>
       
+      {/* 3. Footer: Settings & Log Out (Always Pinned at Bottom) */}
       <div className={styles.sidebarFooter}>
         <NavLink to="/settings" className={getNavClass} title="Settings">
           <span className={styles.navIcon}><Settings size={18} /></span> 
