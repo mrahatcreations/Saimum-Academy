@@ -365,39 +365,201 @@
 }
 
 /* ==========================================================================
-   PERFECT PROPORTIONAL DASHBOARD GRID SYSTEM
+   PERFECT PROPORTIONAL DASHBOARD GRID SYSTEM (MATCHING REFERENCE EXACTLY)
    ========================================================================== */
-.topGrid {
+.fourCardsGrid {
   display: grid;
-  grid-template-columns: minmax(0, 2.75fr) minmax(300px, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   margin-bottom: 28px;
-  align-items: stretch;
 }
 
-.leftSection {
+.cardCategoryTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.dateBadgeIcon {
+  font-size: 0.8rem;
+}
+
+.bellIconBadge {
+  color: var(--text-primary);
+  opacity: 0.7;
+}
+
+.pieIconBadge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.12);
+  color: #6366F1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.growthPillBadge {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10B981;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.chartYAxis {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  min-width: 0;
+  justify-content: space-between;
+  height: 65px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  line-height: 1;
 }
 
-.threeCardsRow {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+.refBarGroup {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex: 1;
+  height: 65px;
+}
+
+.barCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.barRef {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: transform 0.2s ease;
+}
+
+.barRef:hover {
+  transform: translateY(-2px);
+}
+
+.barRef1 { height: 28%; background: rgba(20, 184, 166, 0.35); }
+.barRef2 { height: 50%; background: rgba(99, 102, 241, 0.35); }
+.barRef3 { height: 100%; background: var(--brand-orange); }
+
+.barPercent {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* Card 4: Hero Plan / Admissions Card */
+.dashCardHeroWrap {
+  background: var(--bg-surface);
+  border-radius: 22px;
+  border: 1.5px dashed var(--border-dashed);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+}
+
+.dashCardHero {
+  background: linear-gradient(135deg, #0EA5E9, #14B8A6);
+  border-radius: 16px;
+  padding: 16px 14px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  margin-bottom: 8px;
+}
+
+[data-theme="dark"] .dashCardHero {
+  background: linear-gradient(135deg, #0284C7, #0D9488);
+}
+
+.heroAmount {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+  display: block;
+}
+
+.heroSubText {
+  font-size: 0.72rem;
+  opacity: 0.85;
+  font-weight: 500;
+}
+
+.heroStarIcon {
+  font-size: 1.2rem;
+  opacity: 0.85;
+}
+
+.heroCallout {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 10px;
+}
+
+.heroActionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.heroBtnDetails {
+  background: transparent;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px 10px;
+}
+
+.heroBtnUpgrade {
+  background: #111827;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.heroBtnUpgrade:hover {
+  opacity: 0.9;
+}
+
+[data-theme="dark"] .heroBtnUpgrade {
+  background: #FFFFFF;
+  color: #111827;
 }
 
 /* Dashed Metric Cards with Precise 1:1.1 Proportions */
 .dashCardDashed {
   background-color: var(--bg-surface);
-  padding: 24px;
+  padding: 20px;
   border-radius: 22px;
   border: 1.5px dashed var(--border-dashed);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 230px;
+  min-height: 200px;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -413,41 +575,13 @@
   align-items: flex-start;
 }
 
-.cardTitle {
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-}
-
-.cardIcon {
-  color: var(--text-primary);
-  font-size: 1.2rem;
-}
-
-.cardIconBadge {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #EDE9FE;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #7C3AED;
-  flex-shrink: 0;
-}
-[data-theme="dark"] .cardIconBadge {
-  background: rgba(124, 58, 237, 0.2);
-  color: #A78BFA;
-}
-
 .avatarGroup {
   display: flex;
   align-items: center;
 }
 .avatarSmall {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: 2px solid var(--bg-surface);
   margin-left: -8px;
@@ -455,122 +589,58 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--text-secondary);
 }
 .avatarSmall:first-child { margin-left: 0; }
 
-.metricIconWrap {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(99, 102, 241, 0.12);
-  color: #6366F1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-[data-theme="dark"] .metricIconWrap {
-  background: rgba(99, 102, 241, 0.2);
-  color: #818CF8;
-}
-
 .sparklineContainer {
-  margin: 12px 0;
-  height: 72px;
+  margin: 10px 0;
+  height: 48px;
   display: flex;
   align-items: center;
   width: 100%;
 }
 
-.growthBadgePositive {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 9px;
-  border-radius: 8px;
-  background: rgba(16, 185, 129, 0.12);
-  color: #10B981;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-[data-theme="dark"] .growthBadgePositive {
-  background: rgba(16, 185, 129, 0.18);
-  color: #34D399;
-}
-
 .statValue {
-  font-size: 1.9rem;
+  font-size: 1.6rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .pillActionBtn {
-  width: 42px;
-  height: 28px;
-  background: #F3F4F6;
-  border: 1px solid #E5E7EB;
-  border-radius: 14px;
+  width: 38px;
+  height: 26px;
+  background: #111827;
+  border: none;
+  border-radius: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-primary);
+  color: white;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
 }
 
 .pillActionBtn:hover {
-  background: #E5E7EB;
+  opacity: 0.9;
   transform: translateX(2px);
 }
 
 [data-theme="dark"] .pillActionBtn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #F9FAFB;
+  background: #FFFFFF;
+  color: #111827;
 }
 
-[data-theme="dark"] .pillActionBtn:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.2);
+/* Recently Registrations Row (Row 2) */
+.recentSectionWrap {
+  margin-bottom: 28px;
 }
 
-.mockBarChart {
-  display: flex;
-  align-items: flex-end;
-  gap: 12px;
-  height: 72px;
-}
-.bar {
-  flex: 1;
-  border-radius: 6px 6px 0 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: white;
-  transition: all 0.2s;
-}
-.bar:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-.bar1 { height: 35%; background: #FCA5A5; color: #7F1D1D; }
-.bar2 { height: 60%; background: #FDE047; color: #713F12; }
-.bar3 { height: 100%; background: #FBBF24; color: #78350F; }
-
-[data-theme="dark"] .bar1 { background: #EF4444; color: #FFFFFF; }
-[data-theme="dark"] .bar2 { background: #EAB308; color: #111827; }
-[data-theme="dark"] .bar3 { background: var(--brand-orange); color: #FFFFFF; }
-
-/* Recently Registrations Row */
 .recentPaymentsHeader {
   font-size: 1.05rem;
   font-weight: 700;
@@ -609,68 +679,6 @@
   width: 40px;
   height: 40px;
   border-radius: 12px;
-}
-
-/* Primary Hero Gradient Card */
-.dashCardPrimary {
-  background: linear-gradient(135deg, var(--brand-orange-light), var(--brand-orange));
-  padding: 30px 24px;
-  border-radius: 22px;
-  color: white;
-  box-shadow: var(--shadow-button);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-  height: 100%;
-  min-height: 330px;
-}
-
-/* Decorative element inside gradient card */
-.dashCardPrimary::after {
-  content: '✦';
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  font-size: 1.5rem;
-  color: rgba(255,255,255,0.8);
-}
-
-.cardActions {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.btnWhite {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  padding: 9px 18px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-.btnWhite:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.btnDark {
-  background: #111827 !important;
-  color: #FFFFFF !important;
-  padding: 9px 24px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 0.8rem;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-.btnDark:hover {
-  opacity: 0.85;
 }
 
 /* Table Section */
@@ -860,11 +868,14 @@
    RESPONSIVE MEDIA QUERIES (TABLETS & PHONES)
    -------------------------------------------------------------------------- */
 
-@media (max-width: 1024px) {
-  .topGrid {
-    grid-template-columns: 1fr;
+@media (max-width: 1200px) {
+  .fourCardsGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .threeCardsRow {
+}
+
+@media (max-width: 1024px) {
+  .fourCardsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
   .content {
@@ -975,7 +986,7 @@
   }
 
   /* Cards Grid: Clean Single Column Phone Flow */
-  .threeCardsRow {
+  .fourCardsGrid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
@@ -983,11 +994,6 @@
   .recentPaymentsGrid {
     grid-template-columns: 1fr;
     gap: 12px;
-  }
-
-  .topGrid {
-    gap: 16px;
-    margin-bottom: 20px;
   }
 
   /* Section Table Horizontal Scroll & Responsive Padding */
