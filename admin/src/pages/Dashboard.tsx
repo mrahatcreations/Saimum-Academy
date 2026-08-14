@@ -179,58 +179,60 @@ export default function Dashboard() {
           </div>
         </div>
         
-        <div className={styles.table}>
-          {/* Header */}
-          <div className={styles.tableHeader}>
-            <div></div>
-            <div>Applicant Name</div>
-            <div>Branch</div>
-            <div>Status</div>
-            <div>Date</div>
-            <div>Role</div>
-            <div></div>
-          </div>
-          
-          {/* Row 1 */}
-          <div className={styles.tableRow}>
-            <div className={styles.checkboxCell}><div className={styles.checkbox}></div></div>
-            <div className={styles.userCell}>
-              <img src="https://i.pravatar.cc/150?img=33" className={styles.userAvatar} alt="Rahim" />
-              <span>Rahim Uddin</span>
+        <div className={styles.tableScrollWrapper}>
+          <div className={styles.table}>
+            {/* Header */}
+            <div className={styles.tableHeader}>
+              <div></div>
+              <div>Applicant Name</div>
+              <div>Branch</div>
+              <div>Status</div>
+              <div>Date</div>
+              <div>Role</div>
+              <div></div>
             </div>
-            <div style={{color: 'var(--text-secondary)'}}>Dhaka Central</div>
-            <div className={styles.statusCell}><span className={`${styles.statusPill} ${styles.statusPending}`}>Viva Pending</span></div>
-            <div style={{color: 'var(--text-secondary)'}}>Aug 15th, 2026</div>
-            <div className={styles.amountText}>Applicant</div>
-            <div><button className={styles.btnDetails}>Details</button></div>
-          </div>
-          
-          {/* Row 2 */}
-          <div className={styles.tableRow}>
-            <div className={styles.checkboxCell}><div className={styles.checkbox}></div></div>
-            <div className={styles.userCell}>
-              <img src="https://i.pravatar.cc/150?img=11" className={styles.userAvatar} alt="Karim" />
-              <span>Karim Hasan</span>
+            
+            {/* Row 1 */}
+            <div className={styles.tableRow}>
+              <div className={styles.checkboxCell}><div className={styles.checkbox}></div></div>
+              <div className={styles.userCell}>
+                <img src="https://i.pravatar.cc/150?img=33" className={styles.userAvatar} alt="Rahim" />
+                <span>Rahim Uddin</span>
+              </div>
+              <div style={{color: 'var(--text-secondary)'}}>Dhaka Central</div>
+              <div className={styles.statusCell}><span className={`${styles.statusPill} ${styles.statusPending}`}>Viva Pending</span></div>
+              <div style={{color: 'var(--text-secondary)'}}>Aug 15th, 2026</div>
+              <div className={styles.amountText}>Applicant</div>
+              <div><button className={styles.btnDetails}>Details</button></div>
             </div>
-            <div style={{color: 'var(--text-secondary)'}}>Mirpur Branch</div>
-            <div className={styles.statusCell}><span className={`${styles.statusPill} ${styles.statusDone}`}>Selected</span></div>
-            <div style={{color: 'var(--text-secondary)'}}>Aug 14th, 2026</div>
-            <div className={styles.amountText}>Student</div>
-            <div><button className={styles.btnDetails}>Details</button></div>
-          </div>
+            
+            {/* Row 2 */}
+            <div className={styles.tableRow}>
+              <div className={styles.checkboxCell}><div className={styles.checkbox}></div></div>
+              <div className={styles.userCell}>
+                <img src="https://i.pravatar.cc/150?img=11" className={styles.userAvatar} alt="Karim" />
+                <span>Karim Hasan</span>
+              </div>
+              <div style={{color: 'var(--text-secondary)'}}>Mirpur Branch</div>
+              <div className={styles.statusCell}><span className={`${styles.statusPill} ${styles.statusDone}`}>Selected</span></div>
+              <div style={{color: 'var(--text-secondary)'}}>Aug 14th, 2026</div>
+              <div className={styles.amountText}>Student</div>
+              <div><button className={styles.btnDetails}>Details</button></div>
+            </div>
 
-          {/* Row 3 */}
-          <div className={styles.tableRow}>
-            <div className={styles.checkboxCell}><div className={styles.checkbox}></div></div>
-            <div className={styles.userCell}>
-              <img src="https://i.pravatar.cc/150?img=5" className={styles.userAvatar} alt="Sadia" />
-              <span>Sadia Amin</span>
+            {/* Row 3 */}
+            <div className={styles.tableRow}>
+              <div className={styles.checkboxCell}><div className={styles.checkbox}></div></div>
+              <div className={styles.userCell}>
+                <img src="https://i.pravatar.cc/150?img=5" className={styles.userAvatar} alt="Sadia" />
+                <span>Sadia Amin</span>
+              </div>
+              <div style={{color: 'var(--text-secondary)'}}>Uttara Branch</div>
+              <div className={styles.statusCell}><span className={`${styles.statusPill} ${styles.statusRejected}`}>Rejected</span></div>
+              <div style={{color: 'var(--text-secondary)'}}>Aug 12th, 2026</div>
+              <div className={styles.amountText}>Applicant</div>
+              <div><button className={styles.btnDetails}>Details</button></div>
             </div>
-            <div style={{color: 'var(--text-secondary)'}}>Uttara Branch</div>
-            <div className={styles.statusCell}><span className={`${styles.statusPill} ${styles.statusRejected}`}>Rejected</span></div>
-            <div style={{color: 'var(--text-secondary)'}}>Aug 12th, 2026</div>
-            <div className={styles.amountText}>Applicant</div>
-            <div><button className={styles.btnDetails}>Details</button></div>
           </div>
         </div>
       </section>
