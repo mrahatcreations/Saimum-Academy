@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎓 সাইমুম একাডেমি — System Architecture (Adaptive Hub Layout)</title>
+  <title>🎓 সাইমুম একাডেমি — Master Architecture Diagram (Whiteboard Canvas)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
   <style>
     :root {
       --canvas-bg: #F8FAFC;
       --grid-dot: #CBD5E1;
-      --box-bg: #FFFFFF;
-      --box-border: #1E293B;
-      --blue-accent-border: #2563EB;
+      --border-color: #E2E8F0;
       --text-dark: #0F172A;
       --text-muted: #64748B;
       --brand-orange: #FF790E;
@@ -32,7 +31,7 @@
       overflow: hidden;
       background-color: var(--canvas-bg);
       color: var(--text-dark);
-      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
     }
 
     #viewport-container {
@@ -49,7 +48,7 @@
       cursor: grabbing;
     }
 
-    /* Crosshair Dot Grid */
+    /* Clean Crosshair Dot Grid Background */
     .crosshair-grid {
       position: absolute;
       inset: 0;
@@ -59,7 +58,7 @@
       z-index: 1;
     }
 
-    /* Top Switcher Toolbar */
+    /* Top Whiteboard Floating Toolbar */
     .top-toolbar {
       position: absolute;
       top: 16px;
@@ -70,32 +69,53 @@
       align-items: center;
       gap: 16px;
       background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      border: 1px solid var(--border-color);
       border-radius: 14px;
-      padding: 8px 18px;
+      padding: 8px 20px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
 
     .tool-title {
       font-weight: 800;
-      font-size: 0.95rem;
+      font-size: 1rem;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-badge {
+      background: #FFF7ED;
+      color: #EA580C;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #FFEDD5;
+      font-family: 'Fira Code', monospace;
+    }
+
+    .hud-hints {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-left: 1px solid #E2E8F0;
+      padding-left: 14px;
+    }
+
+    .kbd {
+      background: #F1F5F9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.72rem;
+      border: 1px solid #CBD5E1;
       color: #0F172A;
     }
 
-    .layout-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #EFF6FF;
-      color: #2563EB;
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      border: 1px solid #DBEAFE;
-    }
-
-    /* Zoom Controls */
+    /* Floating Zoom Controls */
     .zoom-toolbar {
       position: absolute;
       bottom: 24px;
@@ -105,20 +125,20 @@
       flex-direction: column;
       gap: 6px;
       background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 5px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
 
     .zoom-btn {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      border: 1px solid var(--border-color);
       color: #0F172A;
       border-radius: 8px;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -128,178 +148,104 @@
     }
 
     .zoom-btn:hover {
-      background: #F1F5F9;
+      background: #F8FAFC;
       border-color: #CBD5E1;
     }
 
-    /* Scalable Canvas Scene */
+    /* Canvas Scene */
     #scene {
       position: absolute;
       transform-origin: 0 0;
       z-index: 10;
-      padding: 80px;
-      width: 2200px;
-      height: 1800px;
+      padding: 60px;
+      display: inline-block;
     }
 
-    /* SVG Orthogonal Wiring Overlay */
-    #wires-svg {
+    /* Whiteboard Mermaid Styling Overrides */
+    .mermaid {
+      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif !important;
+    }
+
+    .mermaid .node rect,
+    .mermaid .node circle,
+    .mermaid .node polygon,
+    .mermaid .node path {
+      rx: 10px !important;
+      ry: 10px !important;
+      stroke-width: 1.5px !important;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.04)) !important;
+    }
+
+    .mermaid .cluster rect {
+      rx: 16px !important;
+      ry: 16px !important;
+      stroke-dasharray: 6 4 !important;
+      stroke-width: 1.5px !important;
+    }
+
+    .mermaid .edgePath path {
+      stroke-width: 1.8px !important;
+      stroke: #475569 !important;
+    }
+
+    .mermaid .edgeLabel {
+      background-color: #FFFFFF !important;
+      padding: 3px 8px !important;
+      border-radius: 6px !important;
+      border: 1px solid #CBD5E1 !important;
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      color: #334155 !important;
+    }
+
+    #loading-overlay {
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .wire-path {
-      stroke: #334155;
-      stroke-width: 1.4px;
-      fill: none;
-    }
-
-    .wire-label {
-      background: #FFFFFF;
-      border: 1px solid #CBD5E1;
-      font-size: 10px;
-      font-family: 'Fira Code', monospace;
-      font-weight: 700;
-      padding: 1px 6px;
-      border-radius: 3px;
-      color: #334155;
-    }
-
-    /* Structural Group Container (Container Box like Interface Layer / Cloud Brain in image) */
-    .group-container {
-      position: absolute;
-      background: #FFFFFF;
-      border: 1.5px solid var(--box-border);
-      border-radius: 4px;
-      padding: 20px;
-      z-index: 5;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    }
-
-    .group-container.blue-accent {
-      border: 2px solid var(--blue-accent-border);
-    }
-
-    .group-label {
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #FFFFFF;
-      padding: 0 10px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #334155;
-      letter-spacing: 0.3px;
-      white-space: nowrap;
-    }
-
-    .group-container.blue-accent .group-label {
-      color: #1D4ED8;
-    }
-
-    /* Standard Rectangular White Node Box (Matching reference) */
-    .node-box {
-      background: #FFFFFF;
-      border: 1.2px solid var(--box-border);
-      border-radius: 2px;
-      padding: 10px 14px;
-      text-align: center;
+      background: #F8FAFC;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      min-height: 52px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      justify-content: center;
+      z-index: 200;
+      transition: opacity 0.3s ease;
     }
 
-    .node-box-title {
-      font-size: 0.84rem;
-      font-weight: 800;
-      color: #0F172A;
-      line-height: 1.25;
-      white-space: nowrap;
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #E2E8F0;
+      border-top-color: var(--brand-orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 12px;
     }
 
-    .node-box-sub {
-      font-size: 0.7rem;
-      color: #64748B;
-      margin-top: 2px;
-      line-height: 1.2;
-      white-space: nowrap;
-    }
-
-    .db-box {
-      border-radius: 10px;
-      background: #F8FAFC;
-    }
-
-    /* Absolute Positioning of Adaptive Clusters (Matching Screenshot Topology) */
-    
-    /* 1. TOP CLUSTER: Interface Layer (Mobile & Web) */
-    #group-interface {
-      top: 60px;
-      left: 200px;
-      width: 820px;
-      height: 110px;
-    }
-
-    /* 2. MIDDLE-RIGHT CLUSTER: Cloud Infrastructure (The Brain) - Blue Container */
-    #group-brain {
-      top: 240px;
-      left: 550px;
-      width: 1150px;
-      height: 380px;
-    }
-
-    /* 3. MIDDLE-LEFT CLUSTER: Communication & Admission Pipeline */
-    #group-admission {
-      top: 480px;
-      left: 80px;
-      width: 380px;
-      height: 480px;
-    }
-
-    /* 4. BOTTOM CLUSTER: Academic Execution & Foundation Terminal */
-    #group-terminal {
-      top: 720px;
-      left: 550px;
-      width: 1150px;
-      height: 240px;
-    }
-
-    /* Floating Protocol Labels on wires */
-    .bus-tag {
-      position: absolute;
-      background: #F1F5F9;
-      border: 1px solid #CBD5E1;
-      font-size: 10.5px;
-      font-family: 'Fira Code', monospace;
-      font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 4px;
-      color: #334155;
-      z-index: 15;
-      white-space: nowrap;
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Viewport Pan-Zoom Canvas -->
+  <!-- Loading State -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div style="font-weight: 700; font-size: 1rem; color: #0F172A;">সাইমুম একাডেমি আর্কিটেকচার লোড হচ্ছে...</div>
+  </div>
+
   <div id="viewport-container">
     <div class="crosshair-grid"></div>
 
     <!-- Top Whiteboard Toolbar -->
     <header class="top-toolbar">
-      <div class="tool-title">🎓 সাইমুম একাডেমি — System Architecture</div>
-      <div class="layout-badge">
-        <span>Layout:</span>
-        <span>⚡ Adaptive ✓</span>
+      <div class="tool-title">
+        <span>🎓 সাইমুম একাডেমি — Master Architecture Diagram</span>
+        <span class="tool-badge">WHITEBOARD VIEW</span>
+      </div>
+      <div class="hud-hints">
+        <span><span class="kbd">Scroll</span> জুম</span>
+        <span><span class="kbd">Drag</span> ক্যানভাস প্যান</span>
+        <span><span class="kbd">1:1</span> রিসেট</span>
       </div>
     </header>
 
@@ -311,258 +257,284 @@
       <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen" style="font-size: 0.85rem;">⛶</button>
     </div>
 
-    <!-- Scalable Canvas Scene (Exact Adaptive Multi-Cluster Layout) -->
+    <!-- Complete Diagram with All Details on White Theme -->
     <div id="scene">
-      
-      <!-- Orthogonal Circuit Routing Lines (SVG Wire Mesh) -->
-      <svg id="wires-svg">
-        <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#334155" />
-          </marker>
-        </defs>
-
-        <!-- Interface to Brain Bus Line -->
-        <path d="M 300,170 L 300,205 L 800,205 L 800,290" class="wire-path" marker-end="url(#arrow)" />
-        <path d="M 500,170 L 500,290" class="wire-path" marker-end="url(#arrow)" />
-        <path d="M 700,170 L 700,205 L 800,205 L 800,290" class="wire-path" marker-end="url(#arrow)" />
-
-        <!-- Brain Core API to Services Bus -->
-        <path d="M 800,345 L 800,380 L 600,380 L 600,420" class="wire-path" marker-end="url(#arrow)" />
-        <path d="M 800,345 L 800,380 L 780,380 L 780,420" class="wire-path" marker-end="url(#arrow)" />
-        <path d="M 800,345 L 800,380 L 980,380 L 980,420" class="wire-path" marker-end="url(#arrow)" />
-        <path d="M 800,345 L 800,380 L 1180,380 L 1180,420" class="wire-path" marker-end="url(#arrow)" />
-        <path d="M 800,345 L 800,380 L 1380,380 L 1380,420" class="wire-path" marker-end="url(#arrow)" />
-        <path d="M 800,345 L 800,380 L 1580,380 L 1580,420" class="wire-path" marker-end="url(#arrow)" />
-
-        <!-- Brain to Admission Pipeline Connector -->
-        <path d="M 700,620 L 700,660 L 270,660 L 270,480" class="wire-path" marker-end="url(#arrow)" />
-
-        <!-- Brain to Terminal Layer Connector -->
-        <path d="M 1125,620 L 1125,720" class="wire-path" marker-end="url(#arrow)" />
-
-        <!-- Admission Pipeline to Terminal Execution -->
-        <path d="M 270,960 L 270,1000 L 750,1000 L 750,960" class="wire-path" marker-end="url(#arrow)" />
-      </svg>
-
-      <!-- Protocol Floating Tags on Wires -->
-      <div class="bus-tag" style="top: 195px; left: 420px;">WebSockets / Real-time</div>
-      <div class="bus-tag" style="top: 195px; left: 630px;">REST API / HTTPS / JWT</div>
-      <div class="bus-tag" style="top: 650px; left: 450px;">Secure Pipeline / Admission Hook</div>
-      <div class="bus-tag" style="top: 660px; left: 1040px;">Batch Membership & Execution</div>
-
-      <!-- =========================================================================
-           1. TOP CLUSTER: Interface Layer (Mobile & Web)
-           ========================================================================= -->
-      <div id="group-interface" class="group-container">
-        <div class="group-label">Interface Layer (Mobile & Web Portals)</div>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; height: 100%; align-items: center;">
-          <div class="node-box">
-            <div class="node-box-title">Admin Panel (admin/)</div>
-            <div class="node-box-sub">Super Admin & Central HQ</div>
-          </div>
-          <div class="node-box">
-            <div class="node-box-title">Department Panel</div>
-            <div class="node-box-sub">department/ • Director / Teacher</div>
-          </div>
-          <div class="node-box">
-            <div class="node-box-title">Student Portal App</div>
-            <div class="node-box-sub">student/ • Classes, Zoom & Fees</div>
-          </div>
-          <div class="node-box">
-            <div class="node-box-title">Public Website (frontend/)</div>
-            <div class="node-box-sub">Online Admissions & CMS</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- =========================================================================
-           2. MIDDLE-RIGHT CLUSTER: Cloud Infrastructure (The Brain) - BLUE CONTAINER
-           ========================================================================= -->
-      <div id="group-brain" class="group-container blue-accent">
-        <div class="group-label">Cloud Infrastructure (The Brain)</div>
+      <div id="mermaid-diagram" class="mermaid">
+flowchart TD
+    %% =========================================================================
+    %% ধাপ ১: পাবলিক ওয়েবসাইট ও অনলাইন আবেদন
+    %% =========================================================================
+    subgraph Step1 [" 🌐 ধাপ ১: পাবলিক ওয়েবসাইট ও প্রাথমিক আবেদন (frontend/) "]
+        WebHome["🌍 পাবলিক ওয়েবসাইট<br/><i>(একাডেমি পরিচিতি, শাখা ও বিভাগ ব্রাউজিং)</i>"]
+        WebApply["📝 অনলাইন ভর্তি আবেদন ফরম<br/><b>(যোগ্যতা: মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)</b>"]
+        FeeReg["💵 ১. Registration Fee (আবেদন ফি)<br/><b>(বিকাশ / নগদ পেমেন্ট গেটওয়ে)</b>"]
         
-        <!-- Center Root API Node -->
-        <div style="display: flex; justify-content: center; margin-bottom: 30px;">
-          <div class="node-box" style="width: 360px; border: 1.8px solid #2563EB; background: #EFF6FF;">
-            <div class="node-box-title" style="color: #1D4ED8; font-size: 0.95rem;">Node.js / Backend API Service</div>
-            <div class="node-box-sub">Express / NestJS Business Engine (backend/src/server.ts)</div>
-          </div>
-        </div>
+        WebHome -->|"ভর্তি হতে ইচ্ছুক"| WebApply
+        WebApply -->|"আবেদন ফি পরিশোধ"| FeeReg
+    end
 
-        <!-- Distributed Services Row (Directly branched out from API) -->
-        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 24px;">
-          <div class="node-box">
-            <div class="node-box-title">JWT / Auth Service</div>
-            <div class="node-box-sub">Roles & Permissions</div>
-          </div>
-
-          <div class="node-box">
-            <div class="node-box-title">Master Catalog Hub</div>
-            <div class="node-box-sub">Subject (No Duplication)</div>
-          </div>
-
-          <div class="node-box">
-            <div class="node-box-title">Payment Gateway Hub</div>
-            <div class="node-box-sub">bKash / Nagad / SSLCommerz</div>
-          </div>
-
-          <div class="node-box">
-            <div class="node-box-title">Zoom Live Engine</div>
-            <div class="node-box-sub">Real-time Class Links</div>
-          </div>
-
-          <div class="node-box db-box">
-            <div class="node-box-title">PostgreSQL (Prisma)</div>
-            <div class="node-box-sub">User Data & History</div>
-          </div>
-
-          <div class="node-box">
-            <div class="node-box-title">Audit & Search Hub</div>
-            <div class="node-box-sub">Global Phone/ID Search</div>
-          </div>
-        </div>
-
-        <!-- Matrix & Entity Relationships in Brain -->
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;">
-          <div class="node-box" style="background: #F8FAFC;">
-            <div class="node-box-title">Branch ↔ Department Matrix</div>
-            <div class="node-box-sub">Many-to-Many Architecture (Physical Branches & Online Branch)</div>
-          </div>
-          <div class="node-box" style="background: #F8FAFC;">
-            <div class="node-box-title">Person Profile Lifecycle Hub</div>
-            <div class="node-box-sub">1 Permanent Person Profile = Multiple Multi-Year Registrations</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- =========================================================================
-           3. MIDDLE-LEFT CLUSTER: Communication & Admission Pipeline (The Pipeline)
-           ========================================================================= -->
-      <div id="group-admission" class="group-container">
-        <div class="group-label">Admission Pipeline (The Funnel)</div>
-        <div style="display: flex; flex-direction: column; justify-content: space-around; height: 100%;">
-          <div class="node-box">
-            <div class="node-box-title">১. অনলাইন আবেদন ও স্ক্রিনিং</div>
-            <div class="node-box-sub">মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স</div>
-            <div class="bus-tag" style="position: static; margin-top: 4px;">💵 Registration Fee</div>
-          </div>
-
-          <div class="node-box">
-            <div class="node-box-title">২. ভাইভা পরীক্ষা প্যানেল</div>
-            <div class="node-box-sub">ডিপার্টমেন্ট পরিচালক কর্তৃক মার্কিং</div>
-            <div class="bus-tag" style="position: static; margin-top: 4px;">🎙️ Selected / Reject</div>
-          </div>
-
-          <div class="node-box">
-            <div class="node-box-title">৩. ওয়ার্কশপ কোহোর্ট ট্র্যাকিং</div>
-            <div class="node-box-sub">উপস্থিতি, শৃঙ্খলা ও স্কিল মূল্যায়ন</div>
-            <div class="bus-tag" style="position: static; margin-top: 4px;">💵 Workshop Admission Fee</div>
-          </div>
-
-          <div class="node-box">
-            <div class="node-box-title">৪. ফাইনাল পরীক্ষা ও প্রমোশন</div>
-            <div class="node-box-sub">১-ক্লিকে রেগুলার স্টুডেন্ট হিসেবে প্রমোশন</div>
-            <div class="bus-tag" style="position: static; margin-top: 4px;">💵 Student Admission Fee</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- =========================================================================
-           4. BOTTOM CLUSTER: Academic Operations (The Foundation / Hardware Terminal)
-           ========================================================================= -->
-      <div id="group-terminal" class="group-container">
-        <div class="group-label">Academic Operations Layer (The Foundation)</div>
+    %% =========================================================================
+    %% ধাপ ২: সেন্ট্রাল হেডকোয়ার্টার ও মাস্টার ক্যাটালগ
+    %% =========================================================================
+    subgraph Step2 [" 🏛️ ধাপ ২: কেন্দ্রীয় একাডেমি প্রশাসন (admin/) "]
+        SuperAdmin["👑 সুপার অ্যাডমিন প্যানেল<br/><i>(পুরো একাডেমি পরিচালনা, সকল শাখা/বিভাগের কেন্দ্রীয় রিপোর্ট)</i>"]
         
-        <!-- Master Ongoing Batch Anchor -->
-        <div style="display: flex; justify-content: center; margin-bottom: 18px;">
-          <div class="node-box" style="width: 480px; border: 1.8px solid #0F172A; background: #F1F5F9;">
-            <div class="node-box-title" style="font-size: 0.92rem;">⚡ Ongoing Batches Core (e.g. Music Batch 1)</div>
-            <div class="node-box-sub">Batch Created Year (2025) ≠ Student Joined Year (2026/2027)</div>
-          </div>
-        </div>
+        MS["📚 মাস্টার বিষয় ক্যাটালগ (গান, অভিনয়, আবৃত্তি)<br/><b>[নিয়ম: কেন্দ্রীয়ভাবে একবার তৈরি হবে, নো ডুপ্লিকেশন]</b>"]
+        MD["🏛️ মাস্টার বিভাগ ক্যাটালগ (সংগীত বিভাগ, অভিনয় বিভাগ)<br/><b>[নিয়ম: Many-to-Many রিলেশনশিপ]</b>"]
+        
+        GlobalSearch["🔍 গ্লোবাল সার্চ ও অডিট লগ<br/><i>(ফোন/ইমেইল দিয়ে তাৎক্ষণিক ডুপ্লিকেট ব্যক্তি শনাক্তকরণ)</i>"]
+        
+        SuperAdmin --> MS
+        SuperAdmin --> MD
+        SuperAdmin --> GlobalSearch
+    end
 
-        <!-- Terminal Nodes Row -->
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
-          <div class="node-box">
-            <div class="node-box-title">ফিজিক্যাল ক্লাসরুম সেশন</div>
-            <div class="node-box-sub">ঢাকা সেন্ট্রাল ও মিরপুর শাখা রুটিন</div>
-          </div>
+    %% =========================================================================
+    %% ধাপ ৩: শাখা ও ডিপার্টমেন্ট প্যানেল পরিচালনা
+    %% =========================================================================
+    subgraph Step3 [" 🏢 ধাপ ৩: শাখা ও ডিপার্টমেন্ট প্যানেল পরিচালনা (department/) "]
+        DeptDirector["🎭 ডিপার্টমেন্ট পরিচালক ও দায়িত্বশীল<br/><i>(যেমন: সংগীত বিভাগ প্রধান — সকল শাখার সংগীত কার্যক্রম নিয়ন্ত্রণ)</i>"]
+        BranchDirector["🏢 শাখা পরিচালক ও অফিস সম্পাদক<br/><i>(যেমন: ঢাকা বা মিরপুর শাখার সার্বিক অ্যাকাডেমিক নিয়ন্ত্রণ)</i>"]
+        TeacherInstructor["👨‍🏫 শিক্ষক ও প্রশিক্ষক এক্সেস<br/><i>(ক্লাস নেওয়া, উপস্থিতি মার্কিং ও ওয়ার্কশপ মূল্যায়ন)</i>"]
+        
+        B_Physical["🏢 ফিজিক্যাল শাখা (ঢাকা সেন্ট্রাল, মিরপুর)<br/><i>(শাখা পরিচালক, অফিস ও অর্থ সম্পাদক)</i>"]
+        B_Online["🌐 অনলাইন জুম শাখা<br/><i>(জুম মিটিং আইডি, পাসওয়ার্ড ও লাইভ লিংক)</i>"]
+        
+        DeptDirector -.->|"বিভাগীয় কার্যক্রম পরিচালনা"| MD
+        BranchDirector -.->|"শাখা পরিচালনা"| B_Physical
+        BranchDirector -.->|"শাখা পরিচালনা"| B_Online
+        TeacherInstructor -.->|"ক্লাস ও মার্কিং"| B_Physical
+        TeacherInstructor -.->|"ক্লাস ও মার্কিং"| B_Online
+    end
 
-          <div class="node-box">
-            <div class="node-box-title">জুম লাইভ অনলাইন ক্লাস</div>
-            <div class="node-box-sub">অটো লিংক, পাসওয়ার্ড ও লাইভ রুলস</div>
-          </div>
+    MD <== "Many-to-Many<br/>(যে কোনো বিভাগে যে কোনো শাখা)" ==> B_Physical
+    MD <== "Many-to-Many" ==> B_Online
+    SuperAdmin -.->|"কেন্দ্রীয় কন্ট্রোল"| DeptDirector
+    SuperAdmin -.->|"কেন্দ্রীয় কন্ট্রোল"| BranchDirector
 
-          <div class="node-box">
-            <div class="node-box-title">দৈনিক উপস্থিতি ম্যাট্রিক্স</div>
-            <div class="node-box-sub">উপস্থিত, অনুপস্থিত, বিলম্ব ও ছুটি</div>
-          </div>
+    %% =========================================================================
+    %% ধাপ ৪: শাখায় বিষয় অফারিং ও চলমান ব্যাচ
+    %% =========================================================================
+    subgraph Step4 [" 📚 ধাপ ৪: শাখায় বিষয় অফারিং ও চলমান প্রশিক্ষণ ব্যাচ "]
+        SO_Physical["ফিজিক্যাল শাখার গান বিষয় অফারিং"]
+        SO_Online["অনলাইন শাখার গান বিষয় অফারিং"]
+        
+        Batch_Physical["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/><b>[২০২৫ সালে তৈরি — ২০২৬, ২০২৭-এর ছাত্রও এখানে যুক্ত হবে]</b>"]
+        Batch_Online["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/><i>(অনলাইন প্রশিক্ষণ গ্রুপ)</i>"]
+    end
 
-          <div class="node-box">
-            <div class="node-box-title">শাখা অর্থ ও মাসিক ফি</div>
-            <div class="node-box-sub">স্টুডেন্ট পোর্টাল থেকে ফি প্রদান</div>
-            <div class="bus-tag" style="position: static; margin-top: 3px;">💵 4. Monthly Fee</div>
-          </div>
-        </div>
+    MS -->|"বিষয় চালু করা হলো"| SO_Physical
+    MS -->|"বিষয় চালু করা হলো"| SO_Online
+    B_Physical --> SO_Physical
+    B_Online --> SO_Online
+    
+    SO_Physical --> Batch_Physical
+    SO_Online --> Batch_Online
+
+    %% =========================================================================
+    %% ধাপ ৫: ভর্তি, ভাইভা ও ওয়ার্কশপ ফানেল
+    %% =========================================================================
+    subgraph Step5 [" 🎯 ধাপ ৫: ভর্তি, ভাইভা, ওয়ার্কশপ ও ফাইনাল পরীক্ষা ফানেল "]
+        PersonCheck{"🔍 স্থায়ী আইডি চেক<br/><i>(পূর্বে কোনো রেজিস্ট্রেশন ছিল?)</i>"}
+        PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><b>[১ ব্যক্তি = আজীবন ১ প্রোফাইল, মাল্টি-ইয়ার ইতিহাস]</b>"]
+        
+        Viva["🎙️ ভাইভা পরীক্ষা<br/><i>(ডিপার্টমেন্ট প্যানেল মার্কিং ও ভাইভা রেজাল্ট)</i>"]
+        
+        WorkshopEnroll["📋 ওয়ার্কশপে ভর্তি নিশ্চিতকরণ"]
+        FeeWorkshop["💵 ২. Workshop Admission Fee (ওয়ার্কশপ ফি)"]
+        
+        WorkshopTrack["🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট<br/><i>(শিক্ষক কর্তৃক উপস্থিতি, শৃঙ্খলা ও স্কিল মূল্যায়ন)</i>"]
+        
+        Exam["📝 ফাইনাল মূল্যায়ন পরীক্ষা<br/><i>(বিভাগীয় প্রধান ও শিক্ষক কর্তৃক মার্কিং)</i>"]
+        
+        RegularEnroll["🎓 নিয়মিত ছাত্র হিসেবে চূড়ান্ত অনুমোদন"]
+        FeeStudentAdm["💵 ৩. Student Admission Fee (ভর্তি ফি)"]
+        
+        OneClickPromo["⚡ ১-ক্লিকে নিয়মিত ছাত্র হিসেবে প্রমোশন!"]
+    end
+
+    FeeReg -->|"পেমেন্ট সফল হলে"| PersonCheck
+    PersonCheck -->|"স্থায়ী প্রোফাইল ম্যাচ/তৈরি"| PersonProfile
+    PersonProfile --> Viva
+    
+    DeptDirector -.->|"ভাইভা পরিচালনা"| Viva
+    TeacherInstructor -.->|"ওয়ার্কশপ ট্র্যাকিং"| WorkshopTrack
+    DeptDirector -.->|"ফাইনাল মার্কিং"| Exam
+    
+    Viva -->|"সিলেক্টেড হলে"| WorkshopEnroll
+    WorkshopEnroll -->|"ওয়ার্কশপ ফি প্রদান"| FeeWorkshop
+    FeeWorkshop --> WorkshopTrack
+    
+    WorkshopTrack --> Exam
+    Exam -->|"পরীক্ষায় পাস করলে 🎉"| RegularEnroll
+    RegularEnroll -->|"ভর্তি ফি প্রদান"| FeeStudentAdm
+    FeeStudentAdm --> OneClickPromo
+
+    %% =========================================================================
+    %% ধাপ ৬: নিয়মিত ক্লাসের কার্যক্রম ও স্টুডেন্ট পোর্টাল
+    %% =========================================================================
+    subgraph Step6 [" 🎓 ধাপ ৬: নিয়মিত ক্লাস ও স্টুডেন্ট পোর্টাল (student/) "]
+        ClassPhysical["🏫 ক্লাসরুম ক্লাস শিডিউল<br/><i>(রুটিন, ক্লাসরুম ও শিক্ষক)</i>"]
+        ClassZoom["📹 জুম লাইভ অনলাইন ক্লাস<br/><i>(সরাসরি Join Zoom বাটন)</i>"]
+        
+        AttendanceMatrix["📊 দৈনিক উপস্থিতি ম্যাট্রিক্স<br/><i>(শিক্ষক কর্তৃক মার্কিং — উপস্থিত, অনুপস্থিত ও ছুটি)</i>"]
+        
+        StudentPortal["📱 Student Portal Dashboard<br/><i>(আমার ক্লাস, জুম লিংক, উপস্থিতি, পরীক্ষার রেজাল্ট ও ব্যাচ)</i>"]
+        FeeMonthly["💵 ৪. Student Monthly Fee (মাসিক টিউশন ফি)"]
+    end
+
+    Batch_Physical --> ClassPhysical
+    Batch_Online --> ClassZoom
+    ClassPhysical --> AttendanceMatrix
+    ClassZoom --> AttendanceMatrix
+    
+    TeacherInstructor -.->|"ক্লাস নেওয়া ও উপস্থিতি গ্রহণ"| ClassPhysical
+    TeacherInstructor -.->|"জুম ক্লাস পরিচালনা"| ClassZoom
+    
+    ClassZoom -.->|"১-ক্লিকে জুমে জয়েন"| StudentPortal
+    AttendanceMatrix -.->|"উপস্থিতি ট্র্যাকিং"| StudentPortal
+    StudentPortal -->|"প্রতি মাসে ফি পরিশোধ"| FeeMonthly
+
+    %% =========================================================================
+    %% ধাপ ৭: শাখা ও কেন্দ্রীয় অর্থ লেজার
+    %% =========================================================================
+    subgraph Step7 [" 💰 ধাপ ৭: কেন্দ্রীয় ও শাখা অর্থ লেজার (FINANCE VAULT) "]
+        FinanceVault["🏦 শাখা ও কেন্দ্রীয় অর্থ লেজার<br/><b>(ভর্তি ফি, মাসিক ফি, আয়-ব্যয় হিসাব, বকেয়া ও ভাউচার)</b>"]
+    end
+
+    FeeReg --> FinanceVault
+    FeeWorkshop --> FinanceVault
+    FeeStudentAdm --> FinanceVault
+    FeeMonthly --> FinanceVault
+
+    %% =========================================================================
+    %% সার্কিট লুপ ব্যাক: পাস করা ছাত্র সরাসরি চলমান ব্যাচে মেম্বারশিপ পায়!
+    %% =========================================================================
+    OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Physical
+    OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Online
+    
+    Batch_Physical --> StudentPortal
+    Batch_Online --> StudentPortal
+
+    %% =========================================================================
+    %% ক্লিন হোয়াইটবোর্ড কালার থিম
+    %% =========================================================================
+    style Step1 fill:#EFF6FF,stroke:#3B82F6,stroke-width:1.5px,color:#1E3A8A
+    style Step2 fill:#FFF7ED,stroke:#F97316,stroke-width:1.5px,color:#7C2D12
+    style Step3 fill:#ECFEFF,stroke:#06B6D4,stroke-width:1.5px,color:#164E63
+    style Step4 fill:#F0FDF4,stroke:#10B981,stroke-width:1.5px,color:#064E3B
+    style Step5 fill:#FEFCE8,stroke:#EAB308,stroke-width:1.5px,color:#713F12
+    style Step6 fill:#FAF5FF,stroke:#A855F7,stroke-width:1.5px,color:#581C87
+    style Step7 fill:#FDF2F8,stroke:#EC4899,stroke-width:1.5px,color:#831843
+
+    style WebApply fill:#FFFFFF,stroke:#3B82F6,stroke-width:1.5px,color:#0F172A
+    style FeeReg fill:#FFFFFF,stroke:#10B981,stroke-width:1.5px,color:#065F46
+    style MS fill:#FFFFFF,stroke:#EA580C,stroke-width:1.5px,color:#0F172A
+    style MD fill:#FFFFFF,stroke:#EA580C,stroke-width:1.5px,color:#0F172A
+    style DeptDirector fill:#FFFFFF,stroke:#0891B2,stroke-width:1.5px,color:#0F172A
+    style BranchDirector fill:#FFFFFF,stroke:#0891B2,stroke-width:1.5px,color:#0F172A
+    style TeacherInstructor fill:#FFFFFF,stroke:#0891B2,stroke-width:1.5px,color:#0F172A
+    style Batch_Physical fill:#FFFFFF,stroke:#10B981,stroke-width:1.5px,color:#0F172A
+    style Batch_Online fill:#FFFFFF,stroke:#0891B2,stroke-width:1.5px,color:#0F172A
+    style PersonProfile fill:#FFFFFF,stroke:#9333EA,stroke-width:1.5px,color:#0F172A
+    style FeeWorkshop fill:#FFFFFF,stroke:#10B981,stroke-width:1.5px,color:#065F46
+    style FeeStudentAdm fill:#FFFFFF,stroke:#10B981,stroke-width:1.5px,color:#065F46
+    style FeeMonthly fill:#FFFFFF,stroke:#10B981,stroke-width:1.5px,color:#065F46
+    style OneClickPromo fill:#FF790E,stroke:#EA580C,stroke-width:2px,color:#FFFFFF
       </div>
-
     </div>
   </div>
 
   <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      flowchart: {
+        curve: 'basis',
+        nodeSpacing: 50,
+        rankSpacing: 60,
+        padding: 20
+      },
+      themeVariables: {
+        background: '#F8FAFC',
+        primaryColor: '#FFFFFF',
+        primaryTextColor: '#0F172A',
+        primaryBorderColor: '#CBD5E1',
+        lineColor: '#475569',
+        secondaryColor: '#F1F5F9',
+        tertiaryColor: '#FFFFFF',
+        fontFamily: 'Hind Siliguri, Plus Jakarta Sans, sans-serif',
+        fontSize: '13px'
+      }
+    });
+
     let pzInstance = null;
 
-    function initAdaptiveBoard() {
-      const sceneEl = document.getElementById('scene');
-      
-      // Initialize Panzoom for smooth navigation
-      pzInstance = panzoom(sceneEl, {
-        maxZoom: 6,
-        minZoom: 0.2,
-        smoothScroll: false,
-        zoomSpeed: 0.065,
-        beforeWheel: function(e) {
-          return false;
+    async function initWhiteboard() {
+      try {
+        await mermaid.run({
+          nodes: [document.getElementById('mermaid-diagram')]
+        });
+
+        const sceneEl = document.getElementById('scene');
+        
+        pzInstance = panzoom(sceneEl, {
+          maxZoom: 8,
+          minZoom: 0.2,
+          smoothScroll: false,
+          zoomSpeed: 0.065,
+          beforeWheel: function(e) {
+            return false;
+          }
+        });
+
+        setTimeout(() => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const rect = sceneEl.getBoundingClientRect();
+          
+          const scale = Math.min((vw - 60) / rect.width, (vh - 100) / rect.height, 0.85);
+          const initialX = Math.max((vw - rect.width * scale) / 2, 30);
+          const initialY = 80;
+
+          pzInstance.zoomAbs(0, 0, scale);
+          pzInstance.moveTo(initialX, initialY);
+        }, 80);
+
+        document.getElementById('btn-zoom-in').addEventListener('click', () => {
+          pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25);
+        });
+
+        document.getElementById('btn-zoom-out').addEventListener('click', () => {
+          pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8);
+        });
+
+        document.getElementById('btn-zoom-reset').addEventListener('click', () => {
+          pzInstance.zoomAbs(0, 0, 1);
+          pzInstance.moveTo(40, 80);
+        });
+
+        document.getElementById('btn-zoom-fit').addEventListener('click', () => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const rect = sceneEl.getBoundingClientRect();
+          const scale = Math.min((vw - 60) / (rect.width / pzInstance.getTransform().scale), (vh - 100) / (rect.height / pzInstance.getTransform().scale), 0.85);
+          pzInstance.zoomAbs(0, 0, scale);
+          pzInstance.moveTo((vw - (rect.width / pzInstance.getTransform().scale) * scale) / 2, 80);
+        });
+
+      } catch (err) {
+        console.error('Mermaid render error:', err);
+      } finally {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 300);
         }
-      });
-
-      // Fit and center neatly on load
-      setTimeout(() => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const scale = Math.min((vw - 60) / 2200, (vh - 100) / 1300, 0.75);
-        const initialX = Math.max((vw - 2200 * scale) / 2, 20);
-        const initialY = 60;
-
-        pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo(initialX, initialY);
-      }, 50);
-
-      // Controls bindings
-      document.getElementById('btn-zoom-in').addEventListener('click', () => {
-        pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25);
-      });
-
-      document.getElementById('btn-zoom-out').addEventListener('click', () => {
-        pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8);
-      });
-
-      document.getElementById('btn-zoom-reset').addEventListener('click', () => {
-        pzInstance.zoomAbs(0, 0, 1);
-        pzInstance.moveTo(20, 60);
-      });
-
-      document.getElementById('btn-zoom-fit').addEventListener('click', () => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const scale = Math.min((vw - 60) / 2200, (vh - 100) / 1300, 0.75);
-        pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo((vw - 2200 * scale) / 2, 60);
-      });
+      }
     }
 
-    window.addEventListener('DOMContentLoaded', initAdaptiveBoard);
+    window.addEventListener('DOMContentLoaded', initWhiteboard);
   </script>
 </body>
 </html>
