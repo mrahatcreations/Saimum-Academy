@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎓 সাইমুম কেন্দ্রীয় একাডেমি — System Architecture & Workflow Diagram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --brand-orange: #FF790E;
+      --brand-orange-light: #FF9436;
+      --bg-dark: #0B1120;
+      --bg-card: #151E32;
+      --bg-card-hover: #1E293B;
+      --border-color: #334155;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --accent-green: #10B981;
+      --accent-blue: #38BDF8;
+      --accent-purple: #A855F7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 32px 20px 80px 20px;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding: 32px 20px;
+      background: linear-gradient(180deg, rgba(255, 121, 14, 0.08) 0%, transparent 100%);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 121, 14, 0.2);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(255, 121, 14, 0.15);
+      color: var(--brand-orange);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .header h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    /* Summary Metric Grid */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      transition: all 0.2s ease;
+    }
+
+    .metric-card:hover {
+      border-color: var(--brand-orange);
+      transform: translateY(-3px);
+    }
+
+    .metric-title {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .metric-val {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    /* Section Cards */
+    .diagram-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 36px 32px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .section-header {
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--brand-orange);
+      margin-bottom: 6px;
+    }
+
+    .section-header h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    /* Mermaid Container */
+    .mermaid-wrap {
+      background: #0D1527;
+      border: 1px dashed var(--border-color);
+      border-radius: 18px;
+      padding: 24px 16px;
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .mermaid {
+      font-family: inherit;
+    }
+
+    /* Table Styling */
+    .route-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .route-table th, .route-table td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .route-table th {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .route-table td {
+      font-size: 0.95rem;
+    }
+
+    .route-badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-blue);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Header -->
+    <header class="header">
+      <div class="badge">SAIMUM CENTRAL ACADEMY</div>
+      <h1>🎓 সম্পূর্ণ সিস্টেম ও আর্কিটেকচার ডায়াগ্রাম</h1>
+      <p>PRD-এর মূল ৪টি বিজনেস রুল: Master Subject (No Duplication), Many-to-Many Branch-Department, 1 Person = Multi-Registrations, এবং কমপ্লিট Admission Funnel।</p>
+    </header>
+
+    <!-- Key Principles Grid -->
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-title">📚 Master Subject Rule</div>
+        <div class="metric-val">No Duplication</div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">সাবজেক্ট একবার কেন্দ্রীয়ভাবে তৈরি হয়ে ব্রাঞ্চে Offering হিসেবে Assign হয়।</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">🏛️ Branch ↔ Department</div>
+        <div class="metric-val">Many-to-Many</div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">একটি ডিপার্টমেন্ট একাধিক ব্রাঞ্চে এবং একটি ব্রাঞ্চে একাধিক ডিপার্টমেন্ট থাকে।</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">👥 Ongoing Batches</div>
+        <div class="metric-val">Batch Year ≠ Join Year</div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">২০২৫-এ তৈরি হওয়া ব্যাচে ২০২৬ বা ২০২৭ সালের নতুন শিক্ষার্থীরা যুক্ত হতে পারে।</p>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">🧑 Person Profile</div>
+        <div class="metric-val">1 Person = Multi Reg</div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">১ জন মানুষের স্থায়ী একটি প্রোফাইল থাকবে, যার অধীনে একাধিক বছরের সেশন রেকর্ড থাকবে।</p>
+      </div>
+    </div>
+
+    <!-- Section 1: Entity Relationship Architecture -->
+    <div class="diagram-section">
+      <div class="section-header">
+        <div class="section-tag">DATABASE ARCHITECTURE</div>
+        <h2>১. ডেটাবেজ ও এনটিটি রিলেশনশিপ (Entity Relationship Diagram)</h2>
+        <p>সিস্টেমের কোর অবজেক্টসমূহ কীভাবে একে অপরের সাথে ডুপ্লিকেশনহীনভাবে সংযুক্ত রয়েছে।</p>
+      </div>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+erDiagram
+    PERSON ||--o{ REGISTRATION : "has multiple"
+    PERSON ||--o| STUDENT : "permanent profile"
+    
+    BRANCH }|--|{ DEPARTMENT : "Many-to-Many via DepartmentBranch"
+    DEPARTMENT_BRANCH ||--o{ BRANCH_SUBJECT : "offers"
+    SUBJECT ||--o{ BRANCH_SUBJECT : "Master Subject offered in branches"
+    
+    BRANCH_SUBJECT ||--o{ BATCH : "hosts ongoing"
+    BATCH ||--o{ BATCH_MEMBERSHIP : "contains members"
+    STUDENT ||--o{ BATCH_MEMBERSHIP : "joined across years"
+    
+    REGISTRATION ||--o| VIVA : "evaluates"
+    REGISTRATION ||--o| WORKSHOP_ENROLLMENT : "participates in"
+    WORKSHOP ||--o{ WORKSHOP_ENROLLMENT : "cohort includes"
+    WORKSHOP_ENROLLMENT ||--o| EXAM_RESULT : "graded in"
+    
+    BATCH_MEMBERSHIP ||--o{ ATTENDANCE : "recorded in"
+    CLASS_SESSION ||--o{ ATTENDANCE : "tracks"
+    BATCH ||--o{ CLASS_SESSION : "schedules (Physical / Zoom)"
+        </pre>
+      </div>
+    </div>
+
+    <!-- Section 2: Organizational Hierarchy -->
+    <div class="diagram-section">
+      <div class="section-header">
+        <div class="section-tag">ORGANIZATIONAL MAPPING</div>
+        <h2>২. সাংগঠনিক ম্যাপিং মডেল (Central Master & Operational Branches)</h2>
+        <p>সেন্ট্রাল একাডেমি, ফিজিক্যাল ও অনলাইন জুম ব্রাঞ্চ, এবং মাস্টার ডিপার্টমেন্ট ও সাবজেক্টের ম্যাপিং।</p>
+      </div>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+graph TD
+    CA["🏛️ Central Academy (Master)"]
+    
+    subgraph Master_Catalog ["Master Catalog (Created ONCE Centrally)"]
+        MS["📚 Master Subjects<br/>(সংগীত, অভিনয়, আবৃত্তি)"]
+        MD["🏛️ Master Departments<br/>(সংগীত বিভাগ, অভিনয় বিভাগ, আবৃত্তি বিভাগ)"]
+    end
+    
+    subgraph Branches ["Operational Units (Physical & Online)"]
+        B1["🏢 Central Dhaka Branch"]
+        B2["🏢 Mirpur Branch"]
+        BO["🌐 Online Branch (Zoom Configured)"]
+    end
+    
+    CA --> Master_Catalog
+    CA --> Branches
+    
+    MD <== "Many-to-Many" ==> B1
+    MD <== "Many-to-Many" ==> B2
+    MD <== "Many-to-Many" ==> BO
+    
+    MS -.->|"Assigned to Branch"| BSO1["BranchSubject: Dhaka Music"]
+    MS -.->|"Assigned to Branch"| BSO2["BranchSubject: Online Music"]
+    
+    B1 --> BSO1
+    BO --> BSO2
+    
+    BSO1 --> Batch1["👥 Music Batch 1 (Created 2025 - Ongoing)"]
+    BSO2 --> BatchOnline["👥 Online Music Batch 1"]
+        </pre>
+      </div>
+    </div>
+
+    <!-- Section 3: Admission to Regular Student Funnel -->
+    <div class="diagram-section">
+      <div class="section-header">
+        <div class="section-tag">LIFECYCLE FLOW</div>
+        <h2>৩. সম্পূর্ণ ভর্তি ও ছাত্র লাইফসাইকেল (Admission to Regular Student Funnel)</h2>
+        <p>আবেদনপত্র যাচাই থেকে শুরু করে ভাইভা, ওয়ার্কশপ, ফাইনাল পরীক্ষা এবং এক-ক্লিকে নিয়মিত ব্যাচে অ্যাসাইনমেন্ট।</p>
+      </div>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+flowchart TD
+    Start(["🌐 Public Website / Admission Portal"]) --> Intake["📝 Applicant Registration<br/>(Eligibility Check: Girls <= Class 3, Boys <= Honours)"]
+    
+    Intake --> ExistingCheck{"🔍 Existing Person Check<br/>(Phone / Email / NID)?"}
+    ExistingCheck -- "Yes (Found)" --> LinkPerson["Link to Existing Person Profile<br/>(Preserve Past History)"]
+    ExistingCheck -- "No" --> CreatePerson["Create New Person Profile"]
+    
+    LinkPerson --> VivaStage["🎯 1. Viva Assessment<br/>(Scoring Criteria, Examiner Remarks)"]
+    CreatePerson --> VivaStage
+    
+    VivaStage --> VivaDecision{"Viva Result"}
+    VivaDecision -- "Rejected / Waitlisted" --> VivaFail["Status: Rejected / Archived<br/>(Allowed for future re-application)"]
+    VivaDecision -- "Selected" --> WorkshopAssign["📋 2. Workshop Cohort Assignment<br/>(e.g., '2026 Music Workshop')"]
+    
+    WorkshopAssign --> WorkshopTrack["🎪 3. Workshop Period<br/>- Daily Attendance<br/>- Discipline & Attitude Scoring<br/>- Skill & Growth Assessment"]
+    
+    WorkshopTrack --> FinalExam["📝 4. Final Assessment & Exam<br/>(Marks, Practical & Theory)"]
+    
+    FinalExam --> ExamDecision{"Exam Result"}
+    ExamDecision -- "Failed" --> ExamFail["Status: Workshop Failed<br/>(Recorded in Student History)"]
+    ExamDecision -- "Passed" --> RegularPromo["🎉 5. ONE-CLICK PROMOTION<br/>Status: Regular Student"]
+    
+    RegularPromo --> AssignBatch["👥 6. Assign to ONGOING Batch<br/>(e.g., 'Music Batch 1' joined in 2026)"]
+    
+    AssignBatch --> BatchMember["🎓 Batch Membership Active<br/>(Access Classes, Attendance Matrix & Student Portal)"]
+        </pre>
+      </div>
+    </div>
+
+    <!-- Section 4: Real-World Scenario -->
+    <div class="diagram-section">
+      <div class="section-header">
+        <div class="section-tag">MULTI-YEAR LIFETIME SCENARIO</div>
+        <h2>৪. বাস্তব মাল্টি-ইয়ার দৃশ্যপট (1 Person = Multi-Registrations)</h2>
+        <p>একই ব্যক্তি কীভাবে বিভিন্ন বছর নতুন কোর্সে যুক্ত হলেও তার একক পারসন হিস্টোরি সংরক্ষিত থাকে।</p>
+      </div>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+graph LR
+    subgraph Rahim_Person ["🧑 Person: Rahim Uddin (ID: P-10042)"]
+        R1["📜 Registration 2025: Music (Online)<br/>Status: PASSED"]
+        R2["📜 Registration 2027: Acting (Physical)<br/>Status: WORKSHOP ACTIVE"]
+    end
+    
+    subgraph Batch_Membership ["Academic Active Memberships"]
+        M1["👥 Music Batch 1 (Online)<br/>Joined: August 2025"]
+        M2["👥 Acting Batch 2 (Physical)<br/>Status: Pending Exam"]
+    end
+    
+    R1 ==> M1
+    R2 ==> M2
+        </pre>
+      </div>
+    </div>
+
+    <!-- Section 5: Modules & Admin Routes -->
+    <div class="diagram-section">
+      <div class="section-header">
+        <div class="section-tag">ADMIN MODULES & SITEMAP</div>
+        <h2>৫. সেন্ট্রাল অ্যাডমিন প্যানেল মডিউল তালিকা</h2>
+        <p>অ্যাডমিনের প্রতিটি রাউট ও তাদের সুনির্দিষ্ট কার্যক্রম।</p>
+      </div>
+      <table class="route-table">
+        <thead>
+          <tr>
+            <th>মডিউল</th>
+            <th>রাউট / ভিউ</th>
+            <th>মূল কার্যক্রম ও ফাংশনালিটি</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🏢 Branches</strong></td>
+            <td><span class="route-badge">/branches</span></td>
+            <td>ফিজিক্যাল ও অনলাইন জুম ব্রাঞ্চ কনফিগারেশন, ব্রাঞ্চ পরিচালক ও দায়িত্বশীল নির্ধারণ, ডিপার্টমেন্ট সক্রিয়করণ</td>
+          </tr>
+          <tr>
+            <td><strong>🏛️ Departments</strong></td>
+            <td><span class="route-badge">/departments</span></td>
+            <td>মাস্টার ডিপার্টমেন্ট ক্যাটালগ ও বিভিন্ন ব্রাঞ্চে ডিপার্টমেন্টের মেনি-টু-মেনি অ্যাসাইনমেন্ট</td>
+          </tr>
+          <tr>
+            <td><strong>📚 Master Subjects</strong></td>
+            <td><span class="route-badge">/subjects</span></td>
+            <td>একবার সেন্ট্রাল সাবজেক্ট তৈরি এবং ব্রাঞ্চে সাবজেক্ট অফারিং (<code style="color: var(--brand-orange)">BranchSubject</code>) চালু</td>
+          </tr>
+          <tr>
+            <td><strong>👥 Batches</strong></td>
+            <td><span class="route-badge">/batches</span></td>
+            <td>চলমান ব্যাচ তৈরি ও মনিটরিং; বিভিন্ন সালের উত্তীর্ণ শিক্ষার্থীদের একই ব্যাচে যুক্ত করা</td>
+          </tr>
+          <tr>
+            <td><strong>🎯 Admissions</strong></td>
+            <td><span class="route-badge">/admissions</span></td>
+            <td>ইনটেক আবেদন তালিকা, বয়স ও জেন্ডার ভিত্তিক ফিল্টার (মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স)</td>
+          </tr>
+          <tr>
+            <td><strong>🎙️ Viva Management</strong></td>
+            <td><span class="route-badge">/admissions/viva</span></td>
+            <td>ভাইভা প্যানেল মূল্যায়ন, ক্রাইটেরিয়া স্কোরিং ও সিলেক্ট/রিজেক্ট সিদ্ধান্ত</td>
+          </tr>
+          <tr>
+            <td><strong>🎪 Workshops</strong></td>
+            <td><span class="route-badge">/workshops</span></td>
+            <td>ওয়ার্কশপ কোহোর্ট ট্র্যাকিং, দৈনিক উপস্থিতি ও ডিসিপ্লিন/স্কিল স্কোরিং</td>
+          </tr>
+          <tr>
+            <td><strong>📝 Exams & Results</strong></td>
+            <td><span class="route-badge">/exams</span></td>
+            <td>ফাইনাল মার্কিং ও <strong>এক-ক্লিকে পাস করা ছাত্রদের রেগুলার স্টুডেন্ট বানিয়ে ব্যাচে অ্যাসাইন</strong></td>
+          </tr>
+          <tr>
+            <td><strong>🧑 Students Profile</strong></td>
+            <td><span class="route-badge">/students/:id</span></td>
+            <td>পারসনের ৩৬০° প্রোফাইল, মাল্টি-ইয়ার রেজিস্ট্রেশন টাইমলাইন ও সক্রিয় ব্যাচ মেম্বারশিপ</td>
+          </tr>
+          <tr>
+            <td><strong>📅 Classes & Attendance</strong></td>
+            <td><span class="route-badge">/classes</span></td>
+            <td>ফিজিক্যাল ও অনলাইন জুম ক্লাসের শিডিউল ও লাইভ সেশনের উপস্থিতি ট্র্যাকিং</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© 2026 সাইমুম কেন্দ্রীয় একাডেমি — Developed with Precision & Architecture Standards</p>
+    </footer>
+
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0D1527',
+        primaryColor: '#FF790E',
+        primaryTextColor: '#F8FAFC',
+        primaryBorderColor: '#FF790E',
+        lineColor: '#38BDF8',
+        secondaryColor: '#1E293B',
+        tertiaryColor: '#151E32',
+        fontFamily: 'Plus Jakarta Sans, sans-serif'
+      }
+    });
+  </script>
+</body>
+</html>
