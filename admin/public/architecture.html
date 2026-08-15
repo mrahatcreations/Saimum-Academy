@@ -3,24 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ সাইমুম সেন্ট্রাল একাডেমি — Orthogonal Circuit Schematic</title>
+  <title>⚡ সাইমুম সেন্ট্রাল একাডেমি — ১০০% পূর্ণাঙ্গ সার্কিট স্কিম্যাটিক</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
   <style>
     :root {
-      --schematic-bg: #FFFFFF;
-      --wire-red: #DC2626;
-      --wire-blue: #2563EB;
-      --wire-green: #059669;
-      --wire-purple: #7C3AED;
-      --wire-default: #475569;
-      --wire-active: #FF790E;
+      --canvas-bg: #FFFFFF;
       --box-border: #0F172A;
       --box-bg: #FFFFFF;
+      --wire-default: #334155;
+      --wire-active: #FF790E;
       --text-main: #0F172A;
-      --text-muted: #64748B;
+      --text-muted: #475569;
     }
 
     * {
@@ -52,13 +48,12 @@
       cursor: grabbing;
     }
 
-    /* Electrical Schematic Grid (Subtle Crosshair Matrix) */
+    /* Electrical Schematic Grid */
     .schematic-grid {
       position: absolute;
       inset: 0;
       background-size: 24px 24px;
-      background-image: 
-        radial-gradient(#E2E8F0 1.2px, transparent 1.2px);
+      background-image: radial-gradient(#E2E8F0 1.2px, transparent 1.2px);
       pointer-events: none;
       z-index: 1;
     }
@@ -66,7 +61,7 @@
     /* Top Floating Controller */
     .top-hud {
       position: absolute;
-      top: 16px;
+      top: 14px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
@@ -74,9 +69,9 @@
       align-items: center;
       gap: 16px;
       background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      border: 1px solid #CBD5E1;
       border-radius: 12px;
-      padding: 8px 20px;
+      padding: 8px 22px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
 
@@ -162,11 +157,11 @@
       position: absolute;
       transform-origin: 0 0;
       z-index: 10;
-      width: 2600px;
-      height: 1800px;
+      width: 2700px;
+      height: 1850px;
     }
 
-    /* SVG Orthogonal Wire Bus Mesh (Strict 90-Degree Angles) */
+    /* Strict 90-Degree Orthogonal Schematic Wires */
     #wires-svg {
       position: absolute;
       inset: 0;
@@ -193,15 +188,14 @@
 
     .schematic-wire.active-highlight {
       stroke: #FF790E !important;
-      stroke-width: 4px !important;
+      stroke-width: 4.5px !important;
     }
 
-    /* Junction Solder Dots (T-Junction & Branch Points) */
+    /* Solder Junction Dots */
     .wire-junction {
       fill: #0F172A;
       transition: fill 0.2s ease;
     }
-    .schematic-wire.active-highlight + .wire-junction,
     .wire-junction.active {
       fill: #FF790E !important;
     }
@@ -214,7 +208,7 @@
     .schematic-wire:hover marker path { fill: #2563EB; }
     .schematic-wire.active-highlight marker path { fill: #FF790E; }
 
-    /* IC / Component Hardware Chips (Yellow Schematic Style) */
+    /* IC Components with FULL details */
     .ic-chip {
       position: absolute;
       background: #FFFFFF;
@@ -237,7 +231,6 @@
       box-shadow: 0 0 20px rgba(255, 121, 14, 0.3) !important;
     }
 
-    /* Special Accent Chips */
     .ic-chip.gateway-chip {
       background: #F0FDF4;
       border: 2px solid #059669;
@@ -253,10 +246,24 @@
       border: 2px solid #EA580C;
     }
 
-    /* IC Pin Headers */
+    .ic-chip.dept-chip {
+      background: #ECFEFF;
+      border: 2px solid #0891B2;
+    }
+
+    .ic-chip.runtime-chip {
+      background: #FAF5FF;
+      border: 2px solid #9333EA;
+    }
+
+    .ic-chip.finance-chip {
+      background: #FDF2F8;
+      border: 2px solid #DB2777;
+    }
+
     .ic-header {
       font-family: 'Fira Code', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 800;
       color: #64748B;
       letter-spacing: 0.5px;
@@ -271,22 +278,28 @@
     }
 
     .ic-sub {
-      font-size: 0.76rem;
-      color: #475569;
-      margin-top: 4px;
-      line-height: 1.35;
+      font-size: 0.78rem;
+      color: #334155;
+      margin-top: 5px;
+      line-height: 1.45;
     }
 
-    /* Terminal Pin Labels on IC edges */
-    .pin-label {
-      position: absolute;
+    .ic-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-top: 5px;
       font-family: 'Fira Code', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      color: #64748B;
     }
 
-    /* Wire Bus Info Tags */
+    .tag-green { background: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
+    .tag-blue { background: #DBEAFE; color: #1D4ED8; border: 1px solid #BFDBFE; }
+    .tag-orange { background: #FFEDD5; color: #C2410C; border: 1px solid #FED7AA; }
+    .tag-purple { background: #F3E8FF; color: #7E22CE; border: 1px solid #E9D5FF; }
+
+    /* Wire Protocol Tags */
     .bus-tag {
       position: absolute;
       background: #FFFFFF;
@@ -294,7 +307,7 @@
       font-size: 10px;
       font-family: 'Fira Code', monospace;
       font-weight: 700;
-      padding: 1px 6px;
+      padding: 2px 6px;
       border-radius: 3px;
       color: #334155;
       z-index: 10;
@@ -319,8 +332,8 @@
     <!-- Top Controller Bar -->
     <header class="top-hud">
       <div class="hud-title">
-        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — Orthogonal Circuit Schematic</span>
-        <span class="circuit-badge">STRICT 90° WIRING</span>
+        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — ১০০% পূর্ণাঙ্গ সার্কিট স্কিম্যাটিক</span>
+        <span class="circuit-badge">ZERO DATA LOSS</span>
       </div>
       <div class="hud-hints">
         <span><span class="kbd">Click</span> যেকোনো লাইন বা আইসি বক্সে ক্লিক করে হাইলাইট করুন</span>
@@ -337,11 +350,11 @@
       <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen" style="font-size: 0.85rem;">⛶</button>
     </div>
 
-    <!-- Scalable Electrical Schematic Scene -->
+    <!-- Scalable 100% Detail Circuit Schematic Scene -->
     <div id="scene">
       
       <!-- =========================================================================
-           STRICT ORTHOGONAL SCHEMATIC WIRES & BUSES (NO DIAGONALS / NO MESS)
+           STRICT 90-DEGREE ORTHOGONAL SCHEMATIC WIRES
            ========================================================================= -->
       <svg id="wires-svg">
         <defs>
@@ -350,225 +363,297 @@
           </marker>
         </defs>
 
-        <!-- W1: Public Website -> Apply Form (Direct Pin-to-Pin) -->
+        <!-- W1: Public Web -> Apply Form -->
         <path id="wire-1" class="schematic-wire" data-from="ic-web" data-to="ic-apply"
               d="M 380,120 L 460,120" marker-end="url(#arrow-ortho)" />
 
         <!-- W2: Apply Form -> Central Bus (Registration Fee Signal ➔ Gateway) -->
         <path id="wire-2" class="schematic-wire" data-from="ic-apply" data-to="ic-gateway"
-              d="M 760,120 L 860,120 L 860,420 L 980,420" marker-end="url(#arrow-ortho)" />
+              d="M 800,120 L 900,120 L 900,420 L 1020,420" marker-end="url(#arrow-ortho)" />
 
         <!-- W3: Workshop Cohort -> Central Bus (Workshop Fee Signal ➔ Gateway) -->
         <path id="wire-3" class="schematic-wire" data-from="ic-workshop" data-to="ic-gateway"
-              d="M 380,720 L 880,720 L 880,440 L 980,440" marker-end="url(#arrow-ortho)" />
+              d="M 380,720 L 920,720 L 920,450 L 1020,450" marker-end="url(#arrow-ortho)" />
 
         <!-- W4: Final Exam -> Central Bus (Student Admission Fee Signal ➔ Gateway) -->
         <path id="wire-4" class="schematic-wire" data-from="ic-exam" data-to="ic-gateway"
-              d="M 380,940 L 900,940 L 900,460 L 980,460" marker-end="url(#arrow-ortho)" />
+              d="M 380,950 L 940,950 L 940,480 L 1020,480" marker-end="url(#arrow-ortho)" />
 
         <!-- W5: Student Portal -> Central Bus (Monthly Tuition Fee Signal ➔ Gateway) -->
         <path id="wire-5" class="schematic-wire" data-from="ic-student" data-to="ic-gateway"
-              d="M 2150,960 L 1320,960 L 1320,480" marker-end="url(#arrow-ortho)" />
+              d="M 2250,960 L 1400,960 L 1400,510" marker-end="url(#arrow-ortho)" />
 
         <!-- W6: Payment Gateway -> Backend API Core (Instant Webhook Confirmation) -->
         <path id="wire-6" class="schematic-wire" data-from="ic-gateway" data-to="ic-core"
-              d="M 1160,380 L 1160,200" marker-end="url(#arrow-ortho)" />
+              d="M 1220,380 L 1220,220" marker-end="url(#arrow-ortho)" />
 
         <!-- W7: Payment Gateway -> Finance Ledger Vault (Auto Deposit) -->
         <path id="wire-7" class="schematic-wire" data-from="ic-gateway" data-to="ic-finance"
-              d="M 1340,430 L 1950,430 L 1950,480" marker-end="url(#arrow-ortho)" />
+              d="M 1440,430 L 1980,430 L 1980,480" marker-end="url(#arrow-ortho)" />
 
         <!-- W8: Backend Core -> Person Profile Identifier (Existing Check) -->
         <path id="wire-8" class="schematic-wire" data-from="ic-core" data-to="ic-person"
-              d="M 980,140 L 230,140 L 230,280" marker-end="url(#arrow-ortho)" />
+              d="M 1020,140 L 230,140 L 230,280" marker-end="url(#arrow-ortho)" />
 
         <!-- W9: Person Profile -> Viva Assessment Panel -->
         <path id="wire-9" class="schematic-wire" data-from="ic-person" data-to="ic-viva"
-              d="M 230,360 L 230,480" marker-end="url(#arrow-ortho)" />
+              d="M 230,370 L 230,480" marker-end="url(#arrow-ortho)" />
 
         <!-- W10: Viva Panel -> Workshop Cohort (Selected) -->
         <path id="wire-10" class="schematic-wire" data-from="ic-viva" data-to="ic-workshop"
-              d="M 230,560 L 230,680" marker-end="url(#arrow-ortho)" />
+              d="M 230,570 L 230,670" marker-end="url(#arrow-ortho)" />
 
         <!-- W11: Workshop Cohort -> Final Exam -->
         <path id="wire-11" class="schematic-wire" data-from="ic-workshop" data-to="ic-exam"
-              d="M 230,760 L 230,900" marker-end="url(#arrow-ortho)" />
+              d="M 230,780 L 230,900" marker-end="url(#arrow-ortho)" />
 
         <!-- W12: Final Exam -> 1-Click Promotion Engine -->
         <path id="wire-12" class="schematic-wire" data-from="ic-exam" data-to="ic-promo"
-              d="M 230,980 L 230,1100" marker-end="url(#arrow-ortho)" />
+              d="M 230,1000 L 230,1110" marker-end="url(#arrow-ortho)" />
 
-        <!-- W13: 1-Click Promotion LOOP-BACK to Ongoing Batches Core (Clean 90° Routing) -->
+        <!-- W13: 1-Click Promotion LOOP-BACK to Ongoing Batches Core -->
         <path id="wire-13" class="schematic-wire" data-from="ic-promo" data-to="ic-batch"
-              d="M 380,1140 L 1480,1140 L 1480,720 L 1650,720" marker-end="url(#arrow-ortho)" />
+              d="M 380,1160 L 1520,1160 L 1520,720 L 1700,720" marker-end="url(#arrow-ortho)" />
 
         <!-- W14: Master Subject Hub -> Branch Offering Matrix -->
         <path id="wire-14" class="schematic-wire" data-from="ic-subject" data-to="ic-offering"
-              d="M 1780,180 L 1780,260" marker-end="url(#arrow-ortho)" />
+              d="M 1850,200 L 1850,270" marker-end="url(#arrow-ortho)" />
 
         <!-- W15: Branch Controller -> Branch Offering Matrix -->
         <path id="wire-15" class="schematic-wire" data-from="ic-branch" data-to="ic-offering"
-              d="M 1520,300 L 1650,300" marker-end="url(#arrow-ortho)" />
+              d="M 1570,300 L 1700,300" marker-end="url(#arrow-ortho)" />
 
         <!-- W16: Offering Matrix -> Ongoing Batches Core -->
         <path id="wire-16" class="schematic-wire" data-from="ic-offering" data-to="ic-batch"
-              d="M 1780,340 L 1780,680" marker-end="url(#arrow-ortho)" />
+              d="M 1850,350 L 1850,680" marker-end="url(#arrow-ortho)" />
 
         <!-- W17: Ongoing Batches -> Classroom & Zoom Live Session -->
         <path id="wire-17" class="schematic-wire" data-from="ic-batch" data-to="ic-class"
-              d="M 1780,760 L 1780,880" marker-end="url(#arrow-ortho)" />
+              d="M 1850,780 L 1850,880" marker-end="url(#arrow-ortho)" />
 
         <!-- W18: Classroom & Zoom -> Student Portal (Live Sync & Zoom Join) -->
         <path id="wire-18" class="schematic-wire" data-from="ic-class" data-to="ic-student"
-              d="M 1950,930 L 2050,930" marker-end="url(#arrow-ortho)" />
+              d="M 2020,930 L 2100,930" marker-end="url(#arrow-ortho)" />
 
         <!-- W19: Department Director -> Viva Assessment Control -->
         <path id="wire-19" class="schematic-wire" data-from="ic-dept" data-to="ic-viva"
-              d="M 1520,200 L 520,200 L 520,520 L 380,520" marker-end="url(#arrow-ortho)" />
+              d="M 1570,200 L 520,200 L 520,520 L 380,520" marker-end="url(#arrow-ortho)" />
 
-        <!-- Junction Solder Dots at Crossings / T-Branches -->
-        <circle cx="860" cy="420" r="3.5" class="wire-junction" />
-        <circle cx="880" cy="440" r="3.5" class="wire-junction" />
-        <circle cx="900" cy="460" r="3.5" class="wire-junction" />
-        <circle cx="1160" cy="380" r="3.5" class="wire-junction" />
-        <circle cx="1780" cy="260" r="3.5" class="wire-junction" />
-        <circle cx="1480" cy="720" r="3.5" class="wire-junction" />
+        <!-- W20: Teacher Staff -> Workshop & Attendance Matrix -->
+        <path id="wire-20" class="schematic-wire" data-from="ic-teacher" data-to="ic-workshop"
+              d="M 1570,400 L 540,400 L 540,740 L 380,740" marker-end="url(#arrow-ortho)" />
+
+        <!-- Solder Junction Dots -->
+        <circle cx="900" cy="420" r="3.5" class="wire-junction" />
+        <circle cx="920" cy="450" r="3.5" class="wire-junction" />
+        <circle cx="940" cy="480" r="3.5" class="wire-junction" />
+        <circle cx="1220" cy="380" r="3.5" class="wire-junction" />
+        <circle cx="1850" cy="270" r="3.5" class="wire-junction" />
+        <circle cx="1520" cy="720" r="3.5" class="wire-junction" />
       </svg>
 
       <!-- Protocol Labels on Schematic Buses -->
-      <div class="bus-tag" style="top: 108px; left: 780px;" data-wire="wire-2">PIN_OUT: REG_FEE ➔ GATEWAY</div>
+      <div class="bus-tag" style="top: 108px; left: 820px;" data-wire="wire-2">PIN_OUT: REGISTRATION_FEE ➔ GATEWAY</div>
       <div class="bus-tag" style="top: 708px; left: 450px;" data-wire="wire-3">PIN_OUT: WORKSHOP_FEE ➔ GATEWAY</div>
-      <div class="bus-tag" style="top: 928px; left: 450px;" data-wire="wire-4">PIN_OUT: ADMISSION_FEE ➔ GATEWAY</div>
-      <div class="bus-tag" style="top: 948px; left: 1650px;" data-wire="wire-5">PIN_OUT: MONTHLY_FEE ➔ GATEWAY</div>
-      <div class="bus-tag" style="top: 280px; left: 1170px;" data-wire="wire-6">INT_WEBHOOK: PAYMENT_CONFIRM</div>
-      <div class="bus-tag" style="top: 418px; left: 1550px;" data-wire="wire-7">BUS: AUTO_DEPOSIT_LEDGER</div>
-      <div class="bus-tag" style="top: 1128px; left: 650px; color: #EA580C; border-color: #EA580C;" data-wire="wire-13">⚡ LOOP_BACK: ASSIGN_TO_ONGOING_BATCH</div>
+      <div class="bus-tag" style="top: 938px; left: 450px;" data-wire="wire-4">PIN_OUT: ADMISSION_FEE ➔ GATEWAY</div>
+      <div class="bus-tag" style="top: 948px; left: 1680px;" data-wire="wire-5">PIN_OUT: MONTHLY_FEE ➔ GATEWAY</div>
+      <div class="bus-tag" style="top: 290px; left: 1230px;" data-wire="wire-6">INT_WEBHOOK: PAYMENT_CONFIRM</div>
+      <div class="bus-tag" style="top: 418px; left: 1580px;" data-wire="wire-7">BUS: AUTO_DEPOSIT_TO_FINANCE</div>
+      <div class="bus-tag" style="top: 1148px; left: 680px; color: #EA580C; border-color: #EA580C;" data-wire="wire-13">⚡ LOOP_BACK: AUTO_ASSIGN_TO_ONGOING_BATCH</div>
 
       <!-- =========================================================================
-           STANDALONE HARDWARE ICs (COMPONENTS & CHIPS)
+           100% COMPLETE HARDWARE ICs WITH FULL PRD DETAILS & RULES
            ========================================================================= -->
 
       <!-- IC 1: PUBLIC WEBSITE -->
-      <div id="ic-web" class="ic-chip" style="top: 80px; left: 80px; width: 300px;">
+      <div id="ic-web" class="ic-chip" style="top: 70px; left: 80px; width: 300px;">
         <div class="ic-header">IC-01 • FRONTEND_CMS</div>
         <div class="ic-title">🌍 পাবলিক ওয়েবসাইট (frontend/)</div>
-        <div class="ic-sub">একাডেমি পরিচিতি, শাখা ও বিভাগ ক্যাটালগ এবং নোটিশ বোর্ড।</div>
-      </div>
-
-      <!-- IC 2: ONLINE APPLY FORM -->
-      <div id="ic-apply" class="ic-chip" style="top: 80px; left: 460px; width: 300px;">
-        <div class="ic-header">IC-02 • ADMISSION_FORM</div>
-        <div class="ic-title">📝 অনলাইন ভর্তি আবেদন ফরম</div>
-        <div class="ic-sub">যোগ্যতা যাচাই (মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)।</div>
-      </div>
-
-      <!-- IC 3: STANDALONE PAYMENT GATEWAY HUB (CENTER CHIP) -->
-      <div id="ic-gateway" class="ic-chip gateway-chip" style="top: 380px; left: 980px; width: 360px;">
-        <div class="ic-header" style="color: #059669;">IC-03 • STANDALONE_GATEWAY_HUB</div>
-        <div class="ic-title" style="color: #047857; font-size: 1.05rem;">💳 অনলাইন পেমেন্ট গেটওয়ে (bKash/Nagad)</div>
-        <div class="ic-sub" style="color: #065F46;">
-          • সকল ৪টি ফি সিগন্যাল সেন্ট্রাল বাসে রিসিভ করে<br/>
-          • অটো এসএমএস ও ডিজিটাল ট্রানজেকশন রসিদ ইস্যু করে<br/>
-          • তাৎক্ষণিক সেন্ট্রাল ব্রেইনে কনফার্মেশন ও ফাইন্যান্সে ডিপোজিট পাঠায়
+        <div class="ic-sub">
+          • হোম, একাডেমি পরিচিতি ও ফটো গ্যালারি<br/>
+          • শাখা ক্যাটালগ (ঢাকা, মিরপুর ও অনলাইন)<br/>
+          • বিভাগ ক্যাটালগ ও পাবলিক নোটিশ বোর্ড
         </div>
       </div>
 
+      <!-- IC 2: ONLINE APPLY FORM -->
+      <div id="ic-apply" class="ic-chip" style="top: 70px; left: 460px; width: 340px;">
+        <div class="ic-header">IC-02 • ADMISSION_FORM</div>
+        <div class="ic-title">📝 অনলাইন ভর্তি আবেদন ফরম</div>
+        <div class="ic-sub">
+          • <strong>যোগ্যতা ফিল্টার:</strong> মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত<br/>
+          • শাখা ও পছন্দসই বিষয় নির্বাচন<br/>
+          • আবেদন ফি পেমেন্ট গেটওয়েতে ফরোয়ার্ড
+        </div>
+        <span class="ic-tag tag-green">💵 ১. Registration Fee</span>
+      </div>
+
+      <!-- IC 3: STANDALONE PAYMENT GATEWAY HUB -->
+      <div id="ic-gateway" class="ic-chip gateway-chip" style="top: 380px; left: 1020px; width: 420px;">
+        <div class="ic-header" style="color: #059669;">IC-03 • STANDALONE_GATEWAY_HUB</div>
+        <div class="ic-title" style="color: #047857; font-size: 1.05rem;">💳 অনলাইন পেমেন্ট গেটওয়ে (bKash / Nagad / SSL)</div>
+        <div class="ic-sub" style="color: #065F46;">
+          • <strong>ইনকামিং সিগন্যাল:</strong> আবেদন ফি, ওয়ার্কশপ ফি, ভর্তি ফি ও মাসিক ফি<br/>
+          • স্বয়ংক্রিয় ট্রানজেকশন ভেরিফিকেশন ও ডিজিটাল রসিদ ইস্যু<br/>
+          • <strong>আউটগোয়িং সিগন্যাল:</strong> তাৎক্ষণিক ব্যাকএন্ড কনফার্মেশন ও সেন্ট্রাল/শাখা লেজারে অটো ডিপোজিট
+        </div>
+        <span class="ic-tag tag-green">MULTI-SIGNAL PAYMENT PROCESSOR</span>
+      </div>
+
       <!-- IC 4: CENTRAL BACKEND API CORE -->
-      <div id="ic-core" class="ic-chip core-chip" style="top: 80px; left: 980px; width: 360px;">
+      <div id="ic-core" class="ic-chip core-chip" style="top: 70px; left: 1020px; width: 420px;">
         <div class="ic-header" style="color: #2563EB;">IC-04 • BACKEND_API_CORE</div>
         <div class="ic-title" style="color: #1D4ED8;">🏛️ Node.js API Core (backend/)</div>
-        <div class="ic-sub">সুপার অ্যাডমিন সেন্ট্রাল কন্ট্রোল, JWT Auth, রোলস ও গ্লোবাল অডিট লগ।</div>
+        <div class="ic-sub">
+          • সুপার অ্যাডমিন সেন্ট্রাল কন্ট্রোল ও পারমিশন<br/>
+          • JWT Authentication, Prisma ORM ও PostgreSQL<br/>
+          • <strong>গ্লোবাল সার্চ:</strong> ফোন/ইমেইল/আইডি দিয়ে তাৎক্ষণিক ব্যক্তি ট্র্যাকিং<br/>
+          • <strong>অডিট লগ:</strong> কে, কখন, কী স্ট্যাটাস পরিবর্তন করেছে তার অখণ্ড রেকর্ড
+        </div>
+        <span class="ic-tag tag-blue">CENTRAL BRAIN & AUDIT ENGINE</span>
       </div>
 
       <!-- IC 5: PERSON PROFILE IDENTIFIER -->
       <div id="ic-person" class="ic-chip" style="top: 280px; left: 80px; width: 300px;">
         <div class="ic-header">IC-05 • PERSON_REGISTRY</div>
         <div class="ic-title">🧑 স্থায়ী পারসন প্রোফাইল চেকার</div>
-        <div class="ic-sub">ফোন/ইমেইল দিয়ে রেকর্ড চেক। ১ ব্যক্তি আজীবন ১ প্রোফাইল পাবে।</div>
+        <div class="ic-sub">
+          • <strong>কোর রুল:</strong> ১ জন মানুষ = আজীবন ১ প্রোফাইল<br/>
+          • মাল্টি-ইয়ার রেজিস্ট্রেশন ইতিহাস সংরক্ষিত থাকে<br/>
+          • ডুপ্লিকেট আবেদন হলে আগের প্রোফাইলের সাথে লিংক হয়
+        </div>
+        <span class="ic-tag tag-purple">1 HUMAN = 1 PROFILE</span>
       </div>
 
       <!-- IC 6: VIVA ASSESSMENT PANEL -->
       <div id="ic-viva" class="ic-chip" style="top: 480px; left: 80px; width: 300px;">
         <div class="ic-header">IC-06 • VIVA_EVALUATOR</div>
         <div class="ic-title">🎙️ ভাইভা পরীক্ষা ও সিলেকশন</div>
-        <div class="ic-sub">ডিপার্টমেন্ট পরিচালক প্যানেল কর্তৃক ভাইভা মার্কিং ও সিলেকশন।</div>
+        <div class="ic-sub">
+          • বিভাগীয় প্রধান কর্তৃক ভাইভা প্যানেল পরিচালনা<br/>
+          • মার্কিং ক্রাইটেরিয়া ও মেধা মূল্যায়ন<br/>
+          • <strong>সিদ্ধান্ত:</strong> সিলেক্টেড (Selected) অথবা রিজেক্টেড
+        </div>
       </div>
 
       <!-- IC 7: WORKSHOP COHORT CONTROLLER -->
-      <div id="ic-workshop" class="ic-chip" style="top: 680px; left: 80px; width: 300px;">
+      <div id="ic-workshop" class="ic-chip" style="top: 670px; left: 80px; width: 300px;">
         <div class="ic-header">IC-07 • WORKSHOP_COHORT</div>
         <div class="ic-title">🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট</div>
-        <div class="ic-sub">উপস্থিতি, শৃঙ্খলা ও স্কিল মূল্যায়ন (ওয়ার্কশপ ফি নিশ্চিত হলে এন্ট্রি)।</div>
+        <div class="ic-sub">
+          • ভাইভায় উত্তীর্ণদের ওয়ার্কশপ ব্যাচে এনরোলমেন্ট<br/>
+          • শিক্ষক কর্তৃক দৈনিক উপস্থিতি ও আচরণগত শৃঙ্খলা ট্র্যাকিং<br/>
+          • হাতে-কলমে প্র্যাকটিক্যাল স্কিল গ্রোথ স্কোরিং
+        </div>
+        <span class="ic-tag tag-green">💵 ২. Workshop Admission Fee</span>
       </div>
 
       <!-- IC 8: FINAL EXAM EVALUATOR -->
       <div id="ic-exam" class="ic-chip" style="top: 900px; left: 80px; width: 300px;">
         <div class="ic-header">IC-08 • EXAM_CONTROLLER</div>
         <div class="ic-title">📝 ফাইনাল মূল্যায়ন পরীক্ষা</div>
-        <div class="ic-sub">তাত্ত্বিক ও ব্যবহারিক পরীক্ষার ফলাফল ও চূড়ান্ত অনুমোদন।</div>
+        <div class="ic-sub">
+          • তাত্ত্বিক ও ব্যবহারিক ফাইনাল এক্সাম পরিচালনা<br/>
+          • বিভাগীয় প্রধান ও শিক্ষক কর্তৃক মার্কিং ও রেজাল্ট শিট প্রকাশ<br/>
+          • পাস করা প্রার্থীদের নিয়মিত শিক্ষার্থী হিসেবে অনুমোদন
+        </div>
+        <span class="ic-tag tag-green">💵 ৩. Student Admission Fee</span>
       </div>
 
       <!-- IC 9: 1-CLICK PROMOTION ENGINE -->
-      <div id="ic-promo" class="ic-chip master-chip" style="top: 1100px; left: 80px; width: 300px;">
+      <div id="ic-promo" class="ic-chip master-chip" style="top: 1110px; left: 80px; width: 300px;">
         <div class="ic-header" style="color: #EA580C;">IC-09 • PROMOTION_TRIGGER</div>
         <div class="ic-title" style="color: #C2410C;">⚡ ১-ক্লিক প্রমোশন ইঞ্জিন</div>
-        <div class="ic-sub">পাস করা ছাত্রকে সরাসরি চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন করে।</div>
+        <div class="ic-sub">
+          • <strong>স্বয়ংক্রিয় প্রমোশন:</strong> নতুন ব্যাচ তৈরি না করে সরাসরি বিদ্যমান চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন করে
+        </div>
+        <span class="ic-tag tag-orange">1-CLICK BATCH MEMBERSHIP</span>
       </div>
 
       <!-- IC 10: MASTER SUBJECT CATALOG -->
-      <div id="ic-subject" class="ic-chip master-chip" style="top: 80px; left: 1650px; width: 280px;">
+      <div id="ic-subject" class="ic-chip master-chip" style="top: 70px; left: 1700px; width: 300px;">
         <div class="ic-header" style="color: #EA580C;">IC-10 • MASTER_SUBJECT</div>
         <div class="ic-title" style="color: #C2410C;">📚 মাস্টার বিষয় ক্যাটালগ</div>
-        <div class="ic-sub">গান, অভিনয়, আবৃত্তি কেন্দ্রীয়ভাবে একবারই তৈরি হয় (নো ডুপ্লিকেশন)।</div>
+        <div class="ic-sub">
+          • গান, অভিনয়, আবৃত্তি কেন্দ্রীয়ভাবে একবার তৈরি হয়<br/>
+          • <strong>নিয়ম:</strong> নো ডুপ্লিকেশন — কোনো ব্রাঞ্চে ডুপ্লিকেট সাবজেক্ট তৈরি হবে না
+        </div>
+        <span class="ic-tag tag-orange">NO DUPLICATION</span>
       </div>
 
       <!-- IC 11: DEPARTMENT DIRECTOR -->
-      <div id="ic-dept" class="ic-chip" style="top: 170px; left: 1400px; width: 220px;">
-        <div class="ic-header">IC-11 • DEPT_DIRECTOR</div>
+      <div id="ic-dept" class="ic-chip dept-chip" style="top: 170px; left: 1470px; width: 200px;">
+        <div class="ic-header" style="color: #0891B2;">IC-11 • DEPT_DIRECTOR</div>
         <div class="ic-title">🎭 বিভাগীয় প্রধান</div>
-        <div class="ic-sub">ভাইভা ও পরীক্ষা কন্ট্রোল।</div>
+        <div class="ic-sub">বিভাগীয় কার্যক্রম, ভাইভা প্যানেল ও পরীক্ষা রেজাল্ট কন্ট্রোল।</div>
       </div>
 
       <!-- IC 12: BRANCH CONTROLLER -->
-      <div id="ic-branch" class="ic-chip" style="top: 270px; left: 1400px; width: 220px;">
-        <div class="ic-header">IC-12 • BRANCH_CTRL</div>
+      <div id="ic-branch" class="ic-chip dept-chip" style="top: 270px; left: 1470px; width: 200px;">
+        <div class="ic-header" style="color: #0891B2;">IC-12 • BRANCH_CTRL</div>
         <div class="ic-title">🏢 শাখা পরিচালক</div>
-        <div class="ic-sub">ফিজিক্যাল ও জুম নেটওয়ার্ক।</div>
+        <div class="ic-sub">ঢাকা, মিরপুর ও অনলাইন জুম শাখা পরিচালনা।</div>
       </div>
 
-      <!-- IC 13: BRANCH-SUBJECT OFFERING MATRIX -->
-      <div id="ic-offering" class="ic-chip" style="top: 260px; left: 1650px; width: 280px;">
-        <div class="ic-header">IC-13 • OFFERING_MATRIX</div>
+      <!-- IC 13: TEACHER INSTRUCTOR -->
+      <div id="ic-teacher" class="ic-chip dept-chip" style="top: 370px; left: 1470px; width: 200px;">
+        <div class="ic-header" style="color: #0891B2;">IC-13 • TEACHER_STAFF</div>
+        <div class="ic-title">👨‍🏫 শিক্ষক ও প্রশিক্ষক</div>
+        <div class="ic-sub">ক্লাস নেওয়া, উপস্থিতি গ্রহণ ও ওয়ার্কশপ মূল্যায়ন।</div>
+      </div>
+
+      <!-- IC 14: BRANCH-SUBJECT OFFERING MATRIX -->
+      <div id="ic-offering" class="ic-chip" style="top: 270px; left: 1700px; width: 300px;">
+        <div class="ic-header">IC-14 • OFFERING_MATRIX</div>
         <div class="ic-title">🔗 শাখায় বিষয় অফারিং</div>
-        <div class="ic-sub">মাস্টার সাবজেক্ট শাখায় অ্যাক্টিভেট করার জয়েনিং রুল।</div>
+        <div class="ic-sub">
+          • <strong>Many-to-Many Join:</strong> যেকোনো ব্রাঞ্চে যেকোনো ডিপার্টমেন্ট/বিষয় অফার করা যায়
+        </div>
       </div>
 
-      <!-- IC 14: ONGOING BATCHES CORE -->
-      <div id="ic-batch" class="ic-chip master-chip" style="top: 680px; left: 1650px; width: 280px;">
-        <div class="ic-header" style="color: #EA580C;">IC-14 • ONGOING_BATCH_CORE</div>
+      <!-- IC 15: ONGOING BATCHES CORE -->
+      <div id="ic-batch" class="ic-chip master-chip" style="top: 680px; left: 1700px; width: 300px;">
+        <div class="ic-header" style="color: #EA580C;">IC-15 • ONGOING_BATCH_CORE</div>
         <div class="ic-title" style="color: #C2410C;">👥 চলমান ব্যাচ: গান ব্যাচ ১</div>
-        <div class="ic-sub"><b>Batch Year ≠ Join Year:</b> ২০২৫ সালের ব্যাচে ২০২৬ বা ২০২৭-এর ছাত্রও যুক্ত হয়।</div>
+        <div class="ic-sub">
+          • <strong>Batch Created Year (2025) ≠ Student Joined Year (2026/2027)</strong><br/>
+          • বিভিন্ন সালে পাস করা ছাত্ররা একই চলমান ব্যাচে যুক্ত থাকে
+        </div>
+        <span class="ic-tag tag-orange">ONGOING COHORT</span>
       </div>
 
-      <!-- IC 15: CLASS & ATTENDANCE -->
-      <div id="ic-class" class="ic-chip" style="top: 880px; left: 1650px; width: 280px;">
-        <div class="ic-header">IC-15 • CLASS_OPERATIONS</div>
-        <div class="ic-title">📅 ক্লাস ও দৈনিক উপস্থিতি</div>
-        <div class="ic-sub">ফিজিক্যাল ক্লাসরুম ও জুম লাইভ সেশন ➔ দৈনিক উপস্থিতি ম্যাট্রিক্স।</div>
+      <!-- IC 16: CLASS & ATTENDANCE -->
+      <div id="ic-class" class="ic-chip runtime-chip" style="top: 880px; left: 1700px; width: 320px;">
+        <div class="ic-header" style="color: #9333EA;">IC-16 • CLASS_OPERATIONS</div>
+        <div class="ic-title" style="color: #7E22CE;">📅 ক্লাস ও দৈনিক উপস্থিতি ম্যাট্রিক্স</div>
+        <div class="ic-sub">
+          • ফিজিক্যাল ক্লাসরুম রুটিন ও অনলাইন জুম লাইভ ক্লাস<br/>
+          • শিক্ষক কর্তৃক উপস্থিতি, অনুপস্থিতি, বিলম্ব ও ছুটির মার্কিং
+        </div>
       </div>
 
-      <!-- IC 16: STUDENT PORTAL APP -->
-      <div id="ic-student" class="ic-chip" style="top: 880px; left: 2050px; width: 280px;">
-        <div class="ic-header">IC-16 • STUDENT_PORTAL</div>
-        <div class="ic-title">📱 Student Portal App</div>
-        <div class="ic-sub">আমার ক্লাস, জুম লিংক, রেজাল্ট ও প্রতি মাসে টিউশন ফি প্রদান।</div>
+      <!-- IC 17: STUDENT PORTAL APP -->
+      <div id="ic-student" class="ic-chip runtime-chip" style="top: 880px; left: 2100px; width: 300px;">
+        <div class="ic-header" style="color: #9333EA;">IC-17 • STUDENT_PORTAL</div>
+        <div class="ic-title" style="color: #7E22CE;">📱 Student Portal App (student/)</div>
+        <div class="ic-sub">
+          • আমার ক্লাস রুটিন ও ১-ক্লিকে জুম জয়েন বাটন<br/>
+          • রিয়েল-টাইম উপস্থিতি রেকর্ড ও পরীক্ষার ফলাফল<br/>
+          • প্রতি মাসে টিউশন ফি পরিশোধ
+        </div>
+        <span class="ic-tag tag-green">💵 ৪. Student Monthly Fee</span>
       </div>
 
-      <!-- IC 17: FINANCE & DOCUMENTS VAULT -->
-      <div id="ic-finance" class="ic-chip" style="top: 480px; left: 1850px; width: 320px;">
-        <div class="ic-header">IC-17 • FINANCE_VAULT</div>
-        <div class="ic-title">🏦 কেন্দ্রীয় ও শাখা অর্থ লেজার</div>
-        <div class="ic-sub">সকল ৪টি ফি-এর স্বয়ংক্রিয় অডিট লেজার, আয়-ব্যয় হিসাব ও অফিশিয়াল ভাউচার।</div>
+      <!-- IC 18: FINANCE & DOCUMENTS VAULT -->
+      <div id="ic-finance" class="ic-chip finance-chip" style="top: 480px; left: 1880px; width: 340px;">
+        <div class="ic-header" style="color: #DB2777;">IC-18 • FINANCE_VAULT</div>
+        <div class="ic-title" style="color: #BE185D;">🏦 কেন্দ্রীয় ও শাখা অর্থ ও ডকুমেন্টস লেজার</div>
+        <div class="ic-sub">
+          • সকল ৪টি ফি-এর স্বয়ংক্রিয় অডিট ও ভাউচার ট্র্যাকিং<br/>
+          • সেন্ট্রাল ও শাখাভিত্তিক আয়-ব্যয় হিসাব<br/>
+          • সনদপত্র, প্রত্যয়নপত্র ও অফিশিয়াল ডকুমেন্ট সংরক্ষণাগার
+        </div>
+        <span class="ic-tag" style="background: #FCE7F3; color: #9D174D; border: 1px solid #FBCFE8;">CENTRAL & BRANCH LEDGER</span>
       </div>
 
     </div>
@@ -577,7 +662,7 @@
   <script>
     let pzInstance = null;
 
-    function initSchematicCircuit() {
+    function initFullSchematic() {
       const sceneEl = document.getElementById('scene');
       
       pzInstance = panzoom(sceneEl, {
@@ -593,8 +678,8 @@
       setTimeout(() => {
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        const scale = Math.min((vw - 60) / 2600, (vh - 100) / 1250, 0.72);
-        const initialX = Math.max((vw - 2600 * scale) / 2, 20);
+        const scale = Math.min((vw - 60) / 2700, (vh - 100) / 1300, 0.72);
+        const initialX = Math.max((vw - 2700 * scale) / 2, 20);
         const initialY = 60;
 
         pzInstance.zoomAbs(0, 0, scale);
@@ -676,13 +761,13 @@
       document.getElementById('btn-zoom-fit').addEventListener('click', () => {
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        const scale = Math.min((vw - 60) / 2600, (vh - 100) / 1250, 0.72);
+        const scale = Math.min((vw - 60) / 2700, (vh - 100) / 1300, 0.72);
         pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo((vw - 2600 * scale) / 2, 60);
+        pzInstance.moveTo((vw - 2700 * scale) / 2, 60);
       });
     }
 
-    window.addEventListener('DOMContentLoaded', initSchematicCircuit);
+    window.addEventListener('DOMContentLoaded', initFullSchematic);
   </script>
 </body>
 </html>
