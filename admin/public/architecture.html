@@ -180,9 +180,9 @@
     <header class="circuit-header">
       <div class="brand-title">
         <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — শতভাগ পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</span>
-        <span class="brand-pill">ZERO GAP + PAYMENT GATEWAY</span>
+        <span class="brand-pill">COMPLETE 4-TIER FINANCIAL PIPELINE</span>
       </div>
-      <p class="header-sub">পাবলিক ওয়েবসাইট, পেমেন্ট গেটওয়ে, সেন্ট্রাল মাস্টার, ৩ স্তরের ড্যাশবোর্ড, শাখা ও জুম লাইভ, অর্থ ও অফিস, নোটিশ এবং ভর্তি-ছাত্র লাইফসাইকেলের সম্পূর্ণ সার্কিট মানচিত্র।</p>
+      <p class="header-sub">রেজিস্ট্রেশন ফি, ওয়ার্কশপ ফি, স্টুডেন্ট ভর্তি ফি এবং মাসিক ফি সহ পুরো সিস্টেমের সমন্বিত সার্কিট মানচিত্র।</p>
     </header>
 
     <!-- Main Circuit Board -->
@@ -198,10 +198,9 @@ flowchart TB
         WebHome["🌍 পাবলিক ওয়েবসাইট<br/>(হোম, একাডেমি পরিচিতি, শাখা ও বিভাগ)"]
         WebApply["📝 অনলাইন ভর্তি আবেদন ফরম<br/><i>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)</i>"]
         
-        PaymentGateway["💳 অনলাইন পেমেন্ট গেটওয়ে (bKash / Nagad / SSLCommerz)<br/><i>(আবেদন ফি / ওয়ার্কশপ ফি / মাসিক টিউশন ফি প্রদান ও অটো রসিদ)</i>"]
+        PaymentGateway["💳 অনলাইন পেমেন্ট গেটওয়ে (bKash / Nagad / SSLCommerz)<br/><i>(স্বয়ংক্রিয় ট্রানজেকশন আইডি, এসএমএস নোটিফিকেশন ও ডিজিটাল রসিদ)</i>"]
         
         WebHome --- WebApply
-        WebApply -->|"আবেদন ফি প্রদান"| PaymentGateway
     end
 
     %% ===================================================
@@ -209,8 +208,8 @@ flowchart TB
     %% ===================================================
     subgraph Central_Core ["🏛️ ২. কেন্দ্রীয় একাডেমি প্রশাসন (CENTRAL HQ & AUDIT)"]
         SuperAdmin["👑 সুপার অ্যাডমিন প্যানেল<br/>(পুরো সিস্টেম কন্ট্রোল, ভূমিকা ও পারমিশন)"]
-        GlobalSearch["🔍 গ্লোবাল সার্চ ইঞ্জিন<br/>(ফোন, ইমেইল ও আইডি দিয়ে যে কোনো পারসন/ছাত্র বের করা)"]
-        AuditLog["🛡️ অডিট লগ ও ট্র্যাকিং<br/>(কে, কখন, কী স্ট্যাটাস পরিবর্তন করেছে তার রেকর্ড)"]
+        GlobalSearch["🔍 গ্লোবাল সার্চ ইঞ্জিন<br/>(ফোন, ইমেইল ও আইডি দিয়ে ডুপ্লিকেট পারসন চেক)"]
+        AuditLog["🛡️ অডিট লগ ও ট্র্যাকিং<br/>(কে, কখন, কী ফি বা স্ট্যাটাস পরিবর্তন করেছে তার রেকর্ড)"]
         CentralNotices["📢 নোটিশ ও ঘোষণা ইঞ্জিন<br/>(সেন্ট্রাল, শাখা, বিভাগ ও ব্যাচভিত্তিক নোটিশ)"]
         
         MS["📚 মাস্টার বিষয় ক্যাটালগ (গান, অভিনয়, আবৃত্তি - একবারই তৈরি হবে)"]
@@ -227,9 +226,9 @@ flowchart TB
     %% ৩. তিন স্তরের ড্যাশবোর্ড রোলস
     %% ===================================================
     subgraph Dashboards ["👥 ৩. তিন স্তরের ড্যাশবোর্ড সিস্টেম"]
-        D_Admin["👑 Central Admin Dashboard<br/>(পুরো একাডেমির লাইভ স্ন্যাপশট ও সামগ্রিক রিপোর্ট)"]
+        D_Admin["👑 Central Admin Dashboard<br/>(পুরো একাডেমির লাইভ স্ন্যাপশট, ফি রিপোর্ট ও অডিট)"]
         D_Branch["🏢 Management Dashboard<br/>(শাখা পরিচালক, বিভাগীয় প্রধান, শিক্ষক ও অর্থ সম্পাদক)"]
-        D_Student["🎓 Student Portal Dashboard<br/>(আমার ক্লাস, জুম লিংক, উপস্থিতি, পরীক্ষার রেজাল্ট ও ফি পেমেন্ট)"]
+        D_Student["🎓 Student Portal Dashboard<br/>(আমার ক্লাস, জুম লিংক, উপস্থিতি, পরীক্ষার রেজাল্ট ও মাসিক ফি)"]
     end
 
     SuperAdmin -.-> D_Admin
@@ -240,7 +239,7 @@ flowchart TB
     subgraph Branches ["🏢 ৪. শাখা নেটওয়ার্ক (ফিজিক্যাল ও অনলাইন)"]
         B_Dhaka["🏢 ঢাকা সেন্ট্রাল শাখা<br/>(শাখা পরিচালক, অফিস ও অর্থ সম্পাদক)"]
         B_Mirpur["🏢 মিরপুর শাখা<br/>(শাখা পরিচালক, অফিস ও অর্থ সম্পাদক)"]
-        B_Online["🌐 অনলাইন শাখা<br/>(জুম মিটিং কনফিগারেশন, অটো লিংক ও অনলাইন ক্লাউড রুলস)"]
+        B_Online["🌐 অনলাইন শাখা<br/>(জুম মিটিং কনফিগারেশন, অটো লিংক ও ক্লাউড রুলস)"]
     end
 
     MD <== "Many-to-Many<br/>(যে কোনো বিভাগে যে কোনো শাখা)" ==> B_Dhaka
@@ -288,39 +287,63 @@ flowchart TB
     AttendanceMatrix -.->|"নিজের উপস্থিতি দেখা"| D_Student
 
     %% ===================================================
-    %% ৭. অর্থ ও পেমেন্ট হিসাব (সেন্ট্রাল ও শাখা ফাইন্যান্স)
+    %% ৭. সম্পূর্ণ ৪-ধাপের অর্থ ও পেমেন্ট হিসাব
     %% ===================================================
-    subgraph Finance_Vault ["💰 ৭. অর্থ, পেমেন্ট ট্রানজেকশন ও ডকুমেন্টস"]
-        BranchFinance["💵 সেন্ট্রাল ও শাখা ফাইন্যান্স<br/>(ভর্তি ফি, মাসিক ফি, আয়-ব্যয় হিসাব, বকেয়া ও ভাউচার)"]
-        DocVault["📁 অফিস ও শিক্ষার্থী ডকুমেন্টস<br/>(সনদপত্র, প্রত্যয়নপত্র, ছবি ও অফিশিয়াল ফাইল)"]
+    subgraph Finance_Vault ["💰 ৭. ৪-ধাপের ফি কালেকশন ও শাখা ফাইন্যান্স"]
+        Fee_Reg["💵 ১. Registration Fee (আবেদন ফি)"]
+        Fee_Workshop["💵 ২. Workshop Admission Fee (ওয়ার্কশপ ফি)"]
+        Fee_Student_Adm["💵 ৩. Student Admission Fee (চূড়ান্ত ভর্তি ফি)"]
+        Fee_Monthly["💵 ৪. Student Monthly Fee (মাসিক টিউশন ফি)"]
+        
+        BranchFinance["🏦 সেন্ট্রাল ও শাখা ফাইন্যান্স লেজার<br/>(আয়-ব্যয় হিসাব, বকেয়া রিপোর্ট ও অফিসিয়াল ভাউচার)"]
+        
+        Fee_Reg --> BranchFinance
+        Fee_Workshop --> BranchFinance
+        Fee_Student_Adm --> BranchFinance
+        Fee_Monthly --> BranchFinance
     end
 
-    PaymentGateway ==>|"অনলাইন ফি সরাসরি জমা হলো"| BranchFinance
-    D_Student -.->|"মাসিক ফি পরিশোধ"| PaymentGateway
-    B_Dhaka --> BranchFinance
-    B_Online --> BranchFinance
-    SuperAdmin --> DocVault
-
     %% ===================================================
-    %% ৮. ভর্তি ও ছাত্র লাইফসাইকেল ফানেল
+    %% ৮. ভর্তি ও ছাত্র লাইফসাইকেল ফানেল (ফি কানেকশন সহ)
     %% ===================================================
-    subgraph Admission_Funnel ["🎯 ৮. সম্পূর্ণ ভর্তি ও ছাত্র লাইফসাইকেল ফানেল"]
-        PersonCheck{"🔍 স্থায়ী আইডি ম্যাচিং?<br/>(ফোন/ইমেইল দিয়ে পূর্বের রেকর্ড চেক)"}
-        PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><i>(একই ব্যক্তির মাল্টি-ইয়ার ভর্তি ইতিহাস সংরক্ষিত)</i>"]
+    subgraph Admission_Funnel ["🎯 ৮. ভর্তি, ওয়ার্কশপ ও ছাত্র লাইফসাইকেল ফানেল"]
+        WebApply -->|"১. আবেদন ফি পেমেন্ট"| Fee_Reg
+        Fee_Reg --> PaymentGateway
+        
+        PersonCheck{"🔍 স্থায়ী আইডি ম্যাচিং?<br/>(ফোন/ইমেইল দিয়ে রেকর্ড চেক)"}
+        PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><i>(একই ব্যক্তির মাল্টি-ইয়ার ভর্তি ইতিহাস)</i>"]
         
         Viva["🎙️ ভাইভা পরীক্ষা (প্যানেল মার্কিং ও সিলেক্ট/রিজেক্ট)"]
-        Workshop["🎪 ওয়ার্কশপ কোহোর্ট (উপস্থিতি, শৃঙ্খলা ও স্কিল স্কোরিং)"]
+        
+        VivaPassed{"ভাইভায় সিলেক্টেড?"}
+        
+        WorkshopEnroll["📋 ওয়ার্কশপে ভর্তি নিশ্চিতকরণ"]
+        WorkshopTrack["🎪 ওয়ার্কশপ কোহোর্ট (উপস্থিতি, শৃঙ্খলা ও স্কিল স্কোরিং)"]
         Exam["📝 ফাইনাল পরীক্ষা ও ফলাফল প্রকাশ"]
         
+        ExamPassed{"ফাইনাল পরীক্ষায় পাস?"}
+        
+        RegularEnroll["🎓 নিয়মিত ছাত্র হিসেবে চূড়ান্ত ভর্তি"]
         OneClickPromo["⚡ ১-ক্লিকে নিয়মিত ছাত্র হিসেবে প্রমোশন!"]
     end
 
-    PaymentGateway -->|"পেমেন্ট সফল হলে"| PersonCheck
+    PaymentGateway -->|"পেমেন্ট নিশ্চিত হলে"| PersonCheck
     PersonCheck --> PersonProfile
     PersonProfile --> Viva
-    Viva -->|"পাস"| Workshop
-    Workshop --> Exam
-    Exam -->|"পাস 🎉"| OneClickPromo
+    Viva --> VivaPassed
+    
+    %% ওয়ার্কশপ ভর্তি ফি ধাপ
+    VivaPassed -- "সিলেক্টেড" --> WorkshopEnroll
+    WorkshopEnroll -->|"২. ওয়ার্কশপ ভর্তি ফি"| Fee_Workshop
+    Fee_Workshop --> WorkshopTrack
+    
+    WorkshopTrack --> Exam
+    Exam --> ExamPassed
+    
+    %% রেগুলার ছাত্র ভর্তি ফি ধাপ
+    ExamPassed -- "পাস করেছে 🎉" --> RegularEnroll
+    RegularEnroll -->|"৩. স্টুডেন্ট ভর্তি ফি"| Fee_Student_Adm
+    Fee_Student_Adm --> OneClickPromo
 
     %% ===================================================
     %% ৯. সার্কিট লুপ ব্যাক: পাস করা ছাত্র সরাসরি ব্যাচে যুক্ত!
@@ -328,82 +351,53 @@ flowchart TB
     OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_1
     OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Online
     
+    %% মাসিক ফি প্রদান ধাপ
+    D_Student -->|"৪. নিয়মিত মাসিক টিউশন ফি"| Fee_Monthly
+    
     Batch_1 --> D_Student
     Batch_Online --> D_Student
         </pre>
       </div>
 
-      <!-- Complete 8 Pillars Summary Grid -->
+      <!-- Complete 4-Tier Financial Breakdown Summary Grid -->
       <div class="pillars-grid">
         <div class="pillar-card">
           <div class="pillar-header">
+            <span class="pillar-icon">📝</span>
+            <div class="pillar-title">১. Registration Fee (আবেদন ফি)</div>
+          </div>
+          <div class="pillar-desc">ওয়েবসাইট থেকে প্রাথমিক আবেদন ফরম পূরণের সময় গেটওয়ের (বিকাশ/নগদ) মাধ্যমে পরিশোধিত হয়।</div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-header">
+            <span class="pillar-icon">🎪</span>
+            <div class="pillar-title">২. Workshop Admission Fee</div>
+          </div>
+          <div class="pillar-desc">ভাইভা পরীক্ষায় উত্তীর্ণ হয়ে ওয়ার্কশপ ট্রেনিং কোহোর্টে নিশ্চিতভাবে যোগদানের সময় এ ফি নেওয়া হয়।</div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-header">
+            <span class="pillar-icon">🎓</span>
+            <div class="pillar-title">৩. Student Admission Fee</div>
+          </div>
+          <div class="pillar-desc">ওয়ার্কশপ শেষে ফাইনাল পরীক্ষায় উত্তীর্ণ প্রার্থীরা নিয়মিত ছাত্র হিসেবে চলমান ব্যাচে স্থায়ী ভর্তির ফি দেয়।</div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-header">
             <span class="pillar-icon">💳</span>
-            <div class="pillar-title">১. অনলাইন পেমেন্ট গেটওয়ে</div>
+            <div class="pillar-title">৪. Student Monthly Fee</div>
           </div>
-          <div class="pillar-desc">বিকাশ, নগদ বা SSLCommerz-এর মাধ্যমে আবেদন ফি, ওয়ার্কশপ ফি এবং মাসিক টিউশন ফি প্রদান, স্বয়ংক্রিয় রসিদ ও শাখা ফাইন্যান্সে ডিপোজিট।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">👑</span>
-            <div class="pillar-title">২. সেন্ট্রাল মাস্টার ও অডিট লগ</div>
-          </div>
-          <div class="pillar-desc">মাস্টার বিষয় ও বিভাগ একবারই তৈরি। গ্লোবাল সার্চ (ফোন/আইডি) এবং কে কখন স্ট্যাটাস বদলেছে তার পূর্ণাঙ্গ অডিট হিস্টোরি।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">👥</span>
-            <div class="pillar-title">৩. ৩ স্তরের ড্যাশবোর্ড রোলস</div>
-          </div>
-          <div class="pillar-desc">সেন্ট্রাল সুপার অ্যাডমিন, শাখা/বিভাগীয় পরিচালক ও শিক্ষক (ম্যানেজমেন্ট), এবং শিক্ষার্থীদের জন্য ডেডিকেটেড স্টুডেন্ট পোর্টাল।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">🏢</span>
-            <div class="pillar-title">৪. শাখা ও জুম নেটওয়ার্ক</div>
-          </div>
-          <div class="pillar-desc">ফিজিক্যাল ও অনলাইন শাখা। ডিপার্টমেন্ট ও ব্রাঞ্চের মাঝে Many-to-Many রিলেশন। অনলাইন শাখার জুম লাইভ ক্লাউড কনফিগারেশন।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">👥</span>
-            <div class="pillar-title">৫. চলমান প্রশিক্ষণ ব্যাচ</div>
-          </div>
-          <div class="pillar-desc">ব্যাচ তৈরির বছর ≠ ছাত্র যোগ দেওয়ার বছর। ২০২৫ সালে তৈরি ব্যাচে ২০২৬ বা ২০২৭ সালের পাস করা শিক্ষার্থী যুক্ত হতে পারে।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">📅</span>
-            <div class="pillar-title">৬. ক্লাস শিডিউল ও উপস্থিতি</div>
-          </div>
-          <div class="pillar-desc">ফিজিক্যাল ও অনলাইন জুম ক্লাসের শিডিউল। ১-ক্লিকে জুমে যুক্ত হওয়া এবং সেশনভিত্তিক উপস্থিতি (Present/Absent) ম্যাট্রিক্স।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">💰</span>
-            <div class="pillar-title">৭. অর্থ ও অফিস ডকুমেন্টস</div>
-          </div>
-          <div class="pillar-desc">কেন্দ্রীয় ও শাখাভিত্তিক আয়-ব্যয়, শিক্ষার্থীর ভর্তি ফি এবং অফিশিয়াল সার্টিফিকেট/ডকুমেন্ট ভল্ট।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">🎯</span>
-            <div class="pillar-title">৮. ভর্তি ও ১-ক্লিকে ব্যাচে প্রমোশন</div>
-          </div>
-          <div class="pillar-desc">আবেদন ➔ পারসন আইডি চেক ➔ ভাইভা ➔ ওয়ার্কশপ ➔ ফাইনাল পরীক্ষা পাস করার পর ১-ক্লিকে রেগুলার ছাত্র বানিয়ে চলমান ব্যাচে মেম্বারশিপ দেওয়া।</div>
+          <div class="pillar-desc">নিয়মিত ক্লাসের মাসিক টিউশন ফি, যা ছাত্ররা সরাসরি স্টুডেন্ট পোর্টাল থেকে প্রতি মাসে অনলাইনে দিতে পারবে।</div>
         </div>
       </div>
 
     </main>
 
     <footer class="footer">
-      <p>© ২০২৬ সাইমুম কেন্দ্রীয় একাডেমি — PRD-এর সব কয়টি মডিউলের পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</p>
+      <p>© ২০২৬ সাইমুম কেন্দ্রীয় একাডেমি — ৪-ধাপের আর্থিক কাঠামো সহ পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</p>
     </footer>
 
   </div>
