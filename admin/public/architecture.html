@@ -120,7 +120,7 @@
       min-width: 1150px;
     }
 
-    /* All 10 PRD Pillars Grid */
+    /* All PRD Pillars Grid */
     .pillars-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -180,9 +180,9 @@
     <header class="circuit-header">
       <div class="brand-title">
         <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — শতভাগ পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</span>
-        <span class="brand-pill">ZERO GAP ARCHITECTURE</span>
+        <span class="brand-pill">ZERO GAP + PAYMENT GATEWAY</span>
       </div>
-      <p class="header-sub">সেন্ট্রাল মাস্টার, ৩ স্তরের ড্যাশবোর্ড, শাখা ও জুম লাইভ, অর্থ ও অফিস, নোটিশ ও ওয়েবসাইট CMS, অডিট লগ এবং ভর্তি-ছাত্র লাইফসাইকেলের সম্পূর্ণ সার্কিট মানচিত্র।</p>
+      <p class="header-sub">পাবলিক ওয়েবসাইট, পেমেন্ট গেটওয়ে, সেন্ট্রাল মাস্টার, ৩ স্তরের ড্যাশবোর্ড, শাখা ও জুম লাইভ, অর্থ ও অফিস, নোটিশ এবং ভর্তি-ছাত্র লাইফসাইকেলের সম্পূর্ণ সার্কিট মানচিত্র।</p>
     </header>
 
     <!-- Main Circuit Board -->
@@ -192,13 +192,16 @@
         <pre class="mermaid">
 flowchart TB
     %% ===================================================
-    %% ১. পাবলিক ওয়েবসাইট ও সিএমএস পোর্টাল
+    %% ১. পাবলিক ওয়েবসাইট ও পেমেন্ট গেটওয়ে
     %% ===================================================
-    subgraph Public_Web ["🌐 ১. পাবলিক ওয়েবসাইট ও সিএমএস পোর্টাল (FRONTEND)"]
-        WebHome["🌍 পাবলিক ওয়েবসাইট (হোম, একাডেমি, শাখা, বিভাগ ও কোর্স)"]
-        WebNotices["📢 নোটিশ বোর্ড, ইভেন্টস ও ফটো গ্যালারি"]
+    subgraph Public_Web ["🌐 ১. পাবলিক ওয়েবসাইট ও পেমেন্ট গেটওয়ে (FRONTEND & GATEWAY)"]
+        WebHome["🌍 পাবলিক ওয়েবসাইট<br/>(হোম, একাডেমি পরিচিতি, শাখা ও বিভাগ)"]
         WebApply["📝 অনলাইন ভর্তি আবেদন ফরম<br/><i>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)</i>"]
-        WebHome --- WebNotices --- WebApply
+        
+        PaymentGateway["💳 অনলাইন পেমেন্ট গেটওয়ে (bKash / Nagad / SSLCommerz)<br/><i>(আবেদন ফি / ওয়ার্কশপ ফি / মাসিক টিউশন ফি প্রদান ও অটো রসিদ)</i>"]
+        
+        WebHome --- WebApply
+        WebApply -->|"আবেদন ফি প্রদান"| PaymentGateway
     end
 
     %% ===================================================
@@ -226,7 +229,7 @@ flowchart TB
     subgraph Dashboards ["👥 ৩. তিন স্তরের ড্যাশবোর্ড সিস্টেম"]
         D_Admin["👑 Central Admin Dashboard<br/>(পুরো একাডেমির লাইভ স্ন্যাপশট ও সামগ্রিক রিপোর্ট)"]
         D_Branch["🏢 Management Dashboard<br/>(শাখা পরিচালক, বিভাগীয় প্রধান, শিক্ষক ও অর্থ সম্পাদক)"]
-        D_Student["🎓 Student Portal Dashboard<br/>(আমার ক্লাস, জুম লিংক, উপস্থিতি, পরীক্ষার রেজাল্ট ও ব্যাচ)"]
+        D_Student["🎓 Student Portal Dashboard<br/>(আমার ক্লাস, জুম লিংক, উপস্থিতি, পরীক্ষার রেজাল্ট ও ফি পেমেন্ট)"]
     end
 
     SuperAdmin -.-> D_Admin
@@ -285,13 +288,15 @@ flowchart TB
     AttendanceMatrix -.->|"নিজের উপস্থিতি দেখা"| D_Student
 
     %% ===================================================
-    %% ৭. অর্থ ও অফিস ডকুমেন্টস ম্যানেজমেন্ট
+    %% ৭. অর্থ ও পেমেন্ট হিসাব (সেন্ট্রাল ও শাখা ফাইন্যান্স)
     %% ===================================================
-    subgraph Finance_Office ["💰 ৭. অর্থ ও অফিস ডকুমেন্টস ম্যানেজমেন্ট"]
-        BranchFinance["💵 সেন্ট্রাল ও শাখা ফাইন্যান্স<br/>(ভর্তি ফি, আয়-ব্যয় হিসাব ও ভাউচার)"]
-        DocVault["📁 অফিস ও শিক্ষার্থী ডকুমেন্টস<br/>(সনদপত্র, প্রত্যয়নপত্র, ছবি ও অফিসিয়াল ফাইল)"]
+    subgraph Finance_Vault ["💰 ৭. অর্থ, পেমেন্ট ট্রানজেকশন ও ডকুমেন্টস"]
+        BranchFinance["💵 সেন্ট্রাল ও শাখা ফাইন্যান্স<br/>(ভর্তি ফি, মাসিক ফি, আয়-ব্যয় হিসাব, বকেয়া ও ভাউচার)"]
+        DocVault["📁 অফিস ও শিক্ষার্থী ডকুমেন্টস<br/>(সনদপত্র, প্রত্যয়নপত্র, ছবি ও অফিশিয়াল ফাইল)"]
     end
 
+    PaymentGateway ==>|"অনলাইন ফি সরাসরি জমা হলো"| BranchFinance
+    D_Student -.->|"মাসিক ফি পরিশোধ"| PaymentGateway
     B_Dhaka --> BranchFinance
     B_Online --> BranchFinance
     SuperAdmin --> DocVault
@@ -310,7 +315,7 @@ flowchart TB
         OneClickPromo["⚡ ১-ক্লিকে নিয়মিত ছাত্র হিসেবে প্রমোশন!"]
     end
 
-    WebApply --> PersonCheck
+    PaymentGateway -->|"পেমেন্ট সফল হলে"| PersonCheck
     PersonCheck --> PersonProfile
     PersonProfile --> Viva
     Viva -->|"পাস"| Workshop
@@ -332,10 +337,10 @@ flowchart TB
       <div class="pillars-grid">
         <div class="pillar-card">
           <div class="pillar-header">
-            <span class="pillar-icon">🌐</span>
-            <div class="pillar-title">১. পাবলিক ওয়েবসাইট ও CMS</div>
+            <span class="pillar-icon">💳</span>
+            <div class="pillar-title">১. অনলাইন পেমেন্ট গেটওয়ে</div>
           </div>
-          <div class="pillar-desc">ওয়েবসাইট থেকে সরাসরি আবেদন, একাডেমি পরিচিতি, শাখা ও বিভাগের তথ্য, নোটিশ বোর্ড এবং ফটো গ্যালারি।</div>
+          <div class="pillar-desc">বিকাশ, নগদ বা SSLCommerz-এর মাধ্যমে আবেদন ফি, ওয়ার্কশপ ফি এবং মাসিক টিউশন ফি প্রদান, স্বয়ংক্রিয় রসিদ ও শাখা ফাইন্যান্সে ডিপোজিট।</div>
         </div>
 
         <div class="pillar-card">
