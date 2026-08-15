@@ -3,795 +3,382 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ সাইমুম সেন্ট্রাল একাডেমি — ধাপভিত্তিক সিস্টেম আর্কিটেকচার সার্কিট</title>
+  <title>⚡ সাইমুম একাডেমি — Dense Circuit Schematic</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
   <style>
-    :root {
-      --canvas-bg: #FFFFFF;
-      --box-border: #0F172A;
-      --wire-default: #334155;
-      --wire-active: #FF790E;
-      --text-main: #0F172A;
-      --text-muted: #475569;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     html, body {
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      background-color: #F8FAFC;
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      width:100vw; height:100vh; overflow:hidden;
+      background:#FFFFFF;
+      color:#0F172A;
+      font-family:'Plus Jakarta Sans','Hind Siliguri',sans-serif;
     }
+    #vp {
+      width:100vw; height:100vh; position:relative;
+      background:#FFFFFF; overflow:hidden; cursor:grab; user-select:none;
+    }
+    #vp:active { cursor:grabbing; }
+    .grid {
+      position:absolute; inset:0; pointer-events:none; z-index:1;
+      background-size:20px 20px;
+      background-image:radial-gradient(#E2E8F0 1px,transparent 1px);
+    }
+    .hud {
+      position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:100;
+      display:flex; align-items:center; gap:14px;
+      background:#FFF; border:1px solid #CBD5E1; border-radius:10px;
+      padding:5px 18px; box-shadow:0 2px 12px rgba(0,0,0,0.05);
+    }
+    .hud-t { font-weight:800; font-size:0.85rem; color:#0F172A; display:flex; align-items:center; gap:7px; }
+    .hud-badge { background:#EFF6FF; color:#2563EB; font-size:0.65rem; font-weight:800; padding:2px 6px; border-radius:4px; border:1px solid #DBEAFE; font-family:'Fira Code',monospace; }
+    .hud-h { display:flex; gap:8px; font-size:0.72rem; color:#64748B; border-left:1px solid #E2E8F0; padding-left:10px; }
+    .kbd { background:#F1F5F9; padding:1px 4px; border-radius:3px; font-family:monospace; font-size:0.65rem; border:1px solid #CBD5E1; color:#0F172A; }
+    .ztb { position:absolute; bottom:16px; right:16px; z-index:100; display:flex; flex-direction:column; gap:4px; background:#FFF; border:1px solid #E2E8F0; border-radius:8px; padding:3px; box-shadow:0 2px 10px rgba(0,0,0,0.06); }
+    .zb { width:30px; height:30px; background:#FFF; border:1px solid #E2E8F0; color:#0F172A; border-radius:5px; font-size:1rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; }
+    .zb:hover { background:#F1F5F9; }
 
-    #viewport-container {
-      width: 100vw;
-      height: 100vh;
-      position: relative;
-      background-color: #FFFFFF;
-      overflow: hidden;
-      cursor: grab;
-      user-select: none;
-    }
+    /* TIGHT DENSE CANVAS: 1300x560 */
+    #scene { position:absolute; transform-origin:0 0; z-index:10; width:1300px; height:560px; }
 
-    #viewport-container:active {
-      cursor: grabbing;
-    }
+    #wires-svg { position:absolute; inset:0; width:100%; height:100%; z-index:2; pointer-events:auto; }
+    .w { stroke:#94A3B8; stroke-width:1.6px; fill:none; cursor:pointer; stroke-linejoin:miter; stroke-linecap:square; transition:stroke .2s,stroke-width .2s; }
+    .w:hover { stroke:#2563EB !important; stroke-width:3px !important; }
+    .w.hi { stroke:#FF790E !important; stroke-width:3.5px !important; }
+    .jn { fill:#475569; transition:fill .2s; }
+    marker path { fill:#94A3B8; transition:fill .2s; }
+    .w:hover~marker path,.w.hi~marker path { fill:#FF790E; }
 
-    /* Electrical Schematic Grid */
-    .schematic-grid {
-      position: absolute;
-      inset: 0;
-      background-size: 24px 24px;
-      background-image: radial-gradient(#E2E8F0 1.2px, transparent 1.2px);
-      pointer-events: none;
-      z-index: 1;
+    /* COMPACT STEP CARDS */
+    .s {
+      position:absolute; background:#FFF; border:1.5px solid #CBD5E1; border-radius:5px;
+      padding:7px 10px; z-index:5; box-shadow:0 1px 4px rgba(0,0,0,0.03);
+      transition:all .2s; cursor:pointer; overflow:hidden;
     }
+    .s:hover { border-color:#2563EB; box-shadow:0 3px 10px rgba(37,99,235,.12); }
+    .s.hi { border-color:#FF790E !important; box-shadow:0 0 14px rgba(255,121,14,.25) !important; }
+    .s.gw { background:#F0FDF4; border-color:#059669; }
+    .s.co { background:#EFF6FF; border-color:#2563EB; }
+    .s.ma { background:#FFF7ED; border-color:#EA580C; }
+    .s.dp { background:#ECFEFF; border-color:#0891B2; }
+    .s.rt { background:#FAF5FF; border-color:#9333EA; }
+    .s.fn { background:#FDF2F8; border-color:#DB2777; }
 
-    /* Top Floating Controller */
-    .top-hud {
-      position: absolute;
-      top: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: #FFFFFF;
-      border: 1px solid #CBD5E1;
-      border-radius: 12px;
-      padding: 6px 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    }
+    .sh { font-family:'Fira Code',monospace; font-size:0.58rem; font-weight:800; color:#94A3B8; letter-spacing:.3px; margin-bottom:1px; display:flex; align-items:center; gap:4px; }
+    .sp { background:#F1F5F9; color:#0F172A; padding:0px 4px; border-radius:3px; font-weight:800; font-size:0.56rem; }
+    .st { font-size:0.78rem; font-weight:800; color:#0F172A; line-height:1.15; }
+    .sd { font-size:0.65rem; color:#475569; margin-top:2px; line-height:1.3; }
+    .tg { display:inline-block; font-size:0.56rem; font-weight:800; padding:0px 4px; border-radius:3px; margin-top:2px; font-family:'Fira Code',monospace; }
+    .tg-g { background:#DCFCE7; color:#15803D; border:1px solid #BBF7D0; }
+    .tg-b { background:#DBEAFE; color:#1D4ED8; border:1px solid #BFDBFE; }
+    .tg-o { background:#FFEDD5; color:#C2410C; border:1px solid #FED7AA; }
+    .tg-p { background:#F3E8FF; color:#7E22CE; border:1px solid #E9D5FF; }
 
-    .hud-title {
-      font-weight: 800;
-      font-size: 0.9rem;
-      color: #0F172A;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .circuit-badge {
-      background: #EFF6FF;
-      color: #2563EB;
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 5px;
-      border: 1px solid #DBEAFE;
-      font-family: 'Fira Code', monospace;
-    }
-
-    .hud-hints {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      border-left: 1px solid #E2E8F0;
-      padding-left: 12px;
-    }
-
-    .kbd {
-      background: #F1F5F9;
-      padding: 1px 5px;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 0.7rem;
-      border: 1px solid #CBD5E1;
-      color: #0F172A;
-    }
-
-    /* Zoom Controls */
-    .zoom-toolbar {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 10px;
-      padding: 4px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    }
-
-    .zoom-btn {
-      width: 34px;
-      height: 34px;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      color: #0F172A;
-      border-radius: 6px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-    }
-
-    .zoom-btn:hover {
-      background: #F8FAFC;
-      border-color: #CBD5E1;
-    }
-
-    /* Scalable Canvas Scene - GENEROUS 2400x1200 WITH WIDE COLUMN TRACKS */
-    #scene {
-      position: absolute;
-      transform-origin: 0 0;
-      z-index: 10;
-      width: 2400px;
-      height: 1200px;
-    }
-
-    /* Strict 90-Degree Orthogonal Schematic Wires */
-    #wires-svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      pointer-events: auto;
-    }
-
-    .schematic-wire {
-      stroke: #334155;
-      stroke-width: 1.8px;
-      fill: none;
-      cursor: pointer;
-      stroke-linejoin: miter;
-      stroke-linecap: square;
-      transition: stroke 0.2s ease, stroke-width 0.2s ease;
-    }
-
-    .schematic-wire:hover {
-      stroke: #2563EB !important;
-      stroke-width: 3.5px !important;
-    }
-
-    .schematic-wire.active-highlight {
-      stroke: #FF790E !important;
-      stroke-width: 4.5px !important;
-    }
-
-    /* Solder Junction Dots */
-    .wire-junction {
-      fill: #0F172A;
-      transition: fill 0.2s ease;
-    }
-    .wire-junction.active {
-      fill: #FF790E !important;
-    }
-
-    /* Wire Arrow Heads */
-    marker path {
-      fill: #334155;
-      transition: fill 0.2s ease;
-    }
-    .schematic-wire:hover marker path { fill: #2563EB; }
-    .schematic-wire.active-highlight marker path { fill: #FF790E; }
-
-    /* Step Cards with Strict Non-Overlapping Coordinates */
-    .step-card {
-      position: absolute;
-      background: #FFFFFF;
-      border: 1.6px solid var(--box-border);
-      border-radius: 6px;
-      padding: 12px 14px;
-      z-index: 5;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-
-    .step-card:hover {
-      border-color: #2563EB;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
-    }
-
-    .step-card.card-active {
-      border-color: #FF790E !important;
-      box-shadow: 0 0 18px rgba(255, 121, 14, 0.3) !important;
-    }
-
-    .step-card.gateway-card {
-      background: #F0FDF4;
-      border: 2px solid #059669;
-    }
-
-    .step-card.core-card {
-      background: #EFF6FF;
-      border: 2px solid #2563EB;
-    }
-
-    .step-card.master-card {
-      background: #FFF7ED;
-      border: 2px solid #EA580C;
-    }
-
-    .step-card.dept-card {
-      background: #ECFEFF;
-      border: 2px solid #0891B2;
-    }
-
-    .step-card.runtime-card {
-      background: #FAF5FF;
-      border: 2px solid #9333EA;
-    }
-
-    .step-card.finance-card {
-      background: #FDF2F8;
-      border: 2px solid #DB2777;
-    }
-
-    .step-header {
-      font-family: 'Hind Siliguri', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: #64748B;
-      letter-spacing: 0.3px;
-      margin-bottom: 2px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .step-pill {
-      background: #F1F5F9;
-      color: #0F172A;
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-weight: 800;
-      font-size: 0.65rem;
-      font-family: 'Fira Code', monospace;
-    }
-
-    .step-title {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: #0F172A;
-      line-height: 1.2;
-    }
-
-    .step-sub {
-      font-size: 0.72rem;
-      color: #334155;
-      margin-top: 3px;
-      line-height: 1.35;
-    }
-
-    .step-tag {
-      display: inline-block;
-      font-size: 0.64rem;
-      font-weight: 800;
-      padding: 1px 5px;
-      border-radius: 4px;
-      margin-top: 4px;
-      font-family: 'Fira Code', monospace;
-    }
-
-    .tag-green { background: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
-    .tag-blue { background: #DBEAFE; color: #1D4ED8; border: 1px solid #BFDBFE; }
-    .tag-orange { background: #FFEDD5; color: #C2410C; border: 1px solid #FED7AA; }
-    .tag-purple { background: #F3E8FF; color: #7E22CE; border: 1px solid #E9D5FF; }
-
-    /* Wire Bus Info Tags - Positioned with safe clear spacing */
-    .bus-tag {
-      position: absolute;
-      background: #FFFFFF;
-      border: 1px solid #CBD5E1;
-      font-size: 9.5px;
-      font-family: 'Fira Code', monospace;
-      font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 3px;
-      color: #334155;
-      z-index: 10;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .bus-tag:hover, .bus-tag.active {
-      background: #FF790E;
-      color: #FFFFFF;
-      border-color: #FF790E;
-    }
+    .bt { position:absolute; background:#FFF; border:1px solid #CBD5E1; font-size:8.5px; font-family:'Fira Code',monospace; font-weight:700; padding:0px 4px; border-radius:2px; color:#64748B; z-index:10; cursor:pointer; transition:all .2s; white-space:nowrap; }
+    .bt:hover,.bt.ac { background:#FF790E; color:#FFF; border-color:#FF790E; }
   </style>
 </head>
 <body>
 
-  <!-- Viewport Pan-Zoom Canvas -->
-  <div id="viewport-container">
-    <div class="schematic-grid"></div>
-
-    <!-- Top Controller Bar -->
-    <header class="top-hud">
-      <div class="hud-title">
-        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — ধাপভিত্তিক সিস্টেম সার্কিট</span>
-        <span class="circuit-badge">ZERO GAP • 100% CLEAR SPACING</span>
-      </div>
-      <div class="hud-hints">
-        <span><span class="kbd">Click</span> যেকোনো লাইন বা ধাপে ক্লিক করে কানেকশন হাইলাইট করুন</span>
-        <span><span class="kbd">Scroll</span> জুম</span>
-        <span><span class="kbd">Drag</span> প্যান</span>
-      </div>
-    </header>
-
-    <!-- Floating Zoom Controls -->
-    <div class="zoom-toolbar">
-      <button class="zoom-btn" id="btn-zoom-in" title="Zoom In (+)">+</button>
-      <button class="zoom-btn" id="btn-zoom-out" title="Zoom Out (-)">−</button>
-      <button class="zoom-btn" id="btn-zoom-reset" title="Reset (1:1)" style="font-size: 0.75rem;">1:1</button>
-      <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen" style="font-size: 0.85rem;">⛶</button>
+<div id="vp">
+  <div class="grid"></div>
+  <header class="hud">
+    <div class="hud-t">
+      <span>⚡ সাইমুম একাডেমি — Dense Circuit Schematic</span>
+      <span class="hud-badge">ZERO WASTE</span>
     </div>
-
-    <!-- Scalable 100% Non-Overlapping Circuit Scene (2400 x 1200 px) -->
-    <div id="scene">
-      
-      <!-- =========================================================================
-           STRICT 90-DEGREE ORTHOGONAL SCHEMATIC WIRES (CLEAN BUSES)
-           ========================================================================= -->
-      <svg id="wires-svg">
-        <defs>
-          <marker id="arrow-ortho" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#334155" />
-          </marker>
-        </defs>
-
-        <!-- W1: Public Web -> Apply Form -->
-        <path id="wire-1" class="schematic-wire" data-from="step-web" data-to="step-apply"
-              d="M 330,120 L 370,120" marker-end="url(#arrow-ortho)" />
-
-        <!-- W2: Apply Form -> Central Bus (Registration Fee Signal ➔ Gateway) -->
-        <path id="wire-2" class="schematic-wire" data-from="step-apply" data-to="step-gateway"
-              d="M 650,120 L 720,120 L 720,440 L 780,440" marker-end="url(#arrow-ortho)" />
-
-        <!-- W3: Workshop Cohort -> Central Bus (Workshop Fee Signal ➔ Gateway) -->
-        <path id="wire-3" class="schematic-wire" data-from="step-workshop" data-to="step-gateway"
-              d="M 330,660 L 730,660 L 730,470 L 780,470" marker-end="url(#arrow-ortho)" />
-
-        <!-- W4: Final Exam -> Central Bus (Student Admission Fee Signal ➔ Gateway) -->
-        <path id="wire-4" class="schematic-wire" data-from="step-exam" data-to="step-gateway"
-              d="M 330,830 L 740,830 L 740,500 L 780,500" marker-end="url(#arrow-ortho)" />
-
-        <!-- W5: Student Portal -> Central Bus (Monthly Tuition Fee Signal ➔ Gateway) -->
-        <path id="wire-5" class="schematic-wire" data-from="step-student" data-to="step-gateway"
-              d="M 1900,840 L 1150,840 L 1150,520" marker-end="url(#arrow-ortho)" />
-
-        <!-- W6: Payment Gateway -> Backend API Core (Instant Webhook Confirmation) -->
-        <path id="wire-6" class="schematic-wire" data-from="step-gateway" data-to="step-core"
-              d="M 940,410 L 940,230" marker-end="url(#arrow-ortho)" />
-
-        <!-- W7: Payment Gateway -> Finance Ledger Vault (Auto Deposit) -->
-        <path id="wire-7" class="schematic-wire" data-from="step-gateway" data-to="step-finance"
-              d="M 1110,440 L 1900,440" marker-end="url(#arrow-ortho)" />
-
-        <!-- W8: Backend Core -> Person Profile Identifier (Existing Check) -->
-        <path id="wire-8" class="schematic-wire" data-from="step-core" data-to="step-person"
-              d="M 780,140 L 190,140 L 190,260" marker-end="url(#arrow-ortho)" />
-
-        <!-- W9: Person Profile -> Viva Assessment Panel -->
-        <path id="wire-9" class="schematic-wire" data-from="step-person" data-to="step-viva"
-              d="M 190,370 L 190,430" marker-end="url(#arrow-ortho)" />
-
-        <!-- W10: Viva Panel -> Workshop Cohort (Selected) -->
-        <path id="wire-10" class="schematic-wire" data-from="step-viva" data-to="step-workshop"
-              d="M 190,540 L 190,600" marker-end="url(#arrow-ortho)" />
-
-        <!-- W11: Workshop Cohort -> Final Exam -->
-        <path id="wire-11" class="schematic-wire" data-from="step-workshop" data-to="step-exam"
-              d="M 190,720 L 190,770" marker-end="url(#arrow-ortho)" />
-
-        <!-- W12: Final Exam -> 1-Click Promotion Engine -->
-        <path id="wire-12" class="schematic-wire" data-from="step-exam" data-to="step-promo"
-              d="M 190,890 L 190,940" marker-end="url(#arrow-ortho)" />
-
-        <!-- W13: 1-Click Promotion LOOP-BACK to Ongoing Batches Core -->
-        <path id="wire-13" class="schematic-wire" data-from="step-promo" data-to="step-batch"
-              d="M 330,990 L 1500,990 L 1500,650 L 1540,650" marker-end="url(#arrow-ortho)" />
-
-        <!-- W14: Master Subject Hub -> Branch Offering Matrix -->
-        <path id="wire-14" class="schematic-wire" data-from="step-subject" data-to="step-offering"
-              d="M 1680,200 L 1680,260" marker-end="url(#arrow-ortho)" />
-
-        <!-- W15: Branch Controller -> Branch Offering Matrix -->
-        <path id="wire-15" class="schematic-wire" data-from="step-branch" data-to="step-offering"
-              d="M 1430,290 L 1540,290" marker-end="url(#arrow-ortho)" />
-
-        <!-- W16: Offering Matrix -> Ongoing Batches Core -->
-        <path id="wire-16" class="schematic-wire" data-from="step-offering" data-to="step-batch"
-              d="M 1680,350 L 1680,600" marker-end="url(#arrow-ortho)" />
-
-        <!-- W17: Ongoing Batches -> Classroom & Zoom Live Session -->
-        <path id="wire-17" class="schematic-wire" data-from="step-batch" data-to="step-class"
-              d="M 1680,710 L 1680,770" marker-end="url(#arrow-ortho)" />
-
-        <!-- W18: Classroom & Zoom -> Student Portal (Live Sync & Zoom Join) -->
-        <path id="wire-18" class="schematic-wire" data-from="step-class" data-to="step-student"
-              d="M 1830,820 L 1900,820" marker-end="url(#arrow-ortho)" />
-
-        <!-- W19: Department Director -> Viva Assessment Control -->
-        <path id="wire-19" class="schematic-wire" data-from="step-dept" data-to="step-viva"
-              d="M 1220,190 L 400,190 L 400,480 L 330,480" marker-end="url(#arrow-ortho)" />
-
-        <!-- W20: Teacher Staff -> Workshop & Attendance Matrix -->
-        <path id="wire-20" class="schematic-wire" data-from="step-teacher" data-to="step-workshop"
-              d="M 1220,390 L 420,390 L 420,660 L 330,660" marker-end="url(#arrow-ortho)" />
-
-        <!-- Solder Junction Dots -->
-        <circle cx="720" cy="440" r="3" class="wire-junction" />
-        <circle cx="730" cy="470" r="3" class="wire-junction" />
-        <circle cx="740" cy="500" r="3" class="wire-junction" />
-        <circle cx="940" cy="410" r="3" class="wire-junction" />
-        <circle cx="1680" cy="260" r="3" class="wire-junction" />
-        <circle cx="1500" cy="650" r="3" class="wire-junction" />
-      </svg>
-
-      <!-- Protocol Labels on Schematic Buses (With clear padding) -->
-      <div class="bus-tag" style="top: 80px; left: 660px;" data-wire="wire-2">আবেদন ফি সিগন্যাল ➔ গেটওয়ে</div>
-      <div class="bus-tag" style="top: 648px; left: 450px;" data-wire="wire-3">ওয়ার্কশপ ফি সিগন্যাল ➔ গেটওয়ে</div>
-      <div class="bus-tag" style="top: 818px; left: 450px;" data-wire="wire-4">ভর্তি ফি সিগন্যাল ➔ গেটওয়ে</div>
-      <div class="bus-tag" style="top: 828px; left: 1300px;" data-wire="wire-5">মাসিক ফি সিগন্যাল ➔ গেটওয়ে</div>
-      <div class="bus-tag" style="top: 310px; left: 950px;" data-wire="wire-6">পেমেন্ট কনফার্মেশন ওয়েব হুক</div>
-      <div class="bus-tag" style="top: 420px; left: 1450px;" data-wire="wire-7">সেন্ট্রাল ও শাখা লেজারে অটো ডিপোজিট</div>
-      <div class="bus-tag" style="top: 978px; left: 540px; color: #EA580C; border-color: #EA580C;" data-wire="wire-13">⚡ ১-ক্লিকে চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন</div>
-
-      <!-- =========================================================================
-           100% COMPLETE STEP CARDS - WIDE & CLEAR TRACKS (ZERO OVERLAP)
-           ========================================================================= -->
-
-      <!-- COLUMN 1: ADMISSION PIPELINE (Left Column: X = 50px) -->
-      
-      <!-- STEP 01: PUBLIC WEBSITE -->
-      <div id="step-web" class="step-card" style="top: 70px; left: 50px; width: 280px; height: 100px;">
-        <div class="step-header"><span class="step-pill">ধাপ ০১</span> FRONTEND_CMS</div>
-        <div class="step-title">🌍 পাবলিক ওয়েবসাইট (frontend/)</div>
-        <div class="step-sub">
-          • একাডেমি পরিচিতি, শাখা ও বিভাগ ব্রাউজিং<br/>
-          • পাবলিক নোটিশ বোর্ড ও ফটো গ্যালারি
-        </div>
-      </div>
-
-      <!-- STEP 03: PERSON PROFILE IDENTIFIER -->
-      <div id="step-person" class="step-card" style="top: 260px; left: 50px; width: 280px; height: 110px;">
-        <div class="step-header"><span class="step-pill">ধাপ ০৩</span> PERSON_REGISTRY</div>
-        <div class="step-title">🧑 স্থায়ী পারসন প্রোফাইল চেকার</div>
-        <div class="step-sub">
-          • <strong>কোর রুল:</strong> ১ জন মানুষ = আজীবন ১ প্রোফাইল<br/>
-          • মাল্টি-ইয়ার রেজিস্ট্রেশন ইতিহাস অক্ষুণ্ণ থাকে
-        </div>
-        <span class="step-tag tag-purple">1 HUMAN = 1 PROFILE</span>
-      </div>
-
-      <!-- STEP 04: VIVA ASSESSMENT PANEL -->
-      <div id="step-viva" class="step-card" style="top: 430px; left: 50px; width: 280px; height: 110px;">
-        <div class="step-header"><span class="step-pill">ধাপ ০৪</span> VIVA_EVALUATOR</div>
-        <div class="step-title">🎙️ ভাইভা পরীক্ষা ও সিলেকশন</div>
-        <div class="step-sub">
-          • বিভাগীয় প্রধান কর্তৃক ভাইভা প্যানেল মার্কিং<br/>
-          • <strong>সিদ্ধান্ত:</strong> সিলেক্টেড (Selected) / রিজেক্টেড
-        </div>
-      </div>
-
-      <!-- STEP 05: WORKSHOP COHORT CONTROLLER -->
-      <div id="step-workshop" class="step-card" style="top: 600px; left: 50px; width: 280px; height: 120px;">
-        <div class="step-header"><span class="step-pill">ধাপ ০৫</span> WORKSHOP_COHORT</div>
-        <div class="step-title">🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট</div>
-        <div class="step-sub">
-          • দৈনিক উপস্থিতি ও আচরণগত শৃঙ্খলা ট্র্যাকিং<br/>
-          • প্র্যাকটিক্যাল স্কিল গ্রোথ মূল্যায়ন
-        </div>
-        <span class="step-tag tag-green">💵 ২. Workshop Admission Fee</span>
-      </div>
-
-      <!-- STEP 06: FINAL EXAM EVALUATOR -->
-      <div id="step-exam" class="step-card" style="top: 770px; left: 50px; width: 280px; height: 120px;">
-        <div class="step-header"><span class="step-pill">ধাপ ০৬</span> EXAM_CONTROLLER</div>
-        <div class="step-title">📝 ফাইনাল মূল্যায়ন পরীক্ষা</div>
-        <div class="step-sub">
-          • তাত্ত্বিক ও ব্যবহারিক ফাইনাল এক্সাম মার্কিং<br/>
-          • নিয়মিত শিক্ষার্থী হিসেবে চূড়ান্ত অনুমোদন
-        </div>
-        <span class="step-tag tag-green">💵 ৩. Student Admission Fee</span>
-      </div>
-
-      <!-- STEP 07: 1-CLICK PROMOTION ENGINE -->
-      <div id="step-promo" class="step-card master-card" style="top: 940px; left: 50px; width: 280px; height: 100px;">
-        <div class="step-header" style="color: #EA580C;"><span class="step-pill">ধাপ ০৭</span> PROMOTION_TRIGGER</div>
-        <div class="step-title" style="color: #C2410C;">⚡ ১-ক্লিক প্রমোশন ইঞ্জিন</div>
-        <div class="step-sub">
-          • নতুন ব্যাচ না বানিয়ে সরাসরি চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন করে
-        </div>
-        <span class="step-tag tag-orange">1-CLICK BATCH MEMBERSHIP</span>
-      </div>
-
-      <!-- STEP 02: ONLINE APPLY FORM (X = 370px) -->
-      <div id="step-apply" class="step-card" style="top: 70px; left: 370px; width: 280px; height: 100px;">
-        <div class="step-header"><span class="step-pill">ধাপ ০২</span> ADMISSION_FORM</div>
-        <div class="step-title">📝 অনলাইন ভর্তি আবেদন ফরম</div>
-        <div class="step-sub">
-          • <strong>ফিল্টার:</strong> মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স<br/>
-          • শাখা ও বিষয় নির্বাচন ➔ গেটওয়েতে ফি ফরোয়ার্ড
-        </div>
-        <span class="step-tag tag-green">💵 ১. Registration Fee</span>
-      </div>
-
-      <!-- =========================================================================
-           COLUMN 2: CENTRAL BRAIN & STANDALONE PAYMENT GATEWAY (X = 780px)
-           ========================================================================= -->
-
-      <!-- STEP 08: CENTRAL BACKEND API CORE -->
-      <div id="step-core" class="step-card core-card" style="top: 70px; left: 780px; width: 330px; height: 160px;">
-        <div class="step-header" style="color: #2563EB;"><span class="step-pill">ধাপ ০৮</span> BACKEND_API_CORE</div>
-        <div class="step-title" style="color: #1D4ED8;">🏛️ Node.js API Core (backend/)</div>
-        <div class="step-sub">
-          • সুপার অ্যাডমিন সেন্ট্রাল কন্ট্রোল ও পারমিশন<br/>
-          • JWT Auth, Prisma ORM ও PostgreSQL<br/>
-          • <strong>গ্লোবাল সার্চ:</strong> ফোন/ইমেইল/আইডি ট্র্যাকিং<br/>
-          • <strong>অডিট লগ:</strong> প্রতিটি পরিবর্তনের অখণ্ড রেকর্ড
-        </div>
-        <span class="step-tag tag-blue">CENTRAL BRAIN & AUDIT ENGINE</span>
-      </div>
-
-      <!-- STEP 09: STANDALONE PAYMENT GATEWAY HUB -->
-      <div id="step-gateway" class="step-card gateway-card" style="top: 410px; left: 780px; width: 330px; height: 150px;">
-        <div class="step-header" style="color: #059669;"><span class="step-pill">ধাপ ০৯</span> PAYMENT_GATEWAY_HUB</div>
-        <div class="step-title" style="color: #047857; font-size: 0.95rem;">💳 অনলাইন পেমেন্ট গেটওয়ে (bKash/Nagad/SSL)</div>
-        <div class="step-sub" style="color: #065F46;">
-          • <strong>ইনকামিং:</strong> আবেদন, ওয়ার্কশপ, ভর্তি ও মাসিক ফি<br/>
-          • স্বয়ংক্রিয় ট্রানজেকশন ভেরিফিকেশন ও ডিজিটাল রসিদ<br/>
-          • তাৎক্ষণিক ব্যাকএন্ড কনফার্মেশন ও অটো ডিপোজিট
-        </div>
-        <span class="step-tag tag-green">MULTI-SIGNAL PAYMENT PROCESSOR</span>
-      </div>
-
-      <!-- =========================================================================
-           COLUMN 3: DEPARTMENT & BRANCH ROLES (X = 1220px — SAFE CLEAR DISTANCE)
-           ========================================================================= -->
-
-      <!-- STEP 10: DEPARTMENT DIRECTOR -->
-      <div id="step-dept" class="step-card dept-card" style="top: 150px; left: 1220px; width: 210px; height: 85px;">
-        <div class="step-header" style="color: #0891B2;"><span class="step-pill">ধাপ ১০</span> DEPT_DIRECTOR</div>
-        <div class="step-title">🎭 বিভাগীয় প্রধান</div>
-        <div class="step-sub">ভাইভা ও পরীক্ষা প্যানেল কন্ট্রোল।</div>
-      </div>
-
-      <!-- STEP 11: BRANCH CONTROLLER -->
-      <div id="step-branch" class="step-card dept-card" style="top: 255px; left: 1220px; width: 210px; height: 85px;">
-        <div class="step-header" style="color: #0891B2;"><span class="step-pill">ধাপ ১১</span> BRANCH_CTRL</div>
-        <div class="step-title">🏢 শাখা পরিচালক</div>
-        <div class="step-sub">ঢাকা, মিরপুর ও জুম শাখা পরিচালনা।</div>
-      </div>
-
-      <!-- STEP 12: TEACHER INSTRUCTOR -->
-      <div id="step-teacher" class="step-card dept-card" style="top: 360px; left: 1220px; width: 210px; height: 85px;">
-        <div class="step-header" style="color: #0891B2;"><span class="step-pill">ধাপ ১২</span> TEACHER_STAFF</div>
-        <div class="step-title">👨‍🏫 শিক্ষক প্যানেল</div>
-        <div class="step-sub">ক্লাস ও ওয়ার্কশপ মার্কিং।</div>
-      </div>
-
-      <!-- =========================================================================
-           COLUMN 4: MASTER SUBJECTS, ONGOING BATCHES & ACADEMIC OPERATIONS (X = 1540px)
-           ========================================================================= -->
-
-      <!-- STEP 13: MASTER SUBJECT CATALOG -->
-      <div id="step-subject" class="step-card master-card" style="top: 70px; left: 1540px; width: 280px; height: 130px;">
-        <div class="step-header" style="color: #EA580C;"><span class="step-pill">ধাপ ১৩</span> MASTER_SUBJECT</div>
-        <div class="step-title" style="color: #C2410C;">📚 মাস্টার বিষয় ক্যাটালগ</div>
-        <div class="step-sub">
-          • গান, অভিনয়, আবৃত্তি কেন্দ্রীয়ভাবে তৈরি<br/>
-          • <strong>নিয়ম:</strong> নো ডুপ্লিকেশন — কোনো ব্রাঞ্চে ডুপ্লিকেট সাবজেক্ট তৈরি হবে না
-        </div>
-        <span class="step-tag tag-orange">NO DUPLICATION</span>
-      </div>
-
-      <!-- STEP 14: BRANCH-SUBJECT OFFERING MATRIX -->
-      <div id="step-offering" class="step-card" style="top: 260px; left: 1540px; width: 280px; height: 90px;">
-        <div class="step-header"><span class="step-pill">ধাপ ১৪</span> OFFERING_MATRIX</div>
-        <div class="step-title">🔗 শাখায় বিষয় অফারিং</div>
-        <div class="step-sub">
-          • <strong>Many-to-Many Join:</strong> যেকোনো ব্রাঞ্চে যেকোনো বিষয় অফার
-        </div>
-      </div>
-
-      <!-- STEP 15: ONGOING BATCHES CORE -->
-      <div id="step-batch" class="step-card master-card" style="top: 600px; left: 1540px; width: 280px; height: 110px;">
-        <div class="step-header" style="color: #EA580C;"><span class="step-pill">ধাপ ১৫</span> ONGOING_BATCH_CORE</div>
-        <div class="step-title" style="color: #C2410C;">👥 চলমান ব্যাচ: গান ব্যাচ ১</div>
-        <div class="step-sub">
-          • <strong>Batch Year (2025) ≠ Join Year (2026/2027)</strong><br/>
-          • নতুন ছাত্ররা একই চলমান ব্যাচে যুক্ত হয়
-        </div>
-        <span class="step-tag tag-orange">ONGOING COHORT</span>
-      </div>
-
-      <!-- STEP 16: CLASS & ATTENDANCE -->
-      <div id="step-class" class="step-card runtime-card" style="top: 770px; left: 1540px; width: 280px; height: 110px;">
-        <div class="step-header" style="color: #9333EA;"><span class="step-pill">ধাপ ১৬</span> CLASS_OPERATIONS</div>
-        <div class="step-title" style="color: #7E22CE;">📅 ক্লাস ও দৈনিক উপস্থিতি</div>
-        <div class="step-sub">
-          • ক্লাসরুম ও জুম লাইভ ক্লাস সেশন<br/>
-          • উপস্থিতি, অনুপস্থিতি, বিলম্ব ও ছুটি মার্কিং
-        </div>
-      </div>
-
-      <!-- =========================================================================
-           COLUMN 5: STUDENT PORTAL APP & FINANCE VAULT (X = 1900px)
-           ========================================================================= -->
-
-      <!-- STEP 18: FINANCE & DOCUMENTS VAULT -->
-      <div id="step-finance" class="step-card finance-card" style="top: 410px; left: 1900px; width: 300px; height: 150px;">
-        <div class="step-header" style="color: #DB2777;"><span class="step-pill">ধাপ ১৮</span> FINANCE_VAULT</div>
-        <div class="step-title" style="color: #BE185D;">🏦 কেন্দ্রীয় ও শাখা অর্থ লেজার</div>
-        <div class="step-sub">
-          • সকল ৪টি ফি-এর স্বয়ংক্রিয় অডিট ও ভাউচার<br/>
-          • সেন্ট্রাল ও শাখাভিত্তিক আয়-ব্যয় হিসাব<br/>
-          • সনদপত্র ও অফিশিয়াল ডকুমেন্ট সংরক্ষণাগার
-        </div>
-        <span class="step-tag" style="background: #FCE7F3; color: #9D174D; border: 1px solid #FBCFE8;">CENTRAL & BRANCH LEDGER</span>
-      </div>
-
-      <!-- STEP 17: STUDENT PORTAL APP -->
-      <div id="step-student" class="step-card runtime-card" style="top: 770px; left: 1900px; width: 300px; height: 120px;">
-        <div class="step-header" style="color: #9333EA;"><span class="step-pill">ধাপ ১৭</span> STUDENT_PORTAL</div>
-        <div class="step-title" style="color: #7E22CE;">📱 Student Portal App (student/)</div>
-        <div class="step-sub">
-          • ক্লাস রুটিন ও ১-ক্লিকে জুম জয়েন বাটন<br/>
-          • রিয়েল-টাইম উপস্থিতি রেকর্ড ও রেজাল্ট<br/>
-          • প্রতি মাসে টিউশন ফি পরিশোধ
-        </div>
-        <span class="step-tag tag-green">💵 ৪. Student Monthly Fee</span>
-      </div>
-
+    <div class="hud-h">
+      <span><span class="kbd">Click</span> হাইলাইট</span>
+      <span><span class="kbd">Scroll</span> জুম</span>
+      <span><span class="kbd">Drag</span> প্যান</span>
     </div>
+  </header>
+  <div class="ztb">
+    <button class="zb" id="zi">+</button>
+    <button class="zb" id="zo">−</button>
+    <button class="zb" id="zr" style="font-size:.65rem">1:1</button>
+    <button class="zb" id="zf" style="font-size:.75rem">⛶</button>
   </div>
 
-  <script>
-    let pzInstance = null;
+  <div id="scene">
+    <!-- ============ SVG WIRES ============ -->
+    <svg id="wires-svg">
+      <defs>
+        <marker id="a" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M0 1.5L8 5L0 8.5z" fill="#94A3B8"/>
+        </marker>
+      </defs>
 
-    function initNonOverlappingSchematic() {
-      const sceneEl = document.getElementById('scene');
-      
-      pzInstance = panzoom(sceneEl, {
-        maxZoom: 6,
-        minZoom: 0.3,
-        smoothScroll: false,
-        zoomSpeed: 0.065,
-        beforeWheel: function(e) {
-          return false;
-        }
-      });
+      <!-- W1: Web → Apply -->
+      <path id="w1" class="w" data-f="s-web" data-t="s-apply" d="M 255,55 L 275,55" marker-end="url(#a)"/>
+      <!-- W2: Apply → Gateway (Reg Fee) -->
+      <path id="w2" class="w" data-f="s-apply" data-t="s-gw" d="M 420,90 L 420,240" marker-end="url(#a)"/>
+      <!-- W3: Workshop → Gateway (Workshop Fee) -->
+      <path id="w3" class="w" data-f="s-ws" data-t="s-gw" d="M 240,310 L 280,310" marker-end="url(#a)"/>
+      <!-- W4: Exam → Gateway (Admission Fee) -->
+      <path id="w4" class="w" data-f="s-exam" data-t="s-gw" d="M 240,420 L 265,420 L 265,340 L 280,340" marker-end="url(#a)"/>
+      <!-- W5: Student → Gateway (Monthly Fee) -->
+      <path id="w5" class="w" data-f="s-stu" data-t="s-gw" d="M 1010,460 L 555,460 L 555,350" marker-end="url(#a)"/>
+      <!-- W6: Gateway → Core (Payment Confirm) -->
+      <path id="w6" class="w" data-f="s-gw" data-t="s-core" d="M 350,240 L 350,210" marker-end="url(#a)"/>
+      <!-- W7: Gateway → Finance (Auto Deposit) -->
+      <path id="w7" class="w" data-f="s-gw" data-t="s-fin" d="M 540,290 L 1010,290" marker-end="url(#a)"/>
+      <!-- W8: Core → Person (Person Check) -->
+      <path id="w8" class="w" data-f="s-core" data-t="s-per" d="M 280,150 L 150,150 L 150,110" marker-end="url(#a)"/>
+      <!-- W9: Person → Viva -->
+      <path id="w9" class="w" data-f="s-per" data-t="s-viva" d="M 130,170 L 130,200" marker-end="url(#a)"/>
+      <!-- W10: Viva → Workshop -->
+      <path id="w10" class="w" data-f="s-viva" data-t="s-ws" d="M 130,265 L 130,280" marker-end="url(#a)"/>
+      <!-- W11: Workshop → Exam -->
+      <path id="w11" class="w" data-f="s-ws" data-t="s-exam" d="M 130,350 L 130,390" marker-end="url(#a)"/>
+      <!-- W12: Exam → Promo -->
+      <path id="w12" class="w" data-f="s-exam" data-t="s-promo" d="M 130,460 L 130,480" marker-end="url(#a)"/>
+      <!-- W13: Promo → Batch (LOOP-BACK!) -->
+      <path id="w13" class="w" data-f="s-promo" data-t="s-bat" d="M 240,510 L 730,510 L 730,380 L 750,380" marker-end="url(#a)"/>
+      <!-- W14: Master Subject → Offering -->
+      <path id="w14" class="w" data-f="s-subj" data-t="s-off" d="M 860,105 L 860,140" marker-end="url(#a)"/>
+      <!-- W15: Branch → Offering -->
+      <path id="w15" class="w" data-f="s-bra" data-t="s-off" d="M 710,180 L 750,180" marker-end="url(#a)"/>
+      <!-- W16: Offering → Batch -->
+      <path id="w16" class="w" data-f="s-off" data-t="s-bat" d="M 860,200 L 860,340" marker-end="url(#a)"/>
+      <!-- W17: Batch → Class -->
+      <path id="w17" class="w" data-f="s-bat" data-t="s-cls" d="M 860,410 L 860,430" marker-end="url(#a)"/>
+      <!-- W18: Class → Student -->
+      <path id="w18" class="w" data-f="s-cls" data-t="s-stu" d="M 980,460 L 1010,460" marker-end="url(#a)"/>
+      <!-- W19: Dept Director → Viva -->
+      <path id="w19" class="w" data-f="s-dep" data-t="s-viva" d="M 580,110 L 260,110 L 260,230 L 240,230" marker-end="url(#a)"/>
+      <!-- W20: Teacher → Workshop Attendance -->
+      <path id="w20" class="w" data-f="s-tea" data-t="s-ws" d="M 580,250 L 260,250 L 260,320 L 240,320" marker-end="url(#a)"/>
 
-      setTimeout(() => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const scale = Math.min((vw - 40) / 2400, (vh - 80) / 1200, 0.95);
-        const initialX = Math.max((vw - 2400 * scale) / 2, 20);
-        const initialY = 60;
+      <!-- Solder Junctions -->
+      <circle cx="420" cy="240" r="2.5" class="jn"/>
+      <circle cx="350" cy="240" r="2.5" class="jn"/>
+      <circle cx="555" cy="350" r="2.5" class="jn"/>
+      <circle cx="860" cy="140" r="2.5" class="jn"/>
+      <circle cx="730" cy="380" r="2.5" class="jn"/>
+      <circle cx="150" cy="150" r="2.5" class="jn"/>
+    </svg>
 
-        pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo(initialX, initialY);
-      }, 50);
+    <!-- Bus Tags -->
+    <div class="bt" style="top:160px;left:430px" data-w="w2">💵১ রেজিস্ট্রেশন ফি</div>
+    <div class="bt" style="top:298px;left:245px" data-w="w3">💵২ ওয়ার্কশপ ফি</div>
+    <div class="bt" style="top:408px;left:245px" data-w="w4">💵৩ ভর্তি ফি</div>
+    <div class="bt" style="top:448px;left:680px" data-w="w5">💵৪ মাসিক ফি</div>
+    <div class="bt" style="top:218px;left:358px" data-w="w6">ওয়েবহুক কনফার্ম</div>
+    <div class="bt" style="top:278px;left:700px" data-w="w7">অটো ডিপোজিট</div>
+    <div class="bt" style="top:498px;left:400px;color:#EA580C;border-color:#EA580C" data-w="w13">⚡ ব্যাচে মেম্বারশিপ লুপ</div>
 
-      // Interactive Wire & Component Highlighting
-      const allWires = document.querySelectorAll('.schematic-wire');
-      const allCards = document.querySelectorAll('.step-card');
-      const allTags = document.querySelectorAll('.bus-tag');
+    <!-- ============ COLUMN A: ADMISSION PIPELINE (X=20, W=220) ============ -->
 
-      function clearHighlights() {
-        allWires.forEach(w => w.classList.remove('active-highlight'));
-        allCards.forEach(c => c.classList.remove('card-active'));
-        allTags.forEach(t => t.classList.remove('active'));
-      }
+    <!-- ধাপ ০১: PUBLIC WEBSITE -->
+    <div id="s-web" class="s" style="top:30px;left:20px;width:235px;height:60px">
+      <div class="sh"><span class="sp">ধাপ ০১</span></div>
+      <div class="st">🌍 পাবলিক ওয়েবসাইট (frontend/)</div>
+      <div class="sd">একাডেমি পরিচিতি, শাখা/বিভাগ ব্রাউজিং, নোটিশ বোর্ড ও গ্যালারি</div>
+    </div>
 
-      // Wire Click Highlight
-      allWires.forEach(wire => {
-        wire.addEventListener('click', (e) => {
-          e.stopPropagation();
-          clearHighlights();
-          wire.classList.add('active-highlight');
-          
-          const fromId = wire.getAttribute('data-from');
-          const toId = wire.getAttribute('data-to');
-          if (fromId) document.getElementById(fromId)?.classList.add('card-active');
-          if (toId) document.getElementById(toId)?.classList.add('card-active');
-        });
-      });
+    <!-- ধাপ ০৩: PERSON PROFILE -->
+    <div id="s-per" class="s" style="top:100px;left:20px;width:220px;height:70px">
+      <div class="sh"><span class="sp">ধাপ ০৩</span></div>
+      <div class="st">🧑 পারসন প্রোফাইল চেকার</div>
+      <div class="sd"><strong>কোর:</strong> ১ মানুষ = ১ প্রোফাইল আজীবন। মাল্টি-ইয়ার হিস্টোরি।</div>
+      <span class="tg tg-p">1 HUMAN = 1 PROFILE</span>
+    </div>
 
-      // Tag Click Highlight
-      allTags.forEach(tag => {
-        tag.addEventListener('click', (e) => {
-          e.stopPropagation();
-          clearHighlights();
-          tag.classList.add('active');
-          const targetWireId = tag.getAttribute('data-wire');
-          if (targetWireId) {
-            const wire = document.getElementById(targetWireId);
-            if (wire) {
-              wire.classList.add('active-highlight');
-              const fromId = wire.getAttribute('data-from');
-              const toId = wire.getAttribute('data-to');
-              if (fromId) document.getElementById(fromId)?.classList.add('card-active');
-              if (toId) document.getElementById(toId)?.classList.add('card-active');
-            }
-          }
-        });
-      });
+    <!-- ধাপ ০৪: VIVA -->
+    <div id="s-viva" class="s" style="top:200px;left:20px;width:220px;height:65px">
+      <div class="sh"><span class="sp">ধাপ ০৪</span></div>
+      <div class="st">🎙️ ভাইভা পরীক্ষা ও সিলেকশন</div>
+      <div class="sd">বিভাগীয় প্রধান মার্কিং। সিদ্ধান্ত: সিলেক্টেড / রিজেক্টেড</div>
+    </div>
 
-      // Component Click Highlight all connected wires
-      allCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-          e.stopPropagation();
-          clearHighlights();
-          card.classList.add('card-active');
-          const cardId = card.id;
-          
-          allWires.forEach(w => {
-            if (w.getAttribute('data-from') === cardId || w.getAttribute('data-to') === cardId) {
-              w.classList.add('active-highlight');
-              const partnerId = w.getAttribute('data-from') === cardId ? w.getAttribute('data-to') : w.getAttribute('data-from');
-              if (partnerId) document.getElementById(partnerId)?.classList.add('card-active');
-            }
-          });
-        });
-      });
+    <!-- ধাপ ০৫: WORKSHOP -->
+    <div id="s-ws" class="s" style="top:280px;left:20px;width:220px;height:70px">
+      <div class="sh"><span class="sp">ধাপ ০৫</span></div>
+      <div class="st">🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট</div>
+      <div class="sd">উপস্থিতি, শৃঙ্খলা ও স্কিল গ্রোথ মূল্যায়ন</div>
+      <span class="tg tg-g">💵২ Workshop Fee</span>
+    </div>
 
-      // Background click resets highlight
-      document.getElementById('viewport-container').addEventListener('click', () => {
-        clearHighlights();
-      });
+    <!-- ধাপ ০৬: FINAL EXAM -->
+    <div id="s-exam" class="s" style="top:390px;left:20px;width:220px;height:70px">
+      <div class="sh"><span class="sp">ধাপ ০৬</span></div>
+      <div class="st">📝 ফাইনাল মূল্যায়ন পরীক্ষা</div>
+      <div class="sd">তাত্ত্বিক ও ব্যবহারিক এক্সাম। চূড়ান্ত অনুমোদন</div>
+      <span class="tg tg-g">💵৩ Admission Fee</span>
+    </div>
 
-      // Zoom Controls
-      document.getElementById('btn-zoom-in').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25));
-      document.getElementById('btn-zoom-out').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8));
-      document.getElementById('btn-zoom-reset').addEventListener('click', () => { pzInstance.zoomAbs(0, 0, 1); pzInstance.moveTo(20, 60); });
-      document.getElementById('btn-zoom-fit').addEventListener('click', () => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const scale = Math.min((vw - 40) / 2400, (vh - 80) / 1200, 0.95);
-        pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo((vw - 2400 * scale) / 2, 60);
-      });
-    }
+    <!-- ধাপ ০৭: 1-CLICK PROMO -->
+    <div id="s-promo" class="s ma" style="top:480px;left:20px;width:220px;height:55px">
+      <div class="sh" style="color:#EA580C"><span class="sp">ধাপ ০৭</span></div>
+      <div class="st" style="color:#C2410C">⚡ ১-ক্লিক প্রমোশন ইঞ্জিন</div>
+      <div class="sd">সরাসরি চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন</div>
+    </div>
 
-    window.addEventListener('DOMContentLoaded', initNonOverlappingSchematic);
-  </script>
+    <!-- ============ COLUMN B: APPLY + CENTRAL BRAIN + GATEWAY (X=275, W=265) ============ -->
+
+    <!-- ধাপ ০২: APPLY FORM -->
+    <div id="s-apply" class="s" style="top:30px;left:275px;width:265px;height:60px">
+      <div class="sh"><span class="sp">ধাপ ০২</span></div>
+      <div class="st">📝 অনলাইন ভর্তি আবেদন ফরম</div>
+      <div class="sd"><strong>ফিল্টার:</strong> মেয়ে ৩য় শ্রেণি, ছেলে অনার্স। শাখা/বিষয় সিলেক্ট</div>
+      <span class="tg tg-g">💵১ Registration Fee</span>
+    </div>
+
+    <!-- ধাপ ০৮: CENTRAL BACKEND CORE -->
+    <div id="s-core" class="s co" style="top:100px;left:275px;width:265px;height:110px">
+      <div class="sh" style="color:#2563EB"><span class="sp">ধাপ ০৮</span></div>
+      <div class="st" style="color:#1D4ED8">🏛️ Node.js API Core (backend/)</div>
+      <div class="sd">
+        • সুপার অ্যাডমিন ও পারমিশন কন্ট্রোল<br/>
+        • JWT Auth, Prisma ORM, PostgreSQL<br/>
+        • <strong>গ্লোবাল সার্চ:</strong> ফোন/ইমেইল/আইডি<br/>
+        • <strong>অডিট লগ:</strong> প্রতিটি পরিবর্তনের রেকর্ড
+      </div>
+      <span class="tg tg-b">CENTRAL BRAIN</span>
+    </div>
+
+    <!-- ধাপ ০৯: STANDALONE PAYMENT GATEWAY -->
+    <div id="s-gw" class="s gw" style="top:240px;left:275px;width:265px;height:120px">
+      <div class="sh" style="color:#059669"><span class="sp">ধাপ ০৯</span></div>
+      <div class="st" style="color:#047857">💳 পেমেন্ট গেটওয়ে (bKash/Nagad/SSL)</div>
+      <div class="sd" style="color:#065F46">
+        • <strong>ইনকামিং:</strong> ৪টি ফি সিগন্যাল রিসিভ<br/>
+        • অটো ভেরিফিকেশন ও ডিজিটাল রসিদ<br/>
+        • <strong>আউটগোয়িং:</strong> ব্যাকএন্ড কনফার্ম ও অটো ডিপোজিট
+      </div>
+      <span class="tg tg-g">MULTI-SIGNAL PROCESSOR</span>
+    </div>
+
+    <!-- ============ COLUMN C: DEPARTMENT ROLES (X=580, W=140) ============ -->
+
+    <!-- ধাপ ১০: DEPT DIRECTOR -->
+    <div id="s-dep" class="s dp" style="top:100px;left:580px;width:130px;height:55px">
+      <div class="sh" style="color:#0891B2"><span class="sp">ধাপ ১০</span></div>
+      <div class="st">🎭 বিভাগীয় প্রধান</div>
+      <div class="sd">ভাইভা ও পরীক্ষা কন্ট্রোল</div>
+    </div>
+
+    <!-- ধাপ ১১: BRANCH CTRL -->
+    <div id="s-bra" class="s dp" style="top:165px;left:580px;width:130px;height:55px">
+      <div class="sh" style="color:#0891B2"><span class="sp">ধাপ ১১</span></div>
+      <div class="st">🏢 শাখা পরিচালক</div>
+      <div class="sd">ঢাকা, মিরপুর ও জুম শাখা</div>
+    </div>
+
+    <!-- ধাপ ১২: TEACHER -->
+    <div id="s-tea" class="s dp" style="top:230px;left:580px;width:130px;height:55px">
+      <div class="sh" style="color:#0891B2"><span class="sp">ধাপ ১২</span></div>
+      <div class="st">👨‍🏫 শিক্ষক প্যানেল</div>
+      <div class="sd">ক্লাস ও ওয়ার্কশপ মার্কিং</div>
+    </div>
+
+    <!-- ============ COLUMN D: ACADEMIC OPERATIONS (X=750, W=230) ============ -->
+
+    <!-- ধাপ ১৩: MASTER SUBJECT -->
+    <div id="s-subj" class="s ma" style="top:30px;left:750px;width:230px;height:75px">
+      <div class="sh" style="color:#EA580C"><span class="sp">ধাপ ১৩</span></div>
+      <div class="st" style="color:#C2410C">📚 মাস্টার বিষয় ক্যাটালগ</div>
+      <div class="sd">গান, অভিনয়, আবৃত্তি কেন্দ্রীয়ভাবে তৈরি। <strong>নো ডুপ্লিকেশন।</strong></div>
+      <span class="tg tg-o">NO DUPLICATION</span>
+    </div>
+
+    <!-- ধাপ ১৪: OFFERING MATRIX -->
+    <div id="s-off" class="s" style="top:140px;left:750px;width:230px;height:60px">
+      <div class="sh"><span class="sp">ধাপ ১৪</span></div>
+      <div class="st">🔗 শাখায় বিষয় অফারিং</div>
+      <div class="sd"><strong>Many-to-Many:</strong> যেকোনো ব্রাঞ্চে যেকোনো বিষয় অফার</div>
+    </div>
+
+    <!-- ধাপ ১৫: ONGOING BATCH -->
+    <div id="s-bat" class="s ma" style="top:340px;left:750px;width:230px;height:70px">
+      <div class="sh" style="color:#EA580C"><span class="sp">ধাপ ১৫</span></div>
+      <div class="st" style="color:#C2410C">👥 চলমান ব্যাচ: গান ব্যাচ ১</div>
+      <div class="sd"><strong>Batch Year (2025) ≠ Join Year (2026/2027)</strong></div>
+      <span class="tg tg-o">ONGOING COHORT</span>
+    </div>
+
+    <!-- ধাপ ১৬: CLASS & ATTENDANCE -->
+    <div id="s-cls" class="s rt" style="top:430px;left:750px;width:230px;height:65px">
+      <div class="sh" style="color:#9333EA"><span class="sp">ধাপ ১৬</span></div>
+      <div class="st" style="color:#7E22CE">📅 ক্লাস ও দৈনিক উপস্থিতি</div>
+      <div class="sd">ক্লাসরুম ও জুম লাইভ সেশন। উপস্থিতি ম্যাট্রিক্স</div>
+    </div>
+
+    <!-- ============ COLUMN E: FINANCE + STUDENT PORTAL (X=1010, W=260) ============ -->
+
+    <!-- ধাপ ১৮: FINANCE VAULT -->
+    <div id="s-fin" class="s fn" style="top:240px;left:1010px;width:260px;height:115px">
+      <div class="sh" style="color:#DB2777"><span class="sp">ধাপ ১৮</span></div>
+      <div class="st" style="color:#BE185D">🏦 কেন্দ্রীয় ও শাখা অর্থ লেজার</div>
+      <div class="sd">
+        • ৪টি ফি-এর স্বয়ংক্রিয় অডিট ও ভাউচার<br/>
+        • সেন্ট্রাল ও শাখাভিত্তিক আয়-ব্যয় হিসাব<br/>
+        • সনদপত্র ও অফিশিয়াল ডকুমেন্ট ভল্ট
+      </div>
+      <span class="tg" style="background:#FCE7F3;color:#9D174D;border:1px solid #FBCFE8">CENTRAL & BRANCH LEDGER</span>
+    </div>
+
+    <!-- ধাপ ১৭: STUDENT PORTAL -->
+    <div id="s-stu" class="s rt" style="top:430px;left:1010px;width:260px;height:75px">
+      <div class="sh" style="color:#9333EA"><span class="sp">ধাপ ১৭</span></div>
+      <div class="st" style="color:#7E22CE">📱 Student Portal App (student/)</div>
+      <div class="sd">
+        • ক্লাস রুটিন, জুম জয়েন, রেজাল্ট ও মাসিক ফি পরিশোধ
+      </div>
+      <span class="tg tg-g">💵৪ Monthly Fee</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let pz=null;
+function init(){
+  const sc=document.getElementById('scene');
+  pz=panzoom(sc,{maxZoom:8,minZoom:0.3,smoothScroll:false,zoomSpeed:.065,beforeWheel:()=>false});
+  setTimeout(()=>{
+    const vw=window.innerWidth,vh=window.innerHeight;
+    const s=Math.min((vw-30)/1300,(vh-60)/560,1.2);
+    pz.zoomAbs(0,0,s);
+    pz.moveTo((vw-1300*s)/2,50);
+  },40);
+
+  const W=document.querySelectorAll('.w'),S=document.querySelectorAll('.s'),T=document.querySelectorAll('.bt');
+  function clr(){W.forEach(w=>w.classList.remove('hi'));S.forEach(s=>s.classList.remove('hi'));T.forEach(t=>t.classList.remove('ac'));}
+
+  W.forEach(w=>w.addEventListener('click',e=>{e.stopPropagation();clr();w.classList.add('hi');
+    const f=w.dataset.f,t=w.dataset.t;
+    if(f)document.getElementById(f)?.classList.add('hi');
+    if(t)document.getElementById(t)?.classList.add('hi');
+  }));
+
+  T.forEach(t=>t.addEventListener('click',e=>{e.stopPropagation();clr();t.classList.add('ac');
+    const wid=t.dataset.w;if(wid){const w=document.getElementById(wid);if(w){w.classList.add('hi');
+    const f=w.dataset.f,tt=w.dataset.t;
+    if(f)document.getElementById(f)?.classList.add('hi');
+    if(tt)document.getElementById(tt)?.classList.add('hi');}}
+  }));
+
+  S.forEach(s=>s.addEventListener('click',e=>{e.stopPropagation();clr();s.classList.add('hi');
+    const id=s.id;W.forEach(w=>{if(w.dataset.f===id||w.dataset.t===id){w.classList.add('hi');
+    const p=w.dataset.f===id?w.dataset.t:w.dataset.f;
+    if(p)document.getElementById(p)?.classList.add('hi');}});
+  }));
+
+  document.getElementById('vp').addEventListener('click',()=>clr());
+  document.getElementById('zi').addEventListener('click',()=>pz.smoothZoom(window.innerWidth/2,window.innerHeight/2,1.25));
+  document.getElementById('zo').addEventListener('click',()=>pz.smoothZoom(window.innerWidth/2,window.innerHeight/2,.8));
+  document.getElementById('zr').addEventListener('click',()=>{pz.zoomAbs(0,0,1);pz.moveTo(20,50);});
+  document.getElementById('zf').addEventListener('click',()=>{
+    const vw=window.innerWidth,vh=window.innerHeight;
+    const s=Math.min((vw-30)/1300,(vh-60)/560,1.2);
+    pz.zoomAbs(0,0,s);pz.moveTo((vw-1300*s)/2,50);
+  });
+}
+window.addEventListener('DOMContentLoaded',init);
+</script>
 </body>
 </html>
