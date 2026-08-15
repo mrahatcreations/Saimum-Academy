@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎓 সাইমুম একাডেমি — Interactive Pan & Zoom Circuit Canvas</title>
+  <title>🎓 সাইমুম একাডেমি — Master Circuit Board</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
   <style>
     :root {
       --brand-orange: #FF790E;
       --brand-orange-light: #FF9436;
-      --bg-dark: #070B14;
+      --bg-dark: #080D1A;
       --bg-surface: #0E1626;
       --bg-card: #131E33;
       --border-color: #1E2D4A;
@@ -46,24 +46,20 @@
       width: 100vw;
       height: 100vh;
       position: relative;
-      background: radial-gradient(circle at center, #0F172A 0%, #070B14 100%);
-      cursor: grab;
-      user-select: none;
-    }
-
-    #viewport-container:active {
-      cursor: grabbing;
+      background: radial-gradient(circle at 50% 30%, #0F1A30 0%, #080D1A 100%);
+      overflow: hidden;
     }
 
     /* Grid Background Pattern */
     .grid-bg {
       position: absolute;
       inset: 0;
-      background-size: 32px 32px;
+      background-size: 40px 40px;
       background-image: 
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       pointer-events: none;
+      z-index: 1;
     }
 
     /* Floating Top HUD Bar */
@@ -76,7 +72,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(14, 22, 38, 0.85);
+      background: rgba(14, 22, 38, 0.88);
       border: 1px solid var(--border-color);
       border-radius: 18px;
       padding: 14px 24px;
@@ -158,13 +154,13 @@
     }
 
     .zoom-btn {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       color: var(--text-primary);
       border-radius: 10px;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -179,19 +175,23 @@
       border-color: var(--brand-orange);
     }
 
-    /* SVG Canvas Area */
-    #mermaid-container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* Canvas Scene */
+    #scene {
+      position: absolute;
+      transform-origin: 0 0;
+      z-index: 10;
+      padding: 80px;
+      display: inline-block;
+      min-width: 1400px;
     }
 
-    #mermaid-diagram svg {
-      width: 100% !important;
-      height: 100% !important;
-      max-width: none !important;
+    .mermaid {
+      font-family: 'Hind Siliguri', sans-serif !important;
+      font-size: 16px !important;
+    }
+
+    .mermaid svg {
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
     }
 
     /* Loading Overlay */
@@ -238,13 +238,13 @@
     <!-- Floating Top Header Bar -->
     <header class="hud-topbar">
       <div class="brand-group">
-        <span class="brand-title">⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Circuit Canvas</span>
-        <span class="brand-pill">INFINITE PAN & ZOOM</span>
+        <span class="brand-title">⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Circuit Board</span>
+        <span class="brand-pill">FULLSCREEN ZOOM & PAN</span>
       </div>
       <div class="hud-hints">
-        <div class="hint-chip"><span class="kbd">Scroll</span> জুম ইন / আউট</div>
-        <div class="hint-chip"><span class="kbd">Space</span> বা ড্র্যাগ করে ক্যানভাস প্যান করুন</div>
-        <div class="hint-chip"><span class="kbd">Click + Drag</span> ফ্রি মুভমেন্ট</div>
+        <div class="hint-chip"><span class="kbd">Scroll Wheel</span> জুম ইন / আউট</div>
+        <div class="hint-chip"><span class="kbd">Click + Drag</span> যেকোনো দিকে সরান</div>
+        <div class="hint-chip"><span class="kbd">Space</span> ড্র্যাগ মোড</div>
       </div>
     </header>
 
@@ -252,12 +252,12 @@
     <div class="zoom-toolbar">
       <button class="zoom-btn" id="btn-zoom-in" title="Zoom In (+)">+</button>
       <button class="zoom-btn" id="btn-zoom-out" title="Zoom Out (-)">−</button>
-      <button class="zoom-btn" id="btn-zoom-reset" title="Reset View (⟲)" style="font-size: 0.9rem;">⟲</button>
-      <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen (⛶)" style="font-size: 0.85rem;">⛶</button>
+      <button class="zoom-btn" id="btn-zoom-reset" title="Reset (100%)" style="font-size: 0.85rem;">1:1</button>
+      <button class="zoom-btn" id="btn-zoom-fit" title="Fit Screen" style="font-size: 0.9rem;">⛶</button>
     </div>
 
-    <!-- Mermaid Canvas Target -->
-    <div id="mermaid-container">
+    <!-- Scalable Canvas Scene -->
+    <div id="scene">
       <div id="mermaid-diagram" class="mermaid">
 flowchart TB
     %% ===================================================
@@ -266,9 +266,7 @@ flowchart TB
     subgraph Public_Web ["🌐 ১. পাবলিক ওয়েবসাইট ও পেমেন্ট গেটওয়ে (FRONTEND & GATEWAY)"]
         WebHome["🌍 পাবলিক ওয়েবসাইট<br/>(হোম, একাডেমি পরিচিতি, শাখা ও বিভাগ)"]
         WebApply["📝 অনলাইন ভর্তি আবেদন ফরম<br/><i>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)</i>"]
-        
         PaymentGateway["💳 অনলাইন পেমেন্ট গেটওয়ে (bKash / Nagad / SSLCommerz)<br/><i>(স্বয়ংক্রিয় ট্রানজেকশন আইডি, এসএমএস নোটিফিকেশন ও ডিজিটাল রসিদ)</i>"]
-        
         WebHome --- WebApply
     end
 
@@ -383,13 +381,11 @@ flowchart TB
         PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><i>(একই ব্যক্তির মাল্টি-ইয়ার ভর্তি ইতিহাস)</i>"]
         
         Viva["🎙️ ভাইভা পরীক্ষা (প্যানেল মার্কিং ও সিলেক্ট/রিজেক্ট)"]
-        
         VivaPassed{"ভাইভায় সিলেক্টেড?"}
         
         WorkshopEnroll["📋 ওয়ার্কশপে ভর্তি নিশ্চিতকরণ"]
         WorkshopTrack["🎪 ওয়ার্কশপ কোহোর্ট (উপস্থিতি, শৃঙ্খলা ও স্কিল স্কোরিং)"]
         Exam["📝 ফাইনাল পরীক্ষা ও ফলাফল প্রকাশ"]
-        
         ExamPassed{"ফাইনাল পরীক্ষায় পাস?"}
         
         RegularEnroll["🎓 নিয়মিত ছাত্র হিসেবে চূড়ান্ত ভর্তি"]
@@ -401,6 +397,7 @@ flowchart TB
     PersonProfile --> Viva
     Viva --> VivaPassed
     
+    %% ওয়ার্কশপ ভর্তি ফি ধাপ
     VivaPassed -- "সিলেক্টেড" --> WorkshopEnroll
     WorkshopEnroll -->|"২. ওয়ার্কশপ ভর্তি ফি"| Fee_Workshop
     Fee_Workshop --> WorkshopTrack
@@ -408,6 +405,7 @@ flowchart TB
     WorkshopTrack --> Exam
     Exam --> ExamPassed
     
+    %% রেগুলার ছাত্র ভর্তি ফি ধাপ
     ExamPassed -- "পাস করেছে 🎉" --> RegularEnroll
     RegularEnroll -->|"৩. স্টুডেন্ট ভর্তি ফি"| Fee_Student_Adm
     Fee_Student_Adm --> OneClickPromo
@@ -418,6 +416,7 @@ flowchart TB
     OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_1
     OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Online
     
+    %% মাসিক ফি প্রদান ধাপ
     D_Student -->|"৪. নিয়মিত মাসিক টিউশন ফি"| Fee_Monthly
     
     Batch_1 --> D_Student
@@ -438,7 +437,7 @@ flowchart TB
       },
       themeVariables: {
         darkMode: true,
-        background: '#090E1A',
+        background: '#0E1626',
         primaryColor: '#FF790E',
         primaryTextColor: '#F8FAFC',
         primaryBorderColor: '#FF790E',
@@ -449,65 +448,69 @@ flowchart TB
       }
     });
 
-    let panZoomInstance = null;
+    let pzInstance = null;
 
-    async function renderAndInitPanZoom() {
+    async function initCanvas() {
       try {
         await mermaid.run({
           nodes: [document.getElementById('mermaid-diagram')]
         });
 
-        const svgElement = document.querySelector('#mermaid-diagram svg');
-        if (svgElement) {
-          svgElement.setAttribute('id', 'circuit-svg-canvas');
+        const sceneEl = document.getElementById('scene');
+        
+        // Initialize Panzoom on the scene container
+        pzInstance = panzoom(sceneEl, {
+          maxZoom: 10,
+          minZoom: 0.15,
+          smoothScroll: false,
+          zoomSpeed: 0.065,
+          beforeWheel: function(e) {
+            // allow wheel zooming freely
+            return false;
+          }
+        });
+
+        // Center and initial comfortable scale
+        setTimeout(() => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const rect = sceneEl.getBoundingClientRect();
           
-          panZoomInstance = svgPanZoom('#circuit-svg-canvas', {
-            zoomEnabled: true,
-            controlIconsEnabled: false,
-            fit: true,
-            center: true,
-            minZoom: 0.1,
-            maxZoom: 15,
-            zoomScaleSensitivity: 0.3,
-            mouseWheelZoomEnabled: true
-          });
+          const scale = Math.min((vw - 80) / rect.width, (vh - 120) / rect.height, 0.95);
+          const initialX = Math.max((vw - rect.width * scale) / 2, 40);
+          const initialY = 90;
 
-          // Zoom toolbar bindings
-          document.getElementById('btn-zoom-in').addEventListener('click', () => panZoomInstance.zoomIn());
-          document.getElementById('btn-zoom-out').addEventListener('click', () => panZoomInstance.zoomOut());
-          document.getElementById('btn-zoom-reset').addEventListener('click', () => {
-            panZoomInstance.resetZoom();
-            panZoomInstance.center();
-          });
-          document.getElementById('btn-zoom-fit').addEventListener('click', () => {
-            panZoomInstance.fit();
-            panZoomInstance.center();
-          });
+          pzInstance.zoomAbs(0, 0, scale);
+          pzInstance.moveTo(initialX, initialY);
+        }, 100);
 
-          // Space key dragging support
-          let isSpacePressed = false;
-          window.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && !isSpacePressed) {
-              isSpacePressed = true;
-              document.getElementById('viewport-container').style.cursor = 'grab';
-            }
-          });
-          window.addEventListener('keyup', (e) => {
-            if (e.code === 'Space') {
-              isSpacePressed = false;
-              document.getElementById('viewport-container').style.cursor = 'default';
-            }
-          });
+        // Zoom toolbar controls
+        document.getElementById('btn-zoom-in').addEventListener('click', () => {
+          const transform = pzInstance.getTransform();
+          pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25);
+        });
 
-          // Auto resize on window change
-          window.addEventListener('resize', () => {
-            panZoomInstance.resize();
-            panZoomInstance.fit();
-            panZoomInstance.center();
-          });
-        }
+        document.getElementById('btn-zoom-out').addEventListener('click', () => {
+          const transform = pzInstance.getTransform();
+          pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8);
+        });
+
+        document.getElementById('btn-zoom-reset').addEventListener('click', () => {
+          pzInstance.zoomAbs(0, 0, 1);
+          pzInstance.moveTo(40, 90);
+        });
+
+        document.getElementById('btn-zoom-fit').addEventListener('click', () => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const rect = sceneEl.getBoundingClientRect();
+          const scale = Math.min((vw - 80) / (rect.width / pzInstance.getTransform().scale), (vh - 120) / (rect.height / pzInstance.getTransform().scale), 0.95);
+          pzInstance.zoomAbs(0, 0, scale);
+          pzInstance.moveTo((vw - (rect.width / pzInstance.getTransform().scale) * scale) / 2, 90);
+        });
+
       } catch (err) {
-        console.error('Render error:', err);
+        console.error('Mermaid render error:', err);
       } finally {
         const overlay = document.getElementById('loading-overlay');
         if (overlay) {
@@ -517,7 +520,7 @@ flowchart TB
       }
     }
 
-    window.addEventListener('DOMContentLoaded', renderAndInitPanZoom);
+    window.addEventListener('DOMContentLoaded', initCanvas);
   </script>
 </body>
 </html>
