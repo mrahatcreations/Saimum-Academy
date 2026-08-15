@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎓 সাইমুম কেন্দ্রীয় একাডেমি — Master Unified Circuit Architecture Map</title>
+  <title>🎓 সাইমুম একাডেমি — সহজ সিস্টেম সার্কিট ম্যাপ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
@@ -32,16 +32,15 @@
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-dark);
       color: var(--text-primary);
-      line-height: 1.5;
+      line-height: 1.6;
       padding: 24px;
-      overflow-x: auto;
     }
 
     .circuit-container {
-      max-width: 1600px;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
@@ -52,12 +51,9 @@
       border-radius: 20px;
       padding: 28px 32px;
       margin-bottom: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       position: relative;
       overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     .circuit-header::before {
@@ -66,21 +62,21 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
+      height: 4px;
       background: linear-gradient(90deg, #FF790E, #06B6D4, #10B981, #8B5CF6);
     }
 
     .brand-title {
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      color: #FFFFFF;
     }
 
     .brand-pill {
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       font-weight: 800;
       background: rgba(255, 121, 14, 0.15);
       color: var(--brand-orange);
@@ -92,32 +88,8 @@
 
     .header-sub {
       color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin-top: 4px;
-    }
-
-    .circuit-legend {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      background: var(--bg-card);
-      padding: 10px 20px;
-      border-radius: 14px;
-      border: 1px solid var(--border-color);
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
+      font-size: 1.05rem;
+      margin-top: 6px;
     }
 
     /* Main Circuit Board */
@@ -125,94 +97,80 @@
       background: var(--bg-surface);
       border: 1.5px solid var(--border-color);
       border-radius: 24px;
-      padding: 36px 28px;
+      padding: 32px 24px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-      position: relative;
-    }
-
-    .circuit-board-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .circuit-board-title h2 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      margin-bottom: 30px;
     }
 
     .circuit-canvas {
       background: #090E1A;
       border: 1px solid var(--border-color);
       border-radius: 18px;
-      padding: 30px 16px;
+      padding: 24px 12px;
       overflow-x: auto;
       display: flex;
       justify-content: center;
     }
 
     .mermaid {
-      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif !important;
+      font-family: 'Hind Siliguri', sans-serif !important;
       width: 100%;
     }
 
-    /* Core Circuit Rules Grid */
-    .circuit-nodes-summary {
+    /* Step-by-Step Simple Bengali Cards */
+    .steps-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-top: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 28px;
     }
 
-    .node-summary-card {
+    .step-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 18px 16px;
+      border-radius: 18px;
+      padding: 22px 20px;
+      transition: all 0.2s ease;
     }
 
-    .node-tag {
+    .step-card:hover {
+      border-color: var(--brand-orange);
+      transform: translateY(-2px);
+    }
+
+    .step-num {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255, 121, 14, 0.15);
+      color: var(--brand-orange);
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-align: center;
+      line-height: 28px;
+      margin-bottom: 12px;
       font-family: 'Fira Code', monospace;
-      font-size: 0.72rem;
+    }
+
+    .step-title {
+      font-size: 1.1rem;
       font-weight: 700;
+      color: var(--text-primary);
       margin-bottom: 6px;
     }
 
-    .node-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-
-    .node-desc {
-      font-size: 0.8rem;
+    .step-desc {
+      font-size: 0.9rem;
       color: var(--text-secondary);
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
-    @media (max-width: 1100px) {
-      .circuit-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-      }
-      .circuit-nodes-summary {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 650px) {
-      .circuit-nodes-summary {
-        grid-template-columns: 1fr;
-      }
+    .footer {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 40px;
     }
   </style>
 </head>
@@ -222,161 +180,147 @@
     
     <!-- Top Header -->
     <header class="circuit-header">
-      <div>
-        <div class="brand-title">
-          <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Circuit Flow</span>
-          <span class="brand-pill">PRD ARCHITECTURE V1.0</span>
-        </div>
-        <p class="header-sub">সেন্ট্রাল মাস্টার সাবজেক্ট থেকে শুরু করে আবেদন, ভাইভা, ওয়ার্কশপ, এক্সাম ও অনগোয়িং ব্যাচ মেম্বারশিপের সম্পূর্ণ একক সার্কিট কানেকশন।</p>
+      <div class="brand-title">
+        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — পুরো সিস্টেমের সহজ সার্কিট ম্যাপ</span>
+        <span class="brand-pill">সহজ ভাষায়</span>
       </div>
-
-      <div class="circuit-legend">
-        <div class="legend-item"><span class="legend-dot" style="background: #FF790E;"></span> <span>Master Catalog</span></div>
-        <div class="legend-item"><span class="legend-dot" style="background: #06B6D4;"></span> <span>Branches</span></div>
-        <div class="legend-item"><span class="legend-dot" style="background: #8B5CF6;"></span> <span>Admission Lifecycle</span></div>
-        <div class="legend-item"><span class="legend-dot" style="background: #10B981;"></span> <span>Regular Student</span></div>
-      </div>
+      <p class="header-sub">সেন্ট্রাল হেডকোয়ার্টার থেকে ছাত্রের আবেদন, ভাইভা, ওয়ার্কশপ পাস করে নিয়মিত ব্যাচে যুক্ত হওয়ার পুরো সার্কিট প্রবাহ।</p>
     </header>
 
-    <!-- Unified Circuit Board -->
+    <!-- Main Circuit Board -->
     <main class="circuit-board">
       
-      <div class="circuit-board-title">
-        <h2>🔌 UNIFIED SYSTEM CIRCUIT ARCHITECTURE</h2>
-        <span style="font-size: 0.8rem; color: var(--text-secondary); font-family: monospace;">ALL IN ONE CONNECTED CIRCUIT</span>
-      </div>
-
       <div class="circuit-canvas">
         <pre class="mermaid">
 flowchart TB
-    %% ==========================================
-    %% 1. CENTRAL MASTER NODES (Created Once)
-    %% ==========================================
-    subgraph Central_Core ["🏛️ CENTRAL ACADEMY MASTER HQ"]
-        CA["Central Academy Admin Panel"]
-        MS["📚 MASTER SUBJECTS CATALOG<br/>(সংগীত, অভিনয়, আবৃত্তি - NO DUPLICATION)"]
-        MD["🏛️ MASTER DEPARTMENTS<br/>(সংগীত বিভাগ, অভিনয় বিভাগ, আবৃত্তি বিভাগ)"]
-        CA --> MS
-        CA --> MD
+    %% ===================================================
+    %% ১. সেন্ট্রাল মাস্টার হেডকোয়ার্টার
+    %% ===================================================
+    subgraph HQ ["🏛️ ১. কেন্দ্রীয় হেডকোয়ার্টার (সেন্ট্রাল মাস্টার)"]
+        MS["📚 মাস্টার বিষয়সমূহ<br/>(গান, অভিনয়, আবৃত্তি - একবারই তৈরি হবে)"]
+        MD["🏛️ মাস্টার বিভাগসমূহ<br/>(সংগীত বিভাগ, অভিনয় বিভাগ, ইত্যাদি)"]
     end
 
-    %% ==========================================
-    %% 2. OPERATIONAL BRANCHES (Physical & Online)
-    %% ==========================================
-    subgraph Branch_Network ["🏢 OPERATIONAL BRANCH NETWORK"]
-        B_Dhaka["🏢 Central Dhaka Branch (Physical)"]
-        B_Mirpur["🏢 Mirpur Branch (Physical)"]
-        B_Online["🌐 Online Branch (Zoom / Cloud Meeting Config)"]
+    %% ===================================================
+    %% ২. শাখা নেটওয়ার্ক (শাখা ও অনলাইন)
+    %% ===================================================
+    subgraph Branches ["🏢 ২. শাখা নেটওয়ার্ক"]
+        B1["🏢 ঢাকা সেন্ট্রাল শাখা (ফিজিক্যাল)"]
+        B2["🏢 মিরপুর শাখা (ফিজিক্যাল)"]
+        BO["🌐 অনলাইন শাখা (জুম / লাইভ ক্লাস)"]
     end
 
-    %% Many-to-Many Connection
-    MD <== "Many-to-Many Mapping<br/>(DepartmentBranch)" ==> B_Dhaka
-    MD <== "Many-to-Many Mapping" ==> B_Mirpur
-    MD <== "Many-to-Many Mapping" ==> B_Online
+    MD <== "যে কোনো বিভাগে যে কোনো শাখা যুক্ত হতে পারে" ==> B1
+    MD <== "Many-to-Many" ==> B2
+    MD <== "Many-to-Many" ==> BO
 
-    %% ==========================================
-    %% 3. BRANCH SUBJECT OFFERING & ONGOING BATCHES
-    %% ==========================================
-    subgraph Offering_Batches ["📚 SUBJECT OFFERINGS & ONGOING BATCH COHORTS"]
-        SO_Music_Dhaka["BranchSubject Offering:<br/>Dhaka ↔ Master Music"]
-        SO_Music_Online["BranchSubject Offering:<br/>Online ↔ Master Music"]
+    %% ===================================================
+    %% ৩. শাখায় বিষয় চালু ও চলমান ব্যাচ
+    %% ===================================================
+    subgraph Offerings ["📚 ৩. শাখায় বিষয় চালু ও চলমান ব্যাচ"]
+        SO1["ঢাকা শাখার গান বিষয়"]
+        SO2["অনলাইন শাখার গান বিষয়"]
         
-        Batch_Music_1["👥 Ongoing Batch: Music Batch 1<br/>(Created 2025 - Active for multi-year joins)"]
-        Batch_Music_Online["👥 Ongoing Batch: Online Music Batch 1<br/>(Zoom Schedule & Attendance Matrix)"]
+        Batch1["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/>(২০২৫ সালে শুরু - এখনো নতুন ছাত্র ভর্তি হতে পারে)"]
+        Batch2["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/>(জুম ক্লাসের শিডিউল ও উপস্থিতি)"]
     end
 
-    MS -.->|"Offer centrally"| SO_Music_Dhaka
-    MS -.->|"Offer centrally"| SO_Music_Online
-    B_Dhaka --> SO_Music_Dhaka
-    B_Online --> SO_Music_Online
+    MS -.->|"শাখায় চালু করা হলো"| SO1
+    MS -.->|"শাখায় চালু করা হলো"| SO2
+    B1 --> SO1
+    BO --> SO2
     
-    SO_Music_Dhaka --> Batch_Music_1
-    SO_Music_Online --> Batch_Music_Online
+    SO1 --> Batch1
+    SO2 --> Batch2
 
-    %% ==========================================
-    %% 4. ADMISSION LIFECYCLE CIRCUIT
-    %% ==========================================
-    subgraph Admission_Funnel ["🎯 COMPLETE ADMISSION LIFECYCLE CIRCUIT"]
-        WebIntake["🌐 Public Portal Intake<br/>(Rules: Girls <= Class 3, Boys <= Honours)"]
+    %% ===================================================
+    %% ৪. ভর্তির পুরো সার্কিট
+    %% ===================================================
+    subgraph Funnel ["🎯 ৪. ভর্তি ও যাচাই বাছাই প্রক্রিয়া"]
+        Apply["📝 ওয়েবসাইট থেকে আবেদন<br/>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)"]
         
-        PersonCheck{"🔍 Permanent Person Match?<br/>(Phone / Email / NID)"}
+        PersonCheck{"🔍 আগে কখনো সাইমুমে ভর্তি ছিল?"}
         
-        PersonProfile["🧑 1 Permanent Person Profile<br/>(Preserves Multi-Year History)"]
-        NewReg["📜 Registration Session 2026<br/>(Admission Application Record)"]
+        Person["🧑 ১ জন মানুষের ১টি স্থায়ী আইডি<br/>(পুরোনো সব ইতিহাস থাকবে)"]
+        Reg["📜 নতুন সেশনের রেজিস্ট্রেশন ফরম"]
         
-        VivaStage["🎙️ Viva Assessment Panel<br/>- Criteria Scoring & Remarks"]
-        VivaDecision{"Viva Result?"}
+        Viva["🎙️ ভাইভা পরীক্ষা (নম্বর ও সিলেক্ট/রিজেক্ট)"]
+        VivaCheck{"ভাইভায় পাস?"}
         
-        WorkshopCohort["🎪 Workshop Cohort<br/>(e.g., '2026 Music Workshop')<br/>- Attendance, Discipline & Skill Growth"]
+        Workshop["🎪 ওয়ার্কশপ ট্রেনিং<br/>(নিয়মিত উপস্থিতি ও পারফরম্যান্স স্কোরিং)"]
         
-        FinalExam["📝 Final Assessment & Exam<br/>- Theory & Practical Scoring"]
-        ExamDecision{"Exam Result?"}
+        Exam["📝 ফাইনাল পরীক্ষা"]
+        ExamCheck{"ফাইনাল পরীক্ষায় পাস?"}
     end
 
-    WebIntake --> PersonCheck
-    PersonCheck -- "Existing Found" --> PersonProfile
-    PersonCheck -- "New Human" --> PersonProfile
-    PersonProfile --> NewReg
+    Apply --> PersonCheck
+    PersonCheck -- "হ্যাঁ, আগে ছিল" --> Person
+    PersonCheck -- "না, একদম নতুন" --> Person
+    Person --> Reg
     
-    NewReg --> VivaStage
-    VivaStage --> VivaDecision
-    VivaDecision -- "Selected" --> WorkshopCohort
-    VivaDecision -- "Rejected" --> ArchFail1["📁 Status: Rejected (Eligible next year)"]
+    Reg --> Viva
+    Viva --> VivaCheck
+    VivaCheck -- "সিলেক্টেড" --> Workshop
+    VivaCheck -- "রিজেক্ট" --> Fail1["📁 রিজেক্ট (ভবিষ্যতে আবার আবেদন করতে পারবে)"]
     
-    WorkshopCohort --> FinalExam
-    FinalExam --> ExamDecision
-    ExamDecision -- "Failed" --> ArchFail2["📁 Status: Workshop Failed (History Saved)"]
+    Workshop --> Exam
+    Exam --> ExamCheck
+    ExamCheck -- "ফেল" --> Fail2["📁 ওয়ার্কশপ ফেল (ইতিহাসে রেকর্ড থাকবে)"]
 
-    %% ==========================================
-    %% 5. REGULAR PROMOTION & ONGOING BATCH HOOKUP
-    %% ==========================================
-    subgraph Regular_Active ["🎓 REGULAR ACTIVE MEMBERSHIP CIRCUIT"]
-        OneClickPromo["⚡ ONE-CLICK PROMOTION<br/>Status: REGULAR STUDENT"]
-        BatchMembershipHook["🔗 BATCH MEMBERSHIP ASSIGNMENT<br/>(Student joined 2026 into Ongoing Batch)"]
+    %% ===================================================
+    %% ৫. এক ক্লিকে নিয়মিত ছাত্র ও ব্যাচে যুক্ত হওয়া
+    %% ===================================================
+    subgraph Promo ["🎓 ৫. নিয়মিত ছাত্র ও ব্যাচে অন্তর্ভুক্তি"]
+        OneClick["⚡ ১-ক্লিকে রেগুলার ছাত্র হিসেবে প্রমোশন!"]
+        JoinBatch["🔗 চলমান ব্যাচে সদস্য হিসেবে অ্যাসাইন<br/>(যেমন: ২০২৬ সালে পাস করা ছাত্র যুক্ত হলো 'গান ব্যাচ ১'-এ)"]
         
-        ActiveStudentSystem["🎓 Active Student Operations:<br/>• Physical & Zoom Live Classes<br/>• Attendance Tracking Matrix<br/>• Student Portal & History Dashboard"]
+        RegularOps["🎓 নিয়মিত ক্লাসের কার্যক্রম:<br/>• ফিজিক্যাল ও জুম লাইভ ক্লাস<br/>• দৈনিক উপস্থিতি ম্যাট্রিক্স<br/>• স্টুডেন্ট ড্যাশবোর্ড"]
     end
 
-    ExamDecision -- "Passed Exam 🎉" --> OneClickPromo
-    OneClickPromo --> BatchMembershipHook
+    ExamCheck -- "পাস করেছে 🎉" --> OneClick
+    OneClick --> JoinBatch
     
-    %% The Circuit Loops Back into Ongoing Batches!
-    BatchMembershipHook ==>|"Connects Student to"| Batch_Music_1
-    BatchMembershipHook ==>|"Connects Student to"| Batch_Music_Online
+    %% ব্যাচের সাথে সরাসরি লাইন যুক্ত!
+    JoinBatch ==>|"সরাসরি ব্যাচে যুক্ত হলো"| Batch1
+    JoinBatch ==>|"সরাসরি ব্যাচে যুক্ত হলো"| Batch2
     
-    Batch_Music_1 --> ActiveStudentSystem
-    Batch_Music_Online --> ActiveStudentSystem
+    Batch1 --> RegularOps
+    Batch2 --> RegularOps
         </pre>
       </div>
 
-      <!-- Core Circuit Nodes Summary -->
-      <div class="circuit-nodes-summary">
-        <div class="node-summary-card">
-          <div class="node-tag" style="color: #FF790E;">NODE 01: MASTER HQ</div>
-          <div class="node-title">মাস্টার সাবজেক্ট ও ডিপার্টমেন্ট</div>
-          <div class="node-desc">সেন্ট্রাল ক্যাটালগে সাবজেক্ট একবার তৈরি হয়ে প্রতিটি ব্রাঞ্চে অফারিং হিসেবে অ্যাসাইন হয়। কোনো ডুপ্লিকেশন নেই।</div>
+      <!-- Simple Bengali Step Descriptions -->
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">০১</div>
+          <div class="step-title">মাস্টার সাবজেক্ট ও বিভাগ</div>
+          <div class="step-desc">গান, অভিনয় বা আবৃত্তি বিষয়গুলো সেন্ট্রাল সিস্টেমে <strong>একবারই</strong> তৈরি হবে। কোনো ব্রাঞ্চের জন্য বারবার ডুপ্লিকেট সাবজেক্ট তৈরি হবে না।</div>
         </div>
 
-        <div class="node-summary-card">
-          <div class="node-tag" style="color: #06B6D4;">NODE 02: BRANCH NETWORK</div>
-          <div class="node-title">ফিজিক্যাল ও অনলাইন জুম ব্রাঞ্চ</div>
-          <div class="node-desc">ডিপার্টমেন্ট ও ব্রাঞ্চের মাঝে মেনি-টু-মেনি সম্পর্ক। অনলাইন ব্রাঞ্চের জুম ও ক্লাউড কনফিগারেশন থাকে।</div>
+        <div class="step-card">
+          <div class="step-num">০২</div>
+          <div class="step-title">ফিজিক্যাল ও অনলাইন শাখা</div>
+          <div class="step-desc">প্রতিটি শাখায় সেন্ট্রাল বিষয়গুলো চালু করা যাবে। অনলাইন শাখা সাধারণ শাখার মতোই কাজ করবে কিন্তু এতে জুম ক্লাসের লিংক ও নিয়ম থাকবে।</div>
         </div>
 
-        <div class="node-summary-card">
-          <div class="node-tag" style="color: #8B5CF6;">NODE 03: ADMISSION FUNNEL</div>
-          <div class="node-title">ভর্তি ও ওয়ার্কশপ মূল্যায়ন</div>
-          <div class="node-desc">বয়স/জেন্ডার ভ্যালিডেশন ➔ ভাইভা ➔ ওয়ার্কশপ কোহোর্ট ➔ ফাইনাল পরীক্ষা সম্পন্ন হয়।</div>
+        <div class="step-card">
+          <div class="step-num">০৩</div>
+          <div class="step-title">ভর্তি ও ওয়ার্কশপ ফিল্টার</div>
+          <div class="step-desc">আবেদন যাচাই (মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স) ➔ ভাইভা ➔ ওয়ার্কশপ ট্রেনিং ➔ ফাইনাল পরীক্ষা সম্পন্ন হবে। ১ জন ব্যক্তির ১টিই স্থায়ী প্রোফাইল থাকবে।</div>
         </div>
 
-        <div class="node-summary-card">
-          <div class="node-tag" style="color: #10B981;">NODE 04: ONGOING BATCH HOOK</div>
-          <div class="node-title">১-ক্লিকে অনগোয়িং ব্যাচ অ্যাসাইন</div>
-          <div class="node-desc">পরীক্ষায় পাস করা শিক্ষার্থী কোনো নতুন ব্যাচ না বানিয়ে সরাসরি আগের চলমান ব্যাচে যুক্ত হয়।</div>
+        <div class="step-card">
+          <div class="step-num">০৪</div>
+          <div class="step-title">১-ক্লিকে চলমান ব্যাচে যুক্ত হওয়া</div>
+          <div class="step-desc">ফাইনাল পরীক্ষায় পাস করার পর ছাত্রকে নতুন ব্যাচ না বানিয়ে সরাসরি আগের <strong>চলমান ব্যাচে (যেমন: গান ব্যাচ ১)</strong> যুক্ত করে দেওয়া হবে।</div>
         </div>
       </div>
 
     </main>
+
+    <footer class="footer">
+      <p>© ২০২৬ সাইমুম কেন্দ্রীয় একাডেমি — সহজ ভাষায় সিস্টেম আর্কিটেকচার</p>
+    </footer>
 
   </div>
 
@@ -393,7 +337,7 @@ flowchart TB
         lineColor: '#06B6D4',
         secondaryColor: '#131E33',
         tertiaryColor: '#0E1626',
-        fontFamily: 'Plus Jakarta Sans, Hind Siliguri, sans-serif'
+        fontFamily: 'Hind Siliguri, Plus Jakarta Sans, sans-serif'
       }
     });
   </script>
