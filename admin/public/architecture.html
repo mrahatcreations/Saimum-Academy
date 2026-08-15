@@ -3,24 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ সাইমুম সেন্ট্রাল একাডেমি — Interactive Circuit Board Architecture</title>
+  <title>🎓 সাইমুম একাডেমি — Master Architecture Diagram (Interactive Circuit)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
   <style>
     :root {
-      --bg-dark: #070B14;
-      --pcb-surface: #0B132B;
-      --box-bg: #111C38;
-      --box-border: #1E3A8A;
-      --line-default: #334155;
-      --line-active: #FF790E;
-      --line-cyan: #06B6D4;
-      --line-emerald: #10B981;
-      --line-purple: #A855F7;
-      --line-amber: #F59E0B;
-      --text-main: #F8FAFC;
+      --canvas-bg: #070B14;
+      --board-border: #1E3A8A;
+      --trace-cyan: #06B6D4;
+      --trace-orange: #FF790E;
+      --text-light: #F8FAFC;
       --text-muted: #94A3B8;
     }
 
@@ -34,8 +29,8 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
+      background-color: var(--canvas-bg);
+      color: var(--text-light);
       font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
     }
 
@@ -43,7 +38,7 @@
       width: 100vw;
       height: 100vh;
       position: relative;
-      background: radial-gradient(circle at 50% 40%, #0F1F3D 0%, #070B14 100%);
+      background: radial-gradient(circle at 50% 30%, #0F1D36 0%, #070B14 100%);
       overflow: hidden;
       cursor: grab;
       user-select: none;
@@ -53,40 +48,40 @@
       cursor: grabbing;
     }
 
-    /* PCB Matrix Dot Grid */
+    /* PCB Grid Dot Matrix Texture */
     .pcb-grid {
       position: absolute;
       inset: 0;
-      background-size: 32px 32px;
+      background-size: 28px 28px;
       background-image: 
-        radial-gradient(rgba(6, 182, 212, 0.18) 1.2px, transparent 1.2px),
+        radial-gradient(rgba(6, 182, 212, 0.15) 1.2px, transparent 1.2px),
         linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
       pointer-events: none;
       z-index: 1;
     }
 
-    /* Top HUD Controller */
+    /* Top HUD Circuit Controller */
     .top-hud {
       position: absolute;
-      top: 16px;
+      top: 14px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
       display: flex;
       align-items: center;
       gap: 16px;
-      background: rgba(11, 19, 43, 0.94);
+      background: rgba(13, 27, 42, 0.94);
       border: 1px solid #1E3A8A;
-      border-radius: 14px;
-      padding: 8px 22px;
+      border-radius: 12px;
+      padding: 6px 20px;
       backdrop-filter: blur(16px);
-      box-shadow: 0 0 30px rgba(6, 182, 212, 0.18);
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
     }
 
     .hud-title {
       font-weight: 800;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: #F8FAFC;
       display: flex;
       align-items: center;
@@ -95,11 +90,11 @@
 
     .circuit-badge {
       background: rgba(255, 121, 14, 0.15);
-      color: #FF790E;
-      font-size: 0.72rem;
+      color: var(--trace-orange);
+      font-size: 0.7rem;
       font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 6px;
+      padding: 2px 7px;
+      border-radius: 5px;
       border: 1px solid rgba(255, 121, 14, 0.3);
       font-family: 'Fira Code', monospace;
     }
@@ -107,47 +102,47 @@
     .hud-hints {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 0.8rem;
+      gap: 10px;
+      font-size: 0.78rem;
       color: var(--text-muted);
       border-left: 1px solid #1E293B;
-      padding-left: 14px;
+      padding-left: 12px;
     }
 
     .kbd {
       background: #1E293B;
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 4px;
       font-family: monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       border: 1px solid #334155;
       color: #38BDF8;
     }
 
-    /* Zoom Controls */
+    /* Floating Zoom Controls */
     .zoom-toolbar {
       position: absolute;
-      bottom: 24px;
-      right: 24px;
+      bottom: 20px;
+      right: 20px;
       z-index: 100;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      background: rgba(11, 19, 43, 0.95);
+      gap: 5px;
+      background: rgba(13, 27, 42, 0.95);
       border: 1px solid #1E3A8A;
-      border-radius: 12px;
-      padding: 5px;
+      border-radius: 10px;
+      padding: 4px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
     .zoom-btn {
-      width: 38px;
-      height: 38px;
-      background: #111C38;
+      width: 34px;
+      height: 34px;
+      background: #111E33;
       border: 1px solid #1E3A8A;
       color: #F8FAFC;
-      border-radius: 8px;
-      font-size: 1.15rem;
+      border-radius: 6px;
+      font-size: 1.1rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -157,180 +152,154 @@
     }
 
     .zoom-btn:hover {
-      background: #FF790E;
+      background: var(--trace-orange);
       color: #FFFFFF;
-      border-color: #FF790E;
+      border-color: var(--trace-orange);
     }
 
-    /* Circuit Canvas Scene */
     #scene {
       position: absolute;
       transform-origin: 0 0;
       z-index: 10;
-      width: 2500px;
-      height: 1700px;
+      padding: 30px;
+      display: inline-block;
     }
 
-    /* SVG Interactive Circuit Wires */
-    #wires-svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      pointer-events: auto;
+    /* Genuine Flowchart Nodes & Clusters */
+    .mermaid {
+      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif !important;
     }
 
-    .circuit-wire {
-      stroke: #334155;
-      stroke-width: 2.2px;
-      fill: none;
+    .mermaid .node {
       cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .mermaid .node rect,
+    .mermaid .node circle,
+    .mermaid .node polygon,
+    .mermaid .node path {
+      rx: 8px !important;
+      ry: 8px !important;
+      stroke-width: 1.8px !important;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5)) !important;
       transition: stroke 0.25s ease, stroke-width 0.25s ease, filter 0.25s ease;
     }
 
-    .circuit-wire:hover {
+    .mermaid .cluster rect {
+      rx: 12px !important;
+      ry: 12px !important;
+      stroke-dasharray: 5 3 !important;
+      stroke-width: 1.5px !important;
+    }
+
+    /* Glowing Arrow Traces */
+    .mermaid .edgePath {
+      cursor: pointer;
+    }
+
+    .mermaid .edgePath path {
+      stroke-width: 2.2px !important;
       stroke: #38BDF8 !important;
-      stroke-width: 3.5px !important;
-      filter: drop-shadow(0 0 8px #38BDF8) !important;
+      transition: stroke 0.25s ease, stroke-width 0.25s ease, filter 0.25s ease;
     }
 
-    .circuit-wire.active-highlight {
-      stroke: #FF790E !important;
-      stroke-width: 4px !important;
-      filter: drop-shadow(0 0 12px #FF790E) !important;
-      animation: pulse-wire 1.5s infinite alternate;
-    }
-
-    @keyframes pulse-wire {
-      0% { stroke-width: 3.5px; filter: drop-shadow(0 0 8px #FF790E); }
-      100% { stroke-width: 5px; filter: drop-shadow(0 0 18px #FF9436); }
-    }
-
-    /* Wire Signal Direction Markers */
-    marker path {
-      fill: #334155;
+    .mermaid .marker,
+    .mermaid marker path {
+      fill: #38BDF8 !important;
+      stroke: #38BDF8 !important;
       transition: fill 0.25s ease;
     }
-    .circuit-wire:hover marker path { fill: #38BDF8; }
-    .circuit-wire.active-highlight marker path { fill: #FF790E; }
 
-    /* Modular Device Box (স্বতন্ত্র ইলেকট্রনিক যন্ত্র) */
-    .circuit-device {
-      position: absolute;
-      background: var(--box-bg);
-      border: 1.8px solid var(--box-border);
-      border-radius: 12px;
-      padding: 16px 20px;
-      z-index: 5;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      transition: all 0.2s ease;
+    .mermaid .edgeLabel {
+      background-color: #0B132B !important;
+      padding: 2px 6px !important;
+      border-radius: 4px !important;
+      border: 1px solid #1E3A8A !important;
+      font-size: 10.5px !important;
+      font-weight: 700 !important;
+      color: #38BDF8 !important;
+      font-family: 'Fira Code', monospace;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    .circuit-device:hover {
-      border-color: #38BDF8;
-      transform: translateY(-2px);
-      box-shadow: 0 14px 40px rgba(6, 182, 212, 0.2);
+    /* Interactive Highlight Animations */
+    .edge-highlight path {
+      stroke: #FF790E !important;
+      stroke-width: 4.5px !important;
+      filter: drop-shadow(0 0 12px #FF790E) !important;
     }
 
-    .circuit-device.device-highlight {
+    .edge-highlight marker path {
+      fill: #FF790E !important;
+      stroke: #FF790E !important;
+    }
+
+    .node-highlight rect,
+    .node-highlight circle,
+    .node-highlight polygon,
+    .node-highlight path {
+      stroke: #FF790E !important;
+      stroke-width: 3.5px !important;
+      filter: drop-shadow(0 0 18px rgba(255, 121, 14, 0.6)) !important;
+    }
+
+    .label-highlight {
+      background-color: #FF790E !important;
+      color: #FFFFFF !important;
       border-color: #FF790E !important;
-      box-shadow: 0 0 35px rgba(255, 121, 14, 0.35) !important;
+      box-shadow: 0 0 12px rgba(255, 121, 14, 0.5) !important;
     }
 
-    /* Special Hardware Device Accents */
-    .device-gateway {
-      border: 2px solid #10B981 !important;
-      background: linear-gradient(135deg, #06281E 0%, #0F203D 100%) !important;
-      box-shadow: 0 0 25px rgba(16, 185, 129, 0.2) !important;
-    }
-
-    .device-brain {
-      border: 2px solid #2563EB !important;
-      background: linear-gradient(135deg, #0A1C42 0%, #0B162E 100%) !important;
-      box-shadow: 0 0 30px rgba(37, 99, 235, 0.25) !important;
-    }
-
-    .device-master {
-      border: 2px solid #FF790E !important;
-      background: linear-gradient(135deg, #2E1504 0%, #0F1B38 100%) !important;
-    }
-
-    .device-title {
-      font-size: 1rem;
-      font-weight: 800;
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .device-sub {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-      line-height: 1.35;
-    }
-
-    .device-badge {
-      display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 4px;
-      margin-bottom: 6px;
-      font-family: 'Fira Code', monospace;
-      letter-spacing: 0.5px;
-    }
-
-    .badge-gateway { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.4); }
-    .badge-brain { background: rgba(37, 99, 235, 0.2); color: #60A5FA; border: 1px solid rgba(37, 99, 235, 0.4); }
-    .badge-master { background: rgba(255, 121, 14, 0.2); color: #FF9436; border: 1px solid rgba(255, 121, 14, 0.4); }
-    .badge-branch { background: rgba(6, 182, 212, 0.2); color: #22D3EE; border: 1px solid rgba(6, 182, 212, 0.4); }
-    .badge-funnel { background: rgba(245, 158, 11, 0.2); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.4); }
-
-    /* Floating Interactive Wire Signals */
-    .wire-info-pill {
+    #loading-overlay {
       position: absolute;
-      background: #0E1A33;
-      border: 1px solid #1E3A8A;
-      font-size: 11px;
-      font-family: 'Fira Code', monospace;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      color: #38BDF8;
-      z-index: 10;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      white-space: nowrap;
+      inset: 0;
+      background: var(--canvas-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      transition: opacity 0.3s ease;
     }
 
-    .wire-info-pill:hover, .wire-info-pill.active {
-      background: #FF790E;
-      color: #FFFFFF;
-      border-color: #FF790E;
-      box-shadow: 0 0 14px rgba(255, 121, 14, 0.5);
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(6, 182, 212, 0.2);
+      border-top-color: var(--trace-cyan);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 12px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Viewport Pan-Zoom Canvas -->
+  <!-- Loading State -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div style="font-weight: 700; font-size: 0.95rem; color: #38BDF8;">সাইমুম আর্কিটেকচার ডায়াগ্রাম রেন্ডার হচ্ছে...</div>
+  </div>
+
   <div id="viewport-container">
     <div class="pcb-grid"></div>
 
-    <!-- Top Controller Bar -->
+    <!-- Top Circuit Header -->
     <header class="top-hud">
       <div class="hud-title">
-        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Circuit Board</span>
-        <span class="circuit-badge">INTERACTIVE WIRE HIGHLIGHT</span>
+        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Architecture Diagram</span>
+        <span class="circuit-badge">FLOWCHART + CLICK TO HIGHLIGHT</span>
       </div>
       <div class="hud-hints">
-        <span><span class="kbd">Click</span> যেকোনো তার/যন্ত্রে ক্লিক করে কানেকশন হাইলাইট করুন</span>
+        <span><span class="kbd">Click</span> যেকোনো বক্স বা লাইনে ক্লিক করে পুরো কানেকশন হাইলাইট করুন</span>
         <span><span class="kbd">Scroll</span> জুম</span>
-        <span><span class="kbd">Drag</span> ক্যানভাস সরান</span>
+        <span><span class="kbd">Drag</span> প্যান</span>
       </div>
     </header>
 
@@ -342,329 +311,342 @@
       <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen" style="font-size: 0.85rem;">⛶</button>
     </div>
 
-    <!-- Interactive Modular Circuit Canvas -->
+    <!-- True Mermaid Flowchart with Standalone Payment Gateway Hub and Multi-Signal Routing -->
     <div id="scene">
-      
-      <!-- =========================================================================
-           SVG INTERACTIVE WIRES & BUSES
-           ========================================================================= -->
-      <svg id="wires-svg">
-        <defs>
-          <marker id="arrow-def" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#334155" />
-          </marker>
-        </defs>
+      <div id="mermaid-diagram" class="mermaid">
+flowchart TB
+    %% =========================================================================
+    %% ১. ইনপুট লেয়ার: পাবলিক ওয়েবসাইট ও অনলাইন ভর্তি আবেদন
+    %% =========================================================================
+    subgraph S1 [" 🌐 [INPUT LAYER] পাবলিক ওয়েবসাইট ও অনলাইন ভর্তি ফরম (frontend/) "]
+        direction LR
+        WebHome["🌍 পাবলিক ওয়েবসাইট<br/>(পরিচিতি ও ব্রাউজিং)"]
+        WebApply["📝 অনলাইন ভর্তি ফরম<br/><b>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স)</b>"]
+        WebHome --> WebApply
+    end
 
-        <!-- W1: WebApply -> Payment Gateway (Registration Fee) -->
-        <path id="wire-w1" class="circuit-wire" data-from="device-apply" data-to="device-gateway"
-              d="M 430,130 L 760,130 L 760,400 L 1100,400" marker-end="url(#arrow-def)" />
+    %% =========================================================================
+    %% ২. কেন্দ্রীয় প্রশাসন ও মাস্টার ক্যাটালগ
+    %% =========================================================================
+    subgraph S2 [" 🏛️ [CENTRAL MASTER HQ] কেন্দ্রীয় একাডেমি প্রশাসন (admin/) "]
+        direction LR
+        SuperAdmin["👑 সুপার অ্যাডমিন প্যানেল<br/>(সার্বিক নিয়ন্ত্রণ ও রোলস)"]
+        MS["📚 মাস্টার বিষয় ক্যাটালগ<br/><b>[গান, অভিনয়, আবৃত্তি - নো ডুপ্লিকেশন]</b>"]
+        MD["🏛️ মাস্টার বিভাগ ক্যাটালগ<br/><b>[Many-to-Many রিলেশন]</b>"]
+        GlobalSearch["🔍 গ্লোবাল সার্চ ও অডিট লগ<br/>(ফোন/আইডি ট্র্যাকিং)"]
+        
+        SuperAdmin --> MS
+        SuperAdmin --> MD
+        SuperAdmin --> GlobalSearch
+    end
 
-        <!-- W2: WorkshopEnroll -> Payment Gateway (Workshop Admission Fee) -->
-        <path id="wire-w2" class="circuit-wire" data-from="device-workshop" data-to="device-gateway"
-              d="M 430,730 L 760,730 L 760,430 L 1100,430" marker-end="url(#arrow-def)" />
+    %% =========================================================================
+    %% ৩. স্বতন্ত্র অনলাইন পেমেন্ট গেটওয়ে হাব (STANDALONE PAYMENT GATEWAY HUB)
+    %% =========================================================================
+    subgraph SG [" 💳 [STANDALONE GATEWAY HUB] অনলাইন পেমেন্ট গেটওয়ে "]
+        PaymentGateway["💳 অনলাইন পেমেন্ট গেটওয়ে (bKash / Nagad / SSLCommerz)<br/><b>[সকল ৪টি ফি রিসিভ করে ও অটো রসিদ প্রদান করে]</b>"]
+    end
 
-        <!-- W3: RegularEnroll -> Payment Gateway (Student Admission Fee) -->
-        <path id="wire-w3" class="circuit-wire" data-from="device-exam" data-to="device-gateway"
-              d="M 430,950 L 780,950 L 780,460 L 1100,460" marker-end="url(#arrow-def)" />
+    %% =========================================================================
+    %% ৪. শাখা ও ডিপার্টমেন্ট প্যানেল
+    %% =========================================================================
+    subgraph S3 [" 🏢 [MANAGEMENT BUS] শাখা ও ডিপার্টমেন্ট প্যানেল (department/) "]
+        direction TB
+        subgraph RolesRow [" দায়িত্বশীলদের রোলস "]
+            direction LR
+            DeptDirector["🎭 ডিপার্টমেন্ট পরিচালক<br/>(বিভাগীয় প্রধান)"]
+            BranchDirector["🏢 শাখা পরিচালক<br/>(অফিস ও অর্থ সম্পাদক)"]
+            TeacherStaff["👨‍🏫 শিক্ষক ও প্রশিক্ষক<br/>(ক্লাস ও মার্কিং)"]
+        end
+        
+        subgraph BranchNet [" শাখা নেটওয়ার্ক "]
+            direction LR
+            B_Physical["🏢 ফিজিক্যাল শাখা (ঢাকা, মিরপুর)"]
+            B_Online["🌐 অনলাইন জুম শাখা (জুম আইডি/লিংক)"]
+        end
+    end
 
-        <!-- W4: StudentPortal -> Payment Gateway (Monthly Tuition Fee) -->
-        <path id="wire-w4" class="circuit-wire" data-from="device-student" data-to="device-gateway"
-              d="M 2150,960 L 1400,960 L 1400,480" marker-end="url(#arrow-def)" />
+    MD <== "Many-to-Many" ==> B_Physical
+    MD <== "Many-to-Many" ==> B_Online
+    SuperAdmin -.-> DeptDirector
+    SuperAdmin -.-> BranchDirector
+    BranchDirector --> B_Physical
+    BranchDirector --> B_Online
+    TeacherStaff --> B_Physical
+    TeacherStaff --> B_Online
 
-        <!-- W5: Payment Gateway -> Backend Brain Core (Transaction Verification Webhook) -->
-        <path id="wire-w5" class="circuit-wire" data-from="device-gateway" data-to="device-brain"
-              d="M 1250,380 L 1250,220" marker-end="url(#arrow-def)" />
+    %% =========================================================================
+    %% ৫. ভর্তি, ভাইভা, ওয়ার্কশপ ও ফাইনাল পরীক্ষা ফানেল
+    %% =========================================================================
+    subgraph S5 [" 🎯 [ADMISSION PIPELINE] ভর্তি, ভাইভা, ওয়ার্কশপ ও প্রমোশন ফানেল "]
+        direction TB
+        subgraph Stage1 [" ১. স্ক্রিনিং ও ভাইভা "]
+            direction LR
+            PersonCheck{"🔍 স্থায়ী আইডি চেক?"}
+            PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><b>[১ ব্যক্তি = আজীবন ১ প্রোফাইল]</b>"]
+            Viva["🎙️ ভাইভা পরীক্ষা (প্যানেল মার্কিং)"]
+            PersonCheck --> PersonProfile --> Viva
+        end
+        
+        subgraph Stage2 [" ২. ওয়ার্কশপ কোহোর্ট "]
+            direction LR
+            WorkshopEnroll["📋 ওয়ার্কশপ ভর্তি নিশ্চিতকরণ"]
+            WorkshopTrack["🎪 ওয়ার্কশপ ট্রেনিং (উপস্থিতি ও স্কিল)"]
+            WorkshopEnroll --> WorkshopTrack
+        end
+        
+        subgraph Stage3 [" ৩. ফাইনাল পরীক্ষা ও প্রমোশন "]
+            direction LR
+            Exam["📝 ফাইনাল পরীক্ষা"]
+            RegularEnroll["🎓 নিয়মিত ছাত্র অনুমোদন"]
+            OneClickPromo["⚡ ১-ক্লিকে নিয়মিত ছাত্র হিসেবে প্রমোশন!"]
+            Exam --> RegularEnroll --> OneClickPromo
+        end
+        
+        Stage1 -->|"উত্তীর্ণ হলে"| Stage2
+        Stage2 -->|"কোহোর্ট শেষে"| Stage3
+    end
 
-        <!-- W6: Payment Gateway -> Central & Branch Finance Vault (Auto Ledger Deposit) -->
-        <path id="wire-w6" class="circuit-wire" data-from="device-gateway" data-to="device-finance"
-              d="M 1400,430 L 1950,430 L 1950,480" marker-end="url(#arrow-def)" />
+    DeptDirector -.->|"ভাইভা মূল্যায়ন"| Viva
+    TeacherStaff -.->|"ওয়ার্কশপ মূল্যায়ন"| WorkshopTrack
+    DeptDirector -.->|"ফাইনাল রেজাল্ট"| Exam
 
-        <!-- W7: Backend Brain Core -> Admission Screening (Person Verification) -->
-        <path id="wire-w7" class="circuit-wire" data-from="device-brain" data-to="device-person"
-              d="M 1100,160 L 430,160 L 430,340" marker-end="url(#arrow-def)" />
+    %% =========================================================================
+    %% ৬. পেমেন্ট গেটওয়েতে ৪টি ফি সিগন্যাল সংযোগ (MULTI-SIGNAL ROUTING)
+    %% =========================================================================
+    WebApply ==>|"১. Registration Fee সিগন্যাল"| PaymentGateway
+    WorkshopEnroll ==>|"২. Workshop Fee সিগন্যাল"| PaymentGateway
+    RegularEnroll ==>|"৩. Student Admission Fee সিগন্যাল"| PaymentGateway
+    
+    PaymentGateway -->|"আবেদন ভেরিফিকেশন"| PersonCheck
+    PaymentGateway -->|"ওয়ার্কশপ কনফার্মেশন"| WorkshopTrack
+    PaymentGateway -->|"স্থায়ী ছাত্র অ্যাক্টিভেশন"| OneClickPromo
 
-        <!-- W8: Master Subject Hub -> Branch Offering Matrix -->
-        <path id="wire-w8" class="circuit-wire" data-from="device-subject" data-to="device-offering"
-              d="M 1720,160 L 1800,160 L 1800,270" marker-end="url(#arrow-def)" />
+    %% =========================================================================
+    %% ৭. বিষয় অফারিং ও চলমান ব্যাচ রেজিস্টার
+    %% =========================================================================
+    subgraph S4 [" 📚 [BATCH REGISTER] শাখায় বিষয় চালু ও চলমান ব্যাচ "]
+        direction LR
+        SO_Physical["ফিজিক্যাল শাখার গান বিষয়"]
+        SO_Online["অনলাইন শাখার গান বিষয়"]
+        
+        Batch_Physical["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/><b>[২০২৫ সালে তৈরি — চলমান ব্যাচ কোর]</b>"]
+        Batch_Online["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/>(অনলাইন প্রশিক্ষণ গ্রুপ)"]
+        
+        SO_Physical --> Batch_Physical
+        SO_Online --> Batch_Online
+    end
 
-        <!-- W9: Branch Controller -> Branch Offering Matrix -->
-        <path id="wire-w9" class="circuit-wire" data-from="device-branch" data-to="device-offering"
-              d="M 1520,300 L 1650,300" marker-end="url(#arrow-def)" />
+    MS --> SO_Physical
+    MS --> SO_Online
+    B_Physical --> SO_Physical
+    B_Online --> SO_Online
 
-        <!-- W10: Offering Matrix -> Ongoing Batches Core -->
-        <path id="wire-w10" class="circuit-wire" data-from="device-offering" data-to="device-batch"
-              d="M 1800,340 L 1800,670" marker-end="url(#arrow-def)" />
+    %% =========================================================================
+    %% ৮. ক্লাস শিডিউল, উপস্থিতি ও স্টুডেন্ট পোর্টাল
+    %% =========================================================================
+    subgraph S6 [" 🎓 [RUNTIME LAYER] নিয়মিত ক্লাস ও স্টুডেন্ট পোর্টাল (student/) "]
+        direction LR
+        subgraph ClassOps [" ক্লাস পরিচালনা "]
+            direction TB
+            ClassPhysical["🏫 ফিজিক্যাল ক্লাসরুম রুটিন"]
+            ClassZoom["📹 জুম লাইভ অনলাইন ক্লাস"]
+            AttendanceMatrix["📊 দৈনিক উপস্থিতি ম্যাট্রিক্স"]
+            ClassPhysical --> AttendanceMatrix
+            ClassZoom --> AttendanceMatrix
+        end
+        
+        subgraph PortalOps [" স্টুডেন্ট পোর্টাল "]
+            direction TB
+            StudentPortal["📱 Student Portal Dashboard<br/>(ক্লাস, জুম লিংক, রেজাল্ট ও ফি)"]
+        end
+        
+        ClassOps --> PortalOps
+    end
 
-        <!-- W11: 1-Click Promotion LOOP-BACK to Ongoing Batches! -->
-        <path id="wire-w11" class="circuit-wire active-highlight" data-from="device-promo" data-to="device-batch"
-              d="M 430,1130 L 1150,1130 L 1150,710 L 1650,710" marker-end="url(#arrow-def)" />
+    Batch_Physical --> ClassPhysical
+    Batch_Online --> ClassZoom
+    TeacherStaff -.->|"উপস্থিতি গ্রহণ"| AttendanceMatrix
+    ClassZoom -.->|"১-ক্লিকে জুম জয়েন"| StudentPortal
 
-        <!-- W12: Ongoing Batches -> Classroom & Live Zoom Session -->
-        <path id="wire-w12" class="circuit-wire" data-from="device-batch" data-to="device-class"
-              d="M 1800,740 L 1800,880" marker-end="url(#arrow-def)" />
+    %% ৪ নম্বর ফি সিগন্যাল: স্টুডেন্ট পোর্টাল থেকে গেটওয়ে
+    StudentPortal ==>|"৪. Monthly Fee সিগন্যাল"| PaymentGateway
 
-        <!-- W13: Classroom & Zoom -> Student Portal (Live Sync & Zoom Join) -->
-        <path id="wire-w13" class="circuit-wire" data-from="device-class" data-to="device-student"
-              d="M 1950,930 L 2050,930" marker-end="url(#arrow-def)" />
+    %% =========================================================================
+    %% ৯. সেন্ট্রাল ও শাখা ফাইন্যান্স ভল্ট
+    %% =========================================================================
+    subgraph S7 [" 💰 [FINANCE VAULT] কেন্দ্রীয় ও শাখা অর্থ লেজার "]
+        FinanceVault["🏦 শাখা ও কেন্দ্রীয় অর্থ লেজার<br/><b>(সকল ফি, আয়-ব্যয় হিসাব, বকেয়া ও ভাউচার লেজার)</b>"]
+    end
 
-        <!-- W14: Department Director -> Viva & Exam Assessment Control -->
-        <path id="wire-w14" class="circuit-wire" data-from="device-dept" data-to="device-viva"
-              d="M 1520,200 L 580,200 L 580,530 L 430,530" marker-end="url(#arrow-def)" />
-      </svg>
+    %% গেটওয়ে থেকে সকল ফি সরাসরি ফাইন্যান্স ভল্টে ডিপোজিট হয়
+    PaymentGateway ==>|"সকল সংগৃহীত ফি অটো ডিপোজিট"| FinanceVault
 
-      <!-- Interactive Wire Protocol Labels -->
-      <div class="wire-info-pill" style="top: 118px; left: 520px;" data-wire="wire-w1">💵 ১. Registration Fee Signal ➔</div>
-      <div class="wire-info-pill" style="top: 718px; left: 500px;" data-wire="wire-w2">💵 ২. Workshop Admission Fee Signal ➔</div>
-      <div class="wire-info-pill" style="top: 938px; left: 500px;" data-wire="wire-w3">💵 ৩. Student Admission Fee Signal ➔</div>
-      <div class="wire-info-pill" style="top: 948px; left: 1650px;" data-wire="wire-w4">💵 ৪. Student Monthly Fee Signal ➔</div>
-      <div class="wire-info-pill" style="top: 290px; left: 1260px;" data-wire="wire-w5">⚡ Webhook / Instant Payment Confirmation</div>
-      <div class="wire-info-pill" style="top: 418px; left: 1550px;" data-wire="wire-w6">🏦 Auto Deposit to Central & Branch Accounts</div>
-      <div class="wire-info-pill" style="top: 1118px; left: 620px; border-color: #FF790E; color: #FF9436;" data-wire="wire-w11">⚡ ১-ক্লিকে চলমান ব্যাচে মেম্বারশিপ লুপ-ব্যাক!</div>
+    %% =========================================================================
+    %% ⚡ মূল সার্কিট লুপ ব্যাক: পাস করা ছাত্র সরাসরি চলমান ব্যাচে মেম্বারশিপ পায়!
+    %% =========================================================================
+    OneClickPromo ==>|"⚡ সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Physical
+    OneClickPromo ==>|"⚡ সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Online
+    
+    Batch_Physical --> StudentPortal
+    Batch_Online --> StudentPortal
 
-      <!-- =========================================================================
-           1. INDEPENDENT MODULAR HARDWARE DEVICES (স্বতন্ত্র ইলেকট্রনিক যন্ত্রসমূহ)
-           ========================================================================= -->
+    %% =========================================================================
+    %% সার্কিট কালার থিম
+    %% =========================================================================
+    style S1 fill:#0B132B,stroke:#3B82F6,stroke-width:1.5px,color:#93C5FD
+    style S2 fill:#0B132B,stroke:#FF790E,stroke-width:1.5px,color:#FED7AA
+    style SG fill:#05241C,stroke:#10B981,stroke-width:2.5px,color:#34D399
+    style S3 fill:#0B132B,stroke:#06B6D4,stroke-width:1.5px,color:#A5F3FC
+    style S4 fill:#0B132B,stroke:#10B981,stroke-width:1.5px,color:#A7F3D0
+    style S5 fill:#0B132B,stroke:#F59E0B,stroke-width:1.5px,color:#FDE68A
+    style S6 fill:#0B132B,stroke:#8B5CF6,stroke-width:1.5px,color:#DDD6FE
+    style S7 fill:#0B132B,stroke:#EC4899,stroke-width:1.5px,color:#FBCFE8
 
-      <!-- DEVICE 1: PUBLIC WEBSITE & APPLY FORM -->
-      <div id="device-apply" class="circuit-device" style="top: 80px; left: 100px; width: 330px;">
-        <span class="device-badge badge-funnel">FRONTEND MODULE</span>
-        <div class="device-title">🌍 পাবলিক ওয়েবসাইট ও ভর্তি ফরম</div>
-        <div class="device-sub">একাডেমি ব্রাউজিং ও অনলাইন আবেদন (মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স ফিল্টার)।</div>
+    style PaymentGateway fill:#064E3B,stroke:#10B981,stroke-width:2.2px,color:#A7F3D0
+    style WebApply fill:#1E293B,stroke:#3B82F6,stroke-width:1.5px,color:#FFFFFF
+    style MS fill:#1E293B,stroke:#FF790E,stroke-width:1.5px,color:#FFFFFF
+    style MD fill:#1E293B,stroke:#FF790E,stroke-width:1.5px,color:#FFFFFF
+    style DeptDirector fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#38BDF8
+    style BranchDirector fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#38BDF8
+    style TeacherStaff fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#38BDF8
+    style Batch_Physical fill:#1E293B,stroke:#10B981,stroke-width:1.5px,color:#FFFFFF
+    style Batch_Online fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#FFFFFF
+    style PersonProfile fill:#1E293B,stroke:#A855F7,stroke-width:1.5px,color:#FFFFFF
+    style OneClickPromo fill:#FF790E,stroke:#FFFFFF,stroke-width:2px,color:#FFFFFF
+    style FinanceVault fill:#1E293B,stroke:#EC4899,stroke-width:1.5px,color:#F472B6
       </div>
-
-      <!-- DEVICE 2: PERSON PROFILE IDENTIFIER -->
-      <div id="device-person" class="circuit-device" style="top: 300px; left: 100px; width: 330px;">
-        <span class="device-badge badge-funnel">1 HUMAN = 1 PROFILE</span>
-        <div class="device-title">🧑 স্থায়ী পারসন প্রোফাইল চেকার</div>
-        <div class="device-sub">ফোন/ইমেইল দিয়ে ডুপ্লিকেট রেকর্ড চেক। ১ ব্যক্তি আজীবন ১ প্রোফাইল পাবে।</div>
-      </div>
-
-      <!-- DEVICE 3: VIVA ASSESSMENT PANEL -->
-      <div id="device-viva" class="circuit-device" style="top: 480px; left: 100px; width: 330px;">
-        <span class="device-badge badge-funnel">VIVA EVALUATOR</span>
-        <div class="device-title">🎙️ ভাইভা পরীক্ষা ও সিলেকশন ইউনিট</div>
-        <div class="device-sub">ডিপার্টমেন্ট পরিচালক কর্তৃক ভাইভা প্যানেল মার্কিং ও পাস/ফেল সিদ্ধান্ত।</div>
-      </div>
-
-      <!-- DEVICE 4: WORKSHOP COHORT CONTROLLER -->
-      <div id="device-workshop" class="circuit-device" style="top: 680px; left: 100px; width: 330px;">
-        <span class="device-badge badge-funnel">WORKSHOP COHORT</span>
-        <div class="device-title">🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট</div>
-        <div class="device-sub">উপস্থিতি, শৃঙ্খলা ও স্কিল গ্রোথ ট্র্যাকিং (ওয়ার্কশপ ফি সফল হলে এন্ট্রি)।</div>
-      </div>
-
-      <!-- DEVICE 5: FINAL EXAM & EVALUATOR -->
-      <div id="device-exam" class="circuit-device" style="top: 900px; left: 100px; width: 330px;">
-        <span class="device-badge badge-funnel">FINAL EXAM UNIT</span>
-        <div class="device-title">📝 ফাইনাল মূল্যায়ন পরীক্ষা</div>
-        <div class="device-sub">তাত্ত্বিক ও ব্যবহারিক পরীক্ষার ফলাফল প্রকাশ ও চূড়ান্ত অনুমোদন।</div>
-      </div>
-
-      <!-- DEVICE 6: ONE-CLICK PROMOTION ENGINE -->
-      <div id="device-promo" class="circuit-device" style="top: 1080px; left: 100px; width: 330px; border-color: #FF790E; background: #2E1504;">
-        <span class="device-badge badge-master">PROMOTION TRIGGER</span>
-        <div class="device-title" style="color: #FF9436;">⚡ ১-ক্লিক প্রমোশন ইঞ্জিন</div>
-        <div class="device-sub">পাস করা শিক্ষার্থীকে স্বয়ংক্রিয়ভাবে চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন করে।</div>
-      </div>
-
-      <!-- =========================================================================
-           CENTRAL STANDALONE PAYMENT GATEWAY (স্বতন্ত্র পেমেন্ট গেটওয়ে ইউনিট)
-           ========================================================================= -->
-      <div id="device-gateway" class="circuit-device device-gateway" style="top: 380px; left: 1100px; width: 320px;">
-        <span class="device-badge badge-gateway">STANDALONE GATEWAY HUB</span>
-        <div class="device-title" style="color: #34D399; font-size: 1.1rem;">💳 অনলাইন পেমেন্ট গেটওয়ে</div>
-        <div class="device-sub" style="color: #A7F3D0;">
-          <strong>bKash / Nagad / SSLCommerz</strong><br/>
-          • সকল ৪টি ফি সিগন্যাল রিসিভ করে<br/>
-          • অটো এসএমএস ও ডিজিটাল ট্রানজেকশন রসিদ<br/>
-          • তাৎক্ষণিক সেন্ট্রাল ব্রেইনে কনফার্মেশন পাঠায়
-        </div>
-      </div>
-
-      <!-- =========================================================================
-           CORE BRAIN BACKEND ENGINE (সেন্ট্রাল প্রসেসর ইঞ্জিন)
-           ========================================================================= -->
-      <div id="device-brain" class="circuit-device device-brain" style="top: 100px; left: 1100px; width: 320px;">
-        <span class="device-badge badge-brain">CORE API ENGINE</span>
-        <div class="device-title" style="color: #60A5FA;">🏛️ Node.js Backend API Core</div>
-        <div class="device-sub">
-          • সুপার অ্যাডমিন সেন্ট্রাল বিজনেস রুলস<br/>
-          • JWT Auth, Roles & Permissions<br/>
-          • গ্লোবাল সার্চ ও অডিট লগ হিস্টোরি
-        </div>
-      </div>
-
-      <!-- DEVICE 8: MASTER SUBJECT & DEPT HUB -->
-      <div id="device-subject" class="circuit-device device-master" style="top: 100px; left: 1520px; width: 300px;">
-        <span class="device-badge badge-master">NO DUPLICATION</span>
-        <div class="device-title" style="color: #FF9436;">📚 মাস্টার বিষয় ক্যাটালগ</div>
-        <div class="device-sub">গান, অভিনয়, আবৃত্তি কেন্দ্রীয়ভাবে একবারই তৈরি হয়। নো ডুপ্লিকেশন।</div>
-      </div>
-
-      <!-- DEVICE 9: DEPARTMENT DIRECTOR UNIT -->
-      <div id="device-dept" class="circuit-device" style="top: 180px; left: 1520px; width: 300px;">
-        <span class="device-badge badge-branch">DEPARTMENT PANEL</span>
-        <div class="device-title">🎭 ডিপার্টমেন্ট পরিচালক</div>
-        <div class="device-sub">বিভাগীয় কার্যক্রম, ভাইভা প্যানেল ও পরীক্ষা রেজাল্ট কন্ট্রোল।</div>
-      </div>
-
-      <!-- DEVICE 10: BRANCH CONTROLLER -->
-      <div id="device-branch" class="circuit-device" style="top: 260px; left: 1520px; width: 300px;">
-        <span class="device-badge badge-branch">BRANCH CONTROLLER</span>
-        <div class="device-title">🏢 শাখা ও জুম নেটওয়ার্ক</div>
-        <div class="device-sub">ঢাকা, মিরপুর ও অনলাইন জুম শাখার ক্লাসরুম ও শিডিউল।</div>
-      </div>
-
-      <!-- DEVICE 11: BRANCH-SUBJECT OFFERING MATRIX -->
-      <div id="device-offering" class="circuit-device" style="top: 270px; left: 1650px; width: 300px;">
-        <span class="device-badge badge-branch">OFFERING MATRIX</span>
-        <div class="device-title">🔗 শাখায় বিষয় অফারিং</div>
-        <div class="device-sub">মাস্টার সাবজেক্ট বিভিন্ন শাখায় অ্যাক্টিভেট করার জয়েনিং রুল।</div>
-      </div>
-
-      <!-- DEVICE 12: ONGOING BATCHES CORE -->
-      <div id="device-batch" class="circuit-device" style="top: 670px; left: 1650px; width: 300px; border-color: #FF790E; background: #1C1208;">
-        <span class="device-badge badge-master">ONGOING BATCH CORE</span>
-        <div class="device-title" style="color: #FF9436;">👥 চলমান ব্যাচ: গান ব্যাচ ১</div>
-        <div class="device-sub">
-          <strong>Batch Year ≠ Join Year:</strong><br/>
-          ২০২৫ সালের ব্যাচে ২০২৬ বা ২০২৭ সালের পাস করা ছাত্রও সরাসরি যুক্ত হয়।
-        </div>
-      </div>
-
-      <!-- DEVICE 13: CLASSROOM & LIVE ZOOM SESSION -->
-      <div id="device-class" class="circuit-device" style="top: 880px; left: 1650px; width: 300px;">
-        <span class="device-badge badge-branch">CLASS OPERATIONS</span>
-        <div class="device-title">📅 ক্লাস ও দৈনিক উপস্থিতি</div>
-        <div class="device-sub">ফিজিক্যাল ক্লাসরুম ও জুম লাইভ ক্লাস সেশন ➔ দৈনিক উপস্থিতি ম্যাট্রিক্স।</div>
-      </div>
-
-      <!-- DEVICE 14: STUDENT PORTAL APP -->
-      <div id="device-student" class="circuit-device" style="top: 880px; left: 2050px; width: 300px; border-color: #A855F7;">
-        <span class="device-badge" style="background: rgba(168, 85, 247, 0.2); color: #C084FC; border: 1px solid rgba(168, 85, 247, 0.4);">STUDENT PORTAL</span>
-        <div class="device-title" style="color: #C084FC;">📱 Student Portal App</div>
-        <div class="device-sub">আমার ক্লাস, জুম লিংক, রেজাল্ট ও প্রতি মাসে টিউশন ফি প্রদান।</div>
-      </div>
-
-      <!-- DEVICE 15: CENTRAL & BRANCH FINANCE VAULT -->
-      <div id="device-finance" class="circuit-device" style="top: 480px; left: 1850px; width: 320px; border-color: #EC4899;">
-        <span class="device-badge" style="background: rgba(236, 72, 153, 0.2); color: #F472B6; border: 1px solid rgba(236, 72, 153, 0.4);">FINANCE VAULT</span>
-        <div class="device-title" style="color: #F472B6;">🏦 সেন্ট্রাল ও শাখা ফাইন্যান্স ভল্ট</div>
-        <div class="device-sub">সকল ৪টি ফি-এর স্বয়ংক্রিয় অডিট লেজার, আয়-ব্যয় হিসাব ও অফিশিয়াল ভাউচার।</div>
-      </div>
-
     </div>
   </div>
 
   <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      flowchart: {
+        curve: 'basis',
+        nodeSpacing: 25,
+        rankSpacing: 30,
+        padding: 12
+      },
+      themeVariables: {
+        darkMode: true,
+        background: '#070B14',
+        primaryColor: '#1E293B',
+        primaryTextColor: '#F8FAFC',
+        primaryBorderColor: '#334155',
+        lineColor: '#38BDF8',
+        secondaryColor: '#111A2E',
+        tertiaryColor: '#070B14',
+        fontFamily: 'Hind Siliguri, Plus Jakarta Sans, sans-serif',
+        fontSize: '12px'
+      }
+    });
+
     let pzInstance = null;
 
-    function initCircuit() {
-      const sceneEl = document.getElementById('scene');
-      
-      pzInstance = panzoom(sceneEl, {
-        maxZoom: 6,
-        minZoom: 0.2,
-        smoothScroll: false,
-        zoomSpeed: 0.065,
-        beforeWheel: function(e) {
-          return false;
-        }
-      });
-
-      setTimeout(() => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const scale = Math.min((vw - 60) / 2500, (vh - 100) / 1250, 0.75);
-        const initialX = Math.max((vw - 2500 * scale) / 2, 20);
-        const initialY = 60;
-
-        pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo(initialX, initialY);
-      }, 50);
-
-      // Interactive Wire & Device Highlighting
-      const allWires = document.querySelectorAll('.circuit-wire');
-      const allDevices = document.querySelectorAll('.circuit-device');
-      const allPills = document.querySelectorAll('.wire-info-pill');
-
-      function clearHighlights() {
-        allWires.forEach(w => w.classList.remove('active-highlight'));
-        allDevices.forEach(d => d.classList.remove('device-highlight'));
-        allPills.forEach(p => p.classList.remove('active'));
-      }
-
-      // Wire Click Highlight
-      allWires.forEach(wire => {
-        wire.addEventListener('click', (e) => {
-          e.stopPropagation();
-          clearHighlights();
-          wire.classList.add('active-highlight');
-          
-          const fromId = wire.getAttribute('data-from');
-          const toId = wire.getAttribute('data-to');
-          if (fromId) document.getElementById(fromId)?.classList.add('device-highlight');
-          if (toId) document.getElementById(toId)?.classList.add('device-highlight');
+    async function initInteractiveDiagram() {
+      try {
+        await mermaid.run({
+          nodes: [document.getElementById('mermaid-diagram')]
         });
-      });
 
-      // Info Pill Click Highlight
-      allPills.forEach(pill => {
-        pill.addEventListener('click', (e) => {
-          e.stopPropagation();
-          clearHighlights();
-          pill.classList.add('active');
-          const targetWireId = pill.getAttribute('data-wire');
-          if (targetWireId) {
-            const wire = document.getElementById(targetWireId);
-            if (wire) {
-              wire.classList.add('active-highlight');
-              const fromId = wire.getAttribute('data-from');
-              const toId = wire.getAttribute('data-to');
-              if (fromId) document.getElementById(fromId)?.classList.add('device-highlight');
-              if (toId) document.getElementById(toId)?.classList.add('device-highlight');
-            }
+        const sceneEl = document.getElementById('scene');
+        
+        pzInstance = panzoom(sceneEl, {
+          maxZoom: 8,
+          minZoom: 0.2,
+          smoothScroll: false,
+          zoomSpeed: 0.065,
+          beforeWheel: function(e) {
+            return false;
           }
         });
-      });
 
-      // Device Click Highlight all connected wires
-      allDevices.forEach(device => {
-        device.addEventListener('click', (e) => {
-          e.stopPropagation();
-          clearHighlights();
-          device.classList.add('device-highlight');
-          const devId = device.id;
+        setTimeout(() => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const rect = sceneEl.getBoundingClientRect();
           
-          allWires.forEach(w => {
-            if (w.getAttribute('data-from') === devId || w.getAttribute('data-to') === devId) {
-              w.classList.add('active-highlight');
-              const partnerId = w.getAttribute('data-from') === devId ? w.getAttribute('data-to') : w.getAttribute('data-from');
-              if (partnerId) document.getElementById(partnerId)?.classList.add('device-highlight');
-            }
+          const scale = Math.min((vw - 40) / rect.width, (vh - 80) / rect.height, 0.95);
+          const initialX = Math.max((vw - rect.width * scale) / 2, 20);
+          const initialY = 65;
+
+          pzInstance.zoomAbs(0, 0, scale);
+          pzInstance.moveTo(initialX, initialY);
+        }, 60);
+
+        // Interactive Click-to-Highlight on Mermaid SVG Elements
+        const svg = document.querySelector('#mermaid-diagram svg');
+        if (svg) {
+          const allEdges = svg.querySelectorAll('.edgePath');
+          const allNodes = svg.querySelectorAll('.node');
+          const allLabels = svg.querySelectorAll('.edgeLabel');
+
+          function clearAllHighlights() {
+            allEdges.forEach(e => e.classList.remove('edge-highlight'));
+            allNodes.forEach(n => n.classList.remove('node-highlight'));
+            allLabels.forEach(l => l.classList.remove('label-highlight'));
+          }
+
+          // Edge Click
+          allEdges.forEach(edge => {
+            edge.addEventListener('click', (e) => {
+              e.stopPropagation();
+              clearAllHighlights();
+              edge.classList.add('edge-highlight');
+            });
           });
+
+          // Label Click
+          allLabels.forEach(label => {
+            label.addEventListener('click', (e) => {
+              e.stopPropagation();
+              clearAllHighlights();
+              label.classList.add('label-highlight');
+            });
+          });
+
+          // Node Click (Highlight node + connected lines)
+          allNodes.forEach(node => {
+            node.addEventListener('click', (e) => {
+              e.stopPropagation();
+              clearAllHighlights();
+              node.classList.add('node-highlight');
+            });
+          });
+
+          // Clear on background click
+          document.getElementById('viewport-container').addEventListener('click', () => {
+            clearAllHighlights();
+          });
+        }
+
+        // Controls
+        document.getElementById('btn-zoom-in').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25));
+        document.getElementById('btn-zoom-out').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8));
+        document.getElementById('btn-zoom-reset').addEventListener('click', () => { pzInstance.zoomAbs(0, 0, 1); pzInstance.moveTo(25, 65); });
+        document.getElementById('btn-zoom-fit').addEventListener('click', () => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const rect = sceneEl.getBoundingClientRect();
+          const scale = Math.min((vw - 40) / (rect.width / pzInstance.getTransform().scale), (vh - 80) / (rect.height / pzInstance.getTransform().scale), 0.95);
+          pzInstance.zoomAbs(0, 0, scale);
+          pzInstance.moveTo((vw - (rect.width / pzInstance.getTransform().scale) * scale) / 2, 65);
         });
-      });
 
-      // Click background to clear
-      document.getElementById('viewport-container').addEventListener('click', () => {
-        clearHighlights();
-      });
-
-      // Zoom Controls
-      document.getElementById('btn-zoom-in').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25));
-      document.getElementById('btn-zoom-out').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8));
-      document.getElementById('btn-zoom-reset').addEventListener('click', () => { pzInstance.zoomAbs(0, 0, 1); pzInstance.moveTo(20, 60); });
-      document.getElementById('btn-zoom-fit').addEventListener('click', () => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const scale = Math.min((vw - 60) / 2500, (vh - 100) / 1250, 0.75);
-        pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo((vw - 2500 * scale) / 2, 60);
-      });
+      } catch (err) {
+        console.error('Mermaid render error:', err);
+      } finally {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 300);
+        }
+      }
     }
 
-    window.addEventListener('DOMContentLoaded', initCircuit);
+    window.addEventListener('DOMContentLoaded', initInteractiveDiagram);
   </script>
 </body>
 </html>
