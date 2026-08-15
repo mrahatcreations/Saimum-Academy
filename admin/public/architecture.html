@@ -3,27 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎓 সাইমুম একাডেমি — Master Architecture Board</title>
+  <title>🎓 সাইমুম একাডেমি — Master Architecture Diagram</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
   <style>
     :root {
       --brand-orange: #FF790E;
       --brand-orange-light: #FFA04D;
-      --bg-dark: #090E17;
-      --bg-node: #111A2E;
-      --bg-node-hover: #18243E;
-      --border-node: #233554;
-      --border-active: #FF790E;
+      --bg-dark: #080D1A;
+      --bg-surface: #0E1626;
+      --bg-card: #131E33;
+      --border-color: #1E2D4A;
       --text-main: #F8FAFC;
       --text-sub: #94A3B8;
       --accent-cyan: #06B6D4;
       --accent-emerald: #10B981;
       --accent-purple: #A855F7;
       --accent-blue: #3B82F6;
-      --accent-amber: #F59E0B;
     }
 
     * {
@@ -46,7 +45,7 @@
       width: 100vw;
       height: 100vh;
       position: relative;
-      background: radial-gradient(circle at 50% 30%, #0F1B33 0%, #090E17 100%);
+      background: radial-gradient(circle at 50% 30%, #0F1A30 0%, #080D1A 100%);
       overflow: hidden;
     }
 
@@ -54,13 +53,13 @@
     .grid-bg {
       position: absolute;
       inset: 0;
-      background-size: 32px 32px;
+      background-size: 36px 36px;
       background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
       pointer-events: none;
       z-index: 1;
     }
 
-    /* Top HUD Bar */
+    /* Top Floating HUD Bar */
     .hud-topbar {
       position: absolute;
       top: 20px;
@@ -70,8 +69,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(15, 23, 42, 0.88);
-      border: 1px solid var(--border-node);
+      background: rgba(14, 22, 38, 0.88);
+      border: 1px solid var(--border-color);
       border-radius: 18px;
       padding: 12px 24px;
       backdrop-filter: blur(16px);
@@ -140,8 +139,8 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid var(--border-node);
+      background: rgba(14, 22, 38, 0.9);
+      border: 1px solid var(--border-color);
       border-radius: 14px;
       padding: 6px;
       backdrop-filter: blur(16px);
@@ -151,8 +150,8 @@
     .zoom-btn {
       width: 40px;
       height: 40px;
-      background: var(--bg-node);
-      border: 1px solid var(--border-node);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
       color: var(--text-main);
       border-radius: 10px;
       font-size: 1.2rem;
@@ -175,164 +174,81 @@
       position: absolute;
       transform-origin: 0 0;
       z-index: 10;
-      padding: 100px;
-      width: 2200px;
-    }
-
-    /* Beautiful CSS Architecture Nodes & Circuit Grid */
-    .circuit-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 50px;
-    }
-
-    .circuit-level {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      position: relative;
-    }
-
-    /* Node Box Design */
-    .node-card {
-      background: var(--bg-node);
-      border: 1.5px solid var(--border-node);
-      border-radius: 18px;
-      padding: 22px 24px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-      transition: all 0.25s ease;
-      position: relative;
-    }
-
-    .node-card:hover {
-      border-color: var(--brand-orange);
-      transform: translateY(-3px);
-      box-shadow: 0 16px 40px rgba(255, 121, 14, 0.12);
-    }
-
-    .node-badge {
+      padding: 60px;
       display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      letter-spacing: 0.5px;
-      font-family: 'Fira Code', monospace;
     }
 
-    .node-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #FFFFFF;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    /* Premium Mermaid Node Styling Overrides */
+    .mermaid {
+      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif !important;
     }
 
-    .node-desc {
-      font-size: 0.88rem;
-      color: var(--text-sub);
-      line-height: 1.5;
+    .mermaid .node rect,
+    .mermaid .node circle,
+    .mermaid .node polygon,
+    .mermaid .node path {
+      rx: 14px !important;
+      ry: 14px !important;
+      stroke-width: 1.8px !important;
+      filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45)) !important;
     }
 
-    /* Connective Flow Lines (SVG Circuit Lines) */
-    .flow-arrow-down {
+    .mermaid .cluster rect {
+      rx: 20px !important;
+      ry: 20px !important;
+      stroke-dasharray: 6 4 !important;
+      stroke-width: 1.5px !important;
+    }
+
+    .mermaid .edgePath path {
+      stroke-width: 2.2px !important;
+    }
+
+    .mermaid .edgeLabel {
+      background-color: #0E1626 !important;
+      padding: 4px 8px !important;
+      border-radius: 6px !important;
+      border: 1px solid #1E2D4A !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+    }
+
+    /* Loading Overlay */
+    #loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-dark);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: var(--brand-orange);
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin: -20px 0;
-      z-index: 5;
+      z-index: 200;
+      transition: opacity 0.4s ease;
     }
 
-    .wire-line {
-      width: 2px;
-      height: 30px;
-      background: linear-gradient(180deg, var(--brand-orange), var(--accent-cyan));
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(255, 121, 14, 0.2);
+      border-top-color: var(--brand-orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
     }
 
-    /* Multi Column Rows */
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      width: 100%;
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      width: 100%;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      width: 100%;
-    }
-
-    /* Container Cluster Panels */
-    .cluster-panel {
-      background: rgba(14, 22, 38, 0.6);
-      border: 1.5px dashed #223456;
-      border-radius: 24px;
-      padding: 28px;
-      position: relative;
-    }
-
-    .cluster-title {
-      position: absolute;
-      top: -14px;
-      left: 28px;
-      background: #111A2E;
-      border: 1px solid var(--border-node);
-      color: var(--brand-orange);
-      font-size: 0.8rem;
-      font-weight: 800;
-      padding: 3px 12px;
-      border-radius: 12px;
-      letter-spacing: 0.5px;
-    }
-
-    /* Financial Pipeline Pill Tags */
-    .fee-tag {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #34D399;
-      padding: 6px 12px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-top: 10px;
-    }
-
-    /* Special Highlight Pulse Box */
-    .highlight-box {
-      border: 2px solid var(--brand-orange) !important;
-      background: linear-gradient(135deg, rgba(255, 121, 14, 0.12), rgba(17, 26, 46, 0.95)) !important;
-    }
-
-    /* Custom Color Accents */
-    .badge-orange { background: rgba(255, 121, 14, 0.15); color: var(--brand-orange); }
-    .badge-cyan { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
-    .badge-emerald { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
-    .badge-purple { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
-    .badge-blue { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
-    .badge-amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
   </style>
 </head>
 <body>
+
+  <!-- Loading State -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div style="font-weight: 700; font-size: 1.1rem;">সাইমুম আর্কিটেকচার ডায়াগ্রাম রেন্ডার হচ্ছে...</div>
+    <div style="color: var(--text-sub); font-size: 0.85rem; margin-top: 4px;">প্রিমিয়াম ফ্লোচার্ট ও প্যান-জুম ক্যানভাস প্রস্তুত করা হচ্ছে</div>
+  </div>
 
   <!-- Viewport Pan-Zoom Canvas -->
   <div id="viewport-container">
@@ -341,12 +257,12 @@
     <!-- Floating Top Header Bar -->
     <header class="hud-topbar">
       <div class="brand-group">
-        <span class="brand-title">⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Architecture Board</span>
-        <span class="brand-pill">HD VISUAL CANVAS</span>
+        <span class="brand-title">⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Architecture Diagram</span>
+        <span class="brand-pill">PREMIUM FLOWCHART</span>
       </div>
       <div class="hud-hints">
-        <div class="hint-chip"><span class="kbd">Scroll Wheel</span> স্মুথ জুম ইন / আউট</div>
-        <div class="hint-chip"><span class="kbd">Click + Drag</span> ক্যানভাস প্যান করুন</div>
+        <div class="hint-chip"><span class="kbd">Scroll Wheel</span> জুম ইন / আউট</div>
+        <div class="hint-chip"><span class="kbd">Click + Drag</span> ক্যানভাস সরান</div>
         <div class="hint-chip"><span class="kbd">1:1</span> রিসেট ভিউ</div>
       </div>
     </header>
@@ -359,247 +275,251 @@
       <button class="zoom-btn" id="btn-zoom-fit" title="Fit Screen" style="font-size: 0.9rem;">⛶</button>
     </div>
 
-    <!-- Scalable Canvas Scene -->
+    <!-- Scalable Canvas Scene with Pure Mermaid Flowchart Diagram -->
     <div id="scene">
-      <div class="circuit-grid">
+      <div id="mermaid-diagram" class="mermaid">
+flowchart TB
+    %% ===================================================
+    %% ১. পাবলিক ওয়েবসাইট ও পেমেন্ট গেটওয়ে
+    %% ===================================================
+    subgraph S1 [" 🌐 লেভেল ১: পাবলিক ওয়েবসাইট ও অনলাইন পেমেন্ট গেটওয়ে "]
+        WebHome["🌍 পাবলিক ওয়েবসাইট<br/>(হোম, একাডেমি পরিচিতি, শাখা ও বিভাগ)"]
+        WebApply["📝 অনলাইন ভর্তি আবেদন ফরম<br/><b>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স)</b>"]
+        PaymentGateway["💳 অনলাইন পেমেন্ট গেটওয়ে (bKash / Nagad)<br/><b>[১. Registration Fee / আবেদন ফি]</b>"]
         
-        <!-- LEVEL 1: PUBLIC WEB & PAYMENT GATEWAY -->
-        <div class="cluster-panel">
-          <div class="cluster-title">🌐 LEVEL 01: PUBLIC WEB PORTAL & PAYMENT GATEWAY</div>
-          <div class="grid-3">
-            <div class="node-card">
-              <span class="node-badge badge-blue">FRONTEND CMS</span>
-              <div class="node-title">🌍 পাবলিক ওয়েবসাইট</div>
-              <div class="node-desc">হোম, একাডেমি পরিচিতি, শাখা ও বিভাগ ক্যাটালগ, ফটো গ্যালারি এবং পাবলিক নোটিশ বোর্ড।</div>
-            </div>
-            
-            <div class="node-card">
-              <span class="node-badge badge-orange">ONLINE ADMISSION</span>
-              <div class="node-title">📝 অনলাইন ভর্তি ফরম</div>
-              <div class="node-desc">শিক্ষার্থীর তথ্য গ্রহণ ও যোগ্যতা যাচাই (মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত সীমাবদ্ধ)।</div>
-            </div>
+        WebHome --> WebApply
+        WebApply -->|"আবেদন ফি পেমেন্ট"| PaymentGateway
+    end
 
-            <div class="node-card">
-              <span class="node-badge badge-emerald">PAYMENT GATEWAY</span>
-              <div class="node-title">💳 বিকাশ / নগদ / গেটওয়ে</div>
-              <div class="node-desc">আবেদন ফি, ওয়ার্কশপ ফি, স্টুডেন্ট ভর্তি ফি ও নিয়মিত মাসিক টিউশন ফি প্রদান ও ডিজিটাল রসিদ।</div>
-              <div class="fee-tag">💵 ১. Registration Fee (আবেদন ফি)</div>
-            </div>
-          </div>
-        </div>
+    %% ===================================================
+    %% ২. কেন্দ্রীয় প্রশাসন ও মাস্টার ক্যাটালগ
+    %% ===================================================
+    subgraph S2 [" 🏛️ লেভেল ২: কেন্দ্রীয় একাডেমি প্রশাসন (CENTRAL MASTER HQ) "]
+        SuperAdmin["👑 সুপার অ্যাডমিন প্যানেল<br/>(পুরো সিস্টেম কন্ট্রোল, ভূমিকা ও পারমিশন)"]
+        MS["📚 মাস্টার বিষয়সমূহ (গান, অভিনয়, আবৃত্তি)<br/><b>[নো ডুপ্লিকেশন — একবারই তৈরি হবে]</b>"]
+        MD["🏛️ মাস্টার বিভাগসমূহ (সংগীত বিভাগ, অভিনয় বিভাগ)<br/><b>[Many-to-Many রিলেশন]</b>"]
+        GlobalSearch["🔍 গ্লোবাল সার্চ ও অডিট লগ<br/>(ফোন/আইডি দিয়ে রেকর্ড ট্র্যাকিং)"]
+        
+        SuperAdmin --> MS
+        SuperAdmin --> MD
+        SuperAdmin --> GlobalSearch
+    end
 
-        <div class="flow-arrow-down">
-          <div class="wire-line"></div>
-          <span>▼</span>
-        </div>
+    %% ===================================================
+    %% ৩. শাখা নেটওয়ার্ক ও ৩ স্তরের ড্যাশবোর্ড
+    %% ===================================================
+    subgraph S3 [" 🏢 লেভেল ৩: শাখা নেটওয়ার্ক ও ৩ স্তরের ড্যাশবোর্ড সিস্টেম "]
+        B_Dhaka["🏢 ঢাকা সেন্ট্রাল / মিরপুর শাখা<br/>(শাখা পরিচালক, অফিস ও অর্থ সম্পাদক)"]
+        B_Online["🌐 অনলাইন জুম শাখা<br/>(জুম আইডি, পাসওয়ার্ড ও ক্লাউড রুলস)"]
+        
+        D_Admin["👑 Central Admin Dashboard"]
+        D_Branch["🏢 Management Dashboard"]
+        D_Student["🎓 Student Portal Dashboard"]
+    end
 
-        <!-- LEVEL 2: CENTRAL MASTER HQ & AUDIT -->
-        <div class="cluster-panel">
-          <div class="cluster-title">🏛️ LEVEL 02: CENTRAL MASTER HQ & GOVERNANCE</div>
-          <div class="grid-4">
-            <div class="node-card">
-              <span class="node-badge badge-orange">HQ ADMIN</span>
-              <div class="node-title">👑 সুপার অ্যাডমিন প্যানেল</div>
-              <div class="node-desc">কেন্দ্রীয় নিয়ন্ত্রণ, ভূমিকা ও অনুমতি (Roles & Permissions) এবং সামগ্রিক মেট্রিক স্ন্যাপশট।</div>
-            </div>
+    MD <== "Many-to-Many" ==> B_Dhaka
+    MD <== "Many-to-Many" ==> B_Online
+    
+    B_Dhaka -.-> D_Branch
+    B_Online -.-> D_Branch
+    SuperAdmin -.-> D_Admin
 
-            <div class="node-card highlight-box">
-              <span class="node-badge badge-amber">NO DUPLICATION</span>
-              <div class="node-title">📚 মাস্টার বিষয়সমূহ</div>
-              <div class="node-desc">গান, অভিনয়, আবৃত্তি কেন্দ্রীয়ভাবে একবারই তৈরি হবে। কোনো ব্রাঞ্চে ডুপ্লিকেট সাবজেক্ট তৈরি হবে না।</div>
-            </div>
+    %% ===================================================
+    %% ৪. শাখায় বিষয় চালু ও চলমান ব্যাচ
+    %% ===================================================
+    subgraph S4 [" 📚 লেভেল ৪: শাখায় বিষয় অফারিং ও চলমান প্রশিক্ষণ ব্যাচ "]
+        SO_Dhaka["ঢাকা শাখার গান বিষয় অফারিং"]
+        SO_Online["অনলাইন শাখার গান বিষয় অফারিং"]
+        
+        Batch_1["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/><b>[২০২৫ সালে তৈরি — এখনো নতুন ছাত্র যুক্ত হয়]</b>"]
+        Batch_Online["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/>(অনলাইন প্রশিক্ষণ গ্রুপ)"]
+    end
 
-            <div class="node-card">
-              <span class="node-badge badge-cyan">DEPARTMENTS</span>
-              <div class="node-title">🏛️ মাস্টার বিভাগসমূহ</div>
-              <div class="node-desc">সংগীত, অভিনয় ও আবৃত্তি বিভাগ। প্রতিটি বিভাগ একাধিক ব্রাঞ্চে Many-to-Many মডেলে যুক্ত থাকে।</div>
-            </div>
+    MS -->|"বিষয় অফারিং"| SO_Dhaka
+    MS -->|"বিষয় অফারিং"| SO_Online
+    B_Dhaka --> SO_Dhaka
+    B_Online --> SO_Online
+    
+    SO_Dhaka --> Batch_1
+    SO_Online --> Batch_Online
 
-            <div class="node-card">
-              <span class="node-badge badge-purple">SECURITY & AUDIT</span>
-              <div class="node-title">🛡️ অডিট লগ ও গ্লোবাল সার্চ</div>
-              <div class="node-desc">ফোন/আইডি দিয়ে তাৎক্ষণিক ব্যক্তি অনুসন্ধান এবং যে কোনো স্ট্যাটাস পরিবর্তনের সম্পূর্ণ অডিট ট্র্যাকিং।</div>
-            </div>
-          </div>
-        </div>
+    %% ===================================================
+    %% ৫. ক্লাস শিডিউল ও উপস্থিতি ম্যাট্রিক্স
+    %% ===================================================
+    subgraph S5 [" 📅 লেভেল ৫: ক্লাস শিডিউল ও উপস্থিতি পরিচালনা "]
+        Class_Physical["🏫 ফিজিক্যাল ক্লাস শিডিউল<br/>(রুটিন, ক্লাসরুম ও শিক্ষক)"]
+        Class_Zoom["📹 জুম লাইভ অনলাইন ক্লাস<br/>(সরাসরি Join Zoom বাটন)"]
+        AttendanceMatrix["📊 দৈনিক উপস্থিতি ম্যাট্রিক্স<br/>(উপস্থিত, অনুপস্থিত, বিলম্ব ও ছুটি)"]
+    end
 
-        <div class="flow-arrow-down">
-          <div class="wire-line"></div>
-          <span>▼</span>
-        </div>
+    Batch_1 --> Class_Physical
+    Batch_Online --> Class_Zoom
+    Class_Physical --> AttendanceMatrix
+    Class_Zoom --> AttendanceMatrix
+    Class_Zoom -.->|"১-ক্লিকে জুম জয়েন"| D_Student
 
-        <!-- LEVEL 3: 3 DASHBOARD ROLES & BRANCH NETWORK -->
-        <div class="cluster-panel">
-          <div class="cluster-title">🏢 LEVEL 03: BRANCH NETWORK (PHYSICAL & ONLINE) & 3 DASHBOARDS</div>
-          <div class="grid-3">
-            <div class="node-card">
-              <span class="node-badge badge-cyan">PHYSICAL BRANCH</span>
-              <div class="node-title">🏢 ঢাকা সেন্ট্রাল / মিরপুর শাখা</div>
-              <div class="node-desc">ফিজিক্যাল ক্লাসরুম, শাখা পরিচালক, অফিস ও অর্থ সম্পাদক কর্তৃক পরিচালিত স্বয়ংসম্পূর্ণ অপারেশনাল ইউনিট।</div>
-            </div>
+    %% ===================================================
+    %% ৬. ভর্তি, ওয়ার্কশপ ও ছাত্র লাইফসাইকেল ফানেল
+    %% ===================================================
+    subgraph S6 [" 🎯 লেভেল ৬: ভর্তি, ওয়ার্কশপ ও ফাইনাল পরীক্ষা ফানেল "]
+        PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><b>(একই ব্যক্তির মাল্টি-ইয়ার ভর্তি ইতিহাস)</b>"]
+        Viva["🎙️ ভাইভা পরীক্ষা (প্যানেল মার্কিং)"]
+        
+        WorkshopEnroll["📋 ওয়ার্কশপ ভর্তি নিশ্চিতকরণ<br/><b>[২. Workshop Admission Fee]</b>"]
+        WorkshopTrack["🎪 ওয়ার্কশপ কোহোর্ট (উপস্থিতি ও স্কিল মূল্যায়ন)"]
+        
+        Exam["📝 ফাইনাল পরীক্ষা ও ফলাফল প্রকাশ"]
+        RegularEnroll["🎓 নিয়মিত ছাত্র হিসেবে চূড়ান্ত ভর্তি<br/><b>[৩. Student Admission Fee]</b>"]
+        
+        OneClickPromo["⚡ ১-ক্লিকে নিয়মিত ছাত্র হিসেবে প্রমোশন!"]
+    end
 
-            <div class="node-card">
-              <span class="node-badge badge-cyan">ONLINE BRANCH</span>
-              <div class="node-title">🌐 অনলাইন জুম শাখা</div>
-              <div class="node-desc">সম্পূর্ণ ডিজিটাল শাখা। স্বয়ংক্রিয় জুম মিটিং আইডি, পাসওয়ার্ড ও লাইভ ক্লাউড ক্লাস কনফিগারেশন।</div>
-            </div>
+    PaymentGateway -->|"আবেদন যাচাই"| PersonProfile
+    PersonProfile --> Viva
+    Viva -->|"সিলেক্টেড"| WorkshopEnroll
+    WorkshopEnroll --> WorkshopTrack
+    WorkshopTrack --> Exam
+    Exam -->|"পাস করেছে 🎉"| RegularEnroll
+    RegularEnroll --> OneClickPromo
 
-            <div class="node-card">
-              <span class="node-badge badge-blue">DASHBOARD ROLES</span>
-              <div class="node-title">👥 ৩ স্তরের ড্যাশবোর্ড</div>
-              <div class="node-desc">
-                • <strong>Central Admin:</strong> পুরো একাডেমির রিপোর্ট<br/>
-                • <strong>Management:</strong> ব্রাঞ্চ/ডিপার্টমেন্ট পরিচালক<br/>
-                • <strong>Student Portal:</strong> ক্লাস লিংক ও উপস্থিতি
-              </div>
-            </div>
-          </div>
-        </div>
+    %% ===================================================
+    %% ৭. অর্থ হিসাব ও সার্কিট লুপ ব্যাক
+    %% ===================================================
+    subgraph S7 [" 💰 লেভেল ৭: সেন্ট্রাল ও শাখা অর্থ লেজার "]
+        FinanceVault["🏦 শাখা ও কেন্দ্রীয় অর্থ লেজার<br/>(ভর্তি ফি, মাসিক ফি, বকেয়া ও ভাউচার)"]
+        Fee_Monthly["💵 [৪. Student Monthly Fee / মাসিক টিউশন ফি]"]
+    end
 
-        <div class="flow-arrow-down">
-          <div class="wire-line"></div>
-          <span>▼</span>
-        </div>
+    %% সার্কিট লুপ ব্যাক
+    OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_1
+    OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Online
+    
+    Batch_1 --> D_Student
+    Batch_Online --> D_Student
+    D_Student -->|"মাসিক ফি পরিশোধ"| Fee_Monthly
+    Fee_Monthly --> FinanceVault
+    PaymentGateway --> FinanceVault
+    WorkshopEnroll --> FinanceVault
+    RegularEnroll --> FinanceVault
 
-        <!-- LEVEL 4: ADMISSION LIFECYCLE FUNNEL -->
-        <div class="cluster-panel">
-          <div class="cluster-title">🎯 LEVEL 04: ADMISSION LIFECYCLE & WORKSHOP FUNNEL</div>
-          <div class="grid-4">
-            <div class="node-card">
-              <span class="node-badge badge-purple">1 HUMAN = 1 PROFILE</span>
-              <div class="node-title">🧑 স্থায়ী পারসন প্রোফাইল</div>
-              <div class="node-desc">একজন ব্যক্তির ১টি স্থায়ী প্রোফাইল থাকবে। তিনি একাধিক বছর পরীক্ষা দিলেও আগের ইতিহাস অক্ষুণ্ণ থাকবে।</div>
-            </div>
+    %% Custom Nodes Styling
+    style S1 fill:#0D172A,stroke:#3B82F6,stroke-width:2px,color:#93C5FD
+    style S2 fill:#0D172A,stroke:#FF790E,stroke-width:2px,color:#FED7AA
+    style S3 fill:#0D172A,stroke:#06B6D4,stroke-width:2px,color:#A5F3FC
+    style S4 fill:#0D172A,stroke:#10B981,stroke-width:2px,color:#A7F3D0
+    style S5 fill:#0D172A,stroke:#8B5CF6,stroke-width:2px,color:#DDD6FE
+    style S6 fill:#0D172A,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
+    style S7 fill:#0D172A,stroke:#EC4899,stroke-width:2px,color:#FBCFE8
 
-            <div class="node-card">
-              <span class="node-badge badge-amber">VIVA ASSESSMENT</span>
-              <div class="node-title">🎙️ ভাইভা পরীক্ষা ও সিলেকশন</div>
-              <div class="node-desc">প্যানেল মার্কিং ক্রাইটেরিয়া ও সিলেক্ট/রিজেক্ট সিদ্ধান্ত। উত্তীর্ণরা পরবর্তী ওয়ার্কশপের জন্য নির্বাচিত হয়।</div>
-            </div>
-
-            <div class="node-card">
-              <span class="node-badge badge-emerald">WORKSHOP COHORT</span>
-              <div class="node-title">🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট</div>
-              <div class="node-desc">দৈনিক উপস্থিতি, আচরণগত শৃঙ্খলা ও স্কিল গ্রোথ মূল্যায়ন স্কোরিং।</div>
-              <div class="fee-tag">💵 ২. Workshop Admission Fee</div>
-            </div>
-
-            <div class="node-card">
-              <span class="node-badge badge-orange">FINAL ASSESSMENT</span>
-              <div class="node-title">📝 ফাইনাল পরীক্ষা ও ফলাফল</div>
-              <div class="node-desc">তাত্ত্বিক ও ব্যবহারিক পরীক্ষার নম্বর প্রকাশ। পাস করা শিক্ষার্থীরা নিয়মিত ছাত্র হিসেবে উন্নীত হয়।</div>
-              <div class="fee-tag">💵 ৩. Student Admission Fee</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="flow-arrow-down">
-          <div class="wire-line"></div>
-          <span>▼</span>
-        </div>
-
-        <!-- LEVEL 5: ONE-CLICK PROMOTION & ONGOING BATCH HOOKUP -->
-        <div class="cluster-panel highlight-box">
-          <div class="cluster-title">🎓 LEVEL 05: ONE-CLICK PROMOTION TO ONGOING BATCHES & CLASSES</div>
-          <div class="grid-3">
-            <div class="node-card" style="background: rgba(255, 121, 14, 0.15); border-color: var(--brand-orange);">
-              <span class="node-badge badge-orange">AUTOMATED FLOW</span>
-              <div class="node-title">⚡ ১-ক্লিকে নিয়মিত প্রমোশন</div>
-              <div class="node-desc">পরীক্ষায় পাস করা ছাত্রদের কোনো নতুন ব্যাচ তৈরি না করে সরাসরি চলমান ব্যাচে মেম্বারশিপ দেওয়া হয়।</div>
-            </div>
-
-            <div class="node-card">
-              <span class="node-badge badge-emerald">ONGOING BATCH</span>
-              <div class="node-title">👥 চলমান ব্যাচ: গান ব্যাচ ১</div>
-              <div class="node-desc"><strong>Batch Year ≠ Join Year:</strong> ২০২৫ সালের তৈরি ব্যাচে ২০২৬ বা ২০২৭-এর পাস করা ছাত্রও অন্তর্ভুক্ত হতে পারে।</div>
-            </div>
-
-            <div class="node-card">
-              <span class="node-badge badge-cyan">CLASSES & ATTENDANCE</span>
-              <div class="node-title">📅 ক্লাস ও উপস্থিতি ম্যাট্রিক্স</div>
-              <div class="node-desc">ফিজিক্যাল ও জুম লাইভ ক্লাসের শিডিউল, ১-ক্লিকে জুমে জয়েন এবং দৈনিক সেশনভিত্তিক উপস্থিতি ম্যাট্রিক্স।</div>
-              <div class="fee-tag">💵 ৪. Student Monthly Fee</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LEVEL 6: FINANCE & VAULT -->
-        <div class="cluster-panel">
-          <div class="cluster-title">💰 LEVEL 06: CENTRAL & BRANCH FINANCIAL ACCOUNTING</div>
-          <div class="grid-2">
-            <div class="node-card">
-              <span class="node-badge badge-emerald">ACCOUNTING LEDGER</span>
-              <div class="node-title">🏦 শাখা ও কেন্দ্রীয় অর্থ লেজার</div>
-              <div class="node-desc">আবেদন ফি, ওয়ার্কশপ ফি, ভর্তি ফি ও মাসিক টিউশন ফি-এর স্বয়ংক্রিয় জমা হিসাব, বকেয়া ট্র্যাকিং ও অফিশিয়াল ভাউচার।</div>
-            </div>
-
-            <div class="node-card">
-              <span class="node-badge badge-blue">DOCUMENT REPOSITORY</span>
-              <div class="node-title">📁 অফিশিয়াল ডকুমেন্টস ভল্ট</div>
-              <div class="node-desc">শিক্ষার্থীদের সার্টিফিকেট, প্রশংসাপত্র, জাতীয় পরিচয়পত্র ও একাডেমির প্রশাসনিক নীতিমালার নিরাপদ সংরক্ষণাগার।</div>
-            </div>
-          </div>
-        </div>
-
+    style WebApply fill:#1E293B,stroke:#3B82F6,stroke-width:2px,color:#FFFFFF
+    style PaymentGateway fill:#1E293B,stroke:#10B981,stroke-width:2px,color:#34D399
+    style MS fill:#1E293B,stroke:#FF790E,stroke-width:2px,color:#FFFFFF
+    style MD fill:#1E293B,stroke:#FF790E,stroke-width:2px,color:#FFFFFF
+    style Batch_1 fill:#1E293B,stroke:#10B981,stroke-width:2px,color:#FFFFFF
+    style Batch_Online fill:#1E293B,stroke:#06B6D4,stroke-width:2px,color:#FFFFFF
+    style PersonProfile fill:#1E293B,stroke:#A855F7,stroke-width:2px,color:#FFFFFF
+    style OneClickPromo fill:#FF790E,stroke:#FFFFFF,stroke-width:2px,color:#FFFFFF
+    style RegularEnroll fill:#1E293B,stroke:#F59E0B,stroke-width:2px,color:#FFFFFF
+    style WorkshopEnroll fill:#1E293B,stroke:#F59E0B,stroke-width:2px,color:#FFFFFF
+    style Fee_Monthly fill:#1E293B,stroke:#10B981,stroke-width:2px,color:#34D399
       </div>
     </div>
   </div>
 
   <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      flowchart: {
+        curve: 'basis',
+        nodeSpacing: 50,
+        rankSpacing: 60,
+        padding: 24
+      },
+      themeVariables: {
+        darkMode: true,
+        background: '#0D172A',
+        primaryColor: '#1E293B',
+        primaryTextColor: '#F8FAFC',
+        primaryBorderColor: '#334155',
+        lineColor: '#38BDF8',
+        secondaryColor: '#111A2E',
+        tertiaryColor: '#090E1A',
+        fontFamily: 'Hind Siliguri, Plus Jakarta Sans, sans-serif',
+        fontSize: '14px'
+      }
+    });
+
     let pzInstance = null;
 
-    function initCanvas() {
-      const sceneEl = document.getElementById('scene');
-      
-      // Initialize Panzoom on the scene container
-      pzInstance = panzoom(sceneEl, {
-        maxZoom: 6,
-        minZoom: 0.25,
-        smoothScroll: false,
-        zoomSpeed: 0.065,
-        beforeWheel: function(e) {
-          return false;
-        }
-      });
+    async function initDiagram() {
+      try {
+        await mermaid.run({
+          nodes: [document.getElementById('mermaid-diagram')]
+        });
 
-      // Fit view nicely on load
-      setTimeout(() => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const rect = sceneEl.getBoundingClientRect();
+        const sceneEl = document.getElementById('scene');
         
-        const scale = Math.min((vw - 80) / rect.width, (vh - 120) / rect.height, 0.75);
-        const initialX = Math.max((vw - rect.width * scale) / 2, 40);
-        const initialY = 90;
+        // Initialize Panzoom
+        pzInstance = panzoom(sceneEl, {
+          maxZoom: 8,
+          minZoom: 0.15,
+          smoothScroll: false,
+          zoomSpeed: 0.065,
+          beforeWheel: function(e) {
+            return false;
+          }
+        });
 
-        pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo(initialX, initialY);
-      }, 50);
+        // Auto Frame & Initial Centering
+        setTimeout(() => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const rect = sceneEl.getBoundingClientRect();
+          
+          const scale = Math.min((vw - 60) / rect.width, (vh - 100) / rect.height, 0.85);
+          const initialX = Math.max((vw - rect.width * scale) / 2, 30);
+          const initialY = 85;
 
-      // Zoom toolbar controls
-      document.getElementById('btn-zoom-in').addEventListener('click', () => {
-        pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25);
-      });
+          pzInstance.zoomAbs(0, 0, scale);
+          pzInstance.moveTo(initialX, initialY);
+        }, 80);
 
-      document.getElementById('btn-zoom-out').addEventListener('click', () => {
-        pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8);
-      });
+        // Controls
+        document.getElementById('btn-zoom-in').addEventListener('click', () => {
+          pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25);
+        });
 
-      document.getElementById('btn-zoom-reset').addEventListener('click', () => {
-        pzInstance.zoomAbs(0, 0, 1);
-        pzInstance.moveTo(40, 90);
-      });
+        document.getElementById('btn-zoom-out').addEventListener('click', () => {
+          pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8);
+        });
 
-      document.getElementById('btn-zoom-fit').addEventListener('click', () => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const scale = Math.min((vw - 80) / 2200, (vh - 120) / 1200, 0.75);
-        pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo((vw - 2200 * scale) / 2, 90);
-      });
+        document.getElementById('btn-zoom-reset').addEventListener('click', () => {
+          pzInstance.zoomAbs(0, 0, 1);
+          pzInstance.moveTo(40, 85);
+        });
+
+        document.getElementById('btn-zoom-fit').addEventListener('click', () => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const rect = sceneEl.getBoundingClientRect();
+          const scale = Math.min((vw - 60) / (rect.width / pzInstance.getTransform().scale), (vh - 100) / (rect.height / pzInstance.getTransform().scale), 0.85);
+          pzInstance.zoomAbs(0, 0, scale);
+          pzInstance.moveTo((vw - (rect.width / pzInstance.getTransform().scale) * scale) / 2, 85);
+        });
+
+      } catch (err) {
+        console.error('Mermaid render error:', err);
+      } finally {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 400);
+        }
+      }
     }
 
-    window.addEventListener('DOMContentLoaded', initCanvas);
+    window.addEventListener('DOMContentLoaded', initDiagram);
   </script>
 </body>
 </html>
