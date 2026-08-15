@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎓 সাইমুম একাডেমি — শতভাগ পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</title>
+  <title>🎓 সাইমুম একাডেমি — Interactive Pan & Zoom Circuit Canvas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
   <style>
     :root {
       --brand-orange: #FF790E;
@@ -23,8 +24,6 @@
       --accent-emerald: #10B981;
       --accent-violet: #8B5CF6;
       --accent-blue: #3B82F6;
-      --accent-pink: #EC4899;
-      --accent-amber: #F59E0B;
     }
 
     * {
@@ -33,163 +32,233 @@
       box-sizing: border-box;
     }
 
-    body {
-      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
       background-color: var(--bg-dark);
       color: var(--text-primary);
-      line-height: 1.6;
-      padding: 24px;
+      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
     }
 
-    .circuit-container {
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-
-    /* Circuit Header Board */
-    .circuit-header {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 24px 30px;
-      margin-bottom: 24px;
+    /* Infinite Canvas Viewport */
+    #viewport-container {
+      width: 100vw;
+      height: 100vh;
       position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      background: radial-gradient(circle at center, #0F172A 0%, #070B14 100%);
+      cursor: grab;
+      user-select: none;
     }
 
-    .circuit-header::before {
-      content: '';
+    #viewport-container:active {
+      cursor: grabbing;
+    }
+
+    /* Grid Background Pattern */
+    .grid-bg {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #FF790E, #06B6D4, #10B981, #8B5CF6, #EC4899, #F59E0B);
+      inset: 0;
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      pointer-events: none;
     }
 
-    .brand-title {
-      font-size: 1.8rem;
-      font-weight: 800;
+    /* Floating Top HUD Bar */
+    .hud-topbar {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      right: 24px;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(14, 22, 38, 0.85);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 14px 24px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      pointer-events: auto;
+    }
+
+    .brand-group {
       display: flex;
       align-items: center;
       gap: 12px;
-      color: #FFFFFF;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .brand-pill {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 800;
       background: rgba(255, 121, 14, 0.15);
       color: var(--brand-orange);
-      padding: 4px 10px;
-      border-radius: 12px;
+      padding: 3px 8px;
+      border-radius: 8px;
       border: 1px solid rgba(255, 121, 14, 0.3);
       font-family: 'Fira Code', monospace;
     }
 
-    .header-sub {
-      color: var(--text-secondary);
-      font-size: 1.05rem;
-      margin-top: 4px;
-    }
-
-    /* Main Circuit Board */
-    .circuit-board {
-      background: var(--bg-surface);
-      border: 1.5px solid var(--border-color);
-      border-radius: 24px;
-      padding: 28px 20px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-      margin-bottom: 30px;
-    }
-
-    .circuit-canvas {
-      background: #090E1A;
-      border: 1px solid var(--border-color);
-      border-radius: 18px;
-      padding: 24px 12px;
-      overflow-x: auto;
-      display: flex;
-      justify-content: center;
-    }
-
-    .mermaid {
-      font-family: 'Hind Siliguri', sans-serif !important;
-      width: 100%;
-      min-width: 1150px;
-    }
-
-    /* All PRD Pillars Grid */
-    .pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-top: 28px;
-    }
-
-    .pillar-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 20px 18px;
-      transition: all 0.2s ease;
-    }
-
-    .pillar-card:hover {
-      border-color: var(--brand-orange);
-      transform: translateY(-2px);
-    }
-
-    .pillar-header {
+    .hud-hints {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      font-weight: 500;
     }
 
-    .pillar-icon {
-      font-size: 1.3rem;
-    }
-
-    .pillar-title {
-      font-size: 1rem;
-      font-weight: 700;
+    .hint-chip {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 6px;
       color: var(--text-primary);
     }
 
-    .pillar-desc {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
+    .kbd {
+      background: #1E293B;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.75rem;
+      border: 1px solid #334155;
     }
 
-    .footer {
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      margin-top: 40px;
+    /* Floating Zoom Controls */
+    .zoom-toolbar {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(14, 22, 38, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 6px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .zoom-btn {
+      width: 38px;
+      height: 38px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .zoom-btn:hover {
+      background: var(--brand-orange);
+      color: #FFFFFF;
+      border-color: var(--brand-orange);
+    }
+
+    /* SVG Canvas Area */
+    #mermaid-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #mermaid-diagram svg {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: none !important;
+    }
+
+    /* Loading Overlay */
+    #loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      transition: opacity 0.4s ease;
+    }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(255, 121, 14, 0.2);
+      border-top-color: var(--brand-orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
 
-  <div class="circuit-container">
-    
-    <!-- Top Header -->
-    <header class="circuit-header">
-      <div class="brand-title">
-        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — শতভাগ পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</span>
-        <span class="brand-pill">COMPLETE 4-TIER FINANCIAL PIPELINE</span>
+  <!-- Loading State -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div style="font-weight: 700; font-size: 1.1rem;">সাইমুম আর্কিটেকচার সার্কিট ক্যানভাস লোড হচ্ছে...</div>
+    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px;">ইনফিনিট প্যান ও জুম ক্যানভাস প্রস্তুত করা হচ্ছে</div>
+  </div>
+
+  <!-- Viewport Pan-Zoom Canvas -->
+  <div id="viewport-container">
+    <div class="grid-bg"></div>
+
+    <!-- Floating Top Header Bar -->
+    <header class="hud-topbar">
+      <div class="brand-group">
+        <span class="brand-title">⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Circuit Canvas</span>
+        <span class="brand-pill">INFINITE PAN & ZOOM</span>
       </div>
-      <p class="header-sub">রেজিস্ট্রেশন ফি, ওয়ার্কশপ ফি, স্টুডেন্ট ভর্তি ফি এবং মাসিক ফি সহ পুরো সিস্টেমের সমন্বিত সার্কিট মানচিত্র।</p>
+      <div class="hud-hints">
+        <div class="hint-chip"><span class="kbd">Scroll</span> জুম ইন / আউট</div>
+        <div class="hint-chip"><span class="kbd">Space</span> বা ড্র্যাগ করে ক্যানভাস প্যান করুন</div>
+        <div class="hint-chip"><span class="kbd">Click + Drag</span> ফ্রি মুভমেন্ট</div>
+      </div>
     </header>
 
-    <!-- Main Circuit Board -->
-    <main class="circuit-board">
-      
-      <div class="circuit-canvas">
-        <pre class="mermaid">
+    <!-- Floating Right-Bottom Zoom Controls -->
+    <div class="zoom-toolbar">
+      <button class="zoom-btn" id="btn-zoom-in" title="Zoom In (+)">+</button>
+      <button class="zoom-btn" id="btn-zoom-out" title="Zoom Out (-)">−</button>
+      <button class="zoom-btn" id="btn-zoom-reset" title="Reset View (⟲)" style="font-size: 0.9rem;">⟲</button>
+      <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen (⛶)" style="font-size: 0.85rem;">⛶</button>
+    </div>
+
+    <!-- Mermaid Canvas Target -->
+    <div id="mermaid-container">
+      <div id="mermaid-diagram" class="mermaid">
 flowchart TB
     %% ===================================================
     %% ১. পাবলিক ওয়েবসাইট ও পেমেন্ট গেটওয়ে
@@ -332,7 +401,6 @@ flowchart TB
     PersonProfile --> Viva
     Viva --> VivaPassed
     
-    %% ওয়ার্কশপ ভর্তি ফি ধাপ
     VivaPassed -- "সিলেক্টেড" --> WorkshopEnroll
     WorkshopEnroll -->|"২. ওয়ার্কশপ ভর্তি ফি"| Fee_Workshop
     Fee_Workshop --> WorkshopTrack
@@ -340,7 +408,6 @@ flowchart TB
     WorkshopTrack --> Exam
     Exam --> ExamPassed
     
-    %% রেগুলার ছাত্র ভর্তি ফি ধাপ
     ExamPassed -- "পাস করেছে 🎉" --> RegularEnroll
     RegularEnroll -->|"৩. স্টুডেন্ট ভর্তি ফি"| Fee_Student_Adm
     Fee_Student_Adm --> OneClickPromo
@@ -351,66 +418,23 @@ flowchart TB
     OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_1
     OneClickPromo ==>|"সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Online
     
-    %% মাসিক ফি প্রদান ধাপ
     D_Student -->|"৪. নিয়মিত মাসিক টিউশন ফি"| Fee_Monthly
     
     Batch_1 --> D_Student
     Batch_Online --> D_Student
-        </pre>
       </div>
-
-      <!-- Complete 4-Tier Financial Breakdown Summary Grid -->
-      <div class="pillars-grid">
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">📝</span>
-            <div class="pillar-title">১. Registration Fee (আবেদন ফি)</div>
-          </div>
-          <div class="pillar-desc">ওয়েবসাইট থেকে প্রাথমিক আবেদন ফরম পূরণের সময় গেটওয়ের (বিকাশ/নগদ) মাধ্যমে পরিশোধিত হয়।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">🎪</span>
-            <div class="pillar-title">২. Workshop Admission Fee</div>
-          </div>
-          <div class="pillar-desc">ভাইভা পরীক্ষায় উত্তীর্ণ হয়ে ওয়ার্কশপ ট্রেনিং কোহোর্টে নিশ্চিতভাবে যোগদানের সময় এ ফি নেওয়া হয়।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">🎓</span>
-            <div class="pillar-title">৩. Student Admission Fee</div>
-          </div>
-          <div class="pillar-desc">ওয়ার্কশপ শেষে ফাইনাল পরীক্ষায় উত্তীর্ণ প্রার্থীরা নিয়মিত ছাত্র হিসেবে চলমান ব্যাচে স্থায়ী ভর্তির ফি দেয়।</div>
-        </div>
-
-        <div class="pillar-card">
-          <div class="pillar-header">
-            <span class="pillar-icon">💳</span>
-            <div class="pillar-title">৪. Student Monthly Fee</div>
-          </div>
-          <div class="pillar-desc">নিয়মিত ক্লাসের মাসিক টিউশন ফি, যা ছাত্ররা সরাসরি স্টুডেন্ট পোর্টাল থেকে প্রতি মাসে অনলাইনে দিতে পারবে।</div>
-        </div>
-      </div>
-
-    </main>
-
-    <footer class="footer">
-      <p>© ২০২৬ সাইমুম কেন্দ্রীয় একাডেমি — ৪-ধাপের আর্থিক কাঠামো সহ পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</p>
-    </footer>
-
+    </div>
   </div>
 
   <script>
     mermaid.initialize({
-      startOnLoad: true,
+      startOnLoad: false,
       theme: 'dark',
       flowchart: {
         curve: 'basis',
         nodeSpacing: 45,
         rankSpacing: 55,
-        padding: 16
+        padding: 20
       },
       themeVariables: {
         darkMode: true,
@@ -424,6 +448,76 @@ flowchart TB
         fontFamily: 'Hind Siliguri, Plus Jakarta Sans, sans-serif'
       }
     });
+
+    let panZoomInstance = null;
+
+    async function renderAndInitPanZoom() {
+      try {
+        await mermaid.run({
+          nodes: [document.getElementById('mermaid-diagram')]
+        });
+
+        const svgElement = document.querySelector('#mermaid-diagram svg');
+        if (svgElement) {
+          svgElement.setAttribute('id', 'circuit-svg-canvas');
+          
+          panZoomInstance = svgPanZoom('#circuit-svg-canvas', {
+            zoomEnabled: true,
+            controlIconsEnabled: false,
+            fit: true,
+            center: true,
+            minZoom: 0.1,
+            maxZoom: 15,
+            zoomScaleSensitivity: 0.3,
+            mouseWheelZoomEnabled: true
+          });
+
+          // Zoom toolbar bindings
+          document.getElementById('btn-zoom-in').addEventListener('click', () => panZoomInstance.zoomIn());
+          document.getElementById('btn-zoom-out').addEventListener('click', () => panZoomInstance.zoomOut());
+          document.getElementById('btn-zoom-reset').addEventListener('click', () => {
+            panZoomInstance.resetZoom();
+            panZoomInstance.center();
+          });
+          document.getElementById('btn-zoom-fit').addEventListener('click', () => {
+            panZoomInstance.fit();
+            panZoomInstance.center();
+          });
+
+          // Space key dragging support
+          let isSpacePressed = false;
+          window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !isSpacePressed) {
+              isSpacePressed = true;
+              document.getElementById('viewport-container').style.cursor = 'grab';
+            }
+          });
+          window.addEventListener('keyup', (e) => {
+            if (e.code === 'Space') {
+              isSpacePressed = false;
+              document.getElementById('viewport-container').style.cursor = 'default';
+            }
+          });
+
+          // Auto resize on window change
+          window.addEventListener('resize', () => {
+            panZoomInstance.resize();
+            panZoomInstance.fit();
+            panZoomInstance.center();
+          });
+        }
+      } catch (err) {
+        console.error('Render error:', err);
+      } finally {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 400);
+        }
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', renderAndInitPanZoom);
   </script>
 </body>
 </html>
