@@ -55,9 +55,9 @@
     .pcb-grid {
       position: absolute;
       inset: 0;
-      background-size: 32px 32px;
+      background-size: 28px 28px;
       background-image: 
-        radial-gradient(rgba(6, 182, 212, 0.15) 1.5px, transparent 1.5px),
+        radial-gradient(rgba(6, 182, 212, 0.15) 1.2px, transparent 1.2px),
         linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
       pointer-events: none;
@@ -67,24 +67,24 @@
     /* Top HUD Circuit Controller */
     .top-hud {
       position: absolute;
-      top: 16px;
+      top: 14px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
       display: flex;
       align-items: center;
       gap: 16px;
-      background: rgba(13, 27, 42, 0.92);
+      background: rgba(13, 27, 42, 0.94);
       border: 1px solid #1E3A8A;
-      border-radius: 14px;
-      padding: 8px 22px;
+      border-radius: 12px;
+      padding: 6px 18px;
       backdrop-filter: blur(16px);
       box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
     }
 
     .hud-title {
       font-weight: 800;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: #F8FAFC;
       display: flex;
       align-items: center;
@@ -94,10 +94,10 @@
     .circuit-badge {
       background: rgba(255, 121, 14, 0.15);
       color: var(--trace-orange);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 6px;
+      padding: 2px 7px;
+      border-radius: 5px;
       border: 1px solid rgba(255, 121, 14, 0.3);
       font-family: 'Fira Code', monospace;
     }
@@ -106,18 +106,18 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
       border-left: 1px solid #1E293B;
-      padding-left: 14px;
+      padding-left: 12px;
     }
 
     .kbd {
       background: #1E293B;
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 4px;
       font-family: monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       border: 1px solid #334155;
       color: #38BDF8;
     }
@@ -125,27 +125,27 @@
     /* Floating Zoom Controls */
     .zoom-toolbar {
       position: absolute;
-      bottom: 24px;
-      right: 24px;
+      bottom: 20px;
+      right: 20px;
       z-index: 100;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       background: rgba(13, 27, 42, 0.95);
       border: 1px solid #1E3A8A;
-      border-radius: 12px;
-      padding: 5px;
+      border-radius: 10px;
+      padding: 4px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
     .zoom-btn {
-      width: 38px;
-      height: 38px;
+      width: 34px;
+      height: 34px;
       background: #111E33;
       border: 1px solid #1E3A8A;
       color: #F8FAFC;
-      border-radius: 8px;
-      font-size: 1.15rem;
+      border-radius: 6px;
+      font-size: 1.1rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -165,11 +165,11 @@
       position: absolute;
       transform-origin: 0 0;
       z-index: 10;
-      padding: 60px;
+      padding: 30px;
       display: inline-block;
     }
 
-    /* True Electronic Circuit Diagram Styling */
+    /* Compact Smart Circuit Diagram Styling */
     .mermaid {
       font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif !important;
     }
@@ -178,22 +178,22 @@
     .mermaid .node circle,
     .mermaid .node polygon,
     .mermaid .node path {
-      rx: 8px !important;
-      ry: 8px !important;
-      stroke-width: 2px !important;
-      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.6)) !important;
+      rx: 6px !important;
+      ry: 6px !important;
+      stroke-width: 1.6px !important;
+      filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.5)) !important;
     }
 
     .mermaid .cluster rect {
-      rx: 14px !important;
-      ry: 14px !important;
-      stroke-dasharray: 4 4 !important;
-      stroke-width: 1.8px !important;
+      rx: 10px !important;
+      ry: 10px !important;
+      stroke-dasharray: 4 3 !important;
+      stroke-width: 1.4px !important;
     }
 
-    /* Glowing Circuit Traces with Crisp Arrowheads */
+    /* Compact High-Contrast Traces */
     .mermaid .edgePath path {
-      stroke-width: 2.4px !important;
+      stroke-width: 2px !important;
       stroke: #38BDF8 !important;
     }
 
@@ -204,11 +204,11 @@
     }
 
     .mermaid .edgeLabel {
-      background-color: #0E1626 !important;
-      padding: 3px 8px !important;
-      border-radius: 5px !important;
+      background-color: #0B132B !important;
+      padding: 2px 6px !important;
+      border-radius: 4px !important;
       border: 1px solid #1E3A8A !important;
-      font-size: 11px !important;
+      font-size: 10.5px !important;
       font-weight: 700 !important;
       color: #38BDF8 !important;
       font-family: 'Fira Code', monospace;
@@ -227,13 +227,13 @@
     }
 
     .spinner {
-      width: 44px;
-      height: 44px;
+      width: 36px;
+      height: 36px;
       border: 3px solid rgba(6, 182, 212, 0.2);
       border-top-color: var(--trace-cyan);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     @keyframes spin {
@@ -246,7 +246,7 @@
   <!-- Loading State -->
   <div id="loading-overlay">
     <div class="spinner"></div>
-    <div style="font-weight: 700; font-size: 1rem; color: #38BDF8;">সাইমুম একাডেমি সার্কিট বোর্ড রেন্ডার হচ্ছে...</div>
+    <div style="font-weight: 700; font-size: 0.95rem; color: #38BDF8;">সাইমুম সার্কিট রেন্ডার হচ্ছে...</div>
   </div>
 
   <div id="viewport-container">
@@ -255,8 +255,8 @@
     <!-- Top Circuit Header -->
     <header class="top-hud">
       <div class="hud-title">
-        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Circuit Board</span>
-        <span class="circuit-badge">PCB TRACE CONNECTED</span>
+        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — Compact Circuit Board</span>
+        <span class="circuit-badge">ZERO GAP ROUTING</span>
       </div>
       <div class="hud-hints">
         <span><span class="kbd">Scroll</span> জুম</span>
@@ -273,188 +273,200 @@
       <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen" style="font-size: 0.85rem;">⛶</button>
     </div>
 
-    <!-- Complete Circuit with every single node connected with live directional arrows -->
+    <!-- Compact Clean Circuit Diagram with Smart Bus Routing -->
     <div id="scene">
       <div id="mermaid-diagram" class="mermaid">
 flowchart TB
     %% =========================================================================
-    %% ১. ইনপুট এন্ট্রি পয়েন্ট: পাবলিক ওয়েবসাইট ও অনলাইন আবেদন
+    %% ১. ইনপুট লেয়ার: পাবলিক ওয়েবসাইট ও অনলাইন ভর্তি আবেদন
     %% =========================================================================
-    subgraph S1 [" 🌐 [INPUT LAYER] পাবলিক ওয়েবসাইট ও অনলাইন ভর্তি ফরম "]
-        WebHome["🌍 পাবলিক ওয়েবসাইট (frontend/)<br/>(একাডেমি পরিচিতি, শাখা ও বিভাগ ক্যাটালগ)"]
-        WebApply["📝 অনলাইন ভর্তি আবেদন ফরম<br/><b>[যোগ্যতা ফিল্টার: মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স]</b>"]
-        FeeReg["💳 ১. Registration Fee (আবেদন ফি)<br/><b>[বিকাশ / নগদ পেমেন্ট গেটওয়ে]</b>"]
+    subgraph S1 [" 🌐 [INPUT BUS] পাবলিক ওয়েবসাইট ও অনলাইন আবেদন (frontend/) "]
+        direction LR
+        WebHome["🌍 পাবলিক ওয়েবসাইট<br/>(পরিচিতি ও ব্রাউজিং)"]
+        WebApply["📝 অনলাইন ভর্তি ফরম<br/><b>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স)</b>"]
+        FeeReg["💳 ১. Registration Fee<br/><b>(বিকাশ / নগদ গেটওয়ে)</b>"]
         
-        WebHome -->|"ভর্তি হতে ইচ্ছুক"| WebApply
-        WebApply -->|"আবেদন ফি পেমেন্ট"| FeeReg
+        WebHome --> WebApply -->|"ফি পেমেন্ট"| FeeReg
     end
 
     %% =========================================================================
-    %% ২. সেন্ট্রাল প্রসেসর: কেন্দ্রীয় প্রশাসন ও মাস্টার ক্যাটালগ
+    %% ২. সেন্ট্রাল প্রসেসর: কেন্দ্রীয় একাডেমি প্রশাসন ও মাস্টার ক্যাটালগ
     %% =========================================================================
-    subgraph S2 [" 🏛️ [CENTRAL PROCESSOR] কেন্দ্রীয় একাডেমি প্রশাসন (admin/) "]
-        SuperAdmin["👑 সুপার অ্যাডমিন প্যানেল<br/>(পুরো একাডেমি পরিচালনা ও রুলস ইঞ্জিন)"]
+    subgraph S2 [" 🏛️ [CENTRAL PROCESSOR] কেন্দ্রীয় প্রশাসন ও মাস্টার ক্যাটালগ (admin/) "]
+        direction LR
+        SuperAdmin["👑 সুপার অ্যাডমিন প্যানেল<br/>(সার্বিক নিয়ন্ত্রণ ও রোলস)"]
+        MS["📚 মাস্টার বিষয় ক্যাটালগ<br/><b>[গান, অভিনয়, আবৃত্তি - নো ডুপ্লিকেশন]</b>"]
+        MD["🏛️ মাস্টার বিভাগ ক্যাটালগ<br/><b>[Many-to-Many রিলেশন]</b>"]
+        GlobalSearch["🔍 গ্লোবাল সার্চ ও অডিট লগ<br/>(ফোন/আইডি ট্র্যাকিং)"]
         
-        MS["📚 মাস্টার বিষয়সমূহ (গান, অভিনয়, আবৃত্তি)<br/><b>[নিয়ম: কেন্দ্রীয়ভাবে একবার তৈরি হবে, নো ডুপ্লিকেশন]</b>"]
-        MD["🏛️ মাস্টার বিভাগসমূহ (সংগীত বিভাগ, অভিনয় বিভাগ)<br/><b>[Many-to-Many রিলেশনশিপ]</b>"]
-        
-        GlobalSearch["🔍 গ্লোবাল সার্চ ও অডিট লগ<br/>(ফোন/আইডি দিয়ে তাৎক্ষণিক ব্যক্তি অনুসন্ধান ও অডিট ট্র্যাকিং)"]
-        
-        SuperAdmin -->|"মাস্টার বিষয় কন্ট্রোল"| MS
-        SuperAdmin -->|"মাস্টার বিভাগ কন্ট্রোল"| MD
-        SuperAdmin -->|"রিয়েল-টাইম অডিট ট্র্যাকিং"| GlobalSearch
+        SuperAdmin --> MS
+        SuperAdmin --> MD
+        SuperAdmin --> GlobalSearch
     end
 
+    FeeReg -->|"আবেদন জমা"| S2
+
     %% =========================================================================
-    %% ৩. শাখা ও ডিপার্টমেন্ট কন্ট্রোলার
+    %% ৩. ম্যানেজমেন্ট বাস: শাখা ও ডিপার্টমেন্ট কন্ট্রোলার
     %% =========================================================================
     subgraph S3 [" 🏢 [MANAGEMENT BUS] শাখা ও ডিপার্টমেন্ট প্যানেল (department/) "]
-        DeptDirector["🎭 ডিপার্টমেন্ট পরিচালক<br/>(বিষয় তদারকি ও ভাইভা/পরীক্ষা প্যানেল)"]
-        BranchDirector["🏢 শাখা পরিচালক ও অফিস<br/>(শাখার সার্বিক পরিচালনা ও ক্লাসরুম)"]
-        TeacherStaff["👨‍🏫 শিক্ষক ও প্রশিক্ষক<br/>(ক্লাস নেওয়া, উপস্থিতি ও ওয়ার্কশপ মূল্যায়ন)"]
+        direction TB
+        subgraph RolesRow [" দায়িত্বশীলদের রোলস "]
+            direction LR
+            DeptDirector["🎭 ডিপার্টমেন্ট পরিচালক<br/>(বিভাগীয় প্রধান)"]
+            BranchDirector["🏢 শাখা পরিচালক<br/>(অফিস ও অর্থ সম্পাদক)"]
+            TeacherStaff["👨‍🏫 শিক্ষক ও প্রশিক্ষক<br/>(ক্লাস ও মার্কিং)"]
+        end
         
-        B_Physical["🏢 ফিজিক্যাল শাখা (ঢাকা, মিরপুর)<br/>(ফিজিক্যাল ক্লাসরুম সেশন)"]
-        B_Online["🌐 অনলাইন জুম শাখা<br/>(স্বয়ংক্রিয় জুম আইডি, পাসওয়ার্ড ও লাইভ লিংক)"]
-        
-        MD <== "Many-to-Many" ==> B_Physical
-        MD <== "Many-to-Many" ==> B_Online
-        
-        SuperAdmin -.->|"দায়িত্ব বণ্টন"| DeptDirector
-        SuperAdmin -.->|"শাখা দায়িত্ব বণ্টন"| BranchDirector
-        BranchDirector -->|"শাখা কন্ট্রোল"| B_Physical
-        BranchDirector -->|"অনলাইন শাখা কন্ট্রোল"| B_Online
-        TeacherStaff -->|"ক্লাস শিডিউলিং"| B_Physical
-        TeacherStaff -->|"জুম মিটিং শিডিউলিং"| B_Online
+        subgraph BranchNet [" শাখা নেটওয়ার্ক "]
+            direction LR
+            B_Physical["🏢 ফিজিক্যাল শাখা (ঢাকা, মিরপুর)"]
+            B_Online["🌐 অনলাইন জুম শাখা (জুম আইডি/লিংক)"]
+        end
     end
 
+    MD <== "Many-to-Many" ==> B_Physical
+    MD <== "Many-to-Many" ==> B_Online
+    SuperAdmin -.-> DeptDirector
+    SuperAdmin -.-> BranchDirector
+    BranchDirector --> B_Physical
+    BranchDirector --> B_Online
+    TeacherStaff --> B_Physical
+    TeacherStaff --> B_Online
+
     %% =========================================================================
-    %% ৪. শাখায় বিষয় অফারিং ও চলমান ব্যাচ সার্কিট
+    %% ৪. ভর্তি, ভাইভা, ওয়ার্কশপ ও ফাইনাল পরীক্ষা ফানেল (বাম পাশে কমপ্যাক্ট)
+    %% =========================================================================
+    subgraph S5 [" 🎯 [ADMISSION PIPELINE] ভর্তি, ভাইভা, ওয়ার্কশপ ও প্রমোশন ফানেল "]
+        direction TB
+        subgraph Stage1 [" ১. স্ক্রিনিং ও ভাইভা "]
+            direction LR
+            PersonCheck{"🔍 স্থায়ী আইডি চেক?"}
+            PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><b>[১ ব্যক্তি = আজীবন ১ প্রোফাইল]</b>"]
+            Viva["🎙️ ভাইভা পরীক্ষা (প্যানেল মার্কিং)"]
+            PersonCheck --> PersonProfile --> Viva
+        end
+        
+        subgraph Stage2 [" ২. ওয়ার্কশপ কোহোর্ট "]
+            direction LR
+            WorkshopEnroll["📋 ওয়ার্কশপে ভর্তি<br/><b>[২. Workshop Admission Fee]</b>"]
+            WorkshopTrack["🎪 ওয়ার্কশপ ট্রেনিং (উপস্থিতি ও স্কিল)"]
+            WorkshopEnroll --> WorkshopTrack
+        end
+        
+        subgraph Stage3 [" ৩. ফাইনাল পরীক্ষা ও প্রমোশন "]
+            direction LR
+            Exam["📝 ফাইনাল পরীক্ষা"]
+            RegularEnroll["🎓 নিয়মিত ছাত্র অনুমোদন<br/><b>[৩. Student Admission Fee]</b>"]
+            OneClickPromo["⚡ ১-ক্লিকে নিয়মিত ছাত্র হিসেবে প্রমোশন!"]
+            Exam --> RegularEnroll --> OneClickPromo
+        end
+        
+        Stage1 -->|"উত্তীর্ণ হলে"| Stage2
+        Stage2 -->|"কোহোর্ট শেষে"| Stage3
+    end
+
+    FeeReg --> PersonCheck
+    DeptDirector -.->|"ভাইভা মূল্যায়ন"| Viva
+    TeacherStaff -.->|"ওয়ার্কশপ মূল্যায়ন"| WorkshopTrack
+    DeptDirector -.->|"ফাইনাল রেজাল্ট"| Exam
+
+    %% =========================================================================
+    %% ৫. বিষয় অফারিং ও চলমান ব্যাচ রেজিস্টার
     %% =========================================================================
     subgraph S4 [" 📚 [BATCH REGISTER] শাখায় বিষয় চালু ও চলমান ব্যাচ "]
-        SO_Physical["ঢাকা শাখার গান বিষয় অফারিং"]
-        SO_Online["অনলাইন শাখার গান বিষয় অফারিং"]
+        direction LR
+        SO_Physical["ফিজিক্যাল শাখার গান বিষয়"]
+        SO_Online["অনলাইন শাখার গান বিষয়"]
         
         Batch_Physical["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/><b>[২০২৫ সালে তৈরি — চলমান ব্যাচ কোর]</b>"]
         Batch_Online["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/>(অনলাইন প্রশিক্ষণ গ্রুপ)"]
+        
+        SO_Physical --> Batch_Physical
+        SO_Online --> Batch_Online
     end
 
-    MS -->|"শাখায় গান বিষয় যুক্ত"| SO_Physical
-    MS -->|"অনলাইনে গান বিষয় যুক্ত"| SO_Online
-    B_Physical -->|"বিষয় একটিভেশন"| SO_Physical
-    B_Online -->|"বিষয় একটিভেশন"| SO_Online
-    
-    SO_Physical -->|"ব্যাচে রূপান্তর"| Batch_Physical
-    SO_Online -->|"ব্যাচে রূপান্তর"| Batch_Online
+    MS --> SO_Physical
+    MS --> SO_Online
+    B_Physical --> SO_Physical
+    B_Online --> SO_Online
 
     %% =========================================================================
-    %% ৫. ভর্তি, ভাইভা ও ওয়ার্কশপ ফানেল সার্কিট
-    %% =========================================================================
-    subgraph S5 [" 🎯 [ADMISSION PIPELINE] ভর্তি, ভাইভা, ওয়ার্কশপ ও প্রমোশন ফানেল "]
-        PersonCheck{"🔍 স্থায়ী আইডি চেক<br/>(পূর্বে কোনো রেকর্ড আছে?)"}
-        PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><b>[১ মানুষ = আজীবন ১ প্রোফাইল, মাল্টি-ইয়ার ইতিহাস]</b>"]
-        
-        Viva["🎙️ ভাইভা পরীক্ষা<br/>(প্যানেল মার্কিং ও সিলেকশন)"]
-        
-        WorkshopEnroll["📋 ওয়ার্কশপ ভর্তি নিশ্চিতকরণ"]
-        FeeWorkshop["💳 ২. Workshop Admission Fee (ওয়ার্কশপ ফি)"]
-        
-        WorkshopTrack["🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট<br/>(উপস্থিতি, শৃঙ্খলা ও স্কিল মূল্যায়ন)"]
-        
-        Exam["📝 ফাইনাল মূল্যায়ন পরীক্ষা<br/>(তাত্ত্বিক ও ব্যবহারিক মূল্যায়ন)"]
-        
-        RegularEnroll["🎓 নিয়মিত ছাত্র হিসেবে চূড়ান্ত অনুমোদন"]
-        FeeStudentAdm["💳 ৩. Student Admission Fee (ভর্তি ফি)"]
-        
-        OneClickPromo["⚡ ১-ক্লিকে নিয়মিত ছাত্র হিসেবে প্রমোশন!"]
-    end
-
-    FeeReg -->|"আবেদন ফি সফল হলে"| PersonCheck
-    PersonCheck -->|"স্থায়ী আইডি ম্যাচ/নতুন তৈরি"| PersonProfile
-    PersonProfile -->|"ভাইভায় অংশগ্রহণ"| Viva
-    
-    DeptDirector -.->|"ভাইভা মূল্যায়ন"| Viva
-    Viva -->|"ভাইভায় উত্তীর্ণ হলে"| WorkshopEnroll
-    WorkshopEnroll -->|"ওয়ার্কশপ ফি প্রদান"| FeeWorkshop
-    FeeWorkshop -->|"কোহোর্টে যুক্ত"| WorkshopTrack
-    
-    TeacherStaff -.->|"ওয়ার্কশপ উপস্থিতি ও শৃঙ্খলা মার্কিং"| WorkshopTrack
-    WorkshopTrack -->|"কোহোর্ট শেষে"| Exam
-    DeptDirector -.->|"ফাইনাল পরীক্ষার রেজাল্ট প্রকাশ"| Exam
-    
-    Exam -->|"ফাইনাল পরীক্ষায় পাস করলে 🎉"| RegularEnroll
-    RegularEnroll -->|"ভর্তি ফি প্রদান"| FeeStudentAdm
-    FeeStudentAdm -->|"স্বয়ংক্রিয় অ্যাক্টিভেশন"| OneClickPromo
-
-    %% =========================================================================
-    %% ৬. নিয়মিত ক্লাস ও স্টুডেন্ট পোর্টাল
+    %% ৬. ক্লাস শিডিউল, উপস্থিতি ও স্টুডেন্ট পোর্টাল
     %% =========================================================================
     subgraph S6 [" 🎓 [RUNTIME LAYER] নিয়মিত ক্লাস ও স্টুডেন্ট পোর্টাল (student/) "]
-        ClassPhysical["🏫 ক্লাসরুম ক্লাস শিডিউল<br/>(রুটিন, ক্লাসরুম ও শিক্ষক)"]
-        ClassZoom["📹 জুম লাইভ অনলাইন ক্লাস<br/>(সরাসরি Join Zoom বাটন)"]
+        direction LR
+        subgraph ClassOps [" ক্লাস পরিচালনা "]
+            direction TB
+            ClassPhysical["🏫 ফিজিক্যাল ক্লাসরুম রুটিন"]
+            ClassZoom["📹 জুম লাইভ অনলাইন ক্লাস"]
+            AttendanceMatrix["📊 দৈনিক উপস্থিতি ম্যাট্রিক্স"]
+            ClassPhysical --> AttendanceMatrix
+            ClassZoom --> AttendanceMatrix
+        end
         
-        AttendanceMatrix["📊 দৈনিক উপস্থিতি ম্যাট্রিক্স<br/>(উপস্থিত, অনুপস্থিত, বিলম্ব ও ছুটির রেকর্ড)"]
+        subgraph PortalOps [" স্টুডেন্ট পোর্টাল "]
+            direction TB
+            StudentPortal["📱 Student Portal Dashboard<br/>(ক্লাস, জুম লিংক, রেজাল্ট ও ব্যাচ)"]
+            FeeMonthly["💳 ৪. Student Monthly Fee<br/><b>(মাসিক টিউশন ফি)</b>"]
+            StudentPortal --> FeeMonthly
+        end
         
-        StudentPortal["📱 Student Portal Dashboard<br/>(আমার ক্লাস, জুম লিংক, উপস্থিতি, রেজাল্ট ও ফি)"]
-        FeeMonthly["💳 ৪. Student Monthly Fee (মাসিক টিউশন ফি)"]
+        ClassOps --> PortalOps
     end
 
-    Batch_Physical -->|"ক্লাস শিডিউলিং"| ClassPhysical
-    Batch_Online -->|"জুম ক্লাস শিডিউলিং"| ClassZoom
-    ClassPhysical -->|"উপস্থিতি গ্রহণ"| AttendanceMatrix
-    ClassZoom -->|"উপস্থিতি গ্রহণ"| AttendanceMatrix
-    TeacherStaff -.->|"দৈনিক উপস্থিতি মার্কিং"| AttendanceMatrix
-    
-    ClassZoom -->|"১-ক্লিকে জুম ক্লাসে জয়েন"| StudentPortal
-    AttendanceMatrix -->|"রিয়েল-টাইম উপস্থিতি সিঙ্ক"| StudentPortal
-    StudentPortal -->|"প্রতি মাসে ফি প্রদান"| FeeMonthly
+    Batch_Physical --> ClassPhysical
+    Batch_Online --> ClassZoom
+    TeacherStaff -.->|"উপস্থিতি গ্রহণ"| AttendanceMatrix
+    ClassZoom -.->|"১-ক্লিকে জুম জয়েন"| StudentPortal
 
     %% =========================================================================
     %% ৭. সেন্ট্রাল ও শাখা ফাইন্যান্স ভল্ট
     %% =========================================================================
     subgraph S7 [" 💰 [FINANCE VAULT] কেন্দ্রীয় ও শাখা অর্থ লেজার "]
-        FinanceVault["🏦 শাখা ও কেন্দ্রীয় অর্থ লেজার<br/><b>(ভর্তি ফি, মাসিক ফি, আয়-ব্যয় হিসাব, বকেয়া ও ভাউচার লেজার)</b>"]
+        FinanceVault["🏦 শাখা ও কেন্দ্রীয় অর্থ লেজার<br/><b>(সকল ফি, আয়-ব্যয় হিসাব, বকেয়া ও ভাউচার লেজার)</b>"]
     end
 
-    FeeReg ==>|"অটো ডিপোজিট"| FinanceVault
-    FeeWorkshop ==>|"অটো ডিপোজিট"| FinanceVault
-    FeeStudentAdm ==>|"অটো ডিপোজিট"| FinanceVault
-    FeeMonthly ==>|"অটো ডিপোজিট"| FinanceVault
+    FeeReg --> FinanceVault
+    WorkshopEnroll --> FinanceVault
+    RegularEnroll --> FinanceVault
+    FeeMonthly --> FinanceVault
 
     %% =========================================================================
     %% ⚡ মূল সার্কিট লুপ ব্যাক: পাস করা ছাত্র সরাসরি চলমান ব্যাচে মেম্বারশিপ পায়!
     %% =========================================================================
-    OneClickPromo ==>|"⚡ সরাসরি চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন"| Batch_Physical
-    OneClickPromo ==>|"⚡ সরাসরি চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন"| Batch_Online
+    OneClickPromo ==>|"⚡ সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Physical
+    OneClickPromo ==>|"⚡ সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Online
     
-    Batch_Physical -->|"স্টুডেন্ট পোর্টালে ব্যাচ সিঙ্ক"| StudentPortal
-    Batch_Online -->|"স্টুডেন্ট পোর্টালে ব্যাচ সিঙ্ক"| StudentPortal
+    Batch_Physical --> StudentPortal
+    Batch_Online --> StudentPortal
 
     %% =========================================================================
     %% সার্কিট কালার থিম
     %% =========================================================================
-    style S1 fill:#0B132B,stroke:#3B82F6,stroke-width:2px,color:#93C5FD
-    style S2 fill:#0B132B,stroke:#FF790E,stroke-width:2px,color:#FED7AA
-    style S3 fill:#0B132B,stroke:#06B6D4,stroke-width:2px,color:#A5F3FC
-    style S4 fill:#0B132B,stroke:#10B981,stroke-width:2px,color:#A7F3D0
-    style S5 fill:#0B132B,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
-    style S6 fill:#0B132B,stroke:#8B5CF6,stroke-width:2px,color:#DDD6FE
-    style S7 fill:#0B132B,stroke:#EC4899,stroke-width:2px,color:#FBCFE8
+    style S1 fill:#0B132B,stroke:#3B82F6,stroke-width:1.5px,color:#93C5FD
+    style S2 fill:#0B132B,stroke:#FF790E,stroke-width:1.5px,color:#FED7AA
+    style S3 fill:#0B132B,stroke:#06B6D4,stroke-width:1.5px,color:#A5F3FC
+    style S4 fill:#0B132B,stroke:#10B981,stroke-width:1.5px,color:#A7F3D0
+    style S5 fill:#0B132B,stroke:#F59E0B,stroke-width:1.5px,color:#FDE68A
+    style S6 fill:#0B132B,stroke:#8B5CF6,stroke-width:1.5px,color:#DDD6FE
+    style S7 fill:#0B132B,stroke:#EC4899,stroke-width:1.5px,color:#FBCFE8
 
-    style WebApply fill:#1E293B,stroke:#3B82F6,stroke-width:1.8px,color:#FFFFFF
-    style FeeReg fill:#1E293B,stroke:#10B981,stroke-width:1.8px,color:#34D399
-    style MS fill:#1E293B,stroke:#FF790E,stroke-width:1.8px,color:#FFFFFF
-    style MD fill:#1E293B,stroke:#FF790E,stroke-width:1.8px,color:#FFFFFF
-    style DeptDirector fill:#1E293B,stroke:#06B6D4,stroke-width:1.8px,color:#38BDF8
-    style BranchDirector fill:#1E293B,stroke:#06B6D4,stroke-width:1.8px,color:#38BDF8
-    style TeacherStaff fill:#1E293B,stroke:#06B6D4,stroke-width:1.8px,color:#38BDF8
-    style Batch_Physical fill:#1E293B,stroke:#10B981,stroke-width:2px,color:#FFFFFF
-    style Batch_Online fill:#1E293B,stroke:#06B6D4,stroke-width:2px,color:#FFFFFF
-    style PersonProfile fill:#1E293B,stroke:#A855F7,stroke-width:2px,color:#FFFFFF
-    style FeeWorkshop fill:#1E293B,stroke:#10B981,stroke-width:1.8px,color:#34D399
-    style FeeStudentAdm fill:#1E293B,stroke:#10B981,stroke-width:1.8px,color:#34D399
-    style FeeMonthly fill:#1E293B,stroke:#10B981,stroke-width:1.8px,color:#34D399
-    style OneClickPromo fill:#FF790E,stroke:#FFFFFF,stroke-width:2.5px,color:#FFFFFF
-    style FinanceVault fill:#1E293B,stroke:#EC4899,stroke-width:2px,color:#F472B6
+    style WebApply fill:#1E293B,stroke:#3B82F6,stroke-width:1.5px,color:#FFFFFF
+    style FeeReg fill:#1E293B,stroke:#10B981,stroke-width:1.5px,color:#34D399
+    style MS fill:#1E293B,stroke:#FF790E,stroke-width:1.5px,color:#FFFFFF
+    style MD fill:#1E293B,stroke:#FF790E,stroke-width:1.5px,color:#FFFFFF
+    style DeptDirector fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#38BDF8
+    style BranchDirector fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#38BDF8
+    style TeacherStaff fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#38BDF8
+    style Batch_Physical fill:#1E293B,stroke:#10B981,stroke-width:1.5px,color:#FFFFFF
+    style Batch_Online fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#FFFFFF
+    style PersonProfile fill:#1E293B,stroke:#A855F7,stroke-width:1.5px,color:#FFFFFF
+    style WorkshopEnroll fill:#1E293B,stroke:#10B981,stroke-width:1.5px,color:#34D399
+    style RegularEnroll fill:#1E293B,stroke:#10B981,stroke-width:1.5px,color:#34D399
+    style FeeMonthly fill:#1E293B,stroke:#10B981,stroke-width:1.5px,color:#34D399
+    style OneClickPromo fill:#FF790E,stroke:#FFFFFF,stroke-width:2px,color:#FFFFFF
+    style FinanceVault fill:#1E293B,stroke:#EC4899,stroke-width:1.5px,color:#F472B6
       </div>
     </div>
   </div>
@@ -465,9 +477,9 @@ flowchart TB
       theme: 'dark',
       flowchart: {
         curve: 'basis',
-        nodeSpacing: 45,
-        rankSpacing: 55,
-        padding: 20
+        nodeSpacing: 25,
+        rankSpacing: 30,
+        padding: 12
       },
       themeVariables: {
         darkMode: true,
@@ -479,7 +491,7 @@ flowchart TB
         secondaryColor: '#111A2E',
         tertiaryColor: '#070B14',
         fontFamily: 'Hind Siliguri, Plus Jakarta Sans, sans-serif',
-        fontSize: '13px'
+        fontSize: '12px'
       }
     });
 
@@ -495,7 +507,7 @@ flowchart TB
         
         pzInstance = panzoom(sceneEl, {
           maxZoom: 8,
-          minZoom: 0.15,
+          minZoom: 0.2,
           smoothScroll: false,
           zoomSpeed: 0.065,
           beforeWheel: function(e) {
@@ -508,13 +520,13 @@ flowchart TB
           const vh = window.innerHeight;
           const rect = sceneEl.getBoundingClientRect();
           
-          const scale = Math.min((vw - 60) / rect.width, (vh - 100) / rect.height, 0.85);
-          const initialX = Math.max((vw - rect.width * scale) / 2, 30);
-          const initialY = 80;
+          const scale = Math.min((vw - 40) / rect.width, (vh - 80) / rect.height, 0.95);
+          const initialX = Math.max((vw - rect.width * scale) / 2, 20);
+          const initialY = 65;
 
           pzInstance.zoomAbs(0, 0, scale);
           pzInstance.moveTo(initialX, initialY);
-        }, 80);
+        }, 60);
 
         document.getElementById('btn-zoom-in').addEventListener('click', () => {
           pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25);
@@ -526,16 +538,16 @@ flowchart TB
 
         document.getElementById('btn-zoom-reset').addEventListener('click', () => {
           pzInstance.zoomAbs(0, 0, 1);
-          pzInstance.moveTo(30, 80);
+          pzInstance.moveTo(25, 65);
         });
 
         document.getElementById('btn-zoom-fit').addEventListener('click', () => {
           const vw = window.innerWidth;
           const vh = window.innerHeight;
           const rect = sceneEl.getBoundingClientRect();
-          const scale = Math.min((vw - 60) / (rect.width / pzInstance.getTransform().scale), (vh - 100) / (rect.height / pzInstance.getTransform().scale), 0.85);
+          const scale = Math.min((vw - 40) / (rect.width / pzInstance.getTransform().scale), (vh - 80) / (rect.height / pzInstance.getTransform().scale), 0.95);
           pzInstance.zoomAbs(0, 0, scale);
-          pzInstance.moveTo((vw - (rect.width / pzInstance.getTransform().scale) * scale) / 2, 80);
+          pzInstance.moveTo((vw - (rect.width / pzInstance.getTransform().scale) * scale) / 2, 65);
         });
 
       } catch (err) {
