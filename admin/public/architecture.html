@@ -40,7 +40,7 @@
     }
 
     .circuit-container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
     }
 
@@ -49,7 +49,7 @@
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: 20px;
-      padding: 28px 32px;
+      padding: 24px 30px;
       margin-bottom: 24px;
       position: relative;
       overflow: hidden;
@@ -67,7 +67,7 @@
     }
 
     .brand-title {
-      font-size: 1.8rem;
+      font-size: 1.7rem;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -88,8 +88,8 @@
 
     .header-sub {
       color: var(--text-secondary);
-      font-size: 1.05rem;
-      margin-top: 6px;
+      font-size: 1rem;
+      margin-top: 4px;
     }
 
     /* Main Circuit Board */
@@ -97,7 +97,7 @@
       background: var(--bg-surface);
       border: 1.5px solid var(--border-color);
       border-radius: 24px;
-      padding: 32px 24px;
+      padding: 28px 20px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.6);
       margin-bottom: 30px;
     }
@@ -106,7 +106,7 @@
       background: #090E1A;
       border: 1px solid var(--border-color);
       border-radius: 18px;
-      padding: 24px 12px;
+      padding: 24px 16px;
       overflow-x: auto;
       display: flex;
       justify-content: center;
@@ -115,6 +115,7 @@
     .mermaid {
       font-family: 'Hind Siliguri', sans-serif !important;
       width: 100%;
+      min-width: 900px;
     }
 
     /* Step-by-Step Simple Bengali Cards */
@@ -182,9 +183,9 @@
     <header class="circuit-header">
       <div class="brand-title">
         <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — পুরো সিস্টেমের সহজ সার্কিট ম্যাপ</span>
-        <span class="brand-pill">সহজ ভাষায়</span>
+        <span class="brand-pill">সহজ ও পরিচ্ছন্ন</span>
       </div>
-      <p class="header-sub">সেন্ট্রাল হেডকোয়ার্টার থেকে ছাত্রের আবেদন, ভাইভা, ওয়ার্কশপ পাস করে নিয়মিত ব্যাচে যুক্ত হওয়ার পুরো সার্কিট প্রবাহ।</p>
+      <p class="header-sub">সেন্ট্রাল হেডকোয়ার্টার থেকে ছাত্রের আবেদন, ভাইভা, ওয়ার্কশপ পাস করে নিয়মিত ব্যাচে যুক্ত হওয়ার স্পষ্ট ও নন-ওভারল্যাপিং সার্কিট প্রবাহ।</p>
     </header>
 
     <!-- Main Circuit Board -->
@@ -192,27 +193,25 @@
       
       <div class="circuit-canvas">
         <pre class="mermaid">
-flowchart TB
+flowchart TD
     %% ===================================================
     %% ১. সেন্ট্রাল মাস্টার হেডকোয়ার্টার
     %% ===================================================
     subgraph HQ ["🏛️ ১. কেন্দ্রীয় হেডকোয়ার্টার (সেন্ট্রাল মাস্টার)"]
-        MS["📚 মাস্টার বিষয়সমূহ<br/>(গান, অভিনয়, আবৃত্তি - একবারই তৈরি হবে)"]
-        MD["🏛️ মাস্টার বিভাগসমূহ<br/>(সংগীত বিভাগ, অভিনয় বিভাগ, ইত্যাদি)"]
+        MS["📚 মাস্টার বিষয়সমূহ (গান, অভিনয়, আবৃত্তি)<br/><i>(একবার তৈরি হবে, কোনো ডুপ্লিকেশন নেই)</i>"]
+        MD["🏛️ মাস্টার বিভাগসমূহ (সংগীত বিভাগ, অভিনয় বিভাগ)"]
     end
 
     %% ===================================================
-    %% ২. শাখা নেটওয়ার্ক (শাখা ও অনলাইন)
+    %% ২. শাখা নেটওয়ার্ক
     %% ===================================================
     subgraph Branches ["🏢 ২. শাখা নেটওয়ার্ক"]
         B1["🏢 ঢাকা সেন্ট্রাল শাখা (ফিজিক্যাল)"]
-        B2["🏢 মিরপুর শাখা (ফিজিক্যাল)"]
         BO["🌐 অনলাইন শাখা (জুম / লাইভ ক্লাস)"]
     end
 
-    MD <== "যে কোনো বিভাগে যে কোনো শাখা যুক্ত হতে পারে" ==> B1
-    MD <== "Many-to-Many" ==> B2
-    MD <== "Many-to-Many" ==> BO
+    MD -->|"ডিপার্টমেন্ট চালু হলো"| B1
+    MD -->|"ডিপার্টমেন্ট চালু হলো"| BO
 
     %% ===================================================
     %% ৩. শাখায় বিষয় চালু ও চলমান ব্যাচ
@@ -221,12 +220,12 @@ flowchart TB
         SO1["ঢাকা শাখার গান বিষয়"]
         SO2["অনলাইন শাখার গান বিষয়"]
         
-        Batch1["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/>(২০২৫ সালে শুরু - এখনো নতুন ছাত্র ভর্তি হতে পারে)"]
-        Batch2["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/>(জুম ক্লাসের শিডিউল ও উপস্থিতি)"]
+        Batch1["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/><i>(২০২৫ সালে শুরু - এখনো নতুন ছাত্র যোগ হতে পারে)</i>"]
+        Batch2["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/><i>(জুম ক্লাসের শিডিউল ও উপস্থিতি)</i>"]
     end
 
-    MS -.->|"শাখায় চালু করা হলো"| SO1
-    MS -.->|"শাখায় চালু করা হলো"| SO2
+    MS -->|"বিষয় অ্যাসাইন"| SO1
+    MS -->|"বিষয় অ্যাসাইন"| SO2
     B1 --> SO1
     BO --> SO2
     
@@ -237,52 +236,40 @@ flowchart TB
     %% ৪. ভর্তির পুরো সার্কিট
     %% ===================================================
     subgraph Funnel ["🎯 ৪. ভর্তি ও যাচাই বাছাই প্রক্রিয়া"]
-        Apply["📝 ওয়েবসাইট থেকে আবেদন<br/>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)"]
+        Apply["📝 ওয়েবসাইট থেকে আবেদন<br/><i>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)</i>"]
         
-        PersonCheck{"🔍 আগে কখনো সাইমুমে ভর্তি ছিল?"}
-        
-        Person["🧑 ১ জন মানুষের ১টি স্থায়ী আইডি<br/>(পুরোনো সব ইতিহাস থাকবে)"]
-        Reg["📜 নতুন সেশনের রেজিস্ট্রেশন ফরম"]
+        Person["🧑 ১ জন মানুষের ১টি স্থায়ী আইডি<br/><i>(আগের ইতিহাস চেক ও সংরক্ষণ)</i>"]
         
         Viva["🎙️ ভাইভা পরীক্ষা (নম্বর ও সিলেক্ট/রিজেক্ট)"]
-        VivaCheck{"ভাইভায় পাস?"}
         
-        Workshop["🎪 ওয়ার্কশপ ট্রেনিং<br/>(নিয়মিত উপস্থিতি ও পারফরম্যান্স স্কোরিং)"]
+        Workshop["🎪 ওয়ার্কশপ ট্রেনিং<br/><i>(উপস্থিতি ও পারফরম্যান্স স্কোরিং)</i>"]
         
         Exam["📝 ফাইনাল পরীক্ষা"]
-        ExamCheck{"ফাইনাল পরীক্ষায় পাস?"}
     end
 
-    Apply --> PersonCheck
-    PersonCheck -- "হ্যাঁ, আগে ছিল" --> Person
-    PersonCheck -- "না, একদম নতুন" --> Person
-    Person --> Reg
+    Apply -->|"স্থায়ী প্রোফাইল তৈরি/ম্যাচ"| Person
+    Person -->|"রেজিস্ট্রেশন"| Viva
+    Viva -->|"পাস করলে"| Workshop
+    Viva -.->|"ফেল করলে"| Reject1["📁 রিজেক্ট (পরে আবেদন করতে পারবে)"]
     
-    Reg --> Viva
-    Viva --> VivaCheck
-    VivaCheck -- "সিলেক্টেড" --> Workshop
-    VivaCheck -- "রিজেক্ট" --> Fail1["📁 রিজেক্ট (ভবিষ্যতে আবার আবেদন করতে পারবে)"]
-    
-    Workshop --> Exam
-    Exam --> ExamCheck
-    ExamCheck -- "ফেল" --> Fail2["📁 ওয়ার্কশপ ফেল (ইতিহাসে রেকর্ড থাকবে)"]
+    Workshop -->|"ওয়ার্কশপ শেষে"| Exam
+    Exam -.->|"ফেল করলে"| Reject2["📁 ফেল (ইতিহাসে রেকর্ড থাকবে)"]
 
     %% ===================================================
     %% ৫. এক ক্লিকে নিয়মিত ছাত্র ও ব্যাচে যুক্ত হওয়া
     %% ===================================================
     subgraph Promo ["🎓 ৫. নিয়মিত ছাত্র ও ব্যাচে অন্তর্ভুক্তি"]
         OneClick["⚡ ১-ক্লিকে রেগুলার ছাত্র হিসেবে প্রমোশন!"]
-        JoinBatch["🔗 চলমান ব্যাচে সদস্য হিসেবে অ্যাসাইন<br/>(যেমন: ২০২৬ সালে পাস করা ছাত্র যুক্ত হলো 'গান ব্যাচ ১'-এ)"]
+        JoinBatch["🔗 চলমান ব্যাচে সদস্য হিসেবে অ্যাসাইন<br/><i>(যেমন: ২০২৬ সালে পাস করা ছাত্র যুক্ত হলো 'গান ব্যাচ ১'-এ)</i>"]
         
         RegularOps["🎓 নিয়মিত ক্লাসের কার্যক্রম:<br/>• ফিজিক্যাল ও জুম লাইভ ক্লাস<br/>• দৈনিক উপস্থিতি ম্যাট্রিক্স<br/>• স্টুডেন্ট ড্যাশবোর্ড"]
     end
 
-    ExamCheck -- "পাস করেছে 🎉" --> OneClick
+    Exam -->|"পাস করলে 🎉"| OneClick
     OneClick --> JoinBatch
     
-    %% ব্যাচের সাথে সরাসরি লাইন যুক্ত!
-    JoinBatch ==>|"সরাসরি ব্যাচে যুক্ত হলো"| Batch1
-    JoinBatch ==>|"সরাসরি ব্যাচে যুক্ত হলো"| Batch2
+    JoinBatch ==>|"সরাসরি চলমান ব্যাচে যুক্ত হলো"| Batch1
+    JoinBatch ==>|"সরাসরি চলমান ব্যাচে যুক্ত হলো"| Batch2
     
     Batch1 --> RegularOps
     Batch2 --> RegularOps
@@ -328,6 +315,12 @@ flowchart TB
     mermaid.initialize({
       startOnLoad: true,
       theme: 'dark',
+      flowchart: {
+        curve: 'basis',
+        nodeSpacing: 50,
+        rankSpacing: 60,
+        padding: 20
+      },
       themeVariables: {
         darkMode: true,
         background: '#090E1A',
