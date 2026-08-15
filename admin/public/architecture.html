@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎓 সাইমুম একাডেমি — সহজ সিস্টেম সার্কিট ম্যাপ</title>
+  <title>🎓 সাইমুম একাডেমি — পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
@@ -40,7 +40,7 @@
     }
 
     .circuit-container {
-      max-width: 1440px;
+      max-width: 1560px;
       margin: 0 auto;
     }
 
@@ -63,11 +63,11 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #FF790E, #06B6D4, #10B981, #8B5CF6);
+      background: linear-gradient(90deg, #FF790E, #06B6D4, #10B981, #8B5CF6, #EC4899);
     }
 
     .brand-title {
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -88,7 +88,7 @@
 
     .header-sub {
       color: var(--text-secondary);
-      font-size: 1rem;
+      font-size: 1.05rem;
       margin-top: 4px;
     }
 
@@ -106,7 +106,7 @@
       background: #090E1A;
       border: 1px solid var(--border-color);
       border-radius: 18px;
-      padding: 24px 16px;
+      padding: 24px 12px;
       overflow-x: auto;
       display: flex;
       justify-content: center;
@@ -115,18 +115,18 @@
     .mermaid {
       font-family: 'Hind Siliguri', sans-serif !important;
       width: 100%;
-      min-width: 900px;
+      min-width: 1100px;
     }
 
-    /* Step-by-Step Simple Bengali Cards */
-    .steps-grid {
+    /* All PRD Pillars Grid */
+    .pillars-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 18px;
       margin-top: 28px;
     }
 
-    .step-card {
+    .pillar-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 18px;
@@ -134,34 +134,29 @@
       transition: all 0.2s ease;
     }
 
-    .step-card:hover {
+    .pillar-card:hover {
       border-color: var(--brand-orange);
       transform: translateY(-2px);
     }
 
-    .step-num {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: rgba(255, 121, 14, 0.15);
-      color: var(--brand-orange);
-      font-weight: 800;
-      font-size: 0.85rem;
-      text-align: center;
-      line-height: 28px;
-      margin-bottom: 12px;
-      font-family: 'Fira Code', monospace;
+    .pillar-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
-    .step-title {
+    .pillar-icon {
+      font-size: 1.4rem;
+    }
+
+    .pillar-title {
       font-size: 1.1rem;
       font-weight: 700;
       color: var(--text-primary);
-      margin-bottom: 6px;
     }
 
-    .step-desc {
+    .pillar-desc {
       font-size: 0.9rem;
       color: var(--text-secondary);
       line-height: 1.5;
@@ -182,10 +177,10 @@
     <!-- Top Header -->
     <header class="circuit-header">
       <div class="brand-title">
-        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — পুরো সিস্টেমের সহজ সার্কিট ম্যাপ</span>
-        <span class="brand-pill">সহজ ও পরিচ্ছন্ন</span>
+        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</span>
+        <span class="brand-pill">PRD-এর সব কয়টি মডিউল</span>
       </div>
-      <p class="header-sub">সেন্ট্রাল হেডকোয়ার্টার থেকে ছাত্রের আবেদন, ভাইভা, ওয়ার্কশপ পাস করে নিয়মিত ব্যাচে যুক্ত হওয়ার স্পষ্ট ও নন-ওভারল্যাপিং সার্কিট প্রবাহ।</p>
+      <p class="header-sub">সেন্ট্রাল মাস্টার, শাখা নেটওয়ার্ক, ৩ ধরনের ড্যাশবোর্ড রোল, ক্লাস ও জুম লাইভ শিডিউল, উপস্থিতি এবং ভর্তি-ছাত্র লাইফসাইকেলের সম্পূর্ণ সার্কিট মানচিত্র।</p>
     </header>
 
     <!-- Main Circuit Board -->
@@ -193,120 +188,171 @@
       
       <div class="circuit-canvas">
         <pre class="mermaid">
-flowchart TD
+flowchart TB
     %% ===================================================
-    %% ১. সেন্ট্রাল মাস্টার হেডকোয়ার্টার
+    %% ১. সেন্ট্রাল একাডেমি হেডকোয়ার্টার (সবার শীর্ষে)
     %% ===================================================
-    subgraph HQ ["🏛️ ১. কেন্দ্রীয় হেডকোয়ার্টার (সেন্ট্রাল মাস্টার)"]
-        MS["📚 মাস্টার বিষয়সমূহ (গান, অভিনয়, আবৃত্তি)<br/><i>(একবার তৈরি হবে, কোনো ডুপ্লিকেশন নেই)</i>"]
-        MD["🏛️ মাস্টার বিভাগসমূহ (সংগীত বিভাগ, অভিনয় বিভাগ)"]
-    end
-
-    %% ===================================================
-    %% ২. শাখা নেটওয়ার্ক
-    %% ===================================================
-    subgraph Branches ["🏢 ২. শাখা নেটওয়ার্ক"]
-        B1["🏢 ঢাকা সেন্ট্রাল শাখা (ফিজিক্যাল)"]
-        BO["🌐 অনলাইন শাখা (জুম / লাইভ ক্লাস)"]
-    end
-
-    MD -->|"ডিপার্টমেন্ট চালু হলো"| B1
-    MD -->|"ডিপার্টমেন্ট চালু হলো"| BO
-
-    %% ===================================================
-    %% ৩. শাখায় বিষয় চালু ও চলমান ব্যাচ
-    %% ===================================================
-    subgraph Offerings ["📚 ৩. শাখায় বিষয় চালু ও চলমান ব্যাচ"]
-        SO1["ঢাকা শাখার গান বিষয়"]
-        SO2["অনলাইন শাখার গান বিষয়"]
+    subgraph Central_Core ["🏛️ ১. কেন্দ্রীয় একাডেমি প্রশাসন (CENTRAL MASTER HQ)"]
+        SuperAdmin["👑 সুপার অ্যাডমিন প্যানেল<br/>(পুরো সিস্টেম পরিচালনা, অডিট লগ ও গ্লোবাল সার্চ)"]
+        MS["📚 মাস্টার বিষয় ক্যাটালগ<br/><i>(গান, অভিনয়, আবৃত্তি - একবারই তৈরি হবে, নো ডুপ্লিকেশন)</i>"]
+        MD["🏛️ মাস্টার বিভাগ ক্যাটালগ<br/><i>(সংগীত বিভাগ, অভিনয় বিভাগ, আবৃত্তি বিভাগ)</i>"]
+        CentralFinance["💰 কেন্দ্রীয় অর্থ ও ডকুমেন্ট ম্যানেজমেন্ট"]
         
-        Batch1["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/><i>(২০২৫ সালে শুরু - এখনো নতুন ছাত্র যোগ হতে পারে)</i>"]
-        Batch2["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/><i>(জুম ক্লাসের শিডিউল ও উপস্থিতি)</i>"]
+        SuperAdmin --> MS
+        SuperAdmin --> MD
+        SuperAdmin --> CentralFinance
     end
 
-    MS -->|"বিষয় অ্যাসাইন"| SO1
-    MS -->|"বিষয় অ্যাসাইন"| SO2
-    B1 --> SO1
-    BO --> SO2
+    %% ===================================================
+    %% ২. রোল ভিত্তিক ড্যাশবোর্ড আর্কিটেকচার (৩টি ড্যাশবোর্ড)
+    %% ===================================================
+    subgraph Dashboards ["👥 ২. তিন স্তরের ড্যাশবোর্ড এক্সেস"]
+        D_Admin["👑 Central Admin Dashboard<br/>(পুরো একাডেমির স্ন্যাপশট ও রিপোর্ট)"]
+        D_Branch["🏢 Management Dashboard<br/>(শাখা পরিচালক, বিভাগীয় দায়িত্বশীল ও শিক্ষক)"]
+        D_Student["🎓 Student Portal Dashboard<br/>(লাইভ ক্লাস লিংক, উপস্থিতি ও ফলাফল)"]
+    end
+
+    SuperAdmin -.-> D_Admin
     
-    SO1 --> Batch1
-    SO2 --> Batch2
+    %% ===================================================
+    %% ৩. শাখা নেটওয়ার্ক (ফিজিক্যাল ও অনলাইন)
+    %% ===================================================
+    subgraph Branches ["🏢 ৩. শাখা নেটওয়ার্ক (শাখা ও অনলাইন জুম)"]
+        B_Dhaka["🏢 ঢাকা সেন্ট্রাল শাখা<br/>(শাখা পরিচালক, অফিস ও অর্থ সম্পাদক)"]
+        B_Mirpur["🏢 মিরপুর শাখা<br/>(শাখা পরিচালক, অফিস ও অর্থ সম্পাদক)"]
+        B_Online["🌐 অনলাইন শাখা<br/>(জুম মিটিং কনফিগারেশন, অটো লিংক ও অনলাইন নিয়ম)"]
+    end
+
+    MD <== "Many-to-Many<br/>(যে কোনো বিভাগে যে কোনো শাখা)" ==> B_Dhaka
+    MD <== "Many-to-Many" ==> B_Mirpur
+    MD <== "Many-to-Many" ==> B_Online
+    
+    B_Dhaka -.-> D_Branch
+    B_Online -.-> D_Branch
 
     %% ===================================================
-    %% ৪. ভর্তির পুরো সার্কিট
+    %% ৪. শাখায় বিষয় অফারিং ও চলমান ব্যাচ
     %% ===================================================
-    subgraph Funnel ["🎯 ৪. ভর্তি ও যাচাই বাছাই প্রক্রিয়া"]
-        Apply["📝 ওয়েবসাইট থেকে আবেদন<br/><i>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)</i>"]
+    subgraph Offerings_Batches ["📚 ৪. শাখায় বিষয় চালু ও চলমান ব্যাচ"]
+        SO_Dhaka["ঢাকা শাখার গান বিষয় অফারিং"]
+        SO_Online["অনলাইন শাখার গান বিষয় অফারিং"]
         
-        Person["🧑 ১ জন মানুষের ১টি স্থায়ী আইডি<br/><i>(আগের ইতিহাস চেক ও সংরক্ষণ)</i>"]
+        Batch_1["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/><i>(২০২৫ সালে শুরু - প্রতি বছর নতুন ছাত্র যোগ হতে পারে)</i>"]
+        Batch_Online["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/><i>(চলমান অনলাইন প্রশিক্ষণ গ্রুপ)</i>"]
+    end
+
+    MS -->|"বিষয় চালু করা হলো"| SO_Dhaka
+    MS -->|"বিষয় চালু করা হলো"| SO_Online
+    B_Dhaka --> SO_Dhaka
+    B_Online --> SO_Online
+    
+    SO_Dhaka --> Batch_1
+    SO_Online --> Batch_Online
+
+    %% ===================================================
+    %% ৫. ক্লাস ও জুম লাইভ এবং উপস্থিতি ম্যাট্রিক্স
+    %% ===================================================
+    subgraph Class_Ops ["📅 ৫. ক্লাস শিডিউল ও উপস্থিতি পরিচালনা"]
+        Class_Physical["🏫 ফিজিক্যাল ক্লাসরুম শিডিউল<br/>(স্থান, সময় ও শিক্ষক)"]
+        Class_Zoom["📹 জুম লাইভ অনলাইন ক্লাস<br/>(সরাসরি Join Zoom বাটন ও পাসওয়ার্ড)"]
+        
+        AttendanceMatrix["📊 দৈনিক উপস্থিতি ম্যাট্রিক্স<br/>(উপস্থিত, অনুপস্থিত, বিলম্ব, ছুটি - ছাত্র ও ব্যাচ রিপোর্ট)"]
+    end
+
+    Batch_1 --> Class_Physical
+    Batch_Online --> Class_Zoom
+    Class_Physical --> AttendanceMatrix
+    Class_Zoom --> AttendanceMatrix
+    
+    Class_Zoom -.->|"এক ক্লিকে জুম জয়েন"| D_Student
+    AttendanceMatrix -.->|"নিজের উপস্থিতি দেখা"| D_Student
+
+    %% ===================================================
+    %% ৬. ভর্তি ও ছাত্র লাইফসাইকেল (ফানেল)
+    %% ===================================================
+    subgraph Admission_Funnel ["🎯 ৬. ভর্তি ও ছাত্র লাইফসাইকেল ফানেল"]
+        WebApply["📝 পাবলিক ওয়েবসাইট আবেদন<br/><i>(নিয়ম: মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স)</i>"]
+        
+        PersonCheck{"🔍 স্থায়ী আইডি চেক<br/>(ফোন/ইমেইল দিয়ে পূর্বে ছিল কি না)"}
+        PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><i>(একই ব্যক্তির মাল্টি-ইয়ার ইতিহাস থাকবে)</i>"]
         
         Viva["🎙️ ভাইভা পরীক্ষা (নম্বর ও সিলেক্ট/রিজেক্ট)"]
-        
-        Workshop["🎪 ওয়ার্কশপ ট্রেনিং<br/><i>(উপস্থিতি ও পারফরম্যান্স স্কোরিং)</i>"]
-        
+        Workshop["🎪 ওয়ার্কশপ কোহোর্ট (উপস্থিতি ও স্কিল মূল্যায়ন)"]
         Exam["📝 ফাইনাল পরীক্ষা"]
-    end
-
-    Apply -->|"স্থায়ী প্রোফাইল তৈরি/ম্যাচ"| Person
-    Person -->|"রেজিস্ট্রেশন"| Viva
-    Viva -->|"পাস করলে"| Workshop
-    Viva -.->|"ফেল করলে"| Reject1["📁 রিজেক্ট (পরে আবেদন করতে পারবে)"]
-    
-    Workshop -->|"ওয়ার্কশপ শেষে"| Exam
-    Exam -.->|"ফেল করলে"| Reject2["📁 ফেল (ইতিহাসে রেকর্ড থাকবে)"]
-
-    %% ===================================================
-    %% ৫. এক ক্লিকে নিয়মিত ছাত্র ও ব্যাচে যুক্ত হওয়া
-    %% ===================================================
-    subgraph Promo ["🎓 ৫. নিয়মিত ছাত্র ও ব্যাচে অন্তর্ভুক্তি"]
-        OneClick["⚡ ১-ক্লিকে রেগুলার ছাত্র হিসেবে প্রমোশন!"]
-        JoinBatch["🔗 চলমান ব্যাচে সদস্য হিসেবে অ্যাসাইন<br/><i>(যেমন: ২০২৬ সালে পাস করা ছাত্র যুক্ত হলো 'গান ব্যাচ ১'-এ)</i>"]
         
-        RegularOps["🎓 নিয়মিত ক্লাসের কার্যক্রম:<br/>• ফিজিক্যাল ও জুম লাইভ ক্লাস<br/>• দৈনিক উপস্থিতি ম্যাট্রিক্স<br/>• স্টুডেন্ট ড্যাশবোর্ড"]
+        OneClickPromo["⚡ ১-ক্লিকে নিয়মিত ছাত্র হিসেবে প্রমোশন!"]
     end
 
-    Exam -->|"পাস করলে 🎉"| OneClick
-    OneClick --> JoinBatch
-    
-    JoinBatch ==>|"সরাসরি চলমান ব্যাচে যুক্ত হলো"| Batch1
-    JoinBatch ==>|"সরাসরি চলমান ব্যাচে যুক্ত হলো"| Batch2
-    
-    Batch1 --> RegularOps
-    Batch2 --> RegularOps
+    WebApply --> PersonCheck
+    PersonCheck --> PersonProfile
+    PersonProfile --> Viva
+    Viva -->|"পাস"| Workshop
+    Workshop --> Exam
+    Exam -->|"পাস 🎉"| OneClickPromo
+
+    %% ===================================================
+    %% সার্কিট লুপ ব্যাক: পাস করা ছাত্র সরাসরি ব্যাচে যুক্ত!
+    %% ===================================================
+    OneClickPromo ==>|"সরাসরি চলমান ব্যাচে অ্যাসাইন"| Batch_1
+    OneClickPromo ==>|"সরাসরি চলমান ব্যাচে অ্যাসাইন"| Batch_Online
         </pre>
       </div>
 
-      <!-- Simple Bengali Step Descriptions -->
-      <div class="steps-grid">
-        <div class="step-card">
-          <div class="step-num">০১</div>
-          <div class="step-title">মাস্টার সাবজেক্ট ও বিভাগ</div>
-          <div class="step-desc">গান, অভিনয় বা আবৃত্তি বিষয়গুলো সেন্ট্রাল সিস্টেমে <strong>একবারই</strong> তৈরি হবে। কোনো ব্রাঞ্চের জন্য বারবার ডুপ্লিকেট সাবজেক্ট তৈরি হবে না।</div>
+      <!-- Complete PRD Pillars Summary Grid -->
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-header">
+            <span class="pillar-icon">👑</span>
+            <div class="pillar-title">১. সেন্ট্রাল মাস্টার ও ফাইন্যান্স</div>
+          </div>
+          <div class="pillar-desc">সেন্ট্রাল ক্যাটালগে মাস্টার বিষয় ও বিভাগ একবারই তৈরি হবে। কেন্দ্রীয় ও শাখাভিত্তিক আয়-ব্যয় এবং অফিসিয়াল ডকুমেন্টস সংরক্ষিত থাকবে।</div>
         </div>
 
-        <div class="step-card">
-          <div class="step-num">০২</div>
-          <div class="step-title">ফিজিক্যাল ও অনলাইন শাখা</div>
-          <div class="step-desc">প্রতিটি শাখায় সেন্ট্রাল বিষয়গুলো চালু করা যাবে। অনলাইন শাখা সাধারণ শাখার মতোই কাজ করবে কিন্তু এতে জুম ক্লাসের লিংক ও নিয়ম থাকবে।</div>
+        <div class="pillar-card">
+          <div class="pillar-header">
+            <span class="pillar-icon">🏢</span>
+            <div class="pillar-title">২. শাখা ও অনলাইন জুম নেটওয়ার্ক</div>
+          </div>
+          <div class="pillar-desc">ফিজিক্যাল ও অনলাইন শাখা। ডিপার্টমেন্ট ও ব্রাঞ্চের মাঝে Many-to-Many সম্পর্ক। অনলাইন শাখার জুম মিটিং ও ক্লাউড রুলস কনফিগারেশন থাকবে।</div>
         </div>
 
-        <div class="step-card">
-          <div class="step-num">০৩</div>
-          <div class="step-title">ভর্তি ও ওয়ার্কশপ ফিল্টার</div>
-          <div class="step-desc">আবেদন যাচাই (মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স) ➔ ভাইভা ➔ ওয়ার্কশপ ট্রেনিং ➔ ফাইনাল পরীক্ষা সম্পন্ন হবে। ১ জন ব্যক্তির ১টিই স্থায়ী প্রোফাইল থাকবে।</div>
+        <div class="pillar-card">
+          <div class="pillar-header">
+            <span class="pillar-icon">👥</span>
+            <div class="pillar-title">৩. তিন স্তরের ড্যাশবোর্ড রোলস</div>
+          </div>
+          <div class="pillar-desc">সুপার অ্যাডমিন (Central), শাখা/বিভাগীয় পরিচালক ও শিক্ষক (Management), এবং শিক্ষার্থীদের জন্য ডেডিকেটেড স্টুডেন্ট পোর্টাল ড্যাশবোর্ড।</div>
         </div>
 
-        <div class="step-card">
-          <div class="step-num">০৪</div>
-          <div class="step-title">১-ক্লিকে চলমান ব্যাচে যুক্ত হওয়া</div>
-          <div class="step-desc">ফাইনাল পরীক্ষায় পাস করার পর ছাত্রকে নতুন ব্যাচ না বানিয়ে সরাসরি আগের <strong>চলমান ব্যাচে (যেমন: গান ব্যাচ ১)</strong> যুক্ত করে দেওয়া হবে।</div>
+        <div class="pillar-card">
+          <div class="pillar-header">
+            <span class="pillar-icon">📅</span>
+            <div class="pillar-title">৪. ক্লাস শিডিউল ও উপস্থিতি</div>
+          </div>
+          <div class="pillar-desc">ফিজিক্যাল ও জুম অনলাইন ক্লাসের রুটিন। শিক্ষার্থী ড্যাশবোর্ড থেকে এক ক্লিকে জুমে যুক্ত হওয়া এবং সেশনভিত্তিক উপস্থিতি (Present/Absent) ম্যাট্রিক্স।</div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-header">
+            <span class="pillar-icon">🎯</span>
+            <div class="pillar-title">৫. ভর্তি ও ১-ক্লিকে ব্যাচে প্রমোশন</div>
+          </div>
+          <div class="pillar-desc">আবেদন ➔ ভাইভা ➔ ওয়ার্কশপ ➔ ফাইনাল পরীক্ষা পাস করার পর ১-ক্লিকে রেগুলার স্টুডেন্ট বানিয়ে চলমান ব্যাচে মেম্বারশিপ দেওয়া।</div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-header">
+            <span class="pillar-icon">🧑</span>
+            <div class="pillar-title">৬. ১ পারসন = মাল্টিপল রেজিস্ট্রেশন</div>
+          </div>
+          <div class="pillar-desc">১ জন ব্যক্তির একটি স্থায়ী প্রোফাইল থাকবে। তিনি একাধিক বছর বিভিন্ন বিষয়ে আবেদন করলেও প্রতিবার নতুন স্টুডেন্ট তৈরি না হয়ে ইতিহাস জমা থাকবে।</div>
         </div>
       </div>
 
     </main>
 
     <footer class="footer">
-      <p>© ২০২৬ সাইমুম কেন্দ্রীয় একাডেমি — সহজ ভাষায় সিস্টেম আর্কিটেকচার</p>
+      <p>© ২০২৬ সাইমুম কেন্দ্রীয় একাডেমি — PRD-এর সব কয়টি মডিউলের পূর্ণাঙ্গ সিস্টেম সার্কিট ব্লুপ্রিন্ট</p>
     </footer>
 
   </div>
@@ -317,9 +363,9 @@ flowchart TD
       theme: 'dark',
       flowchart: {
         curve: 'basis',
-        nodeSpacing: 50,
-        rankSpacing: 60,
-        padding: 20
+        nodeSpacing: 45,
+        rankSpacing: 55,
+        padding: 16
       },
       themeVariables: {
         darkMode: true,
