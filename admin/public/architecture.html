@@ -3,382 +3,613 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ সাইমুম একাডেমি — Dense Circuit Schematic</title>
+  <title>⚡ সাইমুম একাডেমি — ১০০% পূর্ণাঙ্গ সিস্টেম আর্কিটেকচার ব্লুপ্রিন্ট</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#FFF7ED',
+        primaryTextColor: '#0F172A',
+        primaryBorderColor: '#EA580C',
+        lineColor: '#64748B',
+        secondaryColor: '#EFF6FF',
+        tertiaryColor: '#F0FDF4',
+        fontFamily: "'Plus Jakarta Sans','Hind Siliguri',sans-serif",
+        fontSize: '13px',
+        nodeTextColor: '#0F172A'
+      },
+      flowchart: {
+        htmlLabels: true,
+        curve: 'basis',
+        rankSpacing: 55,
+        nodeSpacing: 30,
+        padding: 12,
+        useMaxWidth: false,
+        defaultRenderer: 'elk'
+      }
+    });
+    window.mermaidReady = true;
+  </script>
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      width:100vw; height:100vh; overflow:hidden;
-      background:#FFFFFF;
-      color:#0F172A;
-      font-family:'Plus Jakarta Sans','Hind Siliguri',sans-serif;
+      width: 100vw; height: 100vh; overflow: hidden;
+      background: #FAFBFC;
+      font-family: 'Plus Jakarta Sans','Hind Siliguri', sans-serif;
+      color: #0F172A;
     }
-    #vp {
-      width:100vw; height:100vh; position:relative;
-      background:#FFFFFF; overflow:hidden; cursor:grab; user-select:none;
+    #viewport {
+      width: 100vw; height: 100vh; position: relative;
+      overflow: hidden; cursor: grab; user-select: none;
     }
-    #vp:active { cursor:grabbing; }
-    .grid {
-      position:absolute; inset:0; pointer-events:none; z-index:1;
-      background-size:20px 20px;
-      background-image:radial-gradient(#E2E8F0 1px,transparent 1px);
+    #viewport:active { cursor: grabbing; }
+
+    /* Dot Grid Background */
+    .dot-grid {
+      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background-size: 24px 24px;
+      background-image: radial-gradient(#CBD5E1 0.8px, transparent 0.8px);
+      opacity: 0.5;
     }
+
+    /* HUD Bar */
     .hud {
-      position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:100;
-      display:flex; align-items:center; gap:14px;
-      background:#FFF; border:1px solid #CBD5E1; border-radius:10px;
-      padding:5px 18px; box-shadow:0 2px 12px rgba(0,0,0,0.05);
+      position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 200;
+      display: flex; align-items: center; gap: 16px;
+      background: rgba(255,255,255,0.96); border: 1px solid #E2E8F0;
+      border-radius: 12px; padding: 8px 22px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      backdrop-filter: blur(12px);
     }
-    .hud-t { font-weight:800; font-size:0.85rem; color:#0F172A; display:flex; align-items:center; gap:7px; }
-    .hud-badge { background:#EFF6FF; color:#2563EB; font-size:0.65rem; font-weight:800; padding:2px 6px; border-radius:4px; border:1px solid #DBEAFE; font-family:'Fira Code',monospace; }
-    .hud-h { display:flex; gap:8px; font-size:0.72rem; color:#64748B; border-left:1px solid #E2E8F0; padding-left:10px; }
-    .kbd { background:#F1F5F9; padding:1px 4px; border-radius:3px; font-family:monospace; font-size:0.65rem; border:1px solid #CBD5E1; color:#0F172A; }
-    .ztb { position:absolute; bottom:16px; right:16px; z-index:100; display:flex; flex-direction:column; gap:4px; background:#FFF; border:1px solid #E2E8F0; border-radius:8px; padding:3px; box-shadow:0 2px 10px rgba(0,0,0,0.06); }
-    .zb { width:30px; height:30px; background:#FFF; border:1px solid #E2E8F0; color:#0F172A; border-radius:5px; font-size:1rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; }
-    .zb:hover { background:#F1F5F9; }
-
-    /* TIGHT DENSE CANVAS: 1300x560 */
-    #scene { position:absolute; transform-origin:0 0; z-index:10; width:1300px; height:560px; }
-
-    #wires-svg { position:absolute; inset:0; width:100%; height:100%; z-index:2; pointer-events:auto; }
-    .w { stroke:#94A3B8; stroke-width:1.6px; fill:none; cursor:pointer; stroke-linejoin:miter; stroke-linecap:square; transition:stroke .2s,stroke-width .2s; }
-    .w:hover { stroke:#2563EB !important; stroke-width:3px !important; }
-    .w.hi { stroke:#FF790E !important; stroke-width:3.5px !important; }
-    .jn { fill:#475569; transition:fill .2s; }
-    marker path { fill:#94A3B8; transition:fill .2s; }
-    .w:hover~marker path,.w.hi~marker path { fill:#FF790E; }
-
-    /* COMPACT STEP CARDS */
-    .s {
-      position:absolute; background:#FFF; border:1.5px solid #CBD5E1; border-radius:5px;
-      padding:7px 10px; z-index:5; box-shadow:0 1px 4px rgba(0,0,0,0.03);
-      transition:all .2s; cursor:pointer; overflow:hidden;
+    .hud-title {
+      font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; gap: 8px;
     }
-    .s:hover { border-color:#2563EB; box-shadow:0 3px 10px rgba(37,99,235,.12); }
-    .s.hi { border-color:#FF790E !important; box-shadow:0 0 14px rgba(255,121,14,.25) !important; }
-    .s.gw { background:#F0FDF4; border-color:#059669; }
-    .s.co { background:#EFF6FF; border-color:#2563EB; }
-    .s.ma { background:#FFF7ED; border-color:#EA580C; }
-    .s.dp { background:#ECFEFF; border-color:#0891B2; }
-    .s.rt { background:#FAF5FF; border-color:#9333EA; }
-    .s.fn { background:#FDF2F8; border-color:#DB2777; }
+    .hud-badge {
+      background: #FFF7ED; color: #EA580C; font-size: 0.62rem; font-weight: 800;
+      padding: 2px 8px; border-radius: 5px; border: 1px solid #FFEDD5;
+      font-family: 'Fira Code', monospace; letter-spacing: 0.5px;
+    }
+    .hud-controls {
+      display: flex; gap: 8px; font-size: 0.72rem; color: #64748B;
+      border-left: 1px solid #E2E8F0; padding-left: 14px;
+    }
+    .kbd {
+      background: #F1F5F9; padding: 1px 5px; border-radius: 3px;
+      font-family: 'Fira Code', monospace; font-size: 0.62rem;
+      border: 1px solid #CBD5E1; color: #334155;
+    }
 
-    .sh { font-family:'Fira Code',monospace; font-size:0.58rem; font-weight:800; color:#94A3B8; letter-spacing:.3px; margin-bottom:1px; display:flex; align-items:center; gap:4px; }
-    .sp { background:#F1F5F9; color:#0F172A; padding:0px 4px; border-radius:3px; font-weight:800; font-size:0.56rem; }
-    .st { font-size:0.78rem; font-weight:800; color:#0F172A; line-height:1.15; }
-    .sd { font-size:0.65rem; color:#475569; margin-top:2px; line-height:1.3; }
-    .tg { display:inline-block; font-size:0.56rem; font-weight:800; padding:0px 4px; border-radius:3px; margin-top:2px; font-family:'Fira Code',monospace; }
-    .tg-g { background:#DCFCE7; color:#15803D; border:1px solid #BBF7D0; }
-    .tg-b { background:#DBEAFE; color:#1D4ED8; border:1px solid #BFDBFE; }
-    .tg-o { background:#FFEDD5; color:#C2410C; border:1px solid #FED7AA; }
-    .tg-p { background:#F3E8FF; color:#7E22CE; border:1px solid #E9D5FF; }
+    /* Legend Panel */
+    .legend {
+      position: fixed; bottom: 16px; left: 16px; z-index: 200;
+      background: rgba(255,255,255,0.96); border: 1px solid #E2E8F0;
+      border-radius: 10px; padding: 10px 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      font-size: 0.68rem; max-width: 260px;
+      backdrop-filter: blur(10px);
+    }
+    .legend h4 { font-size: 0.72rem; font-weight: 800; margin-bottom: 6px; color: #0F172A; }
+    .legend-item { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; color: #475569; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
-    .bt { position:absolute; background:#FFF; border:1px solid #CBD5E1; font-size:8.5px; font-family:'Fira Code',monospace; font-weight:700; padding:0px 4px; border-radius:2px; color:#64748B; z-index:10; cursor:pointer; transition:all .2s; white-space:nowrap; }
-    .bt:hover,.bt.ac { background:#FF790E; color:#FFF; border-color:#FF790E; }
+    /* Zoom Toolbar */
+    .zoom-toolbar {
+      position: fixed; bottom: 16px; right: 16px; z-index: 200;
+      display: flex; flex-direction: column; gap: 3px;
+      background: rgba(255,255,255,0.96); border: 1px solid #E2E8F0;
+      border-radius: 10px; padding: 4px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    .zoom-btn {
+      width: 34px; height: 34px; background: #FFF;
+      border: 1px solid #E2E8F0; color: #0F172A;
+      border-radius: 6px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .zoom-btn:hover { background: #F8FAFC; border-color: #CBD5E1; }
+
+    /* Mermaid Canvas */
+    #scene {
+      position: absolute; z-index: 10; transform-origin: 0 0;
+      padding: 60px 40px 40px;
+    }
+
+    /* ===== MERMAID NODE STYLING ===== */
+    .mermaid .node rect,
+    .mermaid .node polygon,
+    .mermaid .node circle {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .mermaid .node:hover rect,
+    .mermaid .node:hover polygon {
+      filter: brightness(0.97);
+      stroke-width: 2.5px !important;
+    }
+
+    /* Edge styling */
+    .mermaid .flowchart-link {
+      stroke: #94A3B8 !important;
+      stroke-width: 1.5px !important;
+      transition: stroke 0.2s, stroke-width 0.2s;
+      cursor: pointer;
+    }
+    .mermaid .flowchart-link:hover {
+      stroke: #FF790E !important;
+      stroke-width: 3px !important;
+    }
+
+    /* Edge labels */
+    .mermaid .edgeLabel {
+      font-size: 10px !important;
+      font-family: 'Fira Code', monospace !important;
+      font-weight: 600 !important;
+    }
+
+    /* Subgraph styling */
+    .mermaid .cluster rect {
+      rx: 8px !important;
+      ry: 8px !important;
+      stroke-width: 1.5px !important;
+    }
+    .mermaid .cluster-label .nodeLabel {
+      font-weight: 800 !important;
+      font-size: 14px !important;
+      letter-spacing: 0.3px;
+    }
+
+    /* Highlighted state */
+    .node-highlight rect,
+    .node-highlight polygon {
+      stroke: #FF790E !important;
+      stroke-width: 3px !important;
+      filter: drop-shadow(0 0 8px rgba(255,121,14,0.3)) !important;
+    }
+    .edge-highlight {
+      stroke: #FF790E !important;
+      stroke-width: 3.5px !important;
+    }
   </style>
 </head>
 <body>
 
-<div id="vp">
-  <div class="grid"></div>
+<div id="viewport">
+  <div class="dot-grid"></div>
+
+  <!-- HUD -->
   <header class="hud">
-    <div class="hud-t">
-      <span>⚡ সাইমুম একাডেমি — Dense Circuit Schematic</span>
-      <span class="hud-badge">ZERO WASTE</span>
+    <div class="hud-title">
+      <span>⚡ সাইমুম একাডেমি — পূর্ণাঙ্গ সিস্টেম ব্লুপ্রিন্ট</span>
+      <span class="hud-badge">100% DETAIL</span>
     </div>
-    <div class="hud-h">
-      <span><span class="kbd">Click</span> হাইলাইট</span>
+    <div class="hud-controls">
       <span><span class="kbd">Scroll</span> জুম</span>
       <span><span class="kbd">Drag</span> প্যান</span>
+      <span><span class="kbd">Click</span> হাইলাইট</span>
     </div>
   </header>
-  <div class="ztb">
-    <button class="zb" id="zi">+</button>
-    <button class="zb" id="zo">−</button>
-    <button class="zb" id="zr" style="font-size:.65rem">1:1</button>
-    <button class="zb" id="zf" style="font-size:.75rem">⛶</button>
+
+  <!-- Legend -->
+  <div class="legend">
+    <h4>🗺️ সিগন্যাল লেজেন্ড</h4>
+    <div class="legend-item"><div class="legend-dot" style="background:#FFF7ED;border:1.5px solid #EA580C"></div> ভর্তি/একাডেমিক ফ্লো</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#F0FDF4;border:1.5px solid #059669"></div> পেমেন্ট গেটওয়ে ও ফাইন্যান্স</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#EFF6FF;border:1.5px solid #2563EB"></div> ব্যাকএন্ড কোর ও সিস্টেম</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ECFEFF;border:1.5px solid #0891B2"></div> রোল ও পারমিশন</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FAF5FF;border:1.5px solid #9333EA"></div> স্টুডেন্ট ও ক্লাস ম্যানেজমেন্ট</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FDF2F8;border:1.5px solid #DB2777"></div> রিপোর্ট ও ডকুমেন্ট</div>
   </div>
 
+  <!-- Zoom Controls -->
+  <div class="zoom-toolbar">
+    <button class="zoom-btn" id="zoom-in">+</button>
+    <button class="zoom-btn" id="zoom-out">−</button>
+    <button class="zoom-btn" id="zoom-reset" style="font-size:.65rem">1:1</button>
+    <button class="zoom-btn" id="zoom-fit" style="font-size:.8rem">⛶</button>
+  </div>
+
+  <!-- ====== MERMAID DIAGRAM ====== -->
   <div id="scene">
-    <!-- ============ SVG WIRES ============ -->
-    <svg id="wires-svg">
-      <defs>
-        <marker id="a" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-          <path d="M0 1.5L8 5L0 8.5z" fill="#94A3B8"/>
-        </marker>
-      </defs>
+    <pre class="mermaid">
+flowchart TD
 
-      <!-- W1: Web → Apply -->
-      <path id="w1" class="w" data-f="s-web" data-t="s-apply" d="M 255,55 L 275,55" marker-end="url(#a)"/>
-      <!-- W2: Apply → Gateway (Reg Fee) -->
-      <path id="w2" class="w" data-f="s-apply" data-t="s-gw" d="M 420,90 L 420,240" marker-end="url(#a)"/>
-      <!-- W3: Workshop → Gateway (Workshop Fee) -->
-      <path id="w3" class="w" data-f="s-ws" data-t="s-gw" d="M 240,310 L 280,310" marker-end="url(#a)"/>
-      <!-- W4: Exam → Gateway (Admission Fee) -->
-      <path id="w4" class="w" data-f="s-exam" data-t="s-gw" d="M 240,420 L 265,420 L 265,340 L 280,340" marker-end="url(#a)"/>
-      <!-- W5: Student → Gateway (Monthly Fee) -->
-      <path id="w5" class="w" data-f="s-stu" data-t="s-gw" d="M 1010,460 L 555,460 L 555,350" marker-end="url(#a)"/>
-      <!-- W6: Gateway → Core (Payment Confirm) -->
-      <path id="w6" class="w" data-f="s-gw" data-t="s-core" d="M 350,240 L 350,210" marker-end="url(#a)"/>
-      <!-- W7: Gateway → Finance (Auto Deposit) -->
-      <path id="w7" class="w" data-f="s-gw" data-t="s-fin" d="M 540,290 L 1010,290" marker-end="url(#a)"/>
-      <!-- W8: Core → Person (Person Check) -->
-      <path id="w8" class="w" data-f="s-core" data-t="s-per" d="M 280,150 L 150,150 L 150,110" marker-end="url(#a)"/>
-      <!-- W9: Person → Viva -->
-      <path id="w9" class="w" data-f="s-per" data-t="s-viva" d="M 130,170 L 130,200" marker-end="url(#a)"/>
-      <!-- W10: Viva → Workshop -->
-      <path id="w10" class="w" data-f="s-viva" data-t="s-ws" d="M 130,265 L 130,280" marker-end="url(#a)"/>
-      <!-- W11: Workshop → Exam -->
-      <path id="w11" class="w" data-f="s-ws" data-t="s-exam" d="M 130,350 L 130,390" marker-end="url(#a)"/>
-      <!-- W12: Exam → Promo -->
-      <path id="w12" class="w" data-f="s-exam" data-t="s-promo" d="M 130,460 L 130,480" marker-end="url(#a)"/>
-      <!-- W13: Promo → Batch (LOOP-BACK!) -->
-      <path id="w13" class="w" data-f="s-promo" data-t="s-bat" d="M 240,510 L 730,510 L 730,380 L 750,380" marker-end="url(#a)"/>
-      <!-- W14: Master Subject → Offering -->
-      <path id="w14" class="w" data-f="s-subj" data-t="s-off" d="M 860,105 L 860,140" marker-end="url(#a)"/>
-      <!-- W15: Branch → Offering -->
-      <path id="w15" class="w" data-f="s-bra" data-t="s-off" d="M 710,180 L 750,180" marker-end="url(#a)"/>
-      <!-- W16: Offering → Batch -->
-      <path id="w16" class="w" data-f="s-off" data-t="s-bat" d="M 860,200 L 860,340" marker-end="url(#a)"/>
-      <!-- W17: Batch → Class -->
-      <path id="w17" class="w" data-f="s-bat" data-t="s-cls" d="M 860,410 L 860,430" marker-end="url(#a)"/>
-      <!-- W18: Class → Student -->
-      <path id="w18" class="w" data-f="s-cls" data-t="s-stu" d="M 980,460 L 1010,460" marker-end="url(#a)"/>
-      <!-- W19: Dept Director → Viva -->
-      <path id="w19" class="w" data-f="s-dep" data-t="s-viva" d="M 580,110 L 260,110 L 260,230 L 240,230" marker-end="url(#a)"/>
-      <!-- W20: Teacher → Workshop Attendance -->
-      <path id="w20" class="w" data-f="s-tea" data-t="s-ws" d="M 580,250 L 260,250 L 260,320 L 240,320" marker-end="url(#a)"/>
+%% ═══════════════════════════════════════════════════
+%% SECTION A: PUBLIC WEBSITE & ENTRY POINT
+%% ═══════════════════════════════════════════════════
+subgraph PUB["🌍 পাবলিক ওয়েবসাইট — frontend/"]
+  direction LR
+  W_HOME["🏠 হোম পেজ<br/>পরিচিতি, নোটিশ বোর্ড, গ্যালারি"]
+  W_ACAD["🎓 একাডেমি পেজ<br/>শাখা, বিভাগ, বিষয় ব্রাউজিং"]
+  W_ADM["📋 ভর্তি পেজ<br/>যোগ্যতা, ফি তথ্য, আবেদন বাটন"]
+  W_HOME --- W_ACAD --- W_ADM
+end
 
-      <!-- Solder Junctions -->
-      <circle cx="420" cy="240" r="2.5" class="jn"/>
-      <circle cx="350" cy="240" r="2.5" class="jn"/>
-      <circle cx="555" cy="350" r="2.5" class="jn"/>
-      <circle cx="860" cy="140" r="2.5" class="jn"/>
-      <circle cx="730" cy="380" r="2.5" class="jn"/>
-      <circle cx="150" cy="150" r="2.5" class="jn"/>
-    </svg>
+%% ═══════════════════════════════════════════════════
+%% SECTION B: ONLINE APPLICATION
+%% ═══════════════════════════════════════════════════
+subgraph APPLY["📝 অনলাইন ভর্তি আবেদন ফরম"]
+  direction TB
+  A_FORM["ফরম ফিল্ড:<br/>নাম, ছবি, জন্মতারিখ, লিঙ্গ,<br/>যোগাযোগ, ঠিকানা, শিক্ষা,<br/>অভিভাবক তথ্য"]
+  A_SELECT["সিলেক্ট করুন:<br/>→ শাখা (Physical/Online)<br/>→ বিভাগ<br/>→ বিষয়"]
+  A_ELIG["⚙️ Eligibility চেক<br/>মেয়ে: ৩য় শ্রেণি পর্যন্ত<br/>ছেলে: অনার্স পর্যন্ত<br/>(Settings থেকে Configurable)"]
+  A_FORM --> A_SELECT --> A_ELIG
+end
 
-    <!-- Bus Tags -->
-    <div class="bt" style="top:160px;left:430px" data-w="w2">💵১ রেজিস্ট্রেশন ফি</div>
-    <div class="bt" style="top:298px;left:245px" data-w="w3">💵২ ওয়ার্কশপ ফি</div>
-    <div class="bt" style="top:408px;left:245px" data-w="w4">💵৩ ভর্তি ফি</div>
-    <div class="bt" style="top:448px;left:680px" data-w="w5">💵৪ মাসিক ফি</div>
-    <div class="bt" style="top:218px;left:358px" data-w="w6">ওয়েবহুক কনফার্ম</div>
-    <div class="bt" style="top:278px;left:700px" data-w="w7">অটো ডিপোজিট</div>
-    <div class="bt" style="top:498px;left:400px;color:#EA580C;border-color:#EA580C" data-w="w13">⚡ ব্যাচে মেম্বারশিপ লুপ</div>
+%% ═══════════════════════════════════════════════════
+%% SECTION C: PERSON DUPLICATE CHECK (PRD §40)
+%% ═══════════════════════════════════════════════════
+subgraph PERSON_CHK["🔍 ডুপ্লিকেট পারসন চেক — PRD §40"]
+  direction TB
+  PC_SEARCH["সার্চ ফিল্ড:<br/>Phone / Email / Name+DOB<br/>অন্যান্য Unique Identifier"]
+  PC_FOUND{"🔎 Existing<br/>Person পাওয়া<br/>গেছে?"}
+  PC_LINK["✅ পুরোনো Profile-এ লিংক করো<br/>আগের সব Registration History দেখাও"]
+  PC_NEW["🆕 নতুন Person Profile তৈরি করো<br/>1 মানুষ = 1 Profile আজীবন"]
+  PC_SEARCH --> PC_FOUND
+  PC_FOUND -->|হ্যাঁ| PC_LINK
+  PC_FOUND -->|না| PC_NEW
+end
 
-    <!-- ============ COLUMN A: ADMISSION PIPELINE (X=20, W=220) ============ -->
+%% ═══════════════════════════════════════════════════
+%% SECTION D: REGISTRATION & FEE 1
+%% ═══════════════════════════════════════════════════
+subgraph REG["📄 রেজিস্ট্রেশন তৈরি — PRD §8"]
+  R_CREATE["Registration Entity তৈরি:<br/>Person + Branch + Dept + Subject<br/>+ Application Year + Status"]
+  R_FEE["💵 Fee 1: রেজিস্ট্রেশন ফি<br/>আবেদন জমা দেওয়ার সময় দিতে হবে"]
+end
 
-    <!-- ধাপ ০১: PUBLIC WEBSITE -->
-    <div id="s-web" class="s" style="top:30px;left:20px;width:235px;height:60px">
-      <div class="sh"><span class="sp">ধাপ ০১</span></div>
-      <div class="st">🌍 পাবলিক ওয়েবসাইট (frontend/)</div>
-      <div class="sd">একাডেমি পরিচিতি, শাখা/বিভাগ ব্রাউজিং, নোটিশ বোর্ড ও গ্যালারি</div>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION E: PAYMENT GATEWAY (STANDALONE)
+%% ═══════════════════════════════════════════════════
+subgraph GATEWAY["💳 পেমেন্ট গেটওয়ে — স্বতন্ত্র মডিউল"]
+  direction TB
+  GW_IN["📥 ইনকামিং ৪টি ফি সিগন্যাল:<br/>①  রেজিস্ট্রেশন ফি<br/>② ওয়ার্কশপ ভর্তি ফি<br/>③ চূড়ান্ত ভর্তি ফি<br/>④ মাসিক বেতন"]
+  GW_PROVIDER["🏦 Provider Selection:<br/>bKash / Nagad / SSLCommerz"]
+  GW_PROCESS["⚙️ Processing:<br/>Payment Initiation →<br/>Provider Redirect →<br/>Webhook/Callback"]
+  GW_VERIFY["✅ Verification:<br/>Signature Check,<br/>Idempotent TXN ID,<br/>Amount Mismatch Detection,<br/>Duplicate Prevention"]
+  GW_RECEIPT["🧾 Digital Receipt:<br/>Auto Generated Voucher<br/>+ Transaction Reference"]
+  GW_FAIL["❌ Payment Failed:<br/>Retry Option,<br/>Status Pending রাখো"]
+  GW_REFUND["↩️ Refund:<br/>Admin Manual Initiate,<br/>Refund History Track"]
+  GW_IN --> GW_PROVIDER --> GW_PROCESS --> GW_VERIFY
+  GW_VERIFY -->|সফল| GW_RECEIPT
+  GW_VERIFY -->|ব্যর্থ| GW_FAIL
+  GW_RECEIPT --> GW_REFUND
+end
 
-    <!-- ধাপ ০৩: PERSON PROFILE -->
-    <div id="s-per" class="s" style="top:100px;left:20px;width:220px;height:70px">
-      <div class="sh"><span class="sp">ধাপ ০৩</span></div>
-      <div class="st">🧑 পারসন প্রোফাইল চেকার</div>
-      <div class="sd"><strong>কোর:</strong> ১ মানুষ = ১ প্রোফাইল আজীবন। মাল্টি-ইয়ার হিস্টোরি।</div>
-      <span class="tg tg-p">1 HUMAN = 1 PROFILE</span>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION F: VIVA MANAGEMENT (PRD §9)
+%% ═══════════════════════════════════════════════════
+subgraph VIVA["🎙️ ভাইভা পরীক্ষা — PRD §9"]
+  direction TB
+  V_CAND["📋 Candidate List<br/>+ Viva Date নির্ধারণ"]
+  V_PANEL["👥 Panel/Examiner:<br/>বিভাগীয় প্রধান নিযুক্ত"]
+  V_EVAL["📊 মূল্যায়ন:<br/>Score, Notes,<br/>Recommendation"]
+  V_RESULT{"🏆 ফলাফল?"}
+  V_SELECTED["✅ Selected"]
+  V_REJECTED["❌ Rejected<br/>Registration History-তে<br/>রেকর্ড থাকবে"]
+  V_WAITLIST["⏳ Waitlisted"]
+  V_CAND --> V_PANEL --> V_EVAL --> V_RESULT
+  V_RESULT -->|সিলেক্টেড| V_SELECTED
+  V_RESULT -->|রিজেক্টেড| V_REJECTED
+  V_RESULT -->|ওয়েটলিস্ট| V_WAITLIST
+end
 
-    <!-- ধাপ ০৪: VIVA -->
-    <div id="s-viva" class="s" style="top:200px;left:20px;width:220px;height:65px">
-      <div class="sh"><span class="sp">ধাপ ০৪</span></div>
-      <div class="st">🎙️ ভাইভা পরীক্ষা ও সিলেকশন</div>
-      <div class="sd">বিভাগীয় প্রধান মার্কিং। সিদ্ধান্ত: সিলেক্টেড / রিজেক্টেড</div>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION G: WORKSHOP (PRD §11-12) + FEE 2
+%% ═══════════════════════════════════════════════════
+subgraph WORKSHOP["🎪 ওয়ার্কশপ ট্রেনিং — PRD §11-12"]
+  direction TB
+  WS_FEE["💵 Fee 2: ওয়ার্কশপ ভর্তি ফি<br/>Selection-এর পর দিতে হবে"]
+  WS_CREATE["Workshop Entity তৈরি:<br/>Name, Branch, Dept, Subject,<br/>Start/End Date, Duration,<br/>Instructor, Status"]
+  WS_STATUS["Status: Upcoming →<br/>Active → Completed/Cancelled"]
+  WS_DAILY["📅 প্রতিদিনের মূল্যায়ন:<br/>• উপস্থিতি (Present/Absent/Late)<br/>• শৃঙ্খলা/আচরণ<br/>• শেখার মনোভাব<br/>• Vocal/Acting/Recitation দক্ষতা<br/>• উন্নতি ট্র্যাকিং"]
+  WS_INSTRUCTOR["👨‍🏫 Instructor মূল্যায়ন:<br/>সার্বিক সম্ভাবনা,<br/>বিস্তারিত মন্তব্য"]
+  WS_FEE --> WS_CREATE --> WS_STATUS --> WS_DAILY --> WS_INSTRUCTOR
+end
 
-    <!-- ধাপ ০৫: WORKSHOP -->
-    <div id="s-ws" class="s" style="top:280px;left:20px;width:220px;height:70px">
-      <div class="sh"><span class="sp">ধাপ ০৫</span></div>
-      <div class="st">🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট</div>
-      <div class="sd">উপস্থিতি, শৃঙ্খলা ও স্কিল গ্রোথ মূল্যায়ন</div>
-      <span class="tg tg-g">💵২ Workshop Fee</span>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION H: FINAL EXAM (PRD §13) + FEE 3
+%% ═══════════════════════════════════════════════════
+subgraph EXAM["📝 চূড়ান্ত পরীক্ষা — PRD §13"]
+  direction TB
+  EX_CREATE["Exam Entity:<br/>Name, Workshop, Branch,<br/>Dept, Subject, Date,<br/>Examiner, Total Marks,<br/>Pass Marks"]
+  EX_SCORE["📊 Result:<br/>Score/Grade,<br/>Pass/Fail,<br/>বিস্তারিত মন্তব্য"]
+  EX_RESULT{"🏆 ফলাফল?"}
+  EX_PASS["✅ উত্তীর্ণ"]
+  EX_FAIL["❌ অনুত্তীর্ণ<br/>History-তে Failed থাকবে<br/>ভবিষ্যতে Re-registration সম্ভব"]
+  EX_FEE["💵 Fee 3: চূড়ান্ত ভর্তি ফি<br/>Pass করার পর দিতে হবে"]
+  EX_CREATE --> EX_SCORE --> EX_RESULT
+  EX_RESULT -->|পাশ| EX_PASS --> EX_FEE
+  EX_RESULT -->|ফেল| EX_FAIL
+end
 
-    <!-- ধাপ ০৬: FINAL EXAM -->
-    <div id="s-exam" class="s" style="top:390px;left:20px;width:220px;height:70px">
-      <div class="sh"><span class="sp">ধাপ ০৬</span></div>
-      <div class="st">📝 ফাইনাল মূল্যায়ন পরীক্ষা</div>
-      <div class="sd">তাত্ত্বিক ও ব্যবহারিক এক্সাম। চূড়ান্ত অনুমোদন</div>
-      <span class="tg tg-g">💵৩ Admission Fee</span>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION I: ENROLLMENT & BATCH MEMBERSHIP (PRD §22)
+%% ═══════════════════════════════════════════════════
+subgraph ENROLL["⚡ ১-ক্লিক প্রমোশন ও ব্যাচ মেম্বারশিপ — PRD §22"]
+  direction TB
+  EN_SELECT["সিলেক্ট করুন:<br/>→ Branch<br/>→ Department<br/>→ Subject<br/>→ বিদ্যমান চলমান Batch"]
+  EN_MEMBERSHIP["BatchMembership তৈরি:<br/>Student + Batch + Joined Date +<br/>Source Registration + Status (Active)<br/><br/>⚠️ Batch Year ≠ Join Year<br/>2025 Batch-এ 2026/2027 Student যোগ হতে পারে"]
+  EN_STATUS["Student Status:<br/>Regular Student 🎓<br/>এখন থেকে ক্লাস ও ফি শুরু"]
+  EN_SELECT --> EN_MEMBERSHIP --> EN_STATUS
+end
 
-    <!-- ধাপ ০৭: 1-CLICK PROMO -->
-    <div id="s-promo" class="s ma" style="top:480px;left:20px;width:220px;height:55px">
-      <div class="sh" style="color:#EA580C"><span class="sp">ধাপ ০৭</span></div>
-      <div class="st" style="color:#C2410C">⚡ ১-ক্লিক প্রমোশন ইঞ্জিন</div>
-      <div class="sd">সরাসরি চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন</div>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION J: ORGANIZATIONAL STRUCTURE (PRD §2, §15-20)
+%% ═══════════════════════════════════════════════════
+subgraph ORG["🏛️ সাংগঠনিক কাঠামো — PRD §2, §15-20"]
+  direction TB
+  subgraph BRANCHES["🏢 শাখা ব্যবস্থাপনা"]
+    BR_PHY["🏠 Physical Branch<br/>ঢাকা, মিরপুর ইত্যাদি<br/>Director, Office Sec, Finance Sec"]
+    BR_ONL["💻 Online Branch<br/>Zoom Configuration,<br/>Meeting Links, Online Attendance"]
+  end
+  subgraph DEPTS["🎭 বিভাগ ব্যবস্থাপনা"]
+    DP_INFO["Department Entity:<br/>Name, Director, Status<br/><br/>⚠️ Department ↔ Branch<br/>= Many-to-Many<br/>সংগীত → ঢাকা + মিরপুর + অনলাইন"]
+  end
+  subgraph SUBJECTS["📚 মাস্টার বিষয় ক্যাটালগ"]
+    SB_MASTER["Master Subject:<br/>সংগীত, অভিনয়, আবৃত্তি<br/><br/>⚠️ একবার তৈরি, একাধিক শাখায় Assign<br/>কোনো Duplication নেই"]
+    SB_OFFERING["SubjectOffering Entity:<br/>Branch + Dept + Subject<br/>+ Status + Responsible Person<br/>+ Start Date + Class Config"]
+  end
+  subgraph BATCHES["👥 ব্যাচ ব্যবস্থাপনা"]
+    BT_INFO["Batch Entity:<br/>Name, Branch, Dept, Subject,<br/>Created Date, Status,<br/>Instructor, Members, Schedule<br/><br/>⚠️ স্থায়ী/চলমান গ্রুপ<br/>প্রতি বছর নতুন Batch বাধ্যতামূলক নয়"]
+  end
+  BR_PHY & BR_ONL -->|Many-to-Many| DP_INFO
+  SB_MASTER --> SB_OFFERING
+  DP_INFO --> SB_OFFERING
+  SB_OFFERING --> BT_INFO
+end
 
-    <!-- ============ COLUMN B: APPLY + CENTRAL BRAIN + GATEWAY (X=275, W=265) ============ -->
+%% ═══════════════════════════════════════════════════
+%% SECTION K: CLASS & ATTENDANCE (PRD §23-25)
+%% ═══════════════════════════════════════════════════
+subgraph CLASS["📅 ক্লাস ও উপস্থিতি — PRD §23-25"]
+  direction TB
+  CL_CREATE["Class Entity:<br/>Branch → Dept → Subject →<br/>Batch → Instructor → Date/Time<br/>→ Location / Zoom Link"]
+  CL_TYPE["Class Type:<br/>🏠 Physical | 💻 Online (Zoom)<br/>Meeting ID, Password, Join Link"]
+  CL_VIEWS["Views:<br/>📅 Calendar | 📋 List<br/>⏩ Upcoming | ⏪ Past"]
+  CL_ATTEND["উপস্থিতি:<br/>✅ Present | ❌ Absent<br/>⏰ Late | 🔖 Excused"]
+  CL_REPORTS["📊 Attendance Reports:<br/>Student-wise, Batch-wise,<br/>Subject-wise, Workshop-wise,<br/>Date Range"]
+  CL_CREATE --> CL_TYPE --> CL_VIEWS
+  CL_CREATE --> CL_ATTEND --> CL_REPORTS
+end
 
-    <!-- ধাপ ০২: APPLY FORM -->
-    <div id="s-apply" class="s" style="top:30px;left:275px;width:265px;height:60px">
-      <div class="sh"><span class="sp">ধাপ ০২</span></div>
-      <div class="st">📝 অনলাইন ভর্তি আবেদন ফরম</div>
-      <div class="sd"><strong>ফিল্টার:</strong> মেয়ে ৩য় শ্রেণি, ছেলে অনার্স। শাখা/বিষয় সিলেক্ট</div>
-      <span class="tg tg-g">💵১ Registration Fee</span>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION L: FINANCE LEDGER (PRD §28)
+%% ═══════════════════════════════════════════════════
+subgraph FINANCE["🏦 কেন্দ্রীয় ও শাখা অর্থ লেজার — PRD §28"]
+  direction TB
+  FN_CENTRAL["Central Finance:<br/>Income, Expense,<br/>Payments, Reports"]
+  FN_BRANCH["Branch Finance:<br/>Branch-wise Income,<br/>Expense, Payment, Reports"]
+  FN_STUDENT["Student Payment:<br/>Payment, Due, Paid, History"]
+  FN_AUTO["⚡ Auto Deposit:<br/>Gateway → Central + Branch<br/>Ledger-এ স্বয়ংক্রিয়"]
+  FN_AUTO --> FN_CENTRAL & FN_BRANCH
+  FN_CENTRAL --> FN_STUDENT
+end
 
-    <!-- ধাপ ০৮: CENTRAL BACKEND CORE -->
-    <div id="s-core" class="s co" style="top:100px;left:275px;width:265px;height:110px">
-      <div class="sh" style="color:#2563EB"><span class="sp">ধাপ ০৮</span></div>
-      <div class="st" style="color:#1D4ED8">🏛️ Node.js API Core (backend/)</div>
-      <div class="sd">
-        • সুপার অ্যাডমিন ও পারমিশন কন্ট্রোল<br/>
-        • JWT Auth, Prisma ORM, PostgreSQL<br/>
-        • <strong>গ্লোবাল সার্চ:</strong> ফোন/ইমেইল/আইডি<br/>
-        • <strong>অডিট লগ:</strong> প্রতিটি পরিবর্তনের রেকর্ড
-      </div>
-      <span class="tg tg-b">CENTRAL BRAIN</span>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION M: STUDENT PORTAL (PRD §33) + FEE 4
+%% ═══════════════════════════════════════════════════
+subgraph STUDENT["📱 Student Portal — student/  PRD §33"]
+  direction TB
+  ST_DASH["Dashboard:<br/>Current Branch, Subject, Batch,<br/>Next Class, Attendance %, Status"]
+  ST_MENU["Menu:<br/>My Profile, My Registrations,<br/>My Classes (Physical+Online),<br/>Attendance, Workshops,<br/>Exams & Results, My Batches,<br/>Announcements, Documents, Settings"]
+  ST_ZOOM["💻 Online Class:<br/>Upcoming Zoom → Join Button"]
+  ST_FEE["💵 Fee 4: মাসিক বেতন<br/>প্রতি মাসে Student Portal<br/>থেকে পরিশোধ"]
+  ST_DASH --> ST_MENU
+  ST_MENU --> ST_ZOOM
+  ST_MENU --> ST_FEE
+end
 
-    <!-- ধাপ ০৯: STANDALONE PAYMENT GATEWAY -->
-    <div id="s-gw" class="s gw" style="top:240px;left:275px;width:265px;height:120px">
-      <div class="sh" style="color:#059669"><span class="sp">ধাপ ০৯</span></div>
-      <div class="st" style="color:#047857">💳 পেমেন্ট গেটওয়ে (bKash/Nagad/SSL)</div>
-      <div class="sd" style="color:#065F46">
-        • <strong>ইনকামিং:</strong> ৪টি ফি সিগন্যাল রিসিভ<br/>
-        • অটো ভেরিফিকেশন ও ডিজিটাল রসিদ<br/>
-        • <strong>আউটগোয়িং:</strong> ব্যাকএন্ড কনফার্ম ও অটো ডিপোজিট
-      </div>
-      <span class="tg tg-g">MULTI-SIGNAL PROCESSOR</span>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION N: CENTRAL ADMIN (PRD §5-6)
+%% ═══════════════════════════════════════════════════
+subgraph ADMIN["🖥️ Central Admin Panel — admin/  PRD §5-6"]
+  direction TB
+  AD_DASH["Dashboard:<br/>Total Active Students,<br/>Applicants, Pending Viva,<br/>Active Workshops/Branches/<br/>Departments/Subjects/Batches,<br/>Today's Classes, Upcoming Classes"]
+  AD_FUNNEL["Admission Funnel:<br/>Applications → Viva → Selected →<br/>Workshop → Exam → Regular"]
+  AD_SIDEBAR["Full Sidebar:<br/>Dashboard, Admissions, Students,<br/>Branches, Departments, Subjects,<br/>Batches, Classes, Attendance,<br/>Workshops, Exams, Finance,<br/>Office, Users, Announcements,<br/>Reports, Website, Settings"]
+  AD_DASH --> AD_FUNNEL
+  AD_DASH --> AD_SIDEBAR
+end
 
-    <!-- ============ COLUMN C: DEPARTMENT ROLES (X=580, W=140) ============ -->
+%% ═══════════════════════════════════════════════════
+%% SECTION O: MANAGEMENT DASHBOARD (PRD §34)
+%% ═══════════════════════════════════════════════════
+subgraph MGMT["👔 Management Dashboard — department/  PRD §34"]
+  direction TB
+  MG_BD["🏢 Branch Director:<br/>Branch Overview, Students,<br/>Departments, Subjects, Batches,<br/>Classes, Attendance, Workshops"]
+  MG_DD["🎭 Department Director:<br/>Department Overview, Branches,<br/>Subjects, Batches, Students,<br/>Classes, Attendance, Workshops"]
+  MG_OS["📋 Office Secretary:<br/>Applications, Student Records,<br/>Documents, Notices, Admin Tasks"]
+  MG_FS["💰 Finance Secretary:<br/>Income, Expense,<br/>Payments, Financial Reports"]
+  MG_TR["👨‍🏫 Instructor/Teacher:<br/>Assigned Classes, Attendance,<br/>Workshop Evaluation,<br/>Exam Marking"]
+end
 
-    <!-- ধাপ ১০: DEPT DIRECTOR -->
-    <div id="s-dep" class="s dp" style="top:100px;left:580px;width:130px;height:55px">
-      <div class="sh" style="color:#0891B2"><span class="sp">ধাপ ১০</span></div>
-      <div class="st">🎭 বিভাগীয় প্রধান</div>
-      <div class="sd">ভাইভা ও পরীক্ষা কন্ট্রোল</div>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION P: BACKEND CORE (PRD §35-37, §43-44)
+%% ═══════════════════════════════════════════════════
+subgraph BACKEND["🏛️ Node.js API Core — backend/  Prisma + PostgreSQL"]
+  direction TB
+  BE_AUTH["🔐 Auth:<br/>JWT Token,<br/>Role-based Permissions,<br/>Super Admin → Branch Director →<br/>Dept Director → Secretary →<br/>Instructor → Student"]
+  BE_SEARCH["🔎 Global Search:<br/>Name, Phone, Student ID,<br/>Registration ID, Application ID,<br/>Batch, Subject, Branch<br/>→ সরাসরি Profile খোলা"]
+  BE_AUDIT["📜 Audit Log:<br/>Who, What, When,<br/>Before Value, After Value<br/>প্রতিটি গুরুত্বপূর্ণ পরিবর্তন"]
+  BE_NOTIF["🔔 Notifications:<br/>New Application, Viva Scheduled,<br/>Result, Workshop, Class Reminder,<br/>Exam, Announcement<br/>(In-app → Future: SMS/Email)"]
+  BE_ANNOUNCE["📢 Announcements:<br/>Academy-wide, Branch-specific,<br/>Dept-specific, Batch-specific,<br/>Student-specific"]
+  BE_DOCS["📂 Office & Documents:<br/>Student Docs, Admission Docs,<br/>Official, Notices, Certificates"]
+  BE_REPORTS["📊 Reports:<br/>Student, Admission, Attendance,<br/>Historical Year-wise"]
+end
 
-    <!-- ধাপ ১১: BRANCH CTRL -->
-    <div id="s-bra" class="s dp" style="top:165px;left:580px;width:130px;height:55px">
-      <div class="sh" style="color:#0891B2"><span class="sp">ধাপ ১১</span></div>
-      <div class="st">🏢 শাখা পরিচালক</div>
-      <div class="sd">ঢাকা, মিরপুর ও জুম শাখা</div>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% SECTION Q: STUDENT STATUS LIFECYCLE (PRD §41-42)
+%% ═══════════════════════════════════════════════════
+subgraph LIFECYCLE["🔄 Student Status Lifecycle — PRD §41-42"]
+  direction LR
+  LS_APP["Applicant"] --> LS_VP["Viva Pending"] --> LS_SEL["Selected"]
+  LS_SEL --> LS_WS["Workshop Student"] --> LS_EP["Exam Pending"]
+  LS_EP --> LS_REG["Regular Student 🎓"]
+  LS_REG --> LS_INA["Inactive / Suspended / Left"]
+  LS_INA -.->|Re-registration| LS_APP
+end
 
-    <!-- ধাপ ১২: TEACHER -->
-    <div id="s-tea" class="s dp" style="top:230px;left:580px;width:130px;height:55px">
-      <div class="sh" style="color:#0891B2"><span class="sp">ধাপ ১২</span></div>
-      <div class="st">👨‍🏫 শিক্ষক প্যানেল</div>
-      <div class="sd">ক্লাস ও ওয়ার্কশপ মার্কিং</div>
-    </div>
+%% ═══════════════════════════════════════════════════
+%% CONNECTIONS: MAIN ADMISSION FLOW
+%% ═══════════════════════════════════════════════════
+W_ADM -->|"আবেদন করুন বাটন"| A_FORM
+A_ELIG -->|"Submit"| PC_SEARCH
+PC_LINK & PC_NEW -->|"Person নিশ্চিত"| R_CREATE
+R_CREATE --> R_FEE
+R_FEE -->|"💵① রেজিস্ট্রেশন ফি"| GW_IN
+GW_RECEIPT -->|"✅ পেমেন্ট কনফার্ম"| V_CAND
+V_SELECTED -->|"Workshop Assign"| WS_FEE
+WS_FEE -->|"💵② ওয়ার্কশপ ফি"| GW_IN
+WS_INSTRUCTOR -->|"Workshop শেষ"| EX_CREATE
+EX_FEE -->|"💵③ চূড়ান্ত ভর্তি ফি"| GW_IN
+EX_PASS -->|"Enrollment"| EN_SELECT
 
-    <!-- ============ COLUMN D: ACADEMIC OPERATIONS (X=750, W=230) ============ -->
+%% Fee 4: Student Portal → Gateway
+ST_FEE -->|"💵④ মাসিক বেতন"| GW_IN
 
-    <!-- ধাপ ১৩: MASTER SUBJECT -->
-    <div id="s-subj" class="s ma" style="top:30px;left:750px;width:230px;height:75px">
-      <div class="sh" style="color:#EA580C"><span class="sp">ধাপ ১৩</span></div>
-      <div class="st" style="color:#C2410C">📚 মাস্টার বিষয় ক্যাটালগ</div>
-      <div class="sd">গান, অভিনয়, আবৃত্তি কেন্দ্রীয়ভাবে তৈরি। <strong>নো ডুপ্লিকেশন।</strong></div>
-      <span class="tg tg-o">NO DUPLICATION</span>
-    </div>
+%% Gateway → Finance (Auto Deposit)
+GW_RECEIPT -->|"অটো ডিপোজিট"| FN_AUTO
 
-    <!-- ধাপ ১৪: OFFERING MATRIX -->
-    <div id="s-off" class="s" style="top:140px;left:750px;width:230px;height:60px">
-      <div class="sh"><span class="sp">ধাপ ১৪</span></div>
-      <div class="st">🔗 শাখায় বিষয় অফারিং</div>
-      <div class="sd"><strong>Many-to-Many:</strong> যেকোনো ব্রাঞ্চে যেকোনো বিষয় অফার</div>
-    </div>
+%% Enrollment → Batch
+EN_MEMBERSHIP -->|"Batch-এ যোগদান"| BT_INFO
 
-    <!-- ধাপ ১৫: ONGOING BATCH -->
-    <div id="s-bat" class="s ma" style="top:340px;left:750px;width:230px;height:70px">
-      <div class="sh" style="color:#EA580C"><span class="sp">ধাপ ১৫</span></div>
-      <div class="st" style="color:#C2410C">👥 চলমান ব্যাচ: গান ব্যাচ ১</div>
-      <div class="sd"><strong>Batch Year (2025) ≠ Join Year (2026/2027)</strong></div>
-      <span class="tg tg-o">ONGOING COHORT</span>
-    </div>
+%% Batch → Class
+BT_INFO --> CL_CREATE
 
-    <!-- ধাপ ১৬: CLASS & ATTENDANCE -->
-    <div id="s-cls" class="s rt" style="top:430px;left:750px;width:230px;height:65px">
-      <div class="sh" style="color:#9333EA"><span class="sp">ধাপ ১৬</span></div>
-      <div class="st" style="color:#7E22CE">📅 ক্লাস ও দৈনিক উপস্থিতি</div>
-      <div class="sd">ক্লাসরুম ও জুম লাইভ সেশন। উপস্থিতি ম্যাট্রিক্স</div>
-    </div>
+%% Class → Student Portal
+CL_TYPE -->|"Zoom Join Link"| ST_ZOOM
 
-    <!-- ============ COLUMN E: FINANCE + STUDENT PORTAL (X=1010, W=260) ============ -->
+%% Organizational connections
+BR_PHY & BR_ONL --> SB_OFFERING
+SB_OFFERING --> BT_INFO
 
-    <!-- ধাপ ১৮: FINANCE VAULT -->
-    <div id="s-fin" class="s fn" style="top:240px;left:1010px;width:260px;height:115px">
-      <div class="sh" style="color:#DB2777"><span class="sp">ধাপ ১৮</span></div>
-      <div class="st" style="color:#BE185D">🏦 কেন্দ্রীয় ও শাখা অর্থ লেজার</div>
-      <div class="sd">
-        • ৪টি ফি-এর স্বয়ংক্রিয় অডিট ও ভাউচার<br/>
-        • সেন্ট্রাল ও শাখাভিত্তিক আয়-ব্যয় হিসাব<br/>
-        • সনদপত্র ও অফিশিয়াল ডকুমেন্ট ভল্ট
-      </div>
-      <span class="tg" style="background:#FCE7F3;color:#9D174D;border:1px solid #FBCFE8">CENTRAL & BRANCH LEDGER</span>
-    </div>
+%% Role connections
+MG_DD -->|"ভাইভা কন্ট্রোল"| V_PANEL
+MG_TR -->|"ওয়ার্কশপ মূল্যায়ন"| WS_DAILY
+MG_TR -->|"ক্লাস পরিচালনা"| CL_CREATE
+MG_BD -->|"শাখা পরিচালনা"| BR_PHY & BR_ONL
+MG_FS -->|"অর্থ পরিচালনা"| FN_CENTRAL
 
-    <!-- ধাপ ১৭: STUDENT PORTAL -->
-    <div id="s-stu" class="s rt" style="top:430px;left:1010px;width:260px;height:75px">
-      <div class="sh" style="color:#9333EA"><span class="sp">ধাপ ১৭</span></div>
-      <div class="st" style="color:#7E22CE">📱 Student Portal App (student/)</div>
-      <div class="sd">
-        • ক্লাস রুটিন, জুম জয়েন, রেজাল্ট ও মাসিক ফি পরিশোধ
-      </div>
-      <span class="tg tg-g">💵৪ Monthly Fee</span>
-    </div>
+%% Admin oversees everything
+AD_SIDEBAR -->|"সার্বিক নিয়ন্ত্রণ"| BE_AUTH
+BE_AUTH --> ADMIN & MGMT & STUDENT
 
+%% Backend serves all
+BE_SEARCH --> AD_DASH
+BE_NOTIF --> ST_DASH
+BE_REPORTS --> AD_FUNNEL
+
+%% Re-registration loop
+EX_FAIL -.->|"ভবিষ্যতে পুনরায় আবেদন"| A_FORM
+
+%% Class attendance to reports
+CL_REPORTS --> BE_REPORTS
+
+%% Student to Finance
+FN_STUDENT --> ST_DASH
+
+    </pre>
   </div>
 </div>
 
 <script>
-let pz=null;
-function init(){
-  const sc=document.getElementById('scene');
-  pz=panzoom(sc,{maxZoom:8,minZoom:0.3,smoothScroll:false,zoomSpeed:.065,beforeWheel:()=>false});
-  setTimeout(()=>{
-    const vw=window.innerWidth,vh=window.innerHeight;
-    const s=Math.min((vw-30)/1300,(vh-60)/560,1.2);
-    pz.zoomAbs(0,0,s);
-    pz.moveTo((vw-1300*s)/2,50);
-  },40);
+document.addEventListener('DOMContentLoaded', () => {
+  // Wait for mermaid to render
+  const waitForMermaid = setInterval(() => {
+    const svg = document.querySelector('.mermaid svg');
+    if (svg) {
+      clearInterval(waitForMermaid);
+      initPanzoom(svg);
+      initHighlighting(svg);
+    }
+  }, 200);
 
-  const W=document.querySelectorAll('.w'),S=document.querySelectorAll('.s'),T=document.querySelectorAll('.bt');
-  function clr(){W.forEach(w=>w.classList.remove('hi'));S.forEach(s=>s.classList.remove('hi'));T.forEach(t=>t.classList.remove('ac'));}
+  function initPanzoom(svg) {
+    const scene = document.getElementById('scene');
+    // Set scene size from SVG
+    const bbox = svg.getBBox();
+    scene.style.width = (bbox.width + 120) + 'px';
+    scene.style.height = (bbox.height + 120) + 'px';
 
-  W.forEach(w=>w.addEventListener('click',e=>{e.stopPropagation();clr();w.classList.add('hi');
-    const f=w.dataset.f,t=w.dataset.t;
-    if(f)document.getElementById(f)?.classList.add('hi');
-    if(t)document.getElementById(t)?.classList.add('hi');
-  }));
+    const pz = panzoom(scene, {
+      maxZoom: 6,
+      minZoom: 0.15,
+      smoothScroll: false,
+      zoomSpeed: 0.06,
+      beforeWheel: () => false
+    });
 
-  T.forEach(t=>t.addEventListener('click',e=>{e.stopPropagation();clr();t.classList.add('ac');
-    const wid=t.dataset.w;if(wid){const w=document.getElementById(wid);if(w){w.classList.add('hi');
-    const f=w.dataset.f,tt=w.dataset.t;
-    if(f)document.getElementById(f)?.classList.add('hi');
-    if(tt)document.getElementById(tt)?.classList.add('hi');}}
-  }));
+    // Fit to screen on load
+    setTimeout(() => fitToScreen(pz, scene), 100);
 
-  S.forEach(s=>s.addEventListener('click',e=>{e.stopPropagation();clr();s.classList.add('hi');
-    const id=s.id;W.forEach(w=>{if(w.dataset.f===id||w.dataset.t===id){w.classList.add('hi');
-    const p=w.dataset.f===id?w.dataset.t:w.dataset.f;
-    if(p)document.getElementById(p)?.classList.add('hi');}});
-  }));
+    document.getElementById('zoom-in').addEventListener('click', () =>
+      pz.smoothZoom(window.innerWidth/2, window.innerHeight/2, 1.3));
+    document.getElementById('zoom-out').addEventListener('click', () =>
+      pz.smoothZoom(window.innerWidth/2, window.innerHeight/2, 0.75));
+    document.getElementById('zoom-reset').addEventListener('click', () => {
+      pz.zoomAbs(0, 0, 1);
+      pz.moveTo(20, 60);
+    });
+    document.getElementById('zoom-fit').addEventListener('click', () =>
+      fitToScreen(pz, scene));
 
-  document.getElementById('vp').addEventListener('click',()=>clr());
-  document.getElementById('zi').addEventListener('click',()=>pz.smoothZoom(window.innerWidth/2,window.innerHeight/2,1.25));
-  document.getElementById('zo').addEventListener('click',()=>pz.smoothZoom(window.innerWidth/2,window.innerHeight/2,.8));
-  document.getElementById('zr').addEventListener('click',()=>{pz.zoomAbs(0,0,1);pz.moveTo(20,50);});
-  document.getElementById('zf').addEventListener('click',()=>{
-    const vw=window.innerWidth,vh=window.innerHeight;
-    const s=Math.min((vw-30)/1300,(vh-60)/560,1.2);
-    pz.zoomAbs(0,0,s);pz.moveTo((vw-1300*s)/2,50);
-  });
-}
-window.addEventListener('DOMContentLoaded',init);
+    window._pz = pz;
+  }
+
+  function fitToScreen(pz, scene) {
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const sw = scene.scrollWidth, sh = scene.scrollHeight;
+    const scale = Math.min((vw - 40) / sw, (vh - 80) / sh, 1.5);
+    pz.zoomAbs(0, 0, scale);
+    pz.moveTo((vw - sw * scale) / 2, (vh - sh * scale) / 2 + 20);
+  }
+
+  function initHighlighting(svg) {
+    const nodes = svg.querySelectorAll('.node');
+    const edges = svg.querySelectorAll('.flowchart-link');
+
+    function clearAll() {
+      nodes.forEach(n => n.classList.remove('node-highlight'));
+      edges.forEach(e => e.classList.remove('edge-highlight'));
+    }
+
+    // Click on node → highlight it + connected edges
+    nodes.forEach(node => {
+      node.addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearAll();
+        node.classList.add('node-highlight');
+        const nodeId = node.id;
+        // Find connected edges (edges whose d attribute path relates to this node)
+        edges.forEach(edge => {
+          const parent = edge.closest('g');
+          if (parent) {
+            edge.classList.add('edge-highlight');
+          }
+        });
+      });
+    });
+
+    // Click on edge → highlight it
+    edges.forEach(edge => {
+      edge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearAll();
+        edge.classList.add('edge-highlight');
+      });
+    });
+
+    // Click on background → clear
+    document.getElementById('viewport').addEventListener('click', () => clearAll());
+  }
+});
 </script>
 </body>
 </html>

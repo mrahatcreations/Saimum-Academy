@@ -1029,6 +1029,95 @@ Branch-wise:
 
 ---
 
+# 28.5 Online Payment Gateway
+
+Payment Gateway Academy-এর সবচেয়ে গুরুত্বপূর্ণ স্বয়ংক্রিয় আর্থিক পরিকাঠামো।
+
+## Gateway Providers
+
+- bKash
+- Nagad
+- SSLCommerz
+- (ভবিষ্যতে অন্যান্য)
+
+## ৪টি Fee Type
+
+Gateway-এ মোট ৪ প্রকার Fee Signal আসবে:
+
+### Fee 1: Registration Fee (রেজিস্ট্রেশন ফি)
+
+কখন: Public Website থেকে Online Application Form submit করার সময়।
+কে দেয়: Applicant (নতুন আবেদনকারী)।
+উদ্দেশ্য: ভর্তি প্রক্রিয়ায় অংশগ্রহণের জন্য প্রাথমিক ফি।
+পরবর্তী: পেমেন্ট সফল হলে Application status `Submitted` হবে এবং Viva-র জন্য অপেক্ষমান তালিকায় যাবে।
+
+### Fee 2: Workshop Admission Fee (ওয়ার্কশপ ভর্তি ফি)
+
+কখন: Viva-তে Selected হওয়ার পর Workshop-এ enroll করার সময়।
+কে দেয়: Selected Candidate।
+উদ্দেশ্য: Workshop training cohort-এ অংশগ্রহণের ফি।
+পরবর্তী: পেমেন্ট সফল হলে Workshop Enrollment তৈরি হবে।
+
+### Fee 3: Student Admission Fee (চূড়ান্ত ভর্তি ফি)
+
+কখন: Final Exam-এ Pass করার পর Regular Student হিসেবে Enroll করার সময়।
+কে দেয়: Exam-এ উত্তীর্ণ Candidate।
+উদ্দেশ্য: নিয়মিত শিক্ষার্থী হিসেবে একাডেমিতে পূর্ণাঙ্গ ভর্তি।
+পরবর্তী: পেমেন্ট সফল হলে Batch Membership তৈরি হবে এবং Student status `Regular Student` হবে।
+
+### Fee 4: Monthly Tuition Fee (মাসিক বেতন)
+
+কখন: প্রতি মাসে নির্ধারিত তারিখে।
+কে দেয়: Regular Student (Student Portal থেকে)।
+উদ্দেশ্য: চলমান ক্লাস ও সেবাৰ জন্য মাসিক ফি।
+পরবর্তী: পেমেন্ট হিস্টোরিতে যোগ হবে, Due status আপডেট হবে।
+
+## Gateway Processing Flow
+
+```text
+Fee Signal (যেকোনো ৪ প্রকার)
+  ↓
+Gateway Provider Selection (bKash/Nagad/SSL)
+  ↓
+Payment Initiation
+  ↓
+Provider Processing
+  ↓
+Webhook/Callback → Backend
+  ↓
+Payment Verification
+  ↓
+Digital Receipt Generation
+  ↓
+Auto Deposit → Finance Ledger (Central + Branch)
+  ↓
+Trigger Next Action (status update / enrollment / receipt)
+```
+
+## Gateway → Finance Integration
+
+Gateway সফল হলে:
+
+- Central Finance Ledger-এ Income entry তৈরি হবে।
+- Branch-specific Finance Ledger-এ Branch-wise income entry তৈরি হবে।
+- Student Payment History-তে paid entry যোগ হবে।
+- Digital Receipt/Voucher generate হবে।
+
+## Refund ও Failure
+
+- Payment Failed হলে: retry option থাকবে, Application/Enrollment pending থাকবে।
+- Refund: Admin manually refund initiate করতে পারবে। Refund history থাকবে।
+
+## Gateway Security
+
+- HTTPS-only callback
+- Signature verification
+- Idempotent transaction ID
+- Duplicate payment prevention
+- Amount mismatch detection
+
+---
+
 # 29. Office & Documents
 
 ## Document Categories
@@ -1570,6 +1659,8 @@ New Registration
 - Management Dashboard
 - Basic Reports
 - Announcements
+- Online Payment Gateway (bKash/Nagad/SSL)
+- Student Fee Payment (Monthly)
 
 ## Phase 2
 
@@ -1586,7 +1677,6 @@ New Registration
 - SMS/Email automation
 - Advanced analytics
 - Mobile App
-- Payment gateway
 - Automated Zoom integration
 - Certificate verification
 - Advanced communication system
