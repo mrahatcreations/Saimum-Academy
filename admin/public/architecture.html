@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ সাইমুম সেন্ট্রাল একাডেমি — কমপ্যাক্ট সিস্টেম আর্কিটেকচার সার্কিট</title>
+  <title>⚡ সাইমুম সেন্ট্রাল একাডেমি — ধাপভিত্তিক সিস্টেম আর্কিটেকচার সার্কিট</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -207,8 +207,8 @@
     .schematic-wire:hover marker path { fill: #2563EB; }
     .schematic-wire.active-highlight marker path { fill: #FF790E; }
 
-    /* Module Cards with Exact Pixel Dimensions (NO OVERLAPS) */
-    .module-card {
+    /* Step Cards with Exact Pixel Dimensions (NO OVERLAPS) */
+    .step-card {
       position: absolute;
       background: #FFFFFF;
       border: 1.6px solid var(--box-border);
@@ -220,70 +220,83 @@
       cursor: pointer;
     }
 
-    .module-card:hover {
+    .step-card:hover {
       border-color: #2563EB;
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
     }
 
-    .module-card.card-active {
+    .step-card.card-active {
       border-color: #FF790E !important;
       box-shadow: 0 0 18px rgba(255, 121, 14, 0.3) !important;
     }
 
-    .module-card.gateway-card {
+    .step-card.gateway-card {
       background: #F0FDF4;
       border: 2px solid #059669;
     }
 
-    .module-card.core-card {
+    .step-card.core-card {
       background: #EFF6FF;
       border: 2px solid #2563EB;
     }
 
-    .module-card.master-card {
+    .step-card.master-card {
       background: #FFF7ED;
       border: 2px solid #EA580C;
     }
 
-    .module-card.dept-card {
+    .step-card.dept-card {
       background: #ECFEFF;
       border: 2px solid #0891B2;
     }
 
-    .module-card.runtime-card {
+    .step-card.runtime-card {
       background: #FAF5FF;
       border: 2px solid #9333EA;
     }
 
-    .module-card.finance-card {
+    .step-card.finance-card {
       background: #FDF2F8;
       border: 2px solid #DB2777;
     }
 
-    .module-header {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.65rem;
+    .step-header {
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 0.72rem;
       font-weight: 800;
       color: #64748B;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
       margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .module-title {
+    .step-pill {
+      background: #F1F5F9;
+      color: #0F172A;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 0.65rem;
+      font-family: 'Fira Code', monospace;
+    }
+
+    .step-title {
       font-size: 0.88rem;
       font-weight: 800;
       color: #0F172A;
       line-height: 1.2;
     }
 
-    .module-sub {
+    .step-sub {
       font-size: 0.72rem;
       color: #334155;
       margin-top: 3px;
       line-height: 1.35;
     }
 
-    .module-tag {
+    .step-tag {
       display: inline-block;
       font-size: 0.64rem;
       font-weight: 800;
@@ -331,11 +344,11 @@
     <!-- Top Controller Bar -->
     <header class="top-hud">
       <div class="hud-title">
-        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — কমপ্যাক্ট সিস্টেম সার্কিট</span>
-        <span class="circuit-badge">ZERO GAP • ZERO OVERLAP</span>
+        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — ধাপভিত্তিক সিস্টেম সার্কিট</span>
+        <span class="circuit-badge">STEP-BY-STEP SCHEMATIC</span>
       </div>
       <div class="hud-hints">
-        <span><span class="kbd">Click</span> যেকোনো লাইন বা মডিউলে ক্লিক করে কানেকশন হাইলাইট করুন</span>
+        <span><span class="kbd">Click</span> যেকোনো লাইন বা ধাপে ক্লিক করে কানেকশন হাইলাইট করুন</span>
         <span><span class="kbd">Scroll</span> জুম</span>
         <span><span class="kbd">Drag</span> প্যান</span>
       </div>
@@ -349,12 +362,12 @@
       <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen" style="font-size: 0.85rem;">⛶</button>
     </div>
 
-    <!-- Scalable 100% Compact Circuit Scene (1850 x 1050 px) -->
+    <!-- Scalable 100% Compact Step Circuit Scene (1850 x 1050 px) -->
     <div id="scene">
       
       <!-- =========================================================================
            STRICT 90-DEGREE ORTHOGONAL SCHEMATIC WIRES (CLEAN BUSES)
-           ========================================================================= -->
+           ======================================================================== -->
       <svg id="wires-svg">
         <defs>
           <marker id="arrow-ortho" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -363,83 +376,83 @@
         </defs>
 
         <!-- W1: Public Web -> Apply Form -->
-        <path id="wire-1" class="schematic-wire" data-from="mod-web" data-to="mod-apply"
+        <path id="wire-1" class="schematic-wire" data-from="step-web" data-to="step-apply"
               d="M 330,120 L 370,120" marker-end="url(#arrow-ortho)" />
 
         <!-- W2: Apply Form -> Central Bus (Registration Fee Signal ➔ Gateway) -->
-        <path id="wire-2" class="schematic-wire" data-from="mod-apply" data-to="mod-gateway"
+        <path id="wire-2" class="schematic-wire" data-from="step-apply" data-to="step-gateway"
               d="M 650,120 L 700,120 L 700,430 L 750,430" marker-end="url(#arrow-ortho)" />
 
         <!-- W3: Workshop Cohort -> Central Bus (Workshop Fee Signal ➔ Gateway) -->
-        <path id="wire-3" class="schematic-wire" data-from="mod-workshop" data-to="mod-gateway"
+        <path id="wire-3" class="schematic-wire" data-from="step-workshop" data-to="step-gateway"
               d="M 330,660 L 710,660 L 710,460 L 750,460" marker-end="url(#arrow-ortho)" />
 
         <!-- W4: Final Exam -> Central Bus (Student Admission Fee Signal ➔ Gateway) -->
-        <path id="wire-4" class="schematic-wire" data-from="mod-exam" data-to="mod-gateway"
+        <path id="wire-4" class="schematic-wire" data-from="step-exam" data-to="step-gateway"
               d="M 330,830 L 720,830 L 720,490 L 750,490" marker-end="url(#arrow-ortho)" />
 
         <!-- W5: Student Portal -> Central Bus (Monthly Tuition Fee Signal ➔ Gateway) -->
-        <path id="wire-5" class="schematic-wire" data-from="mod-student" data-to="mod-gateway"
+        <path id="wire-5" class="schematic-wire" data-from="step-student" data-to="step-gateway"
               d="M 1480,840 L 1090,840 L 1090,510" marker-end="url(#arrow-ortho)" />
 
         <!-- W6: Payment Gateway -> Backend API Core (Instant Webhook Confirmation) -->
-        <path id="wire-6" class="schematic-wire" data-from="mod-gateway" data-to="mod-core"
+        <path id="wire-6" class="schematic-wire" data-from="step-gateway" data-to="step-core"
               d="M 910,400 L 910,210" marker-end="url(#arrow-ortho)" />
 
         <!-- W7: Payment Gateway -> Finance Ledger Vault (Auto Deposit) -->
-        <path id="wire-7" class="schematic-wire" data-from="mod-gateway" data-to="mod-finance"
+        <path id="wire-7" class="schematic-wire" data-from="step-gateway" data-to="step-finance"
               d="M 1070,440 L 1480,440" marker-end="url(#arrow-ortho)" />
 
         <!-- W8: Backend Core -> Person Profile Identifier (Existing Check) -->
-        <path id="wire-8" class="schematic-wire" data-from="mod-core" data-to="mod-person"
+        <path id="wire-8" class="schematic-wire" data-from="step-core" data-to="step-person"
               d="M 750,140 L 190,140 L 190,260" marker-end="url(#arrow-ortho)" />
 
         <!-- W9: Person Profile -> Viva Assessment Panel -->
-        <path id="wire-9" class="schematic-wire" data-from="mod-person" data-to="mod-viva"
+        <path id="wire-9" class="schematic-wire" data-from="step-person" data-to="step-viva"
               d="M 190,360 L 190,420" marker-end="url(#arrow-ortho)" />
 
         <!-- W10: Viva Panel -> Workshop Cohort (Selected) -->
-        <path id="wire-10" class="schematic-wire" data-from="mod-viva" data-to="mod-workshop"
+        <path id="wire-10" class="schematic-wire" data-from="step-viva" data-to="step-workshop"
               d="M 190,520 L 190,600" marker-end="url(#arrow-ortho)" />
 
         <!-- W11: Workshop Cohort -> Final Exam -->
-        <path id="wire-11" class="schematic-wire" data-from="mod-workshop" data-to="mod-exam"
+        <path id="wire-11" class="schematic-wire" data-from="step-workshop" data-to="step-exam"
               d="M 190,710 L 190,770" marker-end="url(#arrow-ortho)" />
 
         <!-- W12: Final Exam -> 1-Click Promotion Engine -->
-        <path id="wire-12" class="schematic-wire" data-from="mod-exam" data-to="mod-promo"
+        <path id="wire-12" class="schematic-wire" data-from="step-exam" data-to="step-promo"
               d="M 190,880 L 190,940" marker-end="url(#arrow-ortho)" />
 
         <!-- W13: 1-Click Promotion LOOP-BACK to Ongoing Batches Core -->
-        <path id="wire-13" class="schematic-wire" data-from="mod-promo" data-to="mod-batch"
+        <path id="wire-13" class="schematic-wire" data-from="step-promo" data-to="step-batch"
               d="M 330,990 L 1150,990 L 1150,650 L 1190,650" marker-end="url(#arrow-ortho)" />
 
         <!-- W14: Master Subject Hub -> Branch Offering Matrix -->
-        <path id="wire-14" class="schematic-wire" data-from="mod-subject" data-to="mod-offering"
+        <path id="wire-14" class="schematic-wire" data-from="step-subject" data-to="step-offering"
               d="M 1320,190 L 1320,260" marker-end="url(#arrow-ortho)" />
 
         <!-- W15: Branch Controller -> Branch Offering Matrix -->
-        <path id="wire-15" class="schematic-wire" data-from="mod-branch" data-to="mod-offering"
+        <path id="wire-15" class="schematic-wire" data-from="step-branch" data-to="step-offering"
               d="M 1160,290 L 1190,290" marker-end="url(#arrow-ortho)" />
 
         <!-- W16: Offering Matrix -> Ongoing Batches Core -->
-        <path id="wire-16" class="schematic-wire" data-from="mod-offering" data-to="mod-batch"
+        <path id="wire-16" class="schematic-wire" data-from="step-offering" data-to="step-batch"
               d="M 1320,340 L 1320,600" marker-end="url(#arrow-ortho)" />
 
         <!-- W17: Ongoing Batches -> Classroom & Zoom Live Session -->
-        <path id="wire-17" class="schematic-wire" data-from="mod-batch" data-to="mod-class"
+        <path id="wire-17" class="schematic-wire" data-from="step-batch" data-to="step-class"
               d="M 1320,700 L 1320,770" marker-end="url(#arrow-ortho)" />
 
         <!-- W18: Classroom & Zoom -> Student Portal (Live Sync & Zoom Join) -->
-        <path id="wire-18" class="schematic-wire" data-from="mod-class" data-to="mod-student"
+        <path id="wire-18" class="schematic-wire" data-from="step-class" data-to="step-student"
               d="M 1450,820 L 1480,820" marker-end="url(#arrow-ortho)" />
 
         <!-- W19: Department Director -> Viva Assessment Control -->
-        <path id="wire-19" class="schematic-wire" data-from="mod-dept" data-to="mod-viva"
+        <path id="wire-19" class="schematic-wire" data-from="step-dept" data-to="step-viva"
               d="M 1160,190 L 400,190 L 400,470 L 330,470" marker-end="url(#arrow-ortho)" />
 
         <!-- W20: Teacher Staff -> Workshop & Attendance Matrix -->
-        <path id="wire-20" class="schematic-wire" data-from="mod-teacher" data-to="mod-workshop"
+        <path id="wire-20" class="schematic-wire" data-from="step-teacher" data-to="step-workshop"
               d="M 1160,390 L 420,390 L 420,650 L 330,650" marker-end="url(#arrow-ortho)" />
 
         <!-- Solder Junction Dots -->
@@ -461,179 +474,179 @@
       <div class="bus-tag" style="top: 978px; left: 520px; color: #EA580C; border-color: #EA580C;" data-wire="wire-13">⚡ ১-ক্লিকে চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন</div>
 
       <!-- =========================================================================
-           100% COMPLETE MODULES - COMPACT & PIXEL PERFECT (NO OVERLAPS)
+           100% COMPLETE STEP CARDS - CLEAN & ORGANIZED (NO OVERLAPS)
            ========================================================================= -->
 
       <!-- COLUMN 1: ADMISSION PIPELINE (Left Column) -->
       
-      <!-- MODULE 01: PUBLIC WEBSITE -->
-      <div id="mod-web" class="module-card" style="top: 70px; left: 50px; width: 280px; height: 95px;">
-        <div class="module-header">MODULE 01 • FRONTEND_CMS</div>
-        <div class="module-title">🌍 পাবলিক ওয়েবসাইট (frontend/)</div>
-        <div class="module-sub">
+      <!-- STEP 01: PUBLIC WEBSITE -->
+      <div id="step-web" class="step-card" style="top: 70px; left: 50px; width: 280px; height: 95px;">
+        <div class="step-header"><span class="step-pill">ধাপ ০১</span> FRONTEND_CMS</div>
+        <div class="step-title">🌍 পাবলিক ওয়েবসাইট (frontend/)</div>
+        <div class="step-sub">
           • একাডেমি পরিচিতি, শাখা ও বিভাগ ব্রাউজিং<br/>
           • পাবলিক নোটিশ বোর্ড ও ফটো গ্যালারি
         </div>
       </div>
 
-      <!-- MODULE 05: PERSON PROFILE IDENTIFIER -->
-      <div id="mod-person" class="module-card" style="top: 260px; left: 50px; width: 280px; height: 100px;">
-        <div class="module-header">MODULE 05 • PERSON_REGISTRY</div>
-        <div class="module-title">🧑 স্থায়ী পারসন প্রোফাইল চেকার</div>
-        <div class="module-sub">
+      <!-- STEP 03: PERSON PROFILE IDENTIFIER -->
+      <div id="step-person" class="step-card" style="top: 260px; left: 50px; width: 280px; height: 100px;">
+        <div class="step-header"><span class="step-pill">ধাপ ০৩</span> PERSON_REGISTRY</div>
+        <div class="step-title">🧑 স্থায়ী পারসন প্রোফাইল চেকার</div>
+        <div class="step-sub">
           • <strong>কোর রুল:</strong> ১ জন মানুষ = আজীবন ১ প্রোফাইল<br/>
           • মাল্টি-ইয়ার রেজিস্ট্রেশন ইতিহাস অক্ষুণ্ণ থাকে
         </div>
-        <span class="module-tag tag-purple">1 HUMAN = 1 PROFILE</span>
+        <span class="step-tag tag-purple">1 HUMAN = 1 PROFILE</span>
       </div>
 
-      <!-- MODULE 06: VIVA ASSESSMENT PANEL -->
-      <div id="mod-viva" class="module-card" style="top: 420px; left: 50px; width: 280px; height: 100px;">
-        <div class="module-header">MODULE 06 • VIVA_EVALUATOR</div>
-        <div class="module-title">🎙️ ভাইভা পরীক্ষা ও সিলেকশন</div>
-        <div class="module-sub">
+      <!-- STEP 04: VIVA ASSESSMENT PANEL -->
+      <div id="step-viva" class="step-card" style="top: 420px; left: 50px; width: 280px; height: 100px;">
+        <div class="step-header"><span class="step-pill">ধাপ ০৪</span> VIVA_EVALUATOR</div>
+        <div class="step-title">🎙️ ভাইভা পরীক্ষা ও সিলেকশন</div>
+        <div class="step-sub">
           • বিভাগীয় প্রধান কর্তৃক ভাইভা প্যানেল মার্কিং<br/>
           • <strong>সিদ্ধান্ত:</strong> সিলেক্টেড (Selected) / রিজেক্টেড
         </div>
       </div>
 
-      <!-- MODULE 07: WORKSHOP COHORT CONTROLLER -->
-      <div id="mod-workshop" class="module-card" style="top: 600px; left: 50px; width: 280px; height: 110px;">
-        <div class="module-header">MODULE 07 • WORKSHOP_COHORT</div>
-        <div class="module-title">🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট</div>
-        <div class="module-sub">
+      <!-- STEP 05: WORKSHOP COHORT CONTROLLER -->
+      <div id="step-workshop" class="step-card" style="top: 600px; left: 50px; width: 280px; height: 110px;">
+        <div class="step-header"><span class="step-pill">ধাপ ০৫</span> WORKSHOP_COHORT</div>
+        <div class="step-title">🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট</div>
+        <div class="step-sub">
           • দৈনিক উপস্থিতি ও আচরণগত শৃঙ্খলা ট্র্যাকিং<br/>
           • প্র্যাকটিক্যাল স্কিল গ্রোথ মূল্যায়ন
         </div>
-        <span class="module-tag tag-green">💵 ২. Workshop Admission Fee</span>
+        <span class="step-tag tag-green">💵 ২. Workshop Admission Fee</span>
       </div>
 
-      <!-- MODULE 08: FINAL EXAM EVALUATOR -->
-      <div id="mod-exam" class="module-card" style="top: 770px; left: 50px; width: 280px; height: 110px;">
-        <div class="module-header">MODULE 08 • EXAM_CONTROLLER</div>
-        <div class="module-title">📝 ফাইনাল মূল্যায়ন পরীক্ষা</div>
-        <div class="module-sub">
+      <!-- STEP 06: FINAL EXAM EVALUATOR -->
+      <div id="step-exam" class="step-card" style="top: 770px; left: 50px; width: 280px; height: 110px;">
+        <div class="step-header"><span class="step-pill">ধাপ ০৬</span> EXAM_CONTROLLER</div>
+        <div class="step-title">📝 ফাইনাল মূল্যায়ন পরীক্ষা</div>
+        <div class="step-sub">
           • তাত্ত্বিক ও ব্যবহারিক ফাইনাল এক্সাম মার্কিং<br/>
           • নিয়মিত শিক্ষার্থী হিসেবে চূড়ান্ত অনুমোদন
         </div>
-        <span class="module-tag tag-green">💵 ৩. Student Admission Fee</span>
+        <span class="step-tag tag-green">💵 ৩. Student Admission Fee</span>
       </div>
 
-      <!-- MODULE 09: 1-CLICK PROMOTION ENGINE -->
-      <div id="mod-promo" class="module-card master-card" style="top: 940px; left: 50px; width: 280px; height: 95px;">
-        <div class="module-header" style="color: #EA580C;">MODULE 09 • PROMOTION_TRIGGER</div>
-        <div class="module-title" style="color: #C2410C;">⚡ ১-ক্লিক প্রমোশন ইঞ্জিন</div>
-        <div class="module-sub">
+      <!-- STEP 07: 1-CLICK PROMOTION ENGINE -->
+      <div id="step-promo" class="step-card master-card" style="top: 940px; left: 50px; width: 280px; height: 95px;">
+        <div class="step-header" style="color: #EA580C;"><span class="step-pill">ধাপ ০৭</span> PROMOTION_TRIGGER</div>
+        <div class="step-title" style="color: #C2410C;">⚡ ১-ক্লিক প্রমোশন ইঞ্জিন</div>
+        <div class="step-sub">
           • নতুন ব্যাচ না বানিয়ে সরাসরি চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন করে
         </div>
-        <span class="module-tag tag-orange">1-CLICK BATCH MEMBERSHIP</span>
+        <span class="step-tag tag-orange">1-CLICK BATCH MEMBERSHIP</span>
       </div>
 
-      <!-- MODULE 02: ONLINE APPLY FORM (Next to Web) -->
-      <div id="mod-apply" class="module-card" style="top: 70px; left: 370px; width: 280px; height: 95px;">
-        <div class="module-header">MODULE 02 • ADMISSION_FORM</div>
-        <div class="module-title">📝 অনলাইন ভর্তি আবেদন ফরম</div>
-        <div class="module-sub">
+      <!-- STEP 02: ONLINE APPLY FORM (Next to Web) -->
+      <div id="step-apply" class="step-card" style="top: 70px; left: 370px; width: 280px; height: 95px;">
+        <div class="step-header"><span class="step-pill">ধাপ ০২</span> ADMISSION_FORM</div>
+        <div class="step-title">📝 অনলাইন ভর্তি আবেদন ফরম</div>
+        <div class="step-sub">
           • <strong>ফিল্টার:</strong> মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স<br/>
           • শাখা ও বিষয় নির্বাচন ➔ গেটওয়েতে ফি ফরোয়ার্ড
         </div>
-        <span class="module-tag tag-green">💵 ১. Registration Fee</span>
+        <span class="step-tag tag-green">💵 ১. Registration Fee</span>
       </div>
 
       <!-- =========================================================================
            COLUMN 2: CENTRAL BRAIN & STANDALONE PAYMENT GATEWAY HUB
            ========================================================================= -->
 
-      <!-- MODULE 04: CENTRAL BACKEND API CORE -->
-      <div id="mod-core" class="module-card core-card" style="top: 70px; left: 750px; width: 320px; height: 140px;">
-        <div class="module-header" style="color: #2563EB;">MODULE 04 • BACKEND_API_CORE</div>
-        <div class="module-title" style="color: #1D4ED8;">🏛️ Node.js API Core (backend/)</div>
-        <div class="module-sub">
+      <!-- STEP 08: CENTRAL BACKEND API CORE -->
+      <div id="step-core" class="step-card core-card" style="top: 70px; left: 750px; width: 320px; height: 140px;">
+        <div class="step-header" style="color: #2563EB;"><span class="step-pill">ধাপ ০৮</span> BACKEND_API_CORE</div>
+        <div class="step-title" style="color: #1D4ED8;">🏛️ Node.js API Core (backend/)</div>
+        <div class="step-sub">
           • সুপার অ্যাডমিন সেন্ট্রাল কন্ট্রোল ও পারমিশন<br/>
           • JWT Auth, Prisma ORM ও PostgreSQL<br/>
           • <strong>গ্লোবাল সার্চ:</strong> ফোন/ইমেইল/আইডি ট্র্যাকিং<br/>
           • <strong>অডিট লগ:</strong> প্রতিটি পরিবর্তনের অখণ্ড রেকর্ড
         </div>
-        <span class="module-tag tag-blue">CENTRAL BRAIN & AUDIT ENGINE</span>
+        <span class="step-tag tag-blue">CENTRAL BRAIN & AUDIT ENGINE</span>
       </div>
 
-      <!-- MODULE 03: STANDALONE PAYMENT GATEWAY HUB -->
-      <div id="mod-gateway" class="module-card gateway-card" style="top: 400px; left: 750px; width: 320px; height: 140px;">
-        <div class="module-header" style="color: #059669;">MODULE 03 • PAYMENT_GATEWAY_HUB</div>
-        <div class="module-title" style="color: #047857; font-size: 0.95rem;">💳 অনলাইন পেমেন্ট গেটওয়ে (bKash/Nagad/SSL)</div>
-        <div class="module-sub" style="color: #065F46;">
+      <!-- STEP 09: STANDALONE PAYMENT GATEWAY HUB -->
+      <div id="step-gateway" class="step-card gateway-card" style="top: 400px; left: 750px; width: 320px; height: 140px;">
+        <div class="step-header" style="color: #059669;"><span class="step-pill">ধাপ ০৯</span> PAYMENT_GATEWAY_HUB</div>
+        <div class="step-title" style="color: #047857; font-size: 0.95rem;">💳 অনলাইন পেমেন্ট গেটওয়ে (bKash/Nagad/SSL)</div>
+        <div class="step-sub" style="color: #065F46;">
           • <strong>ইনকামিং:</strong> আবেদন, ওয়ার্কশপ, ভর্তি ও মাসিক ফি<br/>
           • স্বয়ংক্রিয় ট্রানজেকশন ভেরিফিকেশন ও ডিজিটাল রসিদ<br/>
           • তাৎক্ষণিক ব্যাকএন্ড কনফার্মেশন ও অটো ডিপোজিট
         </div>
-        <span class="module-tag tag-green">MULTI-SIGNAL PAYMENT PROCESSOR</span>
+        <span class="step-tag tag-green">MULTI-SIGNAL PAYMENT PROCESSOR</span>
       </div>
 
       <!-- =========================================================================
            COLUMN 3: DEPARTMENT & BRANCH MANAGEMENT ROLES
            ========================================================================= -->
 
-      <!-- MODULE 11: DEPARTMENT DIRECTOR -->
-      <div id="mod-dept" class="module-card dept-card" style="top: 150px; left: 1000px; width: 160px; height: 80px;">
-        <div class="module-header" style="color: #0891B2;">MODULE 11</div>
-        <div class="module-title">🎭 বিভাগীয় প্রধান</div>
-        <div class="module-sub">ভাইভা ও পরীক্ষা কন্ট্রোল।</div>
+      <!-- STEP 10: DEPARTMENT DIRECTOR -->
+      <div id="step-dept" class="step-card dept-card" style="top: 150px; left: 1000px; width: 160px; height: 80px;">
+        <div class="step-header" style="color: #0891B2;"><span class="step-pill">ধাপ ১০</span></div>
+        <div class="step-title">🎭 বিভাগীয় প্রধান</div>
+        <div class="step-sub">ভাইভা ও পরীক্ষা কন্ট্রোল।</div>
       </div>
 
-      <!-- MODULE 12: BRANCH CONTROLLER -->
-      <div id="mod-branch" class="module-card dept-card" style="top: 250px; left: 1000px; width: 160px; height: 80px;">
-        <div class="module-header" style="color: #0891B2;">MODULE 12</div>
-        <div class="module-title">🏢 শাখা পরিচালক</div>
-        <div class="module-sub">ঢাকা, মিরপুর ও জুম শাখা।</div>
+      <!-- STEP 11: BRANCH CONTROLLER -->
+      <div id="step-branch" class="step-card dept-card" style="top: 250px; left: 1000px; width: 160px; height: 80px;">
+        <div class="step-header" style="color: #0891B2;"><span class="step-pill">ধাপ ১১</span></div>
+        <div class="step-title">🏢 শাখা পরিচালক</div>
+        <div class="step-sub">ঢাকা, মিরপুর ও জুম শাখা।</div>
       </div>
 
-      <!-- MODULE 13: TEACHER INSTRUCTOR -->
-      <div id="mod-teacher" class="module-card dept-card" style="top: 350px; left: 1000px; width: 160px; height: 80px;">
-        <div class="module-header" style="color: #0891B2;">MODULE 13</div>
-        <div class="module-title">👨‍🏫 শিক্ষক প্যানেল</div>
-        <div class="module-sub">ক্লাস ও ওয়ার্কশপ মার্কিং।</div>
+      <!-- STEP 12: TEACHER INSTRUCTOR -->
+      <div id="step-teacher" class="step-card dept-card" style="top: 350px; left: 1000px; width: 160px; height: 80px;">
+        <div class="step-header" style="color: #0891B2;"><span class="step-pill">ধাপ ১২</span></div>
+        <div class="step-title">👨‍🏫 শিক্ষক প্যানেল</div>
+        <div class="step-sub">ক্লাস ও ওয়ার্কশপ মার্কিং।</div>
       </div>
 
       <!-- =========================================================================
            COLUMN 4: MASTER SUBJECTS, ONGOING BATCHES & ACADEMIC OPERATIONS
            ========================================================================= -->
 
-      <!-- MODULE 10: MASTER SUBJECT CATALOG -->
-      <div id="mod-subject" class="module-card master-card" style="top: 70px; left: 1190px; width: 260px; height: 120px;">
-        <div class="module-header" style="color: #EA580C;">MODULE 10 • MASTER_SUBJECT</div>
-        <div class="module-title" style="color: #C2410C;">📚 মাস্টার বিষয় ক্যাটালগ</div>
-        <div class="module-sub">
+      <!-- STEP 13: MASTER SUBJECT CATALOG -->
+      <div id="step-subject" class="step-card master-card" style="top: 70px; left: 1190px; width: 260px; height: 120px;">
+        <div class="step-header" style="color: #EA580C;"><span class="step-pill">ধাপ ১৩</span> MASTER_SUBJECT</div>
+        <div class="step-title" style="color: #C2410C;">📚 মাস্টার বিষয় ক্যাটালগ</div>
+        <div class="step-sub">
           • গান, অভিনয়, আবৃত্তি কেন্দ্রীয়ভাবে তৈরি<br/>
           • <strong>নিয়ম:</strong> নো ডুপ্লিকেশন — কোনো ব্রাঞ্চে ডুপ্লিকেট সাবজেক্ট তৈরি হবে না
         </div>
-        <span class="module-tag tag-orange">NO DUPLICATION</span>
+        <span class="step-tag tag-orange">NO DUPLICATION</span>
       </div>
 
-      <!-- MODULE 14: BRANCH-SUBJECT OFFERING MATRIX -->
-      <div id="mod-offering" class="module-card" style="top: 260px; left: 1190px; width: 260px; height: 80px;">
-        <div class="module-header">MODULE 14 • OFFERING_MATRIX</div>
-        <div class="module-title">🔗 শাখায় বিষয় অফারিং</div>
-        <div class="module-sub">
+      <!-- STEP 14: BRANCH-SUBJECT OFFERING MATRIX -->
+      <div id="step-offering" class="step-card" style="top: 260px; left: 1190px; width: 260px; height: 80px;">
+        <div class="step-header"><span class="step-pill">ধাপ ১৪</span> OFFERING_MATRIX</div>
+        <div class="step-title">🔗 শাখায় বিষয় অফারিং</div>
+        <div class="step-sub">
           • <strong>Many-to-Many Join:</strong> যেকোনো ব্রাঞ্চে যেকোনো বিষয় অফার
         </div>
       </div>
 
-      <!-- MODULE 15: ONGOING BATCHES CORE -->
-      <div id="mod-batch" class="module-card master-card" style="top: 600px; left: 1190px; width: 260px; height: 100px;">
-        <div class="module-header" style="color: #EA580C;">MODULE 15 • ONGOING_BATCH_CORE</div>
-        <div class="module-title" style="color: #C2410C;">👥 চলমান ব্যাচ: গান ব্যাচ ১</div>
-        <div class="module-sub">
+      <!-- STEP 15: ONGOING BATCHES CORE -->
+      <div id="step-batch" class="step-card master-card" style="top: 600px; left: 1190px; width: 260px; height: 100px;">
+        <div class="step-header" style="color: #EA580C;"><span class="step-pill">ধাপ ১৫</span> ONGOING_BATCH_CORE</div>
+        <div class="step-title" style="color: #C2410C;">👥 চলমান ব্যাচ: গান ব্যাচ ১</div>
+        <div class="step-sub">
           • <strong>Batch Year (2025) ≠ Join Year (2026/2027)</strong><br/>
           • নতুন ছাত্ররা একই চলমান ব্যাচে যুক্ত হয়
         </div>
-        <span class="module-tag tag-orange">ONGOING COHORT</span>
+        <span class="step-tag tag-orange">ONGOING COHORT</span>
       </div>
 
-      <!-- MODULE 16: CLASS & ATTENDANCE -->
-      <div id="mod-class" class="module-card runtime-card" style="top: 770px; left: 1190px; width: 260px; height: 100px;">
-        <div class="module-header" style="color: #9333EA;">MODULE 16 • CLASS_OPERATIONS</div>
-        <div class="module-title" style="color: #7E22CE;">📅 ক্লাস ও দৈনিক উপস্থিতি</div>
-        <div class="module-sub">
+      <!-- STEP 16: CLASS & ATTENDANCE -->
+      <div id="step-class" class="step-card runtime-card" style="top: 770px; left: 1190px; width: 260px; height: 100px;">
+        <div class="step-header" style="color: #9333EA;"><span class="step-pill">ধাপ ১৬</span> CLASS_OPERATIONS</div>
+        <div class="step-title" style="color: #7E22CE;">📅 ক্লাস ও দৈনিক উপস্থিতি</div>
+        <div class="step-sub">
           • ক্লাসরুম ও জুম লাইভ ক্লাস সেশন<br/>
           • উপস্থিতি, অনুপস্থিতি, বিলম্ব ও ছুটি মার্কিং
         </div>
@@ -643,28 +656,28 @@
            COLUMN 5: STUDENT PORTAL APP & FINANCE VAULT
            ========================================================================= -->
 
-      <!-- MODULE 18: FINANCE & DOCUMENTS VAULT -->
-      <div id="mod-finance" class="module-card finance-card" style="top: 400px; left: 1480px; width: 280px; height: 140px;">
-        <div class="module-header" style="color: #DB2777;">MODULE 18 • FINANCE_VAULT</div>
-        <div class="module-title" style="color: #BE185D;">🏦 কেন্দ্রীয় ও শাখা অর্থ লেজার</div>
-        <div class="module-sub">
+      <!-- STEP 18: FINANCE & DOCUMENTS VAULT -->
+      <div id="step-finance" class="step-card finance-card" style="top: 400px; left: 1480px; width: 280px; height: 140px;">
+        <div class="step-header" style="color: #DB2777;"><span class="step-pill">ধাপ ১৮</span> FINANCE_VAULT</div>
+        <div class="step-title" style="color: #BE185D;">🏦 কেন্দ্রীয় ও শাখা অর্থ লেজার</div>
+        <div class="step-sub">
           • সকল ৪টি ফি-এর স্বয়ংক্রিয় অডিট ও ভাউচার<br/>
           • সেন্ট্রাল ও শাখাভিত্তিক আয়-ব্যয় হিসাব<br/>
           • সনদপত্র ও অফিশিয়াল ডকুমেন্ট সংরক্ষণাগার
         </div>
-        <span class="module-tag" style="background: #FCE7F3; color: #9D174D; border: 1px solid #FBCFE8;">CENTRAL & BRANCH LEDGER</span>
+        <span class="step-tag" style="background: #FCE7F3; color: #9D174D; border: 1px solid #FBCFE8;">CENTRAL & BRANCH LEDGER</span>
       </div>
 
-      <!-- MODULE 17: STUDENT PORTAL APP -->
-      <div id="mod-student" class="module-card runtime-card" style="top: 770px; left: 1480px; width: 280px; height: 110px;">
-        <div class="module-header" style="color: #9333EA;">MODULE 17 • STUDENT_PORTAL</div>
-        <div class="module-title" style="color: #7E22CE;">📱 Student Portal App (student/)</div>
-        <div class="module-sub">
+      <!-- STEP 17: STUDENT PORTAL APP -->
+      <div id="step-student" class="step-card runtime-card" style="top: 770px; left: 1480px; width: 280px; height: 110px;">
+        <div class="step-header" style="color: #9333EA;"><span class="step-pill">ধাপ ১৭</span> STUDENT_PORTAL</div>
+        <div class="step-title" style="color: #7E22CE;">📱 Student Portal App (student/)</div>
+        <div class="step-sub">
           • ক্লাস রুটিন ও ১-ক্লিকে জুম জয়েন বাটন<br/>
           • রিয়েল-টাইম উপস্থিতি রেকর্ড ও রেজাল্ট<br/>
           • প্রতি মাসে টিউশন ফি পরিশোধ
         </div>
-        <span class="module-tag tag-green">💵 ৪. Student Monthly Fee</span>
+        <span class="step-tag tag-green">💵 ৪. Student Monthly Fee</span>
       </div>
 
     </div>
@@ -673,7 +686,7 @@
   <script>
     let pzInstance = null;
 
-    function initCompactSchematic() {
+    function initStepSchematic() {
       const sceneEl = document.getElementById('scene');
       
       pzInstance = panzoom(sceneEl, {
@@ -699,7 +712,7 @@
 
       // Interactive Wire & Component Highlighting
       const allWires = document.querySelectorAll('.schematic-wire');
-      const allCards = document.querySelectorAll('.module-card');
+      const allCards = document.querySelectorAll('.step-card');
       const allTags = document.querySelectorAll('.bus-tag');
 
       function clearHighlights() {
@@ -778,7 +791,7 @@
       });
     }
 
-    window.addEventListener('DOMContentLoaded', initCompactSchematic);
+    window.addEventListener('DOMContentLoaded', initStepSchematic);
   </script>
 </body>
 </html>
