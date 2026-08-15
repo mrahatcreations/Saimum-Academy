@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎓 সাইমুম একাডেমি — System Architecture (Adaptive Layered Whiteboard)</title>
+  <title>🎓 সাইমুম একাডেমি — System Architecture (Adaptive Hub Layout)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,14 +13,11 @@
       --canvas-bg: #F8FAFC;
       --grid-dot: #CBD5E1;
       --box-bg: #FFFFFF;
-      --box-border: #334155;
-      --box-border-subtle: #64748B;
-      --blue-container-border: #3B82F6;
+      --box-border: #1E293B;
+      --blue-accent-border: #2563EB;
       --text-dark: #0F172A;
       --text-muted: #64748B;
       --brand-orange: #FF790E;
-      --accent-pill-bg: #F1F5F9;
-      --accent-pill-border: #E2E8F0;
     }
 
     * {
@@ -38,7 +35,6 @@
       font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
     }
 
-    /* Infinite Whiteboard Viewport */
     #viewport-container {
       width: 100vw;
       height: 100vh;
@@ -53,18 +49,17 @@
       cursor: grabbing;
     }
 
-    /* Plus Grid Crosshair Pattern */
+    /* Crosshair Dot Grid */
     .crosshair-grid {
       position: absolute;
       inset: 0;
       background-size: 32px 32px;
-      background-image: 
-        radial-gradient(var(--grid-dot) 1.2px, transparent 1.2px);
+      background-image: radial-gradient(var(--grid-dot) 1.2px, transparent 1.2px);
       pointer-events: none;
       z-index: 1;
     }
 
-    /* Top Whiteboard Toolbar (matching Eraser/Miro style) */
+    /* Top Switcher Toolbar */
     .top-toolbar {
       position: absolute;
       top: 16px;
@@ -84,36 +79,23 @@
     .tool-title {
       font-weight: 800;
       font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
       color: #0F172A;
     }
 
-    .tool-badge {
-      background: #EFF6FF;
-      color: #2563EB;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-family: 'Fira Code', monospace;
-      border: 1px solid #DBEAFE;
-    }
-
-    .layout-switcher {
+    .layout-badge {
       display: flex;
       align-items: center;
       gap: 6px;
-      background: #F1F5F9;
-      padding: 4px 8px;
+      background: #EFF6FF;
+      color: #2563EB;
+      padding: 4px 10px;
       border-radius: 8px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #334155;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border: 1px solid #DBEAFE;
     }
 
-    /* Floating Zoom Controls */
+    /* Zoom Controls */
     .zoom-toolbar {
       position: absolute;
       bottom: 24px;
@@ -155,150 +137,154 @@
       position: absolute;
       transform-origin: 0 0;
       z-index: 10;
-      padding: 60px;
-      width: 1700px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 40px;
+      padding: 80px;
+      width: 2200px;
+      height: 1800px;
     }
 
-    /* Outer Container Layer Box (like Interface Layer / Cloud Brain in image) */
-    .layer-container {
+    /* SVG Orthogonal Wiring Overlay */
+    #wires-svg {
+      position: absolute;
+      inset: 0;
       width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .wire-path {
+      stroke: #334155;
+      stroke-width: 1.4px;
+      fill: none;
+    }
+
+    .wire-label {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      font-size: 10px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      color: #334155;
+    }
+
+    /* Structural Group Container (Container Box like Interface Layer / Cloud Brain in image) */
+    .group-container {
+      position: absolute;
       background: #FFFFFF;
       border: 1.5px solid var(--box-border);
       border-radius: 4px;
-      padding: 24px 28px 28px 28px;
-      position: relative;
+      padding: 20px;
+      z-index: 5;
       box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     }
 
-    .layer-title-center {
+    .group-container.blue-accent {
+      border: 2px solid var(--blue-accent-border);
+    }
+
+    .group-label {
       position: absolute;
-      top: -11px;
+      top: -10px;
       left: 50%;
       transform: translateX(-50%);
       background: #FFFFFF;
-      padding: 0 12px;
-      font-size: 0.82rem;
-      font-weight: 700;
+      padding: 0 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
       color: #334155;
       letter-spacing: 0.3px;
+      white-space: nowrap;
     }
 
-    /* Blue Highlighted Cloud Infrastructure Layer Box */
-    .layer-container.blue-accent {
-      border: 2px solid #2563EB;
-    }
-    .layer-container.blue-accent .layer-title-center {
+    .group-container.blue-accent .group-label {
       color: #1D4ED8;
-      font-weight: 800;
     }
 
-    /* Grid Row of Node Boxes */
-    .nodes-row {
-      display: grid;
-      gap: 16px;
-      width: 100%;
-    }
-
-    .grid-4 { grid-template-columns: repeat(4, 1fr); }
-    .grid-5 { grid-template-columns: repeat(5, 1fr); }
-    .grid-6 { grid-template-columns: repeat(6, 1fr); }
-    .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    .grid-2 { grid-template-columns: repeat(2, 1fr); }
-
-    /* Single White Node Box (Matching reference black-border rectangular cards) */
+    /* Standard Rectangular White Node Box (Matching reference) */
     .node-box {
       background: #FFFFFF;
       border: 1.2px solid var(--box-border);
-      border-radius: 3px;
-      padding: 12px 14px;
+      border-radius: 2px;
+      padding: 10px 14px;
       text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 54px;
+      min-height: 52px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     }
 
     .node-box-title {
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       font-weight: 800;
       color: #0F172A;
       line-height: 1.25;
-    }
-
-    .node-box-sub {
-      font-size: 0.72rem;
-      color: #64748B;
-      margin-top: 3px;
-      line-height: 1.2;
-    }
-
-    /* Cylindrical Database Style Box */
-    .db-box {
-      border-radius: 12px 12px 12px 12px;
-      border: 1.5px solid var(--box-border);
-      background: #F8FAFC;
-      position: relative;
-    }
-    .db-box::before {
-      content: '';
-      position: absolute;
-      top: -1px;
-      left: 0;
-      right: 0;
-      height: 6px;
-      border-radius: 50%;
-      border: 1px solid var(--box-border);
-      background: #E2E8F0;
-    }
-
-    /* Vertical Connective Pipe Connectors */
-    .pipe-connector {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin: -10px 0;
-      z-index: 5;
-    }
-
-    .pipe-wire {
-      width: 1.5px;
-      height: 36px;
-      background: #475569;
-    }
-
-    .pipe-tag {
-      background: #F1F5F9;
-      border: 1px solid #CBD5E1;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: #334155;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-family: 'Fira Code', monospace;
-      margin: 2px 0;
       white-space: nowrap;
     }
 
-    .pipe-arrow {
+    .node-box-sub {
       font-size: 0.7rem;
-      color: #475569;
-      line-height: 1;
+      color: #64748B;
+      margin-top: 2px;
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
-    /* Horizontal Routing Bus Bars */
-    .bus-bar-h {
-      height: 1.5px;
-      background: #475569;
-      width: 80%;
-      margin: 0 auto;
+    .db-box {
+      border-radius: 10px;
+      background: #F8FAFC;
+    }
+
+    /* Absolute Positioning of Adaptive Clusters (Matching Screenshot Topology) */
+    
+    /* 1. TOP CLUSTER: Interface Layer (Mobile & Web) */
+    #group-interface {
+      top: 60px;
+      left: 200px;
+      width: 820px;
+      height: 110px;
+    }
+
+    /* 2. MIDDLE-RIGHT CLUSTER: Cloud Infrastructure (The Brain) - Blue Container */
+    #group-brain {
+      top: 240px;
+      left: 550px;
+      width: 1150px;
+      height: 380px;
+    }
+
+    /* 3. MIDDLE-LEFT CLUSTER: Communication & Admission Pipeline */
+    #group-admission {
+      top: 480px;
+      left: 80px;
+      width: 380px;
+      height: 480px;
+    }
+
+    /* 4. BOTTOM CLUSTER: Academic Execution & Foundation Terminal */
+    #group-terminal {
+      top: 720px;
+      left: 550px;
+      width: 1150px;
+      height: 240px;
+    }
+
+    /* Floating Protocol Labels on wires */
+    .bus-tag {
+      position: absolute;
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      font-size: 10.5px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: #334155;
+      z-index: 15;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -310,13 +296,10 @@
 
     <!-- Top Whiteboard Toolbar -->
     <header class="top-toolbar">
-      <div class="tool-title">
-        <span>🎓 সাইমুম একাডেমি — System Architecture</span>
-        <span class="tool-badge">AUTO-LAYOUT</span>
-      </div>
-      <div class="layout-switcher">
+      <div class="tool-title">🎓 সাইমুম একাডেমি — System Architecture</div>
+      <div class="layout-badge">
         <span>Layout:</span>
-        <span style="color: #2563EB;">⚡ Adaptive ✓</span>
+        <span>⚡ Adaptive ✓</span>
       </div>
     </header>
 
@@ -328,73 +311,95 @@
       <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen" style="font-size: 0.85rem;">⛶</button>
     </div>
 
-    <!-- Scalable Canvas Scene (Exact Architecture of the Reference Image) -->
+    <!-- Scalable Canvas Scene (Exact Adaptive Multi-Cluster Layout) -->
     <div id="scene">
       
+      <!-- Orthogonal Circuit Routing Lines (SVG Wire Mesh) -->
+      <svg id="wires-svg">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#334155" />
+          </marker>
+        </defs>
+
+        <!-- Interface to Brain Bus Line -->
+        <path d="M 300,170 L 300,205 L 800,205 L 800,290" class="wire-path" marker-end="url(#arrow)" />
+        <path d="M 500,170 L 500,290" class="wire-path" marker-end="url(#arrow)" />
+        <path d="M 700,170 L 700,205 L 800,205 L 800,290" class="wire-path" marker-end="url(#arrow)" />
+
+        <!-- Brain Core API to Services Bus -->
+        <path d="M 800,345 L 800,380 L 600,380 L 600,420" class="wire-path" marker-end="url(#arrow)" />
+        <path d="M 800,345 L 800,380 L 780,380 L 780,420" class="wire-path" marker-end="url(#arrow)" />
+        <path d="M 800,345 L 800,380 L 980,380 L 980,420" class="wire-path" marker-end="url(#arrow)" />
+        <path d="M 800,345 L 800,380 L 1180,380 L 1180,420" class="wire-path" marker-end="url(#arrow)" />
+        <path d="M 800,345 L 800,380 L 1380,380 L 1380,420" class="wire-path" marker-end="url(#arrow)" />
+        <path d="M 800,345 L 800,380 L 1580,380 L 1580,420" class="wire-path" marker-end="url(#arrow)" />
+
+        <!-- Brain to Admission Pipeline Connector -->
+        <path d="M 700,620 L 700,660 L 270,660 L 270,480" class="wire-path" marker-end="url(#arrow)" />
+
+        <!-- Brain to Terminal Layer Connector -->
+        <path d="M 1125,620 L 1125,720" class="wire-path" marker-end="url(#arrow)" />
+
+        <!-- Admission Pipeline to Terminal Execution -->
+        <path d="M 270,960 L 270,1000 L 750,1000 L 750,960" class="wire-path" marker-end="url(#arrow)" />
+      </svg>
+
+      <!-- Protocol Floating Tags on Wires -->
+      <div class="bus-tag" style="top: 195px; left: 420px;">WebSockets / Real-time</div>
+      <div class="bus-tag" style="top: 195px; left: 630px;">REST API / HTTPS / JWT</div>
+      <div class="bus-tag" style="top: 650px; left: 450px;">Secure Pipeline / Admission Hook</div>
+      <div class="bus-tag" style="top: 660px; left: 1040px;">Batch Membership & Execution</div>
+
       <!-- =========================================================================
-           LAYER 1: INTERFACE LAYER (Mobile & Web)
+           1. TOP CLUSTER: Interface Layer (Mobile & Web)
            ========================================================================= -->
-      <div class="layer-container">
-        <div class="layer-title-center">Interface Layer (Web Portals & Apps)</div>
-        <div class="nodes-row grid-5">
+      <div id="group-interface" class="group-container">
+        <div class="group-label">Interface Layer (Mobile & Web Portals)</div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; height: 100%; align-items: center;">
           <div class="node-box">
-            <div class="node-box-title">Central Admin Panel</div>
-            <div class="node-box-sub">admin/ • Super Admin & Master HQ</div>
+            <div class="node-box-title">Admin Panel (admin/)</div>
+            <div class="node-box-sub">Super Admin & Central HQ</div>
           </div>
           <div class="node-box">
             <div class="node-box-title">Department Panel</div>
-            <div class="node-box-sub">department/ • Director & Staff</div>
+            <div class="node-box-sub">department/ • Director / Teacher</div>
           </div>
           <div class="node-box">
-            <div class="node-box-title">Branch Management</div>
-            <div class="node-box-sub">department/ • Branch Director</div>
-          </div>
-          <div class="node-box">
-            <div class="node-box-title">Student Portal & App</div>
+            <div class="node-box-title">Student Portal App</div>
             <div class="node-box-sub">student/ • Classes, Zoom & Fees</div>
           </div>
           <div class="node-box">
-            <div class="node-box-title">Public Website & CMS</div>
-            <div class="node-box-sub">frontend/ • Online Admissions</div>
+            <div class="node-box-title">Public Website (frontend/)</div>
+            <div class="node-box-sub">Online Admissions & CMS</div>
           </div>
         </div>
-      </div>
-
-      <!-- Connector 1 -> 2 -->
-      <div class="pipe-connector">
-        <div class="pipe-wire"></div>
-        <div class="pipe-tag">REST API / HTTPS / JWT Auth / WebSockets</div>
-        <div class="pipe-wire"></div>
-        <div class="pipe-arrow">▼</div>
       </div>
 
       <!-- =========================================================================
-           LAYER 2: CLOUD INFRASTRUCTURE (The Brain) - BLUE CONTAINER
+           2. MIDDLE-RIGHT CLUSTER: Cloud Infrastructure (The Brain) - BLUE CONTAINER
            ========================================================================= -->
-      <div class="layer-container blue-accent">
-        <div class="layer-title-center">Cloud Infrastructure (Node.js API & Services Core)</div>
+      <div id="group-brain" class="group-container blue-accent">
+        <div class="group-label">Cloud Infrastructure (The Brain)</div>
         
-        <!-- Main Core Node in Brain -->
-        <div style="display: flex; justify-content: center; margin-bottom: 24px;">
-          <div class="node-box" style="width: 420px; border: 1.8px solid #2563EB; background: #EFF6FF;">
-            <div class="node-box-title" style="color: #1D4ED8; font-size: 0.95rem;">Node.js / Express API Backend Service</div>
-            <div class="node-box-sub">Central Business Logic Engine (backend/src/server.ts)</div>
+        <!-- Center Root API Node -->
+        <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+          <div class="node-box" style="width: 360px; border: 1.8px solid #2563EB; background: #EFF6FF;">
+            <div class="node-box-title" style="color: #1D4ED8; font-size: 0.95rem;">Node.js / Backend API Service</div>
+            <div class="node-box-sub">Express / NestJS Business Engine (backend/src/server.ts)</div>
           </div>
         </div>
 
-        <!-- Bus line under Main API -->
-        <div class="bus-bar-h" style="margin-bottom: 20px;"></div>
-
-        <!-- Distributed Services & Master Models Row -->
-        <div class="nodes-row grid-6">
+        <!-- Distributed Services Row (Directly branched out from API) -->
+        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 24px;">
           <div class="node-box">
-            <div class="node-box-title">JWT Auth & Roles</div>
-            <div class="node-box-sub">Super Admin / Director / Student</div>
+            <div class="node-box-title">JWT / Auth Service</div>
+            <div class="node-box-sub">Roles & Permissions</div>
           </div>
 
           <div class="node-box">
-            <div class="node-box-title">Master Catalog Engine</div>
-            <div class="node-box-sub">Subject & Dept (No Duplication)</div>
+            <div class="node-box-title">Master Catalog Hub</div>
+            <div class="node-box-sub">Subject (No Duplication)</div>
           </div>
 
           <div class="node-box">
@@ -403,108 +408,90 @@
           </div>
 
           <div class="node-box">
-            <div class="node-box-title">Zoom Meeting Engine</div>
-            <div class="node-box-sub">Live Links, Passcode & Config</div>
+            <div class="node-box-title">Zoom Live Engine</div>
+            <div class="node-box-sub">Real-time Class Links</div>
           </div>
 
           <div class="node-box db-box">
             <div class="node-box-title">PostgreSQL (Prisma)</div>
-            <div class="node-box-sub">Persons, Students & Reg Records</div>
+            <div class="node-box-sub">User Data & History</div>
           </div>
 
           <div class="node-box">
             <div class="node-box-title">Audit & Search Hub</div>
-            <div class="node-box-sub">Global Phone/ID Search & Logs</div>
+            <div class="node-box-sub">Global Phone/ID Search</div>
           </div>
         </div>
 
-        <!-- Bottom Models in Brain -->
-        <div class="nodes-row grid-2" style="margin-top: 20px;">
+        <!-- Matrix & Entity Relationships in Brain -->
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;">
           <div class="node-box" style="background: #F8FAFC;">
             <div class="node-box-title">Branch ↔ Department Matrix</div>
-            <div class="node-box-sub">Many-to-Many Join Architecture via DepartmentBranch</div>
+            <div class="node-box-sub">Many-to-Many Architecture (Physical Branches & Online Branch)</div>
           </div>
           <div class="node-box" style="background: #F8FAFC;">
             <div class="node-box-title">Person Profile Lifecycle Hub</div>
-            <div class="node-box-sub">1 Permanent Person Profile = Multiple Registration Sessions</div>
+            <div class="node-box-sub">1 Permanent Person Profile = Multiple Multi-Year Registrations</div>
           </div>
         </div>
       </div>
 
-      <!-- Connector 2 -> 3 -->
-      <div class="pipe-connector">
-        <div class="pipe-wire"></div>
-        <div class="pipe-tag">Admission Funnel & Evaluation Pipeline</div>
-        <div class="pipe-wire"></div>
-        <div class="pipe-arrow">▼</div>
-      </div>
-
       <!-- =========================================================================
-           LAYER 3: ADMISSION & EVALUATION PIPELINE (The Funnel)
+           3. MIDDLE-LEFT CLUSTER: Communication & Admission Pipeline (The Pipeline)
            ========================================================================= -->
-      <div class="layer-container">
-        <div class="layer-title-center">Admission Lifecycle Pipeline (4-Tier Evaluation & Fees)</div>
-        <div class="nodes-row grid-4">
+      <div id="group-admission" class="group-container">
+        <div class="group-label">Admission Pipeline (The Funnel)</div>
+        <div style="display: flex; flex-direction: column; justify-content: space-around; height: 100%;">
           <div class="node-box">
-            <div class="node-box-title">১. অনলাইন আবেদন ও ফি</div>
+            <div class="node-box-title">১. অনলাইন আবেদন ও স্ক্রিনিং</div>
             <div class="node-box-sub">মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স</div>
-            <div class="pipe-tag" style="margin-top: 6px;">💵 Registration Fee</div>
+            <div class="bus-tag" style="position: static; margin-top: 4px;">💵 Registration Fee</div>
           </div>
 
           <div class="node-box">
             <div class="node-box-title">২. ভাইভা পরীক্ষা প্যানেল</div>
-            <div class="node-box-sub">ডিপার্টমেন্ট পরিচালক কর্তৃক স্কোরিং</div>
-            <div class="pipe-tag" style="margin-top: 6px;">🎙️ Selection / Reject</div>
+            <div class="node-box-sub">ডিপার্টমেন্ট পরিচালক কর্তৃক মার্কিং</div>
+            <div class="bus-tag" style="position: static; margin-top: 4px;">🎙️ Selected / Reject</div>
           </div>
 
           <div class="node-box">
             <div class="node-box-title">৩. ওয়ার্কশপ কোহোর্ট ট্র্যাকিং</div>
-            <div class="node-box-sub">উপস্থিতি, শৃঙ্খলা ও স্কিল মার্কিং</div>
-            <div class="pipe-tag" style="margin-top: 6px;">💵 Workshop Admission Fee</div>
+            <div class="node-box-sub">উপস্থিতি, শৃঙ্খলা ও স্কিল মূল্যায়ন</div>
+            <div class="bus-tag" style="position: static; margin-top: 4px;">💵 Workshop Admission Fee</div>
           </div>
 
           <div class="node-box">
             <div class="node-box-title">৪. ফাইনাল পরীক্ষা ও প্রমোশন</div>
-            <div class="node-box-sub">উত্তীর্ণ হলে ১-ক্লিকে রেগুলার ছাত্র</div>
-            <div class="pipe-tag" style="margin-top: 6px;">💵 Student Admission Fee</div>
+            <div class="node-box-sub">১-ক্লিকে রেগুলার স্টুডেন্ট হিসেবে প্রমোশন</div>
+            <div class="bus-tag" style="position: static; margin-top: 4px;">💵 Student Admission Fee</div>
           </div>
         </div>
       </div>
 
-      <!-- Connector 3 -> 4 -->
-      <div class="pipe-connector">
-        <div class="pipe-wire"></div>
-        <div class="pipe-tag">Ongoing Batch Membership & Academic Execution</div>
-        <div class="pipe-wire"></div>
-        <div class="pipe-arrow">▼</div>
-      </div>
-
       <!-- =========================================================================
-           LAYER 4: ACADEMIC EXECUTION & ONGOING BATCHES (The Foundation)
+           4. BOTTOM CLUSTER: Academic Operations (The Foundation / Hardware Terminal)
            ========================================================================= -->
-      <div class="layer-container">
-        <div class="layer-title-center">Academic Operations & Ongoing Batches (The Foundation Layer)</div>
+      <div id="group-terminal" class="group-container">
+        <div class="group-label">Academic Operations Layer (The Foundation)</div>
         
-        <!-- Central Ongoing Batch Concept -->
-        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-          <div class="node-box" style="width: 500px; border: 1.8px solid #0F172A; background: #F1F5F9;">
-            <div class="node-box-title" style="font-size: 0.95rem;">⚡ Ongoing Batches Core (e.g. Music Batch 1)</div>
+        <!-- Master Ongoing Batch Anchor -->
+        <div style="display: flex; justify-content: center; margin-bottom: 18px;">
+          <div class="node-box" style="width: 480px; border: 1.8px solid #0F172A; background: #F1F5F9;">
+            <div class="node-box-title" style="font-size: 0.92rem;">⚡ Ongoing Batches Core (e.g. Music Batch 1)</div>
             <div class="node-box-sub">Batch Created Year (2025) ≠ Student Joined Year (2026/2027)</div>
           </div>
         </div>
 
-        <div class="bus-bar-h" style="margin-bottom: 18px;"></div>
-
-        <!-- Terminal Execution Nodes -->
-        <div class="nodes-row grid-4">
+        <!-- Terminal Nodes Row -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
           <div class="node-box">
             <div class="node-box-title">ফিজিক্যাল ক্লাসরুম সেশন</div>
-            <div class="node-box-sub">ঢাকা ও মিরপুর শাখা রুটিন</div>
+            <div class="node-box-sub">ঢাকা সেন্ট্রাল ও মিরপুর শাখা রুটিন</div>
           </div>
 
           <div class="node-box">
             <div class="node-box-title">জুম লাইভ অনলাইন ক্লাস</div>
-            <div class="node-box-sub">অটো লিংক ও পাসওয়ার্ড হ্যান্ডলিং</div>
+            <div class="node-box-sub">অটো লিংক, পাসওয়ার্ড ও লাইভ রুলস</div>
           </div>
 
           <div class="node-box">
@@ -514,8 +501,8 @@
 
           <div class="node-box">
             <div class="node-box-title">শাখা অর্থ ও মাসিক ফি</div>
-            <div class="node-box-sub">স্টুডেন্ট পোর্টাল থেকে পেমেন্ট</div>
-            <div class="pipe-tag" style="margin-top: 4px;">💵 4. Monthly Fee</div>
+            <div class="node-box-sub">স্টুডেন্ট পোর্টাল থেকে ফি প্রদান</div>
+            <div class="bus-tag" style="position: static; margin-top: 3px;">💵 4. Monthly Fee</div>
           </div>
         </div>
       </div>
@@ -526,7 +513,7 @@
   <script>
     let pzInstance = null;
 
-    function initWhiteboard() {
+    function initAdaptiveBoard() {
       const sceneEl = document.getElementById('scene');
       
       // Initialize Panzoom for smooth navigation
@@ -544,9 +531,9 @@
       setTimeout(() => {
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        const scale = Math.min((vw - 60) / 1700, (vh - 100) / 1100, 0.85);
-        const initialX = Math.max((vw - 1700 * scale) / 2, 30);
-        const initialY = 80;
+        const scale = Math.min((vw - 60) / 2200, (vh - 100) / 1300, 0.75);
+        const initialX = Math.max((vw - 2200 * scale) / 2, 20);
+        const initialY = 60;
 
         pzInstance.zoomAbs(0, 0, scale);
         pzInstance.moveTo(initialX, initialY);
@@ -563,19 +550,19 @@
 
       document.getElementById('btn-zoom-reset').addEventListener('click', () => {
         pzInstance.zoomAbs(0, 0, 1);
-        pzInstance.moveTo(30, 80);
+        pzInstance.moveTo(20, 60);
       });
 
       document.getElementById('btn-zoom-fit').addEventListener('click', () => {
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        const scale = Math.min((vw - 60) / 1700, (vh - 100) / 1100, 0.85);
+        const scale = Math.min((vw - 60) / 2200, (vh - 100) / 1300, 0.75);
         pzInstance.zoomAbs(0, 0, scale);
-        pzInstance.moveTo((vw - 1700 * scale) / 2, 80);
+        pzInstance.moveTo((vw - 2200 * scale) / 2, 60);
       });
     }
 
-    window.addEventListener('DOMContentLoaded', initWhiteboard);
+    window.addEventListener('DOMContentLoaded', initAdaptiveBoard);
   </script>
 </body>
 </html>
