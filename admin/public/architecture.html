@@ -3,20 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎓 সাইমুম একাডেমি — Master Architecture Diagram (Interactive Circuit)</title>
+  <title>⚡ সাইমুম সেন্ট্রাল একাডেমি — Orthogonal Circuit Schematic</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
   <style>
     :root {
-      --canvas-bg: #070B14;
-      --board-border: #1E3A8A;
-      --trace-cyan: #06B6D4;
-      --trace-orange: #FF790E;
-      --text-light: #F8FAFC;
-      --text-muted: #94A3B8;
+      --schematic-bg: #FFFFFF;
+      --wire-red: #DC2626;
+      --wire-blue: #2563EB;
+      --wire-green: #059669;
+      --wire-purple: #7C3AED;
+      --wire-default: #475569;
+      --wire-active: #FF790E;
+      --box-border: #0F172A;
+      --box-bg: #FFFFFF;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
     }
 
     * {
@@ -29,16 +33,16 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      background-color: var(--canvas-bg);
-      color: var(--text-light);
-      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
+      background-color: #F8FAFC;
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
     }
 
     #viewport-container {
       width: 100vw;
       height: 100vh;
       position: relative;
-      background: radial-gradient(circle at 50% 30%, #0F1D36 0%, #070B14 100%);
+      background-color: #FFFFFF;
       overflow: hidden;
       cursor: grab;
       user-select: none;
@@ -48,54 +52,51 @@
       cursor: grabbing;
     }
 
-    /* PCB Grid Dot Matrix Texture */
-    .pcb-grid {
+    /* Electrical Schematic Grid (Subtle Crosshair Matrix) */
+    .schematic-grid {
       position: absolute;
       inset: 0;
-      background-size: 28px 28px;
+      background-size: 24px 24px;
       background-image: 
-        radial-gradient(rgba(6, 182, 212, 0.15) 1.2px, transparent 1.2px),
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        radial-gradient(#E2E8F0 1.2px, transparent 1.2px);
       pointer-events: none;
       z-index: 1;
     }
 
-    /* Top HUD Circuit Controller */
+    /* Top Floating Controller */
     .top-hud {
       position: absolute;
-      top: 14px;
+      top: 16px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
       display: flex;
       align-items: center;
       gap: 16px;
-      background: rgba(13, 27, 42, 0.94);
-      border: 1px solid #1E3A8A;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
       border-radius: 12px;
-      padding: 6px 20px;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
+      padding: 8px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
 
     .hud-title {
       font-weight: 800;
-      font-size: 0.9rem;
-      color: #F8FAFC;
+      font-size: 0.95rem;
+      color: #0F172A;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
     .circuit-badge {
-      background: rgba(255, 121, 14, 0.15);
-      color: var(--trace-orange);
-      font-size: 0.7rem;
+      background: #EFF6FF;
+      color: #2563EB;
+      font-size: 0.72rem;
       font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 5px;
-      border: 1px solid rgba(255, 121, 14, 0.3);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #DBEAFE;
       font-family: 'Fira Code', monospace;
     }
 
@@ -103,46 +104,46 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      border-left: 1px solid #1E293B;
-      padding-left: 12px;
+      border-left: 1px solid #E2E8F0;
+      padding-left: 14px;
     }
 
     .kbd {
-      background: #1E293B;
-      padding: 1px 5px;
+      background: #F1F5F9;
+      padding: 2px 6px;
       border-radius: 4px;
       font-family: monospace;
-      font-size: 0.7rem;
-      border: 1px solid #334155;
-      color: #38BDF8;
+      font-size: 0.72rem;
+      border: 1px solid #CBD5E1;
+      color: #0F172A;
     }
 
-    /* Floating Zoom Controls */
+    /* Zoom Controls */
     .zoom-toolbar {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
+      bottom: 24px;
+      right: 24px;
       z-index: 100;
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      background: rgba(13, 27, 42, 0.95);
-      border: 1px solid #1E3A8A;
-      border-radius: 10px;
-      padding: 4px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      gap: 6px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 5px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
 
     .zoom-btn {
-      width: 34px;
-      height: 34px;
-      background: #111E33;
-      border: 1px solid #1E3A8A;
-      color: #F8FAFC;
-      border-radius: 6px;
-      font-size: 1.1rem;
+      width: 38px;
+      height: 38px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      color: #0F172A;
+      border-radius: 8px;
+      font-size: 1.15rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -152,152 +153,177 @@
     }
 
     .zoom-btn:hover {
-      background: var(--trace-orange);
-      color: #FFFFFF;
-      border-color: var(--trace-orange);
+      background: #F8FAFC;
+      border-color: #CBD5E1;
     }
 
+    /* Scalable Canvas Scene */
     #scene {
       position: absolute;
       transform-origin: 0 0;
       z-index: 10;
-      padding: 30px;
-      display: inline-block;
+      width: 2600px;
+      height: 1800px;
     }
 
-    /* Genuine Flowchart Nodes & Clusters */
-    .mermaid {
-      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif !important;
-    }
-
-    .mermaid .node {
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .mermaid .node rect,
-    .mermaid .node circle,
-    .mermaid .node polygon,
-    .mermaid .node path {
-      rx: 8px !important;
-      ry: 8px !important;
-      stroke-width: 1.8px !important;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5)) !important;
-      transition: stroke 0.25s ease, stroke-width 0.25s ease, filter 0.25s ease;
-    }
-
-    .mermaid .cluster rect {
-      rx: 12px !important;
-      ry: 12px !important;
-      stroke-dasharray: 5 3 !important;
-      stroke-width: 1.5px !important;
-    }
-
-    /* Glowing Arrow Traces */
-    .mermaid .edgePath {
-      cursor: pointer;
-    }
-
-    .mermaid .edgePath path {
-      stroke-width: 2.2px !important;
-      stroke: #38BDF8 !important;
-      transition: stroke 0.25s ease, stroke-width 0.25s ease, filter 0.25s ease;
-    }
-
-    .mermaid .marker,
-    .mermaid marker path {
-      fill: #38BDF8 !important;
-      stroke: #38BDF8 !important;
-      transition: fill 0.25s ease;
-    }
-
-    .mermaid .edgeLabel {
-      background-color: #0B132B !important;
-      padding: 2px 6px !important;
-      border-radius: 4px !important;
-      border: 1px solid #1E3A8A !important;
-      font-size: 10.5px !important;
-      font-weight: 700 !important;
-      color: #38BDF8 !important;
-      font-family: 'Fira Code', monospace;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    /* Interactive Highlight Animations */
-    .edge-highlight path {
-      stroke: #FF790E !important;
-      stroke-width: 4.5px !important;
-      filter: drop-shadow(0 0 12px #FF790E) !important;
-    }
-
-    .edge-highlight marker path {
-      fill: #FF790E !important;
-      stroke: #FF790E !important;
-    }
-
-    .node-highlight rect,
-    .node-highlight circle,
-    .node-highlight polygon,
-    .node-highlight path {
-      stroke: #FF790E !important;
-      stroke-width: 3.5px !important;
-      filter: drop-shadow(0 0 18px rgba(255, 121, 14, 0.6)) !important;
-    }
-
-    .label-highlight {
-      background-color: #FF790E !important;
-      color: #FFFFFF !important;
-      border-color: #FF790E !important;
-      box-shadow: 0 0 12px rgba(255, 121, 14, 0.5) !important;
-    }
-
-    #loading-overlay {
+    /* SVG Orthogonal Wire Bus Mesh (Strict 90-Degree Angles) */
+    #wires-svg {
       position: absolute;
       inset: 0;
-      background: var(--canvas-bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-      transition: opacity 0.3s ease;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: auto;
     }
 
-    .spinner {
-      width: 36px;
-      height: 36px;
-      border: 3px solid rgba(6, 182, 212, 0.2);
-      border-top-color: var(--trace-cyan);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 12px;
+    .schematic-wire {
+      stroke: #334155;
+      stroke-width: 1.8px;
+      fill: none;
+      cursor: pointer;
+      stroke-linejoin: miter;
+      stroke-linecap: square;
+      transition: stroke 0.2s ease, stroke-width 0.2s ease;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    .schematic-wire:hover {
+      stroke: #2563EB !important;
+      stroke-width: 3.5px !important;
+    }
+
+    .schematic-wire.active-highlight {
+      stroke: #FF790E !important;
+      stroke-width: 4px !important;
+    }
+
+    /* Junction Solder Dots (T-Junction & Branch Points) */
+    .wire-junction {
+      fill: #0F172A;
+      transition: fill 0.2s ease;
+    }
+    .schematic-wire.active-highlight + .wire-junction,
+    .wire-junction.active {
+      fill: #FF790E !important;
+    }
+
+    /* Wire Arrow Heads */
+    marker path {
+      fill: #334155;
+      transition: fill 0.2s ease;
+    }
+    .schematic-wire:hover marker path { fill: #2563EB; }
+    .schematic-wire.active-highlight marker path { fill: #FF790E; }
+
+    /* IC / Component Hardware Chips (Yellow Schematic Style) */
+    .ic-chip {
+      position: absolute;
+      background: #FFFFFF;
+      border: 1.8px solid var(--box-border);
+      border-radius: 4px;
+      padding: 14px 18px;
+      z-index: 5;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .ic-chip:hover {
+      border-color: #2563EB;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.15);
+    }
+
+    .ic-chip.chip-active {
+      border-color: #FF790E !important;
+      box-shadow: 0 0 20px rgba(255, 121, 14, 0.3) !important;
+    }
+
+    /* Special Accent Chips */
+    .ic-chip.gateway-chip {
+      background: #F0FDF4;
+      border: 2px solid #059669;
+    }
+
+    .ic-chip.core-chip {
+      background: #EFF6FF;
+      border: 2px solid #2563EB;
+    }
+
+    .ic-chip.master-chip {
+      background: #FFF7ED;
+      border: 2px solid #EA580C;
+    }
+
+    /* IC Pin Headers */
+    .ic-header {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #64748B;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .ic-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1.25;
+    }
+
+    .ic-sub {
+      font-size: 0.76rem;
+      color: #475569;
+      margin-top: 4px;
+      line-height: 1.35;
+    }
+
+    /* Terminal Pin Labels on IC edges */
+    .pin-label {
+      position: absolute;
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: #64748B;
+    }
+
+    /* Wire Bus Info Tags */
+    .bus-tag {
+      position: absolute;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      font-size: 10px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      color: #334155;
+      z-index: 10;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .bus-tag:hover, .bus-tag.active {
+      background: #FF790E;
+      color: #FFFFFF;
+      border-color: #FF790E;
     }
   </style>
 </head>
 <body>
 
-  <!-- Loading State -->
-  <div id="loading-overlay">
-    <div class="spinner"></div>
-    <div style="font-weight: 700; font-size: 0.95rem; color: #38BDF8;">সাইমুম আর্কিটেকচার ডায়াগ্রাম রেন্ডার হচ্ছে...</div>
-  </div>
-
+  <!-- Viewport Pan-Zoom Canvas -->
   <div id="viewport-container">
-    <div class="pcb-grid"></div>
+    <div class="schematic-grid"></div>
 
-    <!-- Top Circuit Header -->
+    <!-- Top Controller Bar -->
     <header class="top-hud">
       <div class="hud-title">
-        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — Master Architecture Diagram</span>
-        <span class="circuit-badge">FLOWCHART + CLICK TO HIGHLIGHT</span>
+        <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — Orthogonal Circuit Schematic</span>
+        <span class="circuit-badge">STRICT 90° WIRING</span>
       </div>
       <div class="hud-hints">
-        <span><span class="kbd">Click</span> যেকোনো বক্স বা লাইনে ক্লিক করে পুরো কানেকশন হাইলাইট করুন</span>
+        <span><span class="kbd">Click</span> যেকোনো লাইন বা আইসি বক্সে ক্লিক করে হাইলাইট করুন</span>
         <span><span class="kbd">Scroll</span> জুম</span>
         <span><span class="kbd">Drag</span> প্যান</span>
       </div>
@@ -311,342 +337,352 @@
       <button class="zoom-btn" id="btn-zoom-fit" title="Fit to Screen" style="font-size: 0.85rem;">⛶</button>
     </div>
 
-    <!-- True Mermaid Flowchart with Standalone Payment Gateway Hub and Multi-Signal Routing -->
+    <!-- Scalable Electrical Schematic Scene -->
     <div id="scene">
-      <div id="mermaid-diagram" class="mermaid">
-flowchart TB
-    %% =========================================================================
-    %% ১. ইনপুট লেয়ার: পাবলিক ওয়েবসাইট ও অনলাইন ভর্তি আবেদন
-    %% =========================================================================
-    subgraph S1 [" 🌐 [INPUT LAYER] পাবলিক ওয়েবসাইট ও অনলাইন ভর্তি ফরম (frontend/) "]
-        direction LR
-        WebHome["🌍 পাবলিক ওয়েবসাইট<br/>(পরিচিতি ও ব্রাউজিং)"]
-        WebApply["📝 অনলাইন ভর্তি ফরম<br/><b>(মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স)</b>"]
-        WebHome --> WebApply
-    end
+      
+      <!-- =========================================================================
+           STRICT ORTHOGONAL SCHEMATIC WIRES & BUSES (NO DIAGONALS / NO MESS)
+           ========================================================================= -->
+      <svg id="wires-svg">
+        <defs>
+          <marker id="arrow-ortho" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#334155" />
+          </marker>
+        </defs>
 
-    %% =========================================================================
-    %% ২. কেন্দ্রীয় প্রশাসন ও মাস্টার ক্যাটালগ
-    %% =========================================================================
-    subgraph S2 [" 🏛️ [CENTRAL MASTER HQ] কেন্দ্রীয় একাডেমি প্রশাসন (admin/) "]
-        direction LR
-        SuperAdmin["👑 সুপার অ্যাডমিন প্যানেল<br/>(সার্বিক নিয়ন্ত্রণ ও রোলস)"]
-        MS["📚 মাস্টার বিষয় ক্যাটালগ<br/><b>[গান, অভিনয়, আবৃত্তি - নো ডুপ্লিকেশন]</b>"]
-        MD["🏛️ মাস্টার বিভাগ ক্যাটালগ<br/><b>[Many-to-Many রিলেশন]</b>"]
-        GlobalSearch["🔍 গ্লোবাল সার্চ ও অডিট লগ<br/>(ফোন/আইডি ট্র্যাকিং)"]
-        
-        SuperAdmin --> MS
-        SuperAdmin --> MD
-        SuperAdmin --> GlobalSearch
-    end
+        <!-- W1: Public Website -> Apply Form (Direct Pin-to-Pin) -->
+        <path id="wire-1" class="schematic-wire" data-from="ic-web" data-to="ic-apply"
+              d="M 380,120 L 460,120" marker-end="url(#arrow-ortho)" />
 
-    %% =========================================================================
-    %% ৩. স্বতন্ত্র অনলাইন পেমেন্ট গেটওয়ে হাব (STANDALONE PAYMENT GATEWAY HUB)
-    %% =========================================================================
-    subgraph SG [" 💳 [STANDALONE GATEWAY HUB] অনলাইন পেমেন্ট গেটওয়ে "]
-        PaymentGateway["💳 অনলাইন পেমেন্ট গেটওয়ে (bKash / Nagad / SSLCommerz)<br/><b>[সকল ৪টি ফি রিসিভ করে ও অটো রসিদ প্রদান করে]</b>"]
-    end
+        <!-- W2: Apply Form -> Central Bus (Registration Fee Signal ➔ Gateway) -->
+        <path id="wire-2" class="schematic-wire" data-from="ic-apply" data-to="ic-gateway"
+              d="M 760,120 L 860,120 L 860,420 L 980,420" marker-end="url(#arrow-ortho)" />
 
-    %% =========================================================================
-    %% ৪. শাখা ও ডিপার্টমেন্ট প্যানেল
-    %% =========================================================================
-    subgraph S3 [" 🏢 [MANAGEMENT BUS] শাখা ও ডিপার্টমেন্ট প্যানেল (department/) "]
-        direction TB
-        subgraph RolesRow [" দায়িত্বশীলদের রোলস "]
-            direction LR
-            DeptDirector["🎭 ডিপার্টমেন্ট পরিচালক<br/>(বিভাগীয় প্রধান)"]
-            BranchDirector["🏢 শাখা পরিচালক<br/>(অফিস ও অর্থ সম্পাদক)"]
-            TeacherStaff["👨‍🏫 শিক্ষক ও প্রশিক্ষক<br/>(ক্লাস ও মার্কিং)"]
-        end
-        
-        subgraph BranchNet [" শাখা নেটওয়ার্ক "]
-            direction LR
-            B_Physical["🏢 ফিজিক্যাল শাখা (ঢাকা, মিরপুর)"]
-            B_Online["🌐 অনলাইন জুম শাখা (জুম আইডি/লিংক)"]
-        end
-    end
+        <!-- W3: Workshop Cohort -> Central Bus (Workshop Fee Signal ➔ Gateway) -->
+        <path id="wire-3" class="schematic-wire" data-from="ic-workshop" data-to="ic-gateway"
+              d="M 380,720 L 880,720 L 880,440 L 980,440" marker-end="url(#arrow-ortho)" />
 
-    MD <== "Many-to-Many" ==> B_Physical
-    MD <== "Many-to-Many" ==> B_Online
-    SuperAdmin -.-> DeptDirector
-    SuperAdmin -.-> BranchDirector
-    BranchDirector --> B_Physical
-    BranchDirector --> B_Online
-    TeacherStaff --> B_Physical
-    TeacherStaff --> B_Online
+        <!-- W4: Final Exam -> Central Bus (Student Admission Fee Signal ➔ Gateway) -->
+        <path id="wire-4" class="schematic-wire" data-from="ic-exam" data-to="ic-gateway"
+              d="M 380,940 L 900,940 L 900,460 L 980,460" marker-end="url(#arrow-ortho)" />
 
-    %% =========================================================================
-    %% ৫. ভর্তি, ভাইভা, ওয়ার্কশপ ও ফাইনাল পরীক্ষা ফানেল
-    %% =========================================================================
-    subgraph S5 [" 🎯 [ADMISSION PIPELINE] ভর্তি, ভাইভা, ওয়ার্কশপ ও প্রমোশন ফানেল "]
-        direction TB
-        subgraph Stage1 [" ১. স্ক্রিনিং ও ভাইভা "]
-            direction LR
-            PersonCheck{"🔍 স্থায়ী আইডি চেক?"}
-            PersonProfile["🧑 ১ স্থায়ী পারসন প্রোফাইল<br/><b>[১ ব্যক্তি = আজীবন ১ প্রোফাইল]</b>"]
-            Viva["🎙️ ভাইভা পরীক্ষা (প্যানেল মার্কিং)"]
-            PersonCheck --> PersonProfile --> Viva
-        end
-        
-        subgraph Stage2 [" ২. ওয়ার্কশপ কোহোর্ট "]
-            direction LR
-            WorkshopEnroll["📋 ওয়ার্কশপ ভর্তি নিশ্চিতকরণ"]
-            WorkshopTrack["🎪 ওয়ার্কশপ ট্রেনিং (উপস্থিতি ও স্কিল)"]
-            WorkshopEnroll --> WorkshopTrack
-        end
-        
-        subgraph Stage3 [" ৩. ফাইনাল পরীক্ষা ও প্রমোশন "]
-            direction LR
-            Exam["📝 ফাইনাল পরীক্ষা"]
-            RegularEnroll["🎓 নিয়মিত ছাত্র অনুমোদন"]
-            OneClickPromo["⚡ ১-ক্লিকে নিয়মিত ছাত্র হিসেবে প্রমোশন!"]
-            Exam --> RegularEnroll --> OneClickPromo
-        end
-        
-        Stage1 -->|"উত্তীর্ণ হলে"| Stage2
-        Stage2 -->|"কোহোর্ট শেষে"| Stage3
-    end
+        <!-- W5: Student Portal -> Central Bus (Monthly Tuition Fee Signal ➔ Gateway) -->
+        <path id="wire-5" class="schematic-wire" data-from="ic-student" data-to="ic-gateway"
+              d="M 2150,960 L 1320,960 L 1320,480" marker-end="url(#arrow-ortho)" />
 
-    DeptDirector -.->|"ভাইভা মূল্যায়ন"| Viva
-    TeacherStaff -.->|"ওয়ার্কশপ মূল্যায়ন"| WorkshopTrack
-    DeptDirector -.->|"ফাইনাল রেজাল্ট"| Exam
+        <!-- W6: Payment Gateway -> Backend API Core (Instant Webhook Confirmation) -->
+        <path id="wire-6" class="schematic-wire" data-from="ic-gateway" data-to="ic-core"
+              d="M 1160,380 L 1160,200" marker-end="url(#arrow-ortho)" />
 
-    %% =========================================================================
-    %% ৬. পেমেন্ট গেটওয়েতে ৪টি ফি সিগন্যাল সংযোগ (MULTI-SIGNAL ROUTING)
-    %% =========================================================================
-    WebApply ==>|"১. Registration Fee সিগন্যাল"| PaymentGateway
-    WorkshopEnroll ==>|"২. Workshop Fee সিগন্যাল"| PaymentGateway
-    RegularEnroll ==>|"৩. Student Admission Fee সিগন্যাল"| PaymentGateway
-    
-    PaymentGateway -->|"আবেদন ভেরিফিকেশন"| PersonCheck
-    PaymentGateway -->|"ওয়ার্কশপ কনফার্মেশন"| WorkshopTrack
-    PaymentGateway -->|"স্থায়ী ছাত্র অ্যাক্টিভেশন"| OneClickPromo
+        <!-- W7: Payment Gateway -> Finance Ledger Vault (Auto Deposit) -->
+        <path id="wire-7" class="schematic-wire" data-from="ic-gateway" data-to="ic-finance"
+              d="M 1340,430 L 1950,430 L 1950,480" marker-end="url(#arrow-ortho)" />
 
-    %% =========================================================================
-    %% ৭. বিষয় অফারিং ও চলমান ব্যাচ রেজিস্টার
-    %% =========================================================================
-    subgraph S4 [" 📚 [BATCH REGISTER] শাখায় বিষয় চালু ও চলমান ব্যাচ "]
-        direction LR
-        SO_Physical["ফিজিক্যাল শাখার গান বিষয়"]
-        SO_Online["অনলাইন শাখার গান বিষয়"]
-        
-        Batch_Physical["👥 চলমান ব্যাচ: গান ব্যাচ ১<br/><b>[২০২৫ সালে তৈরি — চলমান ব্যাচ কোর]</b>"]
-        Batch_Online["👥 চলমান ব্যাচ: অনলাইন গান ব্যাচ ১<br/>(অনলাইন প্রশিক্ষণ গ্রুপ)"]
-        
-        SO_Physical --> Batch_Physical
-        SO_Online --> Batch_Online
-    end
+        <!-- W8: Backend Core -> Person Profile Identifier (Existing Check) -->
+        <path id="wire-8" class="schematic-wire" data-from="ic-core" data-to="ic-person"
+              d="M 980,140 L 230,140 L 230,280" marker-end="url(#arrow-ortho)" />
 
-    MS --> SO_Physical
-    MS --> SO_Online
-    B_Physical --> SO_Physical
-    B_Online --> SO_Online
+        <!-- W9: Person Profile -> Viva Assessment Panel -->
+        <path id="wire-9" class="schematic-wire" data-from="ic-person" data-to="ic-viva"
+              d="M 230,360 L 230,480" marker-end="url(#arrow-ortho)" />
 
-    %% =========================================================================
-    %% ৮. ক্লাস শিডিউল, উপস্থিতি ও স্টুডেন্ট পোর্টাল
-    %% =========================================================================
-    subgraph S6 [" 🎓 [RUNTIME LAYER] নিয়মিত ক্লাস ও স্টুডেন্ট পোর্টাল (student/) "]
-        direction LR
-        subgraph ClassOps [" ক্লাস পরিচালনা "]
-            direction TB
-            ClassPhysical["🏫 ফিজিক্যাল ক্লাসরুম রুটিন"]
-            ClassZoom["📹 জুম লাইভ অনলাইন ক্লাস"]
-            AttendanceMatrix["📊 দৈনিক উপস্থিতি ম্যাট্রিক্স"]
-            ClassPhysical --> AttendanceMatrix
-            ClassZoom --> AttendanceMatrix
-        end
-        
-        subgraph PortalOps [" স্টুডেন্ট পোর্টাল "]
-            direction TB
-            StudentPortal["📱 Student Portal Dashboard<br/>(ক্লাস, জুম লিংক, রেজাল্ট ও ফি)"]
-        end
-        
-        ClassOps --> PortalOps
-    end
+        <!-- W10: Viva Panel -> Workshop Cohort (Selected) -->
+        <path id="wire-10" class="schematic-wire" data-from="ic-viva" data-to="ic-workshop"
+              d="M 230,560 L 230,680" marker-end="url(#arrow-ortho)" />
 
-    Batch_Physical --> ClassPhysical
-    Batch_Online --> ClassZoom
-    TeacherStaff -.->|"উপস্থিতি গ্রহণ"| AttendanceMatrix
-    ClassZoom -.->|"১-ক্লিকে জুম জয়েন"| StudentPortal
+        <!-- W11: Workshop Cohort -> Final Exam -->
+        <path id="wire-11" class="schematic-wire" data-from="ic-workshop" data-to="ic-exam"
+              d="M 230,760 L 230,900" marker-end="url(#arrow-ortho)" />
 
-    %% ৪ নম্বর ফি সিগন্যাল: স্টুডেন্ট পোর্টাল থেকে গেটওয়ে
-    StudentPortal ==>|"৪. Monthly Fee সিগন্যাল"| PaymentGateway
+        <!-- W12: Final Exam -> 1-Click Promotion Engine -->
+        <path id="wire-12" class="schematic-wire" data-from="ic-exam" data-to="ic-promo"
+              d="M 230,980 L 230,1100" marker-end="url(#arrow-ortho)" />
 
-    %% =========================================================================
-    %% ৯. সেন্ট্রাল ও শাখা ফাইন্যান্স ভল্ট
-    %% =========================================================================
-    subgraph S7 [" 💰 [FINANCE VAULT] কেন্দ্রীয় ও শাখা অর্থ লেজার "]
-        FinanceVault["🏦 শাখা ও কেন্দ্রীয় অর্থ লেজার<br/><b>(সকল ফি, আয়-ব্যয় হিসাব, বকেয়া ও ভাউচার লেজার)</b>"]
-    end
+        <!-- W13: 1-Click Promotion LOOP-BACK to Ongoing Batches Core (Clean 90° Routing) -->
+        <path id="wire-13" class="schematic-wire" data-from="ic-promo" data-to="ic-batch"
+              d="M 380,1140 L 1480,1140 L 1480,720 L 1650,720" marker-end="url(#arrow-ortho)" />
 
-    %% গেটওয়ে থেকে সকল ফি সরাসরি ফাইন্যান্স ভল্টে ডিপোজিট হয়
-    PaymentGateway ==>|"সকল সংগৃহীত ফি অটো ডিপোজিট"| FinanceVault
+        <!-- W14: Master Subject Hub -> Branch Offering Matrix -->
+        <path id="wire-14" class="schematic-wire" data-from="ic-subject" data-to="ic-offering"
+              d="M 1780,180 L 1780,260" marker-end="url(#arrow-ortho)" />
 
-    %% =========================================================================
-    %% ⚡ মূল সার্কিট লুপ ব্যাক: পাস করা ছাত্র সরাসরি চলমান ব্যাচে মেম্বারশিপ পায়!
-    %% =========================================================================
-    OneClickPromo ==>|"⚡ সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Physical
-    OneClickPromo ==>|"⚡ সরাসরি চলমান ব্যাচে মেম্বারশিপ"| Batch_Online
-    
-    Batch_Physical --> StudentPortal
-    Batch_Online --> StudentPortal
+        <!-- W15: Branch Controller -> Branch Offering Matrix -->
+        <path id="wire-15" class="schematic-wire" data-from="ic-branch" data-to="ic-offering"
+              d="M 1520,300 L 1650,300" marker-end="url(#arrow-ortho)" />
 
-    %% =========================================================================
-    %% সার্কিট কালার থিম
-    %% =========================================================================
-    style S1 fill:#0B132B,stroke:#3B82F6,stroke-width:1.5px,color:#93C5FD
-    style S2 fill:#0B132B,stroke:#FF790E,stroke-width:1.5px,color:#FED7AA
-    style SG fill:#05241C,stroke:#10B981,stroke-width:2.5px,color:#34D399
-    style S3 fill:#0B132B,stroke:#06B6D4,stroke-width:1.5px,color:#A5F3FC
-    style S4 fill:#0B132B,stroke:#10B981,stroke-width:1.5px,color:#A7F3D0
-    style S5 fill:#0B132B,stroke:#F59E0B,stroke-width:1.5px,color:#FDE68A
-    style S6 fill:#0B132B,stroke:#8B5CF6,stroke-width:1.5px,color:#DDD6FE
-    style S7 fill:#0B132B,stroke:#EC4899,stroke-width:1.5px,color:#FBCFE8
+        <!-- W16: Offering Matrix -> Ongoing Batches Core -->
+        <path id="wire-16" class="schematic-wire" data-from="ic-offering" data-to="ic-batch"
+              d="M 1780,340 L 1780,680" marker-end="url(#arrow-ortho)" />
 
-    style PaymentGateway fill:#064E3B,stroke:#10B981,stroke-width:2.2px,color:#A7F3D0
-    style WebApply fill:#1E293B,stroke:#3B82F6,stroke-width:1.5px,color:#FFFFFF
-    style MS fill:#1E293B,stroke:#FF790E,stroke-width:1.5px,color:#FFFFFF
-    style MD fill:#1E293B,stroke:#FF790E,stroke-width:1.5px,color:#FFFFFF
-    style DeptDirector fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#38BDF8
-    style BranchDirector fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#38BDF8
-    style TeacherStaff fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#38BDF8
-    style Batch_Physical fill:#1E293B,stroke:#10B981,stroke-width:1.5px,color:#FFFFFF
-    style Batch_Online fill:#1E293B,stroke:#06B6D4,stroke-width:1.5px,color:#FFFFFF
-    style PersonProfile fill:#1E293B,stroke:#A855F7,stroke-width:1.5px,color:#FFFFFF
-    style OneClickPromo fill:#FF790E,stroke:#FFFFFF,stroke-width:2px,color:#FFFFFF
-    style FinanceVault fill:#1E293B,stroke:#EC4899,stroke-width:1.5px,color:#F472B6
+        <!-- W17: Ongoing Batches -> Classroom & Zoom Live Session -->
+        <path id="wire-17" class="schematic-wire" data-from="ic-batch" data-to="ic-class"
+              d="M 1780,760 L 1780,880" marker-end="url(#arrow-ortho)" />
+
+        <!-- W18: Classroom & Zoom -> Student Portal (Live Sync & Zoom Join) -->
+        <path id="wire-18" class="schematic-wire" data-from="ic-class" data-to="ic-student"
+              d="M 1950,930 L 2050,930" marker-end="url(#arrow-ortho)" />
+
+        <!-- W19: Department Director -> Viva Assessment Control -->
+        <path id="wire-19" class="schematic-wire" data-from="ic-dept" data-to="ic-viva"
+              d="M 1520,200 L 520,200 L 520,520 L 380,520" marker-end="url(#arrow-ortho)" />
+
+        <!-- Junction Solder Dots at Crossings / T-Branches -->
+        <circle cx="860" cy="420" r="3.5" class="wire-junction" />
+        <circle cx="880" cy="440" r="3.5" class="wire-junction" />
+        <circle cx="900" cy="460" r="3.5" class="wire-junction" />
+        <circle cx="1160" cy="380" r="3.5" class="wire-junction" />
+        <circle cx="1780" cy="260" r="3.5" class="wire-junction" />
+        <circle cx="1480" cy="720" r="3.5" class="wire-junction" />
+      </svg>
+
+      <!-- Protocol Labels on Schematic Buses -->
+      <div class="bus-tag" style="top: 108px; left: 780px;" data-wire="wire-2">PIN_OUT: REG_FEE ➔ GATEWAY</div>
+      <div class="bus-tag" style="top: 708px; left: 450px;" data-wire="wire-3">PIN_OUT: WORKSHOP_FEE ➔ GATEWAY</div>
+      <div class="bus-tag" style="top: 928px; left: 450px;" data-wire="wire-4">PIN_OUT: ADMISSION_FEE ➔ GATEWAY</div>
+      <div class="bus-tag" style="top: 948px; left: 1650px;" data-wire="wire-5">PIN_OUT: MONTHLY_FEE ➔ GATEWAY</div>
+      <div class="bus-tag" style="top: 280px; left: 1170px;" data-wire="wire-6">INT_WEBHOOK: PAYMENT_CONFIRM</div>
+      <div class="bus-tag" style="top: 418px; left: 1550px;" data-wire="wire-7">BUS: AUTO_DEPOSIT_LEDGER</div>
+      <div class="bus-tag" style="top: 1128px; left: 650px; color: #EA580C; border-color: #EA580C;" data-wire="wire-13">⚡ LOOP_BACK: ASSIGN_TO_ONGOING_BATCH</div>
+
+      <!-- =========================================================================
+           STANDALONE HARDWARE ICs (COMPONENTS & CHIPS)
+           ========================================================================= -->
+
+      <!-- IC 1: PUBLIC WEBSITE -->
+      <div id="ic-web" class="ic-chip" style="top: 80px; left: 80px; width: 300px;">
+        <div class="ic-header">IC-01 • FRONTEND_CMS</div>
+        <div class="ic-title">🌍 পাবলিক ওয়েবসাইট (frontend/)</div>
+        <div class="ic-sub">একাডেমি পরিচিতি, শাখা ও বিভাগ ক্যাটালগ এবং নোটিশ বোর্ড।</div>
       </div>
+
+      <!-- IC 2: ONLINE APPLY FORM -->
+      <div id="ic-apply" class="ic-chip" style="top: 80px; left: 460px; width: 300px;">
+        <div class="ic-header">IC-02 • ADMISSION_FORM</div>
+        <div class="ic-title">📝 অনলাইন ভর্তি আবেদন ফরম</div>
+        <div class="ic-sub">যোগ্যতা যাচাই (মেয়েদের ৩য় শ্রেণি, ছেলেদের অনার্স পর্যন্ত)।</div>
+      </div>
+
+      <!-- IC 3: STANDALONE PAYMENT GATEWAY HUB (CENTER CHIP) -->
+      <div id="ic-gateway" class="ic-chip gateway-chip" style="top: 380px; left: 980px; width: 360px;">
+        <div class="ic-header" style="color: #059669;">IC-03 • STANDALONE_GATEWAY_HUB</div>
+        <div class="ic-title" style="color: #047857; font-size: 1.05rem;">💳 অনলাইন পেমেন্ট গেটওয়ে (bKash/Nagad)</div>
+        <div class="ic-sub" style="color: #065F46;">
+          • সকল ৪টি ফি সিগন্যাল সেন্ট্রাল বাসে রিসিভ করে<br/>
+          • অটো এসএমএস ও ডিজিটাল ট্রানজেকশন রসিদ ইস্যু করে<br/>
+          • তাৎক্ষণিক সেন্ট্রাল ব্রেইনে কনফার্মেশন ও ফাইন্যান্সে ডিপোজিট পাঠায়
+        </div>
+      </div>
+
+      <!-- IC 4: CENTRAL BACKEND API CORE -->
+      <div id="ic-core" class="ic-chip core-chip" style="top: 80px; left: 980px; width: 360px;">
+        <div class="ic-header" style="color: #2563EB;">IC-04 • BACKEND_API_CORE</div>
+        <div class="ic-title" style="color: #1D4ED8;">🏛️ Node.js API Core (backend/)</div>
+        <div class="ic-sub">সুপার অ্যাডমিন সেন্ট্রাল কন্ট্রোল, JWT Auth, রোলস ও গ্লোবাল অডিট লগ।</div>
+      </div>
+
+      <!-- IC 5: PERSON PROFILE IDENTIFIER -->
+      <div id="ic-person" class="ic-chip" style="top: 280px; left: 80px; width: 300px;">
+        <div class="ic-header">IC-05 • PERSON_REGISTRY</div>
+        <div class="ic-title">🧑 স্থায়ী পারসন প্রোফাইল চেকার</div>
+        <div class="ic-sub">ফোন/ইমেইল দিয়ে রেকর্ড চেক। ১ ব্যক্তি আজীবন ১ প্রোফাইল পাবে।</div>
+      </div>
+
+      <!-- IC 6: VIVA ASSESSMENT PANEL -->
+      <div id="ic-viva" class="ic-chip" style="top: 480px; left: 80px; width: 300px;">
+        <div class="ic-header">IC-06 • VIVA_EVALUATOR</div>
+        <div class="ic-title">🎙️ ভাইভা পরীক্ষা ও সিলেকশন</div>
+        <div class="ic-sub">ডিপার্টমেন্ট পরিচালক প্যানেল কর্তৃক ভাইভা মার্কিং ও সিলেকশন।</div>
+      </div>
+
+      <!-- IC 7: WORKSHOP COHORT CONTROLLER -->
+      <div id="ic-workshop" class="ic-chip" style="top: 680px; left: 80px; width: 300px;">
+        <div class="ic-header">IC-07 • WORKSHOP_COHORT</div>
+        <div class="ic-title">🎪 ওয়ার্কশপ ট্রেনিং কোহোর্ট</div>
+        <div class="ic-sub">উপস্থিতি, শৃঙ্খলা ও স্কিল মূল্যায়ন (ওয়ার্কশপ ফি নিশ্চিত হলে এন্ট্রি)।</div>
+      </div>
+
+      <!-- IC 8: FINAL EXAM EVALUATOR -->
+      <div id="ic-exam" class="ic-chip" style="top: 900px; left: 80px; width: 300px;">
+        <div class="ic-header">IC-08 • EXAM_CONTROLLER</div>
+        <div class="ic-title">📝 ফাইনাল মূল্যায়ন পরীক্ষা</div>
+        <div class="ic-sub">তাত্ত্বিক ও ব্যবহারিক পরীক্ষার ফলাফল ও চূড়ান্ত অনুমোদন।</div>
+      </div>
+
+      <!-- IC 9: 1-CLICK PROMOTION ENGINE -->
+      <div id="ic-promo" class="ic-chip master-chip" style="top: 1100px; left: 80px; width: 300px;">
+        <div class="ic-header" style="color: #EA580C;">IC-09 • PROMOTION_TRIGGER</div>
+        <div class="ic-title" style="color: #C2410C;">⚡ ১-ক্লিক প্রমোশন ইঞ্জিন</div>
+        <div class="ic-sub">পাস করা ছাত্রকে সরাসরি চলমান ব্যাচে মেম্বারশিপ অ্যাসাইন করে।</div>
+      </div>
+
+      <!-- IC 10: MASTER SUBJECT CATALOG -->
+      <div id="ic-subject" class="ic-chip master-chip" style="top: 80px; left: 1650px; width: 280px;">
+        <div class="ic-header" style="color: #EA580C;">IC-10 • MASTER_SUBJECT</div>
+        <div class="ic-title" style="color: #C2410C;">📚 মাস্টার বিষয় ক্যাটালগ</div>
+        <div class="ic-sub">গান, অভিনয়, আবৃত্তি কেন্দ্রীয়ভাবে একবারই তৈরি হয় (নো ডুপ্লিকেশন)।</div>
+      </div>
+
+      <!-- IC 11: DEPARTMENT DIRECTOR -->
+      <div id="ic-dept" class="ic-chip" style="top: 170px; left: 1400px; width: 220px;">
+        <div class="ic-header">IC-11 • DEPT_DIRECTOR</div>
+        <div class="ic-title">🎭 বিভাগীয় প্রধান</div>
+        <div class="ic-sub">ভাইভা ও পরীক্ষা কন্ট্রোল।</div>
+      </div>
+
+      <!-- IC 12: BRANCH CONTROLLER -->
+      <div id="ic-branch" class="ic-chip" style="top: 270px; left: 1400px; width: 220px;">
+        <div class="ic-header">IC-12 • BRANCH_CTRL</div>
+        <div class="ic-title">🏢 শাখা পরিচালক</div>
+        <div class="ic-sub">ফিজিক্যাল ও জুম নেটওয়ার্ক।</div>
+      </div>
+
+      <!-- IC 13: BRANCH-SUBJECT OFFERING MATRIX -->
+      <div id="ic-offering" class="ic-chip" style="top: 260px; left: 1650px; width: 280px;">
+        <div class="ic-header">IC-13 • OFFERING_MATRIX</div>
+        <div class="ic-title">🔗 শাখায় বিষয় অফারিং</div>
+        <div class="ic-sub">মাস্টার সাবজেক্ট শাখায় অ্যাক্টিভেট করার জয়েনিং রুল।</div>
+      </div>
+
+      <!-- IC 14: ONGOING BATCHES CORE -->
+      <div id="ic-batch" class="ic-chip master-chip" style="top: 680px; left: 1650px; width: 280px;">
+        <div class="ic-header" style="color: #EA580C;">IC-14 • ONGOING_BATCH_CORE</div>
+        <div class="ic-title" style="color: #C2410C;">👥 চলমান ব্যাচ: গান ব্যাচ ১</div>
+        <div class="ic-sub"><b>Batch Year ≠ Join Year:</b> ২০২৫ সালের ব্যাচে ২০২৬ বা ২০২৭-এর ছাত্রও যুক্ত হয়।</div>
+      </div>
+
+      <!-- IC 15: CLASS & ATTENDANCE -->
+      <div id="ic-class" class="ic-chip" style="top: 880px; left: 1650px; width: 280px;">
+        <div class="ic-header">IC-15 • CLASS_OPERATIONS</div>
+        <div class="ic-title">📅 ক্লাস ও দৈনিক উপস্থিতি</div>
+        <div class="ic-sub">ফিজিক্যাল ক্লাসরুম ও জুম লাইভ সেশন ➔ দৈনিক উপস্থিতি ম্যাট্রিক্স।</div>
+      </div>
+
+      <!-- IC 16: STUDENT PORTAL APP -->
+      <div id="ic-student" class="ic-chip" style="top: 880px; left: 2050px; width: 280px;">
+        <div class="ic-header">IC-16 • STUDENT_PORTAL</div>
+        <div class="ic-title">📱 Student Portal App</div>
+        <div class="ic-sub">আমার ক্লাস, জুম লিংক, রেজাল্ট ও প্রতি মাসে টিউশন ফি প্রদান।</div>
+      </div>
+
+      <!-- IC 17: FINANCE & DOCUMENTS VAULT -->
+      <div id="ic-finance" class="ic-chip" style="top: 480px; left: 1850px; width: 320px;">
+        <div class="ic-header">IC-17 • FINANCE_VAULT</div>
+        <div class="ic-title">🏦 কেন্দ্রীয় ও শাখা অর্থ লেজার</div>
+        <div class="ic-sub">সকল ৪টি ফি-এর স্বয়ংক্রিয় অডিট লেজার, আয়-ব্যয় হিসাব ও অফিশিয়াল ভাউচার।</div>
+      </div>
+
     </div>
   </div>
 
   <script>
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'dark',
-      flowchart: {
-        curve: 'basis',
-        nodeSpacing: 25,
-        rankSpacing: 30,
-        padding: 12
-      },
-      themeVariables: {
-        darkMode: true,
-        background: '#070B14',
-        primaryColor: '#1E293B',
-        primaryTextColor: '#F8FAFC',
-        primaryBorderColor: '#334155',
-        lineColor: '#38BDF8',
-        secondaryColor: '#111A2E',
-        tertiaryColor: '#070B14',
-        fontFamily: 'Hind Siliguri, Plus Jakarta Sans, sans-serif',
-        fontSize: '12px'
-      }
-    });
-
     let pzInstance = null;
 
-    async function initInteractiveDiagram() {
-      try {
-        await mermaid.run({
-          nodes: [document.getElementById('mermaid-diagram')]
-        });
-
-        const sceneEl = document.getElementById('scene');
-        
-        pzInstance = panzoom(sceneEl, {
-          maxZoom: 8,
-          minZoom: 0.2,
-          smoothScroll: false,
-          zoomSpeed: 0.065,
-          beforeWheel: function(e) {
-            return false;
-          }
-        });
-
-        setTimeout(() => {
-          const vw = window.innerWidth;
-          const vh = window.innerHeight;
-          const rect = sceneEl.getBoundingClientRect();
-          
-          const scale = Math.min((vw - 40) / rect.width, (vh - 80) / rect.height, 0.95);
-          const initialX = Math.max((vw - rect.width * scale) / 2, 20);
-          const initialY = 65;
-
-          pzInstance.zoomAbs(0, 0, scale);
-          pzInstance.moveTo(initialX, initialY);
-        }, 60);
-
-        // Interactive Click-to-Highlight on Mermaid SVG Elements
-        const svg = document.querySelector('#mermaid-diagram svg');
-        if (svg) {
-          const allEdges = svg.querySelectorAll('.edgePath');
-          const allNodes = svg.querySelectorAll('.node');
-          const allLabels = svg.querySelectorAll('.edgeLabel');
-
-          function clearAllHighlights() {
-            allEdges.forEach(e => e.classList.remove('edge-highlight'));
-            allNodes.forEach(n => n.classList.remove('node-highlight'));
-            allLabels.forEach(l => l.classList.remove('label-highlight'));
-          }
-
-          // Edge Click
-          allEdges.forEach(edge => {
-            edge.addEventListener('click', (e) => {
-              e.stopPropagation();
-              clearAllHighlights();
-              edge.classList.add('edge-highlight');
-            });
-          });
-
-          // Label Click
-          allLabels.forEach(label => {
-            label.addEventListener('click', (e) => {
-              e.stopPropagation();
-              clearAllHighlights();
-              label.classList.add('label-highlight');
-            });
-          });
-
-          // Node Click (Highlight node + connected lines)
-          allNodes.forEach(node => {
-            node.addEventListener('click', (e) => {
-              e.stopPropagation();
-              clearAllHighlights();
-              node.classList.add('node-highlight');
-            });
-          });
-
-          // Clear on background click
-          document.getElementById('viewport-container').addEventListener('click', () => {
-            clearAllHighlights();
-          });
+    function initSchematicCircuit() {
+      const sceneEl = document.getElementById('scene');
+      
+      pzInstance = panzoom(sceneEl, {
+        maxZoom: 6,
+        minZoom: 0.2,
+        smoothScroll: false,
+        zoomSpeed: 0.065,
+        beforeWheel: function(e) {
+          return false;
         }
+      });
 
-        // Controls
-        document.getElementById('btn-zoom-in').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25));
-        document.getElementById('btn-zoom-out').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8));
-        document.getElementById('btn-zoom-reset').addEventListener('click', () => { pzInstance.zoomAbs(0, 0, 1); pzInstance.moveTo(25, 65); });
-        document.getElementById('btn-zoom-fit').addEventListener('click', () => {
-          const vw = window.innerWidth;
-          const vh = window.innerHeight;
-          const rect = sceneEl.getBoundingClientRect();
-          const scale = Math.min((vw - 40) / (rect.width / pzInstance.getTransform().scale), (vh - 80) / (rect.height / pzInstance.getTransform().scale), 0.95);
-          pzInstance.zoomAbs(0, 0, scale);
-          pzInstance.moveTo((vw - (rect.width / pzInstance.getTransform().scale) * scale) / 2, 65);
-        });
+      setTimeout(() => {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const scale = Math.min((vw - 60) / 2600, (vh - 100) / 1250, 0.72);
+        const initialX = Math.max((vw - 2600 * scale) / 2, 20);
+        const initialY = 60;
 
-      } catch (err) {
-        console.error('Mermaid render error:', err);
-      } finally {
-        const overlay = document.getElementById('loading-overlay');
-        if (overlay) {
-          overlay.style.opacity = '0';
-          setTimeout(() => overlay.remove(), 300);
-        }
+        pzInstance.zoomAbs(0, 0, scale);
+        pzInstance.moveTo(initialX, initialY);
+      }, 50);
+
+      // Interactive Wire & Component Highlighting
+      const allWires = document.querySelectorAll('.schematic-wire');
+      const allChips = document.querySelectorAll('.ic-chip');
+      const allTags = document.querySelectorAll('.bus-tag');
+
+      function clearHighlights() {
+        allWires.forEach(w => w.classList.remove('active-highlight'));
+        allChips.forEach(c => c.classList.remove('chip-active'));
+        allTags.forEach(t => t.classList.remove('active'));
       }
+
+      // Wire Click Highlight
+      allWires.forEach(wire => {
+        wire.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearHighlights();
+          wire.classList.add('active-highlight');
+          
+          const fromId = wire.getAttribute('data-from');
+          const toId = wire.getAttribute('data-to');
+          if (fromId) document.getElementById(fromId)?.classList.add('chip-active');
+          if (toId) document.getElementById(toId)?.classList.add('chip-active');
+        });
+      });
+
+      // Tag Click Highlight
+      allTags.forEach(tag => {
+        tag.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearHighlights();
+          tag.classList.add('active');
+          const targetWireId = tag.getAttribute('data-wire');
+          if (targetWireId) {
+            const wire = document.getElementById(targetWireId);
+            if (wire) {
+              wire.classList.add('active-highlight');
+              const fromId = wire.getAttribute('data-from');
+              const toId = wire.getAttribute('data-to');
+              if (fromId) document.getElementById(fromId)?.classList.add('chip-active');
+              if (toId) document.getElementById(toId)?.classList.add('chip-active');
+            }
+          }
+        });
+      });
+
+      // Component Click Highlight all connected wires
+      allChips.forEach(chip => {
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearHighlights();
+          chip.classList.add('chip-active');
+          const chipId = chip.id;
+          
+          allWires.forEach(w => {
+            if (w.getAttribute('data-from') === chipId || w.getAttribute('data-to') === chipId) {
+              w.classList.add('active-highlight');
+              const partnerId = w.getAttribute('data-from') === chipId ? w.getAttribute('data-to') : w.getAttribute('data-from');
+              if (partnerId) document.getElementById(partnerId)?.classList.add('chip-active');
+            }
+          });
+        });
+      });
+
+      // Background click resets highlight
+      document.getElementById('viewport-container').addEventListener('click', () => {
+        clearHighlights();
+      });
+
+      // Zoom Controls
+      document.getElementById('btn-zoom-in').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 1.25));
+      document.getElementById('btn-zoom-out').addEventListener('click', () => pzInstance.smoothZoom(window.innerWidth / 2, window.innerHeight / 2, 0.8));
+      document.getElementById('btn-zoom-reset').addEventListener('click', () => { pzInstance.zoomAbs(0, 0, 1); pzInstance.moveTo(20, 60); });
+      document.getElementById('btn-zoom-fit').addEventListener('click', () => {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const scale = Math.min((vw - 60) / 2600, (vh - 100) / 1250, 0.72);
+        pzInstance.zoomAbs(0, 0, scale);
+        pzInstance.moveTo((vw - 2600 * scale) / 2, 60);
+      });
     }
 
-    window.addEventListener('DOMContentLoaded', initInteractiveDiagram);
+    window.addEventListener('DOMContentLoaded', initSchematicCircuit);
   </script>
 </body>
 </html>
