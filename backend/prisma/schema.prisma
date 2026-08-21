@@ -146,6 +146,7 @@ model Person {
   // Relations
   registrations             Registration[]
   studentProfile            Student?
+  staffProfile              Staff?
   workshopExamResults       WorkshopExamResult[]
 
   createdAt                 DateTime @default(now())
@@ -331,12 +332,13 @@ model WorkshopExamResult {
 model Staff {
   id              String    @id @default(uuid())
   fullName        String
+  fullNameBn      String?
   email           String    @unique
   phone           String?
   designation     String?   // e.g. "Director of Academy", "Chief Vocal Coordinator", "Mirpur Regional Coordinator"
   photoUrl        String?
   
-  // Roles: SUPER_ADMIN | STAFF
+  // Roles: SUPER_ADMIN | ADMIN | DIRECTOR | COORDINATOR | INSTRUCTOR | MODERATOR | EXAMINER | AGENT | STAFF
   role            String    @default("STAFF")
   
   // Scoped Primary Branch (Optional)
@@ -348,6 +350,11 @@ model Staff {
   
   joiningDate     String?   // YYYY-MM-DD
   notes           String?
+  
+  // Link to Person / User if this staff member is also a registered user / student
+  personId        String?   @unique
+  person          Person?   @relation(fields: [personId], references: [id], onDelete: SetNull)
+  studentId       String?   // Student ID if this staff also holds a student profile (e.g. 201803000010)
   
   // A coordinator is assigned to Departments across branches
   assignedDepartments       StaffDepartmentAssignment[]

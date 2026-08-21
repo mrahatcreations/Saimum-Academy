@@ -286,12 +286,23 @@ export default function Staff() {
     switch (role) {
       case 'SUPER_ADMIN':
         return <StatusBadge status="Super Admin" variant="purple" />;
-      case 'STAFF':
+      case 'ADMIN':
+        return <StatusBadge status="Admin" variant="purple" />;
+      case 'DIRECTOR':
+        return <StatusBadge status="Director" variant="warning" />;
       case 'COORDINATOR':
-      case 'BRANCH_ADMIN':
-        return <StatusBadge status="Staff" variant="info" />;
+        return <StatusBadge status="Coordinator" variant="info" />;
+      case 'MODERATOR':
+        return <StatusBadge status="Moderator" variant="info" />;
+      case 'INSTRUCTOR':
+        return <StatusBadge status="Instructor" variant="success" />;
+      case 'EXAMINER':
+        return <StatusBadge status="Examiner" variant="warning" />;
+      case 'AGENT':
+        return <StatusBadge status="Field Agent" variant="neutral" />;
+      case 'STAFF':
       default:
-        return <StatusBadge status={role} variant="neutral" />;
+        return <StatusBadge status={role || 'Staff'} variant="neutral" />;
     }
   };
 
@@ -433,7 +444,22 @@ export default function Staff() {
                             shape="circle"
                           />
                           <div className={styles.personMeta}>
-                            <span className={styles.personName}>{staff.fullName}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                              <span className={styles.personName}>{staff.fullName}</span>
+                              {staff.studentId && (
+                                <span style={{ 
+                                  fontSize: '0.68rem', 
+                                  fontWeight: 600, 
+                                  padding: '2px 6px', 
+                                  borderRadius: '4px', 
+                                  backgroundColor: 'var(--brand-orange-subtle, #FFF4EB)', 
+                                  color: 'var(--brand-orange, #FF790E)',
+                                  whiteSpace: 'nowrap'
+                                }}>
+                                  ID #{staff.studentId}
+                                </span>
+                              )}
+                            </div>
                             <span className={styles.designationText}>{staff.designation || staff.email}</span>
                           </div>
                         </div>

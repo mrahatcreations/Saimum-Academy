@@ -45,6 +45,8 @@ export interface StaffItem {
   status: 'ACTIVE' | 'INACTIVE' | string;
   joiningDate?: string | null;
   notes?: string | null;
+  studentId?: string | null;
+  personId?: string | null;
   assignedDepartments?: AssignedDepartmentItem[];
   assignedBatches?: AssignedBatchItem[];
   createdAt: string;
