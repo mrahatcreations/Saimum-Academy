@@ -9,8 +9,7 @@ import {
   Phone,
   Mail,
   Calendar,
-  Layers,
-  GraduationCap,
+  BookOpen,
   Receipt,
   ShieldCheck
 } from 'lucide-react';
@@ -395,8 +394,7 @@ export default function Staff() {
                   />
                 </th>
                 <th className={styles.th}>Staff Member</th>
-                <th className={styles.th}>Designations & Roles</th>
-                <th className={styles.th}>Assigned Departments</th>
+                <th className={styles.th}>Role & Designation</th>
                 <th className={styles.th}>Contact Phone</th>
                 <th className={styles.th}>Status</th>
                 <th className={styles.th}>Joined</th>
@@ -406,13 +404,13 @@ export default function Staff() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={8} className={styles.loadingRow}>
+                  <td colSpan={7} className={styles.loadingRow}>
                     Loading staff directory...
                   </td>
                 </tr>
               ) : filteredStaff.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className={styles.emptyRow}>
+                  <td colSpan={7} className={styles.emptyRow}>
                     <div className={styles.emptyStateBox}>
                       <Users size={36} color="var(--text-tertiary)" />
                       <div>No staff members found matching your filter criteria.</div>
@@ -422,7 +420,7 @@ export default function Staff() {
               ) : (
                 filteredStaff.map(staff => {
                   const isSelected = selectedIds.has(staff.id);
-                  const assignedBatches = staff.assignedBatches || [];
+                  const deptNames = (staff.assignedDepartments || []).map(ad => ad.department?.name).filter(Boolean).join(', ');
                   return (
                     <tr 
                       key={staff.id} 
@@ -469,7 +467,7 @@ export default function Staff() {
                         </div>
                       </td>
 
-                      {/* 2. Designations & Roles (Sleek Micro Icon Chips) */}
+                      {/* 2. Role & Designation (Micro Icon Chips with Rich Tooltip) */}
                       <td className={styles.td}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                           {(staff.designation || '').split(/,\s*/).filter(Boolean).map((des, dIdx) => {
@@ -478,22 +476,22 @@ export default function Staff() {
                             const isDeptAdmin = desLower.includes('department admin') || desLower.includes('director') || desLower.includes('admin');
                             const isAccount = desLower.includes('account');
 
-                            let icon = <GraduationCap size={15} />;
+                            let icon = <BookOpen size={15} />;
                             let chipClass = styles.chipTeacher;
-                            let label = 'Teacher';
+                            let label = deptNames ? `Teacher (${deptNames})` : 'Teacher / Faculty';
 
                             if (isSuperAdmin) {
                               icon = <ShieldCheck size={15} />;
                               chipClass = styles.chipAccount;
-                              label = 'Super Admin';
+                              label = 'Super Admin — Central Full Authority';
                             } else if (isDeptAdmin) {
                               icon = <Building2 size={15} />;
                               chipClass = styles.chipAdmin;
-                              label = 'Department Admin';
+                              label = deptNames ? `Department Admin (${deptNames})` : 'Department Admin';
                             } else if (isAccount) {
                               icon = <Receipt size={15} />;
                               chipClass = styles.chipAccount;
-                              label = 'Account Officer';
+                              label = 'Account Officer — Finance & Accounts';
                             }
 
                             return (
@@ -507,67 +505,6 @@ export default function Staff() {
                             );
                           })}
                         </div>
-                      </td>
-
-                      {/* 3. Assigned Departments */}
-                      <td className={styles.td}>
-                        {staff.role === 'SUPER_ADMIN' ? (
-                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#7C3AED', fontWeight: 600, fontSize: '0.78rem' }}>
-                            <Building2 size={13} />
-                            <span>Central Authority (All Departments & Wings)</span>
-                          </div>
-                        ) : (staff.assignedDepartments && staff.assignedDepartments.length > 0) ? (
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', maxWidth: '320px' }}>
-                            {staff.assignedDepartments.map(ad => (
-                              <span 
-                                key={ad.id}
-                                style={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '4px',
-                                  padding: '2px 8px',
-                                  borderRadius: '5px',
-                                  fontSize: '0.72rem',
-                                  fontWeight: 600,
-                                  background: 'var(--bg-surface-hover)',
-                                  color: 'var(--text-primary)',
-                                  border: '1px solid var(--border-light)'
-                                }}
-                              >
-                                <Building2 size={11} color="var(--brand-orange)" />
-                                <span>{ad.department?.name || 'Department'}</span>
-                              </span>
-                            ))}
-                          </div>
-                        ) : assignedBatches.length > 0 ? (
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', maxWidth: '320px' }}>
-                            {assignedBatches.map(ab => (
-                              <span 
-                                key={ab.id}
-                                style={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '4px',
-                                  padding: '2px 7px',
-                                  borderRadius: '5px',
-                                  fontSize: '0.70rem',
-                                  fontWeight: 600,
-                                  background: 'var(--bg-surface-hover)',
-                                  color: 'var(--text-primary)',
-                                  border: '1px solid var(--border-light)'
-                                }}
-                              >
-                                <Layers size={10} color="var(--brand-orange)" />
-                                <span>{ab.batch?.name}</span>
-                              </span>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className={styles.branchCell}>
-                            <Building2 size={13} color="var(--text-tertiary)" />
-                            <span className={styles.branchNameText}>General Faculty</span>
-                          </div>
-                        )}
                       </td>
 
                       <td className={styles.td}>
