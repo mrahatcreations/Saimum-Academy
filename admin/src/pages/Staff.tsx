@@ -471,16 +471,16 @@ export default function Staff() {
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', maxWidth: '300px' }}>
                           {(staff.designation || '').split(/,\s*/).filter(Boolean).map((des, dIdx) => {
                             const desLower = des.toLowerCase();
-                            const isDeptAdmin = desLower.includes('admin') || desLower.includes('director');
-                            const isTeacher = desLower.includes('teacher') || desLower.includes('faculty') || desLower.includes('instructor');
-                            const isAccount = desLower.includes('account') || desLower.includes('finance');
-                            const isExaminer = desLower.includes('examiner') || desLower.includes('viva');
+                            const isSuperAdmin = desLower.includes('super');
+                            const isDeptAdmin = desLower.includes('department admin') || desLower.includes('director') || desLower.includes('admin');
+                            const isTeacher = desLower.includes('teacher');
+                            const isAccount = desLower.includes('account');
 
                             let chipClass = styles.chipNeutral;
-                            if (isDeptAdmin) chipClass = styles.chipAdmin;
+                            if (isSuperAdmin) chipClass = styles.chipAccount;
+                            else if (isDeptAdmin) chipClass = styles.chipAdmin;
                             else if (isTeacher) chipClass = styles.chipTeacher;
                             else if (isAccount) chipClass = styles.chipAccount;
-                            else if (isExaminer) chipClass = styles.chipExaminer;
 
                             return (
                               <span 
