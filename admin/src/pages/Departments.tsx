@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Plus } from 'lucide-react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Plus, Building2 } from 'lucide-react';
 import TableActionMenu from '../components/ui/TableActionMenu';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { academicService, type DepartmentItem, type BranchItem, type BatchItem } from '../services/academicService';
@@ -10,8 +10,9 @@ import ManageDepartmentModal from '../components/modals/ManageDepartmentModal';
 import { PageHeader } from '../components/ui/PageHeader';
 import { DataTableToolbar } from '../components/ui/DataTableToolbar';
 import { MetricsStrip, type MetricItem } from '../components/ui/MetricsStrip';
+import Button from '../components/ui/Button';
 
-import styles from './Students.module.css';
+import styles from './Departments.module.css';
 
 export default function Departments() {
   const [departments, setDepartments] = useState<DepartmentItem[]>([]);
@@ -28,16 +29,16 @@ export default function Departments() {
     try {
       setIsLoading(true);
       const [deptRes, branchRes, batchRes, staffRes] = await Promise.all([
-        academicService.getDepartments(),
-        academicService.getBranches(),
-        academicService.getBatches(),
-        staffService.getStaff()
+        academicService.getDepartments().catch(() => ({ success: false, data: [] })),
+        academicService.getBranches().catch(() => ({ success: false, data: [] })),
+        academicService.getBatches().catch(() => ({ success: false, data: [] })),
+        staffService.getStaff().catch(() => ({ success: false, data: [] }))
       ]);
 
-      if (deptRes.success) setDepartments(deptRes.data);
-      if (branchRes.success) setBranches(branchRes.data);
-      if (batchRes.success) setBatches(batchRes.data);
-      if (staffRes.success) setStaffList(staffRes.data);
+      if (deptRes && deptRes.data) setDepartments(Array.isArray(deptRes.data) ? deptRes.data : []);
+      if (branchRes && branchRes.data) setBranches(Array.isArray(branchRes.data) ? branchRes.data : []);
+      if (batchRes && batchRes.data) setBatches(Array.isArray(batchRes.data) ? batchRes.data : []);
+      if (staffRes && staffRes.data) setStaffList(Array.isArray(staffRes.data) ? staffRes.data : []);
     } catch (err) {
       console.error('Failed to load departments data:', err);
     } finally {
@@ -101,48 +102,70 @@ export default function Departments() {
     }
   };
 
-  const filtered = departments.filter(d => 
-    d.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = useMemo(() => {
+    return (departments || []).filter(d => 
+      (d.name || '').toLowerCase().includes(search.toLowerCase())
+    );
+  }, [departments, search]);
 
-  const activeCount = departments.filter(d => d.status === 'ACTIVE').length;
-  const totalBatchesCount = batches.length;
+  const activeCount = (departments || []).filter(d => d.status === 'ACTIVE').length;
+  const totalBatchesCount = (batches || []).length;
+  const totalStaffCount = (staffList || []).length;
 
   const metricItems: MetricItem[] = [
     {
       id: 'total-depts',
-      label: 'Master Departments',
+      label: 'Total Departments',
       value: departments.length,
-      sparklineData: [2, 3, 4, 4, 5, 5, departments.length || 5],
+      delta: { value: `${activeCount} Active`, isPositive: true },
+      sparklineData: [2, 3, 4, 5, departments.length || 5],
       sparklineColor: '#FF790E'
     },
     {
-      id: 'active-depts',
-      label: 'Active Faculties',
-      value: activeCount,
-      sparklineData: [2, 2, 3, 4, activeCount || 4],
+      id: 'active-campuses',
+      label: 'Active Campuses',
+      value: branches.length,
+      delta: { value: 'All Active', isPositive: true },
+      sparklineData: [1, 2, 2, 3, branches.length || 3],
       sparklineColor: '#10B981'
     },
     {
       id: 'total-batches',
       label: 'Regular Batches',
       value: totalBatchesCount,
-      sparklineData: [1, 2, 3, 4, totalBatchesCount || 4],
+      delta: { value: 'Active Batches', isPositive: true },
+      sparklineData: [2, 4, 6, totalBatchesCount || 6],
       sparklineColor: '#3B82F6'
     },
     {
       id: 'total-faculty',
-      label: 'Staff & Teachers',
-      value: staffList.length,
-      sparklineData: [2, 4, 6, 8, staffList.length || 8],
+      label: 'Staff & Faculty',
+      value: totalStaffCount,
+      delta: { value: 'Staff Members', isPositive: true },
+      sparklineData: [4, 8, 12, totalStaffCount || 12],
       sparklineColor: '#8B5CF6'
     }
   ];
 
   return (
     <div className={styles.container}>
-      {/* 1. Standard Page Header */}
-      <PageHeader title="Departments" />
+      {/* 1. Page Header */}
+      <PageHeader 
+        title="Departments" 
+        actions={
+          <Button
+            variant="primary"
+            size="sm"
+            icon={<Plus size={15} />}
+            onClick={() => {
+              setEditingDept(null);
+              setIsModalOpen(true);
+            }}
+          >
+            + New Department
+          </Button>
+        }
+      />
 
       {/* 2. Overview Metrics Strip */}
       <MetricsStrip metrics={metricItems} />
@@ -152,112 +175,113 @@ export default function Departments() {
         searchValue={search}
         onSearchChange={setSearch}
         searchPlaceholder="Search departments by name..."
-        primaryActionLabel="New Department"
-        onPrimaryActionClick={() => {
-          setEditingDept(null);
-          setIsModalOpen(true);
-        }}
-        primaryActionIcon={<Plus size={15} strokeWidth={2.5} />}
       />
 
       {/* 4. Global Standard Table */}
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th className={styles.th}>Department Name</th>
-              <th className={styles.th}>Active Campuses</th>
-              <th className={styles.th}>Regular Batches</th>
-              <th className={styles.th}>Faculty Members</th>
-              <th className={styles.th}>Status</th>
-              <th className={`${styles.th} ${styles.actionTd}`}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
+      <div className={styles.tableCard}>
+        <div className={styles.tableWrapper}>
+          <table className={styles.table}>
+            <thead>
               <tr>
-                <td colSpan={6} className={styles.loadingRow}>
-                  Loading departments directory...
-                </td>
+                <th className={styles.th}>Department Name</th>
+                <th className={styles.th}>Active Campuses</th>
+                <th className={styles.th}>Regular Batches</th>
+                <th className={styles.th}>Faculty Members</th>
+                <th className={styles.th}>Status</th>
+                <th className={styles.th} style={{ textAlign: 'right' }}>Actions</th>
               </tr>
-            ) : filtered.length === 0 ? (
-              <tr>
-                <td colSpan={6} className={styles.emptyRow}>
-                  No departments found. Click "New Department" to create one.
-                </td>
-              </tr>
-            ) : (
-              filtered.map(dept => {
-                const activeBranches = dept.branches || [];
-                const deptBatchCount = batches.filter(b => b.departmentId === dept.id || b.departmentName === dept.name).length;
-                const facultyCount = staffList.filter(s => s.assignedDepartments?.some(ad => ad.departmentId === dept.id || ad.department?.id === dept.id)).length;
+            </thead>
+            <tbody>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={6} className={styles.td} style={{ textAlign: 'center', padding: '40px' }}>
+                    Loading departments directory...
+                  </td>
+                </tr>
+              ) : filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className={styles.td} style={{ textAlign: 'center', padding: '40px' }}>
+                    No departments found. Click "+ New Department" to create one.
+                  </td>
+                </tr>
+              ) : (
+                filtered.map(dept => {
+                  const activeBranches = Array.isArray(dept.branches) ? dept.branches : [];
+                  const deptBatchCount = (batches || []).filter(b => b.departmentId === dept.id || b.departmentName === dept.name).length;
+                  const facultyCount = (staffList || []).filter(s => 
+                    Array.isArray(s.assignedDepartments) && s.assignedDepartments.some(ad => ad && (ad.departmentId === dept.id || ad.department?.id === dept.id))
+                  ).length;
 
-                return (
-                  <tr className={styles.tr} key={dept.id}>
-                    <td className={styles.td} style={{ fontWeight: 700 }}>
-                      <span 
-                        style={{ cursor: 'pointer', color: 'var(--text-primary)' }}
-                        onClick={() => {
-                          setEditingDept(dept);
-                          setIsModalOpen(true);
-                        }}
-                      >
-                        {dept.name}
-                      </span>
-                    </td>
-                    <td className={styles.td}>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                        {activeBranches.length === 0 ? (
-                          <span style={{ fontSize: '0.78rem', color: 'var(--text-tertiary)' }}>No campuses</span>
-                        ) : (
-                          activeBranches.map(b => (
-                            <span 
-                              key={b.id}
-                              style={{
-                                padding: '2px 8px',
-                                borderRadius: '4px',
-                                backgroundColor: 'var(--bg-surface-hover, #F1F5F9)',
-                                color: 'var(--text-secondary, #334155)',
-                                fontSize: '0.75rem',
-                                fontWeight: 600
-                              }}
-                            >
-                              {b.name}
-                            </span>
-                          ))
-                        )}
-                      </div>
-                    </td>
-                    <td className={styles.td} style={{ fontWeight: 600 }}>
-                      {deptBatchCount} Batches
-                    </td>
-                    <td className={styles.td} style={{ fontWeight: 600 }}>
-                      {facultyCount} Teachers
-                    </td>
-                    <td className={styles.td}>
-                      <StatusBadge status={dept.status} />
-                    </td>
-                    <td className={`${styles.td} ${styles.actionTd}`}>
-                      <TableActionMenu 
-                        items={[]}
-                        status={dept.status}
-                        onEdit={() => {
-                          setEditingDept(dept);
-                          setIsModalOpen(true);
-                        }}
-                        onToggleStatus={() => handleToggleStatus(dept.id, dept.status)}
-                        onDelete={() => handleDelete(dept.id, dept.name)}
-                      />
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
+                  return (
+                    <tr className={styles.tr} key={dept.id}>
+                      <td className={styles.td}>
+                        <div className={styles.deptNameCell}>
+                          <span 
+                            className={styles.deptTitle}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              setEditingDept(dept);
+                              setIsModalOpen(true);
+                            }}
+                          >
+                            {dept.name}
+                          </span>
+                          <span className={styles.deptSub}>
+                            ID: {dept.id}
+                          </span>
+                        </div>
+                      </td>
+                      <td className={styles.td}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {activeBranches.length === 0 ? (
+                            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>No campuses assigned</span>
+                          ) : (
+                            activeBranches.map(b => (
+                              <span key={b.id} className={styles.campusPill}>
+                                <Building2 size={12} />
+                                <span>{b.name}</span>
+                              </span>
+                            ))
+                          )}
+                        </div>
+                      </td>
+                      <td className={styles.td} style={{ fontWeight: 600 }}>
+                        {deptBatchCount} Batches
+                      </td>
+                      <td className={styles.td} style={{ fontWeight: 600 }}>
+                        {facultyCount} Faculty
+                      </td>
+                      <td className={styles.td}>
+                        <StatusBadge status={dept.status} />
+                      </td>
+                      <td className={styles.td} style={{ textAlign: 'right' }}>
+                        <TableActionMenu 
+                          status={dept.status}
+                          onEdit={() => {
+                            setEditingDept(dept);
+                            setIsModalOpen(true);
+                          }}
+                          onToggleStatus={() => handleToggleStatus(dept.id, dept.status)}
+                          onDelete={() => handleDelete(dept.id, dept.name)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* 5. Footer Summary Strip */}
+        <div className={styles.tableFooterStrip}>
+          <span>
+            Showing <strong>{filtered.length}</strong> of <strong>{departments.length}</strong> departments
+          </span>
+        </div>
       </div>
 
-      {/* 5. Department Editor Modal */}
+      {/* 6. Department Editor Modal */}
       <ManageDepartmentModal
         isOpen={isModalOpen}
         initialData={editingDept}
