@@ -217,23 +217,25 @@ export default function Payments() {
         onSearchChange={setSearch}
         searchPlaceholder="Search Voucher No, Student, TrxID, Phone..."
         extraFilters={
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <div style={{ width: '180px' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{ minWidth: '220px' }}>
               <CustomSelect
+                fullWidth
                 value={categoryFilter}
                 onChange={setCategoryFilter}
                 options={[
                   { value: 'ALL', label: 'All Categories' },
                   { value: 'MONTHLY_TUITION', label: 'Monthly Tuition' },
-                  { value: 'WORKSHOP_FEE', label: 'Workshop & Training Fee' },
-                  { value: 'ADMISSION_FEE', label: 'Department Admission Fee' },
+                  { value: 'WORKSHOP_FEE', label: 'Workshop Fee' },
+                  { value: 'ADMISSION_FEE', label: 'Admission Fee' },
                   { value: 'REGISTRATION_FEE', label: 'Registration Fee' }
                 ]}
               />
             </div>
 
-            <div style={{ width: '150px' }}>
+            <div style={{ minWidth: '150px' }}>
               <CustomSelect
+                fullWidth
                 value={methodFilter}
                 onChange={setMethodFilter}
                 options={[
@@ -241,21 +243,23 @@ export default function Payments() {
                   { value: 'bKash', label: 'bKash' },
                   { value: 'Nagad', label: 'Nagad' },
                   { value: 'Rocket', label: 'Rocket' },
-                  { value: 'Cash / Desk', label: 'Cash / Desk' },
-                  { value: 'Bank Transfer', label: 'Bank Transfer' }
+                  { value: 'Easypay', label: 'Easypay' },
+                  { value: 'SSLCommerz', label: 'SSLCommerz' },
+                  { value: 'Cash', label: 'Cash Desk' }
                 ]}
               />
             </div>
 
-            <div style={{ width: '140px' }}>
+            <div style={{ minWidth: '140px' }}>
               <CustomSelect
+                fullWidth
                 value={statusFilter}
                 onChange={setStatusFilter}
                 options={[
                   { value: 'ALL', label: 'All Status' },
                   { value: 'PAID', label: 'Paid' },
                   { value: 'DUE', label: 'Due / Unpaid' },
-                  { value: 'PARTIAL', label: 'Partial' }
+                  { value: 'REFUNDED', label: 'Refunded' }
                 ]}
               />
             </div>

@@ -1,6 +1,7 @@
 .selectContainer {
   position: relative;
   display: inline-block;
+  max-width: 100%;
 }
 
 .fullWidth {
@@ -25,6 +26,8 @@
   user-select: none;
   box-sizing: border-box;
   text-align: left;
+  max-width: 100%;
+  width: 100%;
 }
 
 .fullWidth .triggerBtn {
@@ -77,17 +80,23 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
+  flex: 1;
 }
 
 .labelPrefix {
   color: var(--text-tertiary, #94A3B8);
   font-weight: 500;
   font-size: 0.78rem;
+  flex-shrink: 0;
 }
 
 .labelText {
   color: var(--text-primary, #0F172A);
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 [data-theme="dark"] .labelText {
