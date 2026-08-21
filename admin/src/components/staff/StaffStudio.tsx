@@ -168,10 +168,11 @@ export default function StaffStudio({
               <label className="label">Official Role *</label>
               <select
                 className="select"
-                value={formData.role === 'COORDINATOR' ? 'STAFF' : formData.role}
+                value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value as StaffRole })}
               >
                 <option value="STAFF">Staff & Faculty (Branch & Department Operations)</option>
+                <option value="ACCOUNT_OFFICER">Accounts Officer (Financial Management & Ledger)</option>
                 <option value="SUPER_ADMIN">Super Administrator (Central Full Access)</option>
               </select>
             </div>

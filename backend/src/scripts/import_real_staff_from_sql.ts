@@ -143,6 +143,7 @@ export async function importAllRealStaffFromSql() {
       if (deptRecitation) deptIdsToAssign.push(deptRecitation.id);
     } else if (nameLower.includes('tawhid')) {
       designation = 'Senior Accounts & Finance Officer';
+      roleEnum = 'ACCOUNT_OFFICER';
       if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
     } else if (nameLower.includes('jahed')) {
       designation = 'Central Academic Coordinator';
