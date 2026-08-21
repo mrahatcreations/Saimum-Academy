@@ -56,13 +56,17 @@ export async function importAllRealPaymentsFromSql() {
       else if (depts.includes('Recitation')) deptName = 'আবৃত্তি ও উপস্থাপনা বিভাগ';
     }
 
-    // Category mapping
+    // Exact Category mapping matching legacy academy structure
     let category = 'OTHER';
-    if (sp.type === 'registration') category = 'ADMISSION_FEE';
-    else if (sp.type === 'monthly') category = 'MONTHLY_TUITION';
-    else if (sp.type === 'admission') category = 'WORKSHOP_FEE';
-    else if (sp.label && sp.label.includes('রেজিস্ট্রেশন')) category = 'ADMISSION_FEE';
-    else if (sp.label && sp.label.includes('মাসিক')) category = 'MONTHLY_TUITION';
+    if (sp.type === 'monthly' || (sp.label && sp.label.includes('মাসিক'))) {
+      category = 'MONTHLY_TUITION';
+    } else if (sp.label && (sp.label.includes('প্রস্তুতিপর্ব') || sp.label.includes('প্রশিক্ষণ') || sp.label.includes('কর্মশালা'))) {
+      category = 'WORKSHOP_FEE';
+    } else if (sp.type === 'registration' || (sp.label && sp.label.includes('রেজিস্ট্রেশন'))) {
+      category = 'REGISTRATION_FEE';
+    } else if (sp.type === 'admission' || (sp.label && sp.label.includes('ভর্তি ফি'))) {
+      category = 'ADMISSION_FEE';
+    }
 
     // Status mapping
     // 0: Due/Pending, 1: Approved/Paid, 2: Paid/Success, 3: Cancelled/Refunded
@@ -92,8 +96,12 @@ export async function importAllRealPaymentsFromSql() {
       const mIdx = parseInt(sp.period_month, 10);
       const mName = (mIdx >= 1 && mIdx <= 12) ? monthNames[mIdx] : `Month ${sp.period_month}`;
       monthStr = `${mName} ${sp.period_year}`;
+    } else if (category === 'REGISTRATION_FEE') {
+      monthStr = 'Application Circular';
     } else if (category === 'ADMISSION_FEE') {
-      monthStr = 'Admission Circular 2026';
+      monthStr = 'Department Enrollment';
+    } else if (category === 'WORKSHOP_FEE') {
+      monthStr = 'Preparation Training';
     }
 
     // Method normalization
@@ -145,20 +153,20 @@ export async function importAllRealPaymentsFromSql() {
     await prisma.payment.createMany({ data: chunk });
   }
 
-  // Calculate real aggregates
-  const totalIncome = await prisma.payment.aggregate({ _sum: { paidAmount: true } });
-  const totalDue = await prisma.payment.aggregate({ _sum: { dueAmount: true } });
-  const totalPayable = await prisma.payment.aggregate({ _sum: { payableAmount: true } });
-  const countPaid = await prisma.payment.count({ where: { status: 'PAID' } });
-  const countDue = await prisma.payment.count({ where: { status: 'DUE' } });
+  // Count by category
+  const categoryCounts = await prisma.payment.groupBy({
+    by: ['category'],
+    _count: { id: true },
+    _sum: { paidAmount: true }
+  });
+
+  console.log('\n--- Real Category Distribution ---');
+  categoryCounts.forEach(c => {
+    console.log(` - ${c.category}: ${c._count.id} records (Paid: ৳${c._sum.paidAmount?.toLocaleString()})`);
+  });
 
   console.log('\n======================================================');
-  console.log('🎉 100% REAL PAYMENTS IMPORTED FROM SQL DUMP!');
-  console.log(`💳 Total Payments Ingested: ${paymentCreates.length} records`);
-  console.log(`✅ Paid Vouchers: ${countPaid} | ⏳ Due Vouchers: ${countDue}`);
-  console.log(`💵 Real Collections (Paid): ৳${totalIncome._sum.paidAmount?.toLocaleString()}`);
-  console.log(`📋 Total Billed (Payable): ৳${totalPayable._sum.payableAmount?.toLocaleString()}`);
-  console.log(`⏳ Total Outstanding Due: ৳${totalDue._sum.dueAmount?.toLocaleString()}`);
+  console.log('🎉 REAL PAYMENTS SYNCED WITH EXACT CATEGORIES!');
   console.log('======================================================\n');
 }
 

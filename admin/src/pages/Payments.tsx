@@ -218,16 +218,16 @@ export default function Payments() {
         searchPlaceholder="Search Voucher No, Student, TrxID, Phone..."
         extraFilters={
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <div style={{ width: '160px' }}>
+            <div style={{ width: '180px' }}>
               <CustomSelect
                 value={categoryFilter}
                 onChange={setCategoryFilter}
                 options={[
                   { value: 'ALL', label: 'All Categories' },
-                  { value: 'ADMISSION_FEE', label: 'Admission Fee' },
                   { value: 'MONTHLY_TUITION', label: 'Monthly Tuition' },
-                  { value: 'WORKSHOP_FEE', label: 'Workshop Fee' },
-                  { value: 'ID_CARD_FEE', label: 'ID Card Fee' }
+                  { value: 'WORKSHOP_FEE', label: 'Workshop & Training Fee' },
+                  { value: 'ADMISSION_FEE', label: 'Department Admission Fee' },
+                  { value: 'REGISTRATION_FEE', label: 'Registration Fee' }
                 ]}
               />
             </div>
