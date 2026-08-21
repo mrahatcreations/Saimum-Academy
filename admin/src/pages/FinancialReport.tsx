@@ -125,7 +125,7 @@ export default function FinancialReport() {
     <div className={styles.container}>
       {/* 1. Page Header */}
       <PageHeader
-        title="Financial Reports & Executive Accounts"
+        title="Financial Management & Executive Accounts"
         actions={
           <>
             <Button

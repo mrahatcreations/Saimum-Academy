@@ -109,9 +109,9 @@ export default function Sidebar({ isCollapsed, toggleSidebar, closeMobileDrawer 
             <span className={styles.navIcon}><CreditCard size={18} /></span> 
             <span className={styles.navText}>Payments</span>
           </NavLink>
-          <NavLink to="/financial-report" className={getNavClass} title="Financial Reports & Accounts">
+          <NavLink to="/financial-management" className={getNavClass} title="Financial Management & Accounts">
             <span className={styles.navIcon}><TrendingUp size={18} /></span> 
-            <span className={styles.navText}>Financial Report</span>
+            <span className={styles.navText}>Financial Management</span>
           </NavLink>
         </div>
 

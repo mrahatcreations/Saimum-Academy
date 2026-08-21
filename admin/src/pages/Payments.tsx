@@ -6,7 +6,6 @@ import {
   Download, 
   Plus, 
   CheckCircle, 
-  Clock,
   Layers,
   ChevronLeft,
   ChevronRight
@@ -110,28 +109,28 @@ export default function Payments() {
         icon: <CreditCard size={18} />
       },
       {
-        id: 'admission_collected',
-        label: 'Admission Fees',
-        value: `৳${metrics.admissionCollected.toLocaleString()}`,
-        badge: 'Intake 2026',
-        badgeVariant: 'info',
-        icon: <Receipt size={18} />
-      },
-      {
         id: 'tuition_collected',
-        label: 'Tuition Fees',
+        label: 'Monthly Tuition',
         value: `৳${metrics.tuitionCollected.toLocaleString()}`,
-        badge: 'Monthly Batch',
+        badge: 'Regular Batches',
         badgeVariant: 'purple',
         icon: <Layers size={18} />
       },
       {
-        id: 'total_due',
-        label: 'Outstanding Due',
-        value: `৳${metrics.totalDue.toLocaleString()}`,
-        badge: `${metrics.dueCount} Pending`,
-        badgeVariant: metrics.totalDue > 0 ? 'warning' : 'neutral',
-        icon: <Clock size={18} />
+        id: 'workshop_collected',
+        label: 'Workshop & Training',
+        value: `৳${metrics.workshopCollected.toLocaleString()}`,
+        badge: 'Cohort Fees',
+        badgeVariant: 'info',
+        icon: <Receipt size={18} />
+      },
+      {
+        id: 'admission_collected',
+        label: 'Admission & Reg Fees',
+        value: `৳${metrics.admissionCollected.toLocaleString()}`,
+        badge: 'Intakes',
+        badgeVariant: 'neutral',
+        icon: <CheckCircle size={18} />
       }
     ];
   }, [metrics]);
@@ -372,9 +371,6 @@ export default function Payments() {
                       <td className={styles.td}>
                         <div className={styles.amountCell}>
                           <span className={styles.paidAmount}>৳{p.paidAmount.toLocaleString()}</span>
-                          {p.dueAmount > 0 && (
-                            <span className={styles.dueAmount}>Due: ৳{p.dueAmount.toLocaleString()}</span>
-                          )}
                         </div>
                       </td>
 

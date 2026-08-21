@@ -25,12 +25,11 @@ export interface PaymentRecord {
 
 export interface PaymentMetrics {
   totalCollected: number;
-  totalDue: number;
-  admissionCollected: number;
   tuitionCollected: number;
+  workshopCollected: number;
+  admissionCollected: number;
   totalVouchersCount: number;
   paidCount: number;
-  dueCount: number;
 }
 
 export interface ExpenseRecord {

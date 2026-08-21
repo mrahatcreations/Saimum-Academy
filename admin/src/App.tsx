@@ -51,6 +51,7 @@ function App() {
               <Route path="departments" element={<Departments />} />
               <Route path="subjects" element={<Subjects />} />
               <Route path="payments" element={<Payments />} />
+              <Route path="financial-management" element={<FinancialReport />} />
               <Route path="financial-report" element={<FinancialReport />} />
               <Route path="staff" element={<Staff />} />
               <Route path="hierarchy" element={<OrgHierarchy />} />

@@ -11,34 +11,39 @@ paymentsRouter.get('/metrics', async (_req: Request, res: Response) => {
       _sum: { paidAmount: true }
     });
 
-    const totalDue = await prisma.payment.aggregate({
-      _sum: { dueAmount: true }
-    });
-
-    const admissionCollected = await prisma.payment.aggregate({
-      where: { category: 'ADMISSION_FEE', status: 'PAID' },
-      _sum: { paidAmount: true }
-    });
-
     const tuitionCollected = await prisma.payment.aggregate({
       where: { category: 'MONTHLY_TUITION', status: 'PAID' },
       _sum: { paidAmount: true }
     });
 
+    const workshopCollected = await prisma.payment.aggregate({
+      where: { category: 'WORKSHOP_FEE', status: 'PAID' },
+      _sum: { paidAmount: true }
+    });
+
+    const admissionCollected = await prisma.payment.aggregate({
+      where: { 
+        OR: [
+          { category: 'ADMISSION_FEE' },
+          { category: 'REGISTRATION_FEE' }
+        ],
+        status: 'PAID'
+      },
+      _sum: { paidAmount: true }
+    });
+
     const totalVouchersCount = await prisma.payment.count();
     const paidCount = await prisma.payment.count({ where: { status: 'PAID' } });
-    const dueCount = await prisma.payment.count({ where: { status: 'DUE' } });
 
     res.json({
       success: true,
       data: {
         totalCollected: totalCollected._sum.paidAmount || 0,
-        totalDue: totalDue._sum.dueAmount || 0,
-        admissionCollected: admissionCollected._sum.paidAmount || 0,
         tuitionCollected: tuitionCollected._sum.paidAmount || 0,
+        workshopCollected: workshopCollected._sum.paidAmount || 0,
+        admissionCollected: admissionCollected._sum.paidAmount || 0,
         totalVouchersCount,
-        paidCount,
-        dueCount
+        paidCount
       }
     });
   } catch (error: any) {
