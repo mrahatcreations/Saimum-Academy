@@ -22,7 +22,7 @@ export default function Students() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState<StudentItem | null>(null);
   const [search, setSearch] = useState('');
-  const [activeTab, setActiveTab] = useState<'ALL' | 'ACTIVE' | 'INACTIVE'>('ALL');
+  const [activeTab, setActiveTab] = useState<'ALL' | 'REGULAR' | 'WORKSHOP' | 'ONLINE' | 'INACTIVE'>('ALL');
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
@@ -107,13 +107,17 @@ export default function Students() {
 
   // Metric counts
   const totalCount = students.length;
-  const activeCount = students.filter(s => s.status === 'ACTIVE').length;
+  const regularCount = students.filter(s => (s.studentType || 'REGULAR') === 'REGULAR').length;
+  const workshopCount = students.filter(s => s.studentType === 'WORKSHOP').length;
+  const onlineCount = students.filter(s => s.studentType === 'ONLINE').length;
   const inactiveCount = students.filter(s => s.status === 'INACTIVE').length;
 
   const filteredStudents = useMemo(() => {
     return students.filter(s => {
-      if (activeTab === 'ACTIVE' && s.status !== 'ACTIVE') return false;
       if (activeTab === 'INACTIVE' && s.status !== 'INACTIVE') return false;
+      if (activeTab === 'REGULAR' && (s.studentType || 'REGULAR') !== 'REGULAR') return false;
+      if (activeTab === 'WORKSHOP' && s.studentType !== 'WORKSHOP') return false;
+      if (activeTab === 'ONLINE' && s.studentType !== 'ONLINE') return false;
       return true;
     });
   }, [students, activeTab]);
@@ -145,38 +149,40 @@ export default function Students() {
   const metricsData: MetricItem[] = [
     {
       id: 'total',
-      label: 'Enrolled Students',
+      label: 'All Enrolled Students',
       value: totalCount,
       sparklineData: [40, 45, 48, 55, 52, 60, totalCount || 60],
       sparklineColor: '#FF790E'
     },
     {
-      id: 'active',
-      label: 'Active Regular',
-      value: activeCount,
-      sparklineData: [35, 40, 42, 48, 50, activeCount || 55],
+      id: 'regular',
+      label: 'Regular Dept Students',
+      value: regularCount,
+      sparklineData: [35, 40, 42, 48, 50, regularCount || 55],
       sparklineColor: '#10B981'
     },
     {
-      id: 'inactive',
-      label: 'Inactive / On Leave',
-      value: inactiveCount,
-      sparklineData: [8, 7, 9, 6, 8, inactiveCount || 5],
-      sparklineColor: '#F59E0B'
+      id: 'workshop',
+      label: 'Workshop Trainees',
+      value: workshopCount,
+      sparklineData: [8, 12, 16, 20, 24, workshopCount || 0],
+      sparklineColor: '#6366F1'
     },
     {
-      id: 'graduated',
-      label: 'Graduated Alumni',
-      value: 142,
-      sparklineData: [100, 110, 115, 125, 130, 142],
-      sparklineColor: '#6366F1'
+      id: 'online',
+      label: 'Online Batch Students',
+      value: onlineCount,
+      sparklineData: [5, 8, 10, 12, 14, onlineCount || 0],
+      sparklineColor: '#3B82F6'
     }
   ];
 
   const tabItems: TabItem<string>[] = [
     { id: 'ALL', label: 'All Students', count: totalCount },
-    { id: 'ACTIVE', label: 'Active Regular', count: activeCount },
-    { id: 'INACTIVE', label: 'Inactive / On Leave', count: inactiveCount }
+    { id: 'REGULAR', label: 'Regular Department', count: regularCount },
+    { id: 'WORKSHOP', label: 'Workshop Trainees', count: workshopCount },
+    { id: 'ONLINE', label: 'Online Batches', count: onlineCount },
+    { id: 'INACTIVE', label: 'Inactive', count: inactiveCount }
   ];
 
   const bulkActions: BulkActionItem[] = [
@@ -249,6 +255,7 @@ export default function Students() {
               </th>
               <th className={styles.th}>Student ID</th>
               <th className={styles.th}>Full Name</th>
+              <th className={styles.th}>Type</th>
               <th className={styles.th}>Contact</th>
               <th className={styles.th}>Status</th>
               <th className={`${styles.th} ${styles.actionTd}`}></th>
@@ -302,6 +309,13 @@ export default function Students() {
                           <span className={styles.personName}>{student.fullName}</span>
                         </div>
                       </div>
+                    </td>
+
+                    <td className={styles.td}>
+                      <StatusBadge 
+                        status={student.studentType === 'WORKSHOP' ? 'Workshop' : student.studentType === 'ONLINE' ? 'Online' : 'Regular'} 
+                        variant={student.studentType === 'WORKSHOP' ? 'purple' : student.studentType === 'ONLINE' ? 'info' : 'success'}
+                      />
                     </td>
 
                     <td className={styles.td}>

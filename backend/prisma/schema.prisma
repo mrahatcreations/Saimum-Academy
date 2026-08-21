@@ -224,11 +224,12 @@ model AdmissionSession {
   updatedAt         DateTime       @updatedAt
 }
 
-// Created only when someone becomes a regular student
+// Created when someone becomes an enrolled student (regular, workshop, online)
 model Student {
   id                String   @id @default(uuid())
   studentId         String   @unique
   personId          String   @unique
+  studentType       String   @default("REGULAR") // REGULAR | WORKSHOP | ONLINE
   status            String   @default("ACTIVE")
 
   person            Person   @relation(fields: [personId], references: [id], onDelete: Cascade)

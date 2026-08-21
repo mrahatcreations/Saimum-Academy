@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 export async function importAllRealStaffFromSql() {
-  console.log('🚀 Ingesting 100% REAL Staff & Coordinators from saimumor_academy.sql...\n');
+  console.log('🚀 Ingesting 100% REAL Staff & Coordinators with Exact Roles...\n');
 
   // 1. Clear existing staff
   await prisma.staffDepartmentAssignment.deleteMany();
@@ -116,9 +116,9 @@ export async function importAllRealStaffFromSql() {
     const nameLower = name.toLowerCase();
     const roles: string[] = s.assignedRoles || [];
 
-    // Role is STAFF for everyone (Super Admin for central operations director)
-    let roleEnum = 'STAFF';
-    let designation = 'Academy Staff & Faculty';
+    // Exact Role Mapping: Department Admin, Account Officer, Teacher, Examiner, Super Admin
+    let roleEnum = 'TEACHER';
+    let designation = 'Academy Faculty & Teacher';
     const deptIdsToAssign: string[] = [];
 
     if (nameLower.includes('saiful mamun') || nameLower.includes('saiful mollik') || s.id === 23) {
@@ -128,57 +128,71 @@ export async function importAllRealStaffFromSql() {
       if (deptKids) deptIdsToAssign.push(deptKids.id);
     } else if (nameLower.includes('azad')) {
       designation = 'Director (শিশু বিভাগ)';
+      roleEnum = 'DEPARTMENT_ADMIN';
       if (deptKids) deptIdsToAssign.push(deptKids.id);
     } else if (nameLower.includes('raad') || nameLower.includes('ezama') || nameLower.includes('রাআদ')) {
       designation = 'Director (সঙ্গীত বিভাগ)';
+      roleEnum = 'DEPARTMENT_ADMIN';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('emon') || nameLower.includes('nazmul islam emon')) {
       designation = 'Director (থিয়েটার বিভাগ)';
+      roleEnum = 'DEPARTMENT_ADMIN';
       if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
     } else if (nameLower.includes('muminul') || nameLower.includes('qarimuminulislam')) {
       designation = 'Director (ক্বিরাত বিভাগ)';
+      roleEnum = 'DEPARTMENT_ADMIN';
       if (deptQiraat) deptIdsToAssign.push(deptQiraat.id);
     } else if (nameLower.includes('zihad') || nameLower.includes('sayeeduzzaman')) {
       designation = 'Director (আবৃত্তি ও উপস্থাপনা বিভাগ)';
+      roleEnum = 'DEPARTMENT_ADMIN';
       if (deptRecitation) deptIdsToAssign.push(deptRecitation.id);
     } else if (nameLower.includes('tawhid')) {
-      designation = 'Senior Accounts & Finance Officer';
+      designation = 'Senior Accounts Officer';
       roleEnum = 'ACCOUNT_OFFICER';
       if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
     } else if (nameLower.includes('jahed')) {
       designation = 'Central Academic Coordinator';
+      roleEnum = 'DEPARTMENT_ADMIN';
     } else if (nameLower.includes('niamul')) {
       designation = 'Central Academy Administrator';
+      roleEnum = 'DEPARTMENT_ADMIN';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('nazif')) {
-      designation = 'Senior Faculty & Moderator (সঙ্গীত বিভাগ)';
+      designation = 'Senior Vocal Faculty & Teacher';
+      roleEnum = 'TEACHER';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('morshedul')) {
-      designation = 'Senior Faculty & Moderator';
+      designation = 'Senior Faculty & Teacher';
+      roleEnum = 'TEACHER';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
       if (deptKids) deptIdsToAssign.push(deptKids.id);
     } else if (nameLower.includes('banna') || nameLower.includes('bannah')) {
-      designation = 'Senior Vocal Faculty';
+      designation = 'Senior Vocal Teacher';
+      roleEnum = 'TEACHER';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('akib')) {
-      designation = 'Faculty & Coordinator';
+      designation = 'Faculty & Teacher';
+      roleEnum = 'TEACHER';
       if (deptRecitation) deptIdsToAssign.push(deptRecitation.id);
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('delwar') || nameLower.includes('zayd')) {
-      designation = 'Faculty Coordinator (ক্বিরাত বিভাগ)';
+      designation = 'Qiraat Faculty & Teacher';
+      roleEnum = 'TEACHER';
       if (deptQiraat) deptIdsToAssign.push(deptQiraat.id);
     } else if (nameLower.includes('kaium') || nameLower.includes('abdul kaium')) {
-      designation = 'Coordinator (থিয়েটার ও সঙ্গীত বিভাগ)';
+      designation = 'Theatre & Vocal Teacher';
+      roleEnum = 'TEACHER';
       if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (roles.includes('examiner')) {
       designation = 'Audition Examiner & Evaluator';
-    } else if (roles.includes('moderator')) {
-      designation = 'Workshop & Batch Moderator';
-    } else if (roles.includes('teacher')) {
-      designation = 'Academy Instructor';
-    } else if (roles.includes('agent')) {
-      designation = 'Field Agent & Intake Coordinator';
+      roleEnum = 'EXAMINER';
+    } else if (roles.includes('teacher') || roles.includes('moderator')) {
+      designation = 'Teacher & Batch Instructor';
+      roleEnum = 'TEACHER';
+    } else {
+      designation = 'Faculty & Field Coordinator';
+      roleEnum = 'TEACHER';
     }
 
     // Match Person profile
@@ -273,8 +287,16 @@ export async function importAllRealStaffFromSql() {
     }
   }
 
+  const roleCounts = await prisma.staff.groupBy({
+    by: ['role'],
+    _count: { id: true }
+  });
+
+  console.log('\n--- Staff Role Distribution ---');
+  roleCounts.forEach(r => console.log(` - ${r.role}: ${r._count.id} members`));
+
   console.log(`\n======================================================`);
-  console.log(`🎉 100% REAL STAFF & DIRECTORS INGESTED: ${createdCount} Active Officers!`);
+  console.log(`🎉 100% REAL STAFF INGESTED: ${createdCount} Active Officers!`);
   console.log(`======================================================\n`);
 }
 

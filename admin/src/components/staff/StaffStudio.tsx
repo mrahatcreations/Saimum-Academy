@@ -171,9 +171,12 @@ export default function StaffStudio({
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value as StaffRole })}
               >
-                <option value="STAFF">Staff & Faculty (Branch & Department Operations)</option>
-                <option value="ACCOUNT_OFFICER">Accounts Officer (Financial Management & Ledger)</option>
+                <option value="DEPARTMENT_ADMIN">Department Admin (Director / Wing Head)</option>
+                <option value="TEACHER">Teacher (Faculty & Instructor)</option>
+                <option value="ACCOUNT_OFFICER">Account Officer (Financial Management & Ledger)</option>
+                <option value="EXAMINER">Audition Examiner (Audition & Viva Evaluator)</option>
                 <option value="SUPER_ADMIN">Super Administrator (Central Full Access)</option>
+                <option value="STAFF">General Staff & Coordinator</option>
               </select>
             </div>
 

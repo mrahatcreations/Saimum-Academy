@@ -444,6 +444,7 @@ academicRouter.get('/students', async (req: Request, res: Response) => {
       gender: s.person.gender,
       bloodGroup: s.person.bloodGroup,
       photoUrl: s.person.photoUrl,
+      studentType: (s as any).studentType || 'REGULAR',
       status: s.status,
       personId: s.personId,
       enrolledBatches: s.batchMemberships.map(bm => ({

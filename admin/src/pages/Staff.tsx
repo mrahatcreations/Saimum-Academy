@@ -43,7 +43,7 @@ export default function Staff() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedBranch, setSelectedBranch] = useState('ALL');
-  const [activeTab, setActiveTab] = useState<'ALL' | 'SUPER_ADMIN' | 'ACCOUNT_OFFICER' | 'STAFF' | 'INACTIVE'>('ALL');
+  const [activeTab, setActiveTab] = useState<'ALL' | 'DEPARTMENT_ADMIN' | 'TEACHER' | 'ACCOUNT_OFFICER' | 'SUPER_ADMIN' | 'INACTIVE'>('ALL');
   const [viewMode, setViewMode] = useState<'list' | 'grid' | 'tree'>('list');
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -150,8 +150,9 @@ export default function Staff() {
     return staffList.filter(s => {
       if (activeTab === 'INACTIVE' && s.status !== 'INACTIVE') return false;
       if (activeTab === 'SUPER_ADMIN' && s.role !== 'SUPER_ADMIN') return false;
+      if (activeTab === 'DEPARTMENT_ADMIN' && s.role !== 'DEPARTMENT_ADMIN') return false;
+      if (activeTab === 'TEACHER' && s.role !== 'TEACHER') return false;
       if (activeTab === 'ACCOUNT_OFFICER' && s.role !== 'ACCOUNT_OFFICER') return false;
-      if (activeTab === 'STAFF' && (s.role === 'SUPER_ADMIN' || s.role === 'ACCOUNT_OFFICER')) return false;
       return true;
     });
   }, [staffList, activeTab]);
@@ -235,72 +236,71 @@ export default function Staff() {
 
   // Metric counts
   const totalStaffCount = staffList.length;
-  const superAdminCount = staffList.filter(s => s.role === 'SUPER_ADMIN').length;
+  const deptAdminCount = staffList.filter(s => s.role === 'DEPARTMENT_ADMIN').length;
+  const teacherCount = staffList.filter(s => s.role === 'TEACHER').length;
   const accountsOfficerCount = staffList.filter(s => s.role === 'ACCOUNT_OFFICER').length;
-  const generalStaffCount = staffList.filter(s => s.role === 'STAFF').length;
-  const activeCount = staffList.filter(s => s.status === 'ACTIVE').length;
-  const inactiveCount = staffList.filter(s => s.status === 'INACTIVE').length;
+  const superAdminCount = staffList.filter(s => s.role === 'SUPER_ADMIN').length;
 
   const metricItems: MetricItem[] = useMemo(() => [
     {
       id: 'total-staff',
-      label: 'Total Staff & Faculty',
+      label: 'Total Staff & Team',
       value: totalStaffCount,
       delta: { value: 'Verified Team', isPositive: true },
       sparklineData: [2, 3, 3, 4, 4, 5, 5, totalStaffCount || 10],
       sparklineColor: '#FF790E'
     },
     {
-      id: 'super-admins',
-      label: 'Super Admins',
-      value: superAdminCount,
-      delta: { value: 'Central Access', isPositive: true },
-      sparklineData: [1, 1, 1, 1, 1, 1, 1, superAdminCount || 2],
-      sparklineColor: '#8B5CF6'
+      id: 'dept-admins',
+      label: 'Department Admins',
+      value: deptAdminCount,
+      delta: { value: 'Wing Directors', isPositive: true },
+      sparklineData: [1, 2, 2, 3, 3, 4, 4, deptAdminCount || 8],
+      sparklineColor: '#FF790E'
+    },
+    {
+      id: 'teachers',
+      label: 'Teachers & Faculty',
+      value: teacherCount,
+      delta: { value: 'Class Instructors', isPositive: true },
+      sparklineData: [2, 4, 6, 8, 10, 12, 14, teacherCount || 17],
+      sparklineColor: '#10B981'
     },
     {
       id: 'accounts-officers',
-      label: 'Accounts Officers',
+      label: 'Account Officers',
       value: accountsOfficerCount,
       delta: { value: 'Finance & Ledger', isPositive: true },
-      sparklineData: [1, 1, 1, 1, 1, 1, 1, accountsOfficerCount || 1],
-      sparklineColor: '#F59E0B'
-    },
-    {
-      id: 'general-staff',
-      label: 'Branch & Dept Staff',
-      value: generalStaffCount,
-      delta: { value: 'Teaching & Operations', isPositive: true },
-      sparklineData: [1, 1, 2, 2, 2, 2, 2, generalStaffCount || 8],
-      sparklineColor: '#3B82F6'
-    },
-    {
-      id: 'active-staff',
-      label: 'Active Accounts',
-      value: activeCount,
-      delta: { value: 'Granted Access', isPositive: true },
-      sparklineData: [2, 2, 3, 3, 4, 4, 4, activeCount || 10],
-      sparklineColor: '#10B981'
+      sparklineData: [1, 1, 1, 1, 1, 1, 1, accountsOfficerCount || 2],
+      sparklineColor: '#8B5CF6'
     }
-  ], [totalStaffCount, superAdminCount, accountsOfficerCount, generalStaffCount, activeCount]);
+  ], [totalStaffCount, deptAdminCount, teacherCount, accountsOfficerCount]);
 
-  const tabs: TabItem<'ALL' | 'SUPER_ADMIN' | 'ACCOUNT_OFFICER' | 'STAFF' | 'INACTIVE'>[] = [
+  const tabs: TabItem<'ALL' | 'DEPARTMENT_ADMIN' | 'TEACHER' | 'ACCOUNT_OFFICER' | 'SUPER_ADMIN' | 'INACTIVE'>[] = [
     { id: 'ALL', label: 'All Staff', count: totalStaffCount },
-    { id: 'SUPER_ADMIN', label: 'Super Admins', count: superAdminCount },
-    { id: 'ACCOUNT_OFFICER', label: 'Accounts Officers', count: accountsOfficerCount },
-    { id: 'STAFF', label: 'Staff & Faculty', count: generalStaffCount },
-    { id: 'INACTIVE', label: 'Inactive', count: inactiveCount },
+    { id: 'DEPARTMENT_ADMIN', label: 'Department Admins', count: deptAdminCount },
+    { id: 'TEACHER', label: 'Teachers', count: teacherCount },
+    { id: 'ACCOUNT_OFFICER', label: 'Account Officers', count: accountsOfficerCount },
+    { id: 'SUPER_ADMIN', label: 'Super Admins', count: superAdminCount }
   ];
 
   // Helper for role badge
   const renderRoleBadge = (role: string) => {
-    if (role === 'SUPER_ADMIN') {
-      return <StatusBadge status="Super Admin" variant="purple" />;
+    switch (role) {
+      case 'SUPER_ADMIN':
+        return <StatusBadge status="Super Admin" variant="purple" />;
+      case 'DEPARTMENT_ADMIN':
+        return <StatusBadge status="Department Admin" variant="warning" />;
+      case 'TEACHER':
+        return <StatusBadge status="Teacher" variant="success" />;
+      case 'ACCOUNT_OFFICER':
+        return <StatusBadge status="Account Officer" variant="purple" />;
+      case 'EXAMINER':
+        return <StatusBadge status="Examiner" variant="neutral" />;
+      case 'STAFF':
+      default:
+        return <StatusBadge status={role || 'Staff'} variant="info" />;
     }
-    if (role === 'ACCOUNT_OFFICER') {
-      return <StatusBadge status="Accounts Officer" variant="warning" />;
-    }
-    return <StatusBadge status="Staff" variant="info" />;
   };
 
   // IF FULL-SCREEN STUDIO VIEW IS ACTIVE:
@@ -332,7 +332,7 @@ export default function Staff() {
       <MetricsStrip metrics={metricItems} />
 
       {/* 3. Sub Navigation Tabs (Role Filter) */}
-      <SubNavTabs<'ALL' | 'SUPER_ADMIN' | 'ACCOUNT_OFFICER' | 'STAFF' | 'INACTIVE'> 
+      <SubNavTabs<'ALL' | 'DEPARTMENT_ADMIN' | 'TEACHER' | 'ACCOUNT_OFFICER' | 'SUPER_ADMIN' | 'INACTIVE'> 
         tabs={tabs}
         activeTab={activeTab}
         onChange={(id) => setActiveTab(id)}

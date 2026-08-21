@@ -70,6 +70,7 @@ export interface StudentItem {
   gender?: string;
   bloodGroup?: string;
   photoUrl?: string;
+  studentType?: 'REGULAR' | 'WORKSHOP' | 'ONLINE';
   status: 'ACTIVE' | 'INACTIVE';
   personId?: string;
   enrolledBatches?: Array<{

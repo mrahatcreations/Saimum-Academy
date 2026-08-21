@@ -1,6 +1,6 @@
 import { apiRequest } from './apiClient';
 
-export type StaffRole = 'SUPER_ADMIN' | 'ACCOUNT_OFFICER' | 'STAFF' | 'COORDINATOR';
+export type StaffRole = 'SUPER_ADMIN' | 'DEPARTMENT_ADMIN' | 'TEACHER' | 'ACCOUNT_OFFICER' | 'EXAMINER' | 'STAFF';
 
 export interface AssignedDepartmentItem {
   id: string;
