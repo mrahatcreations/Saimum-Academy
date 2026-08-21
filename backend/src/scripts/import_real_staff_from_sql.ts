@@ -17,7 +17,6 @@ export async function importAllRealStaffFromSql() {
   const departments = await prisma.department.findMany();
 
   const centralBranch = branches.find(b => b.code === 'DHK-PLT' || b.name.includes('পল্টন') || b.name.includes('ঢাকা')) || branches[0];
-  const mirpurBranch = branches.find(b => b.code === 'DHK-MIR' || b.name.includes('মিরপুর')) || branches[1];
 
   const deptKids = departments.find(d => d.name.includes('শিশু'));
   const deptSongit = departments.find(d => d.name.includes('সঙ্গীত') || d.name.includes('গান'));
@@ -98,7 +97,6 @@ export async function importAllRealStaffFromSql() {
     if (!uniqueStaffMap.has(key)) {
       uniqueStaffMap.set(key, u);
     } else {
-      // Merge roles and take richest info
       const existing = uniqueStaffMap.get(key);
       const combinedRoles = Array.from(new Set([...existing.assignedRoles, ...u.assignedRoles]));
       existing.assignedRoles = combinedRoles;
@@ -118,86 +116,68 @@ export async function importAllRealStaffFromSql() {
     const nameLower = name.toLowerCase();
     const roles: string[] = s.assignedRoles || [];
 
-    // Determine Designation & Roles
-    let designation = 'Academy Staff & Faculty';
+    // Role is STAFF for everyone (Super Admin for central operations director)
     let roleEnum = 'STAFF';
+    let designation = 'Academy Staff & Faculty';
     const deptIdsToAssign: string[] = [];
 
-    if (nameLower.includes('azad')) {
-      designation = 'Department Director (শিশু বিভাগ)';
-      roleEnum = 'DIRECTOR';
-      if (deptKids) deptIdsToAssign.push(deptKids.id);
-    } else if (nameLower.includes('raad') || nameLower.includes('ezama') || nameLower.includes('রাআদ')) {
-      designation = 'Department Director (সঙ্গীত বিভাগ)';
-      roleEnum = 'DIRECTOR';
-      if (deptSongit) deptIdsToAssign.push(deptSongit.id);
-    } else if (nameLower.includes('emon') || nameLower.includes('nazmul islam emon')) {
-      designation = 'Department Director (থিয়েটার বিভাগ)';
-      roleEnum = 'DIRECTOR';
-      if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
-    } else if (nameLower.includes('muminul') || nameLower.includes('qarimuminulislam')) {
-      designation = 'Department Director (ক্বিরাত বিভাগ)';
-      roleEnum = 'DIRECTOR';
-      if (deptQiraat) deptIdsToAssign.push(deptQiraat.id);
-    } else if (nameLower.includes('zihad') || nameLower.includes('sayeeduzzaman')) {
-      designation = 'Department Director (আবৃত্তি ও উপস্থাপনা বিভাগ)';
-      roleEnum = 'DIRECTOR';
-      if (deptRecitation) deptIdsToAssign.push(deptRecitation.id);
-    } else if (nameLower.includes('saiful mamun') || nameLower.includes('saiful mollik') || nameLower.includes('saiful')) {
+    if (nameLower.includes('saiful mamun') || nameLower.includes('saiful mollik') || s.id === 23) {
       designation = 'Central Operations Director';
       roleEnum = 'SUPER_ADMIN';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
       if (deptKids) deptIdsToAssign.push(deptKids.id);
+    } else if (nameLower.includes('azad')) {
+      designation = 'Director (শিশু বিভাগ)';
+      if (deptKids) deptIdsToAssign.push(deptKids.id);
+    } else if (nameLower.includes('raad') || nameLower.includes('ezama') || nameLower.includes('রাআদ')) {
+      designation = 'Director (সঙ্গীত বিভাগ)';
+      if (deptSongit) deptIdsToAssign.push(deptSongit.id);
+    } else if (nameLower.includes('emon') || nameLower.includes('nazmul islam emon')) {
+      designation = 'Director (থিয়েটার বিভাগ)';
+      if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
+    } else if (nameLower.includes('muminul') || nameLower.includes('qarimuminulislam')) {
+      designation = 'Director (ক্বিরাত বিভাগ)';
+      if (deptQiraat) deptIdsToAssign.push(deptQiraat.id);
+    } else if (nameLower.includes('zihad') || nameLower.includes('sayeeduzzaman')) {
+      designation = 'Director (আবৃত্তি ও উপস্থাপনা বিভাগ)';
+      if (deptRecitation) deptIdsToAssign.push(deptRecitation.id);
     } else if (nameLower.includes('tawhid')) {
       designation = 'Senior Accounts & Finance Officer';
-      roleEnum = 'COORDINATOR';
       if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
     } else if (nameLower.includes('jahed')) {
       designation = 'Central Academic Coordinator';
-      roleEnum = 'COORDINATOR';
     } else if (nameLower.includes('niamul')) {
       designation = 'Central Academy Administrator';
-      roleEnum = 'ADMIN';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('nazif')) {
       designation = 'Senior Faculty & Moderator (সঙ্গীত বিভাগ)';
-      roleEnum = 'MODERATOR';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('morshedul')) {
       designation = 'Senior Faculty & Moderator';
-      roleEnum = 'INSTRUCTOR';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
       if (deptKids) deptIdsToAssign.push(deptKids.id);
     } else if (nameLower.includes('banna') || nameLower.includes('bannah')) {
       designation = 'Senior Vocal Faculty';
-      roleEnum = 'INSTRUCTOR';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('akib')) {
       designation = 'Faculty & Coordinator';
-      roleEnum = 'COORDINATOR';
       if (deptRecitation) deptIdsToAssign.push(deptRecitation.id);
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('delwar') || nameLower.includes('zayd')) {
       designation = 'Faculty Coordinator (ক্বিরাত বিভাগ)';
-      roleEnum = 'COORDINATOR';
       if (deptQiraat) deptIdsToAssign.push(deptQiraat.id);
     } else if (nameLower.includes('kaium') || nameLower.includes('abdul kaium')) {
       designation = 'Coordinator (থিয়েটার ও সঙ্গীত বিভাগ)';
-      roleEnum = 'COORDINATOR';
       if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (roles.includes('examiner')) {
       designation = 'Audition Examiner & Evaluator';
-      roleEnum = 'EXAMINER';
     } else if (roles.includes('moderator')) {
       designation = 'Workshop & Batch Moderator';
-      roleEnum = 'MODERATOR';
     } else if (roles.includes('teacher')) {
       designation = 'Academy Instructor';
-      roleEnum = 'INSTRUCTOR';
     } else if (roles.includes('agent')) {
       designation = 'Field Agent & Intake Coordinator';
-      roleEnum = 'AGENT';
     }
 
     // Match Person profile
@@ -257,7 +237,6 @@ export async function importAllRealStaffFromSql() {
 
       createdCount++;
     } catch (err: any) {
-      // If email conflict, create with unique suffix
       if (err.code === 'P2002') {
         const uniqueEmail = `user${s.id}.${email}`;
         const createdStaff = await prisma.staff.create({

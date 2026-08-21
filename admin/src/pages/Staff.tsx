@@ -283,27 +283,10 @@ export default function Staff() {
 
   // Helper for role badge
   const renderRoleBadge = (role: string) => {
-    switch (role) {
-      case 'SUPER_ADMIN':
-        return <StatusBadge status="Super Admin" variant="purple" />;
-      case 'ADMIN':
-        return <StatusBadge status="Admin" variant="purple" />;
-      case 'DIRECTOR':
-        return <StatusBadge status="Director" variant="warning" />;
-      case 'COORDINATOR':
-        return <StatusBadge status="Coordinator" variant="info" />;
-      case 'MODERATOR':
-        return <StatusBadge status="Moderator" variant="info" />;
-      case 'INSTRUCTOR':
-        return <StatusBadge status="Instructor" variant="success" />;
-      case 'EXAMINER':
-        return <StatusBadge status="Examiner" variant="warning" />;
-      case 'AGENT':
-        return <StatusBadge status="Field Agent" variant="neutral" />;
-      case 'STAFF':
-      default:
-        return <StatusBadge status={role || 'Staff'} variant="neutral" />;
+    if (role === 'SUPER_ADMIN') {
+      return <StatusBadge status="Super Admin" variant="purple" />;
     }
+    return <StatusBadge status="Staff" variant="info" />;
   };
 
   // IF FULL-SCREEN STUDIO VIEW IS ACTIVE:
