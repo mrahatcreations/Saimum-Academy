@@ -118,83 +118,83 @@ export async function importAllRealStaffFromSql() {
 
     // Exact Role Mapping: Department Admin, Account Officer, Teacher, Examiner, Super Admin
     let roleEnum = 'STAFF';
-    let designation = 'Teacher (Faculty & Instructor)';
+    let designation = 'Teacher';
     const deptIdsToAssign: string[] = [];
 
     if (nameLower.includes('saiful mamun') || nameLower.includes('saiful mollik') || s.id === 23) {
-      designation = 'Central Operations Director, Super Admin';
+      designation = 'Central Director, Super Admin';
       roleEnum = 'SUPER_ADMIN';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
       if (deptKids) deptIdsToAssign.push(deptKids.id);
     } else if (nameLower.includes('azad')) {
-      designation = 'Department Admin (শিশু বিভাগ), Senior Vocal Teacher, Workshop Moderator';
+      designation = 'Department Admin, Vocal Teacher, Moderator';
       roleEnum = 'STAFF';
       if (deptKids) deptIdsToAssign.push(deptKids.id);
     } else if (nameLower.includes('raad') || nameLower.includes('ezama') || nameLower.includes('রাআদ')) {
-      designation = 'Department Admin (সঙ্গীত বিভাগ), Senior Music Producer & Teacher';
+      designation = 'Department Admin, Music Teacher';
       roleEnum = 'STAFF';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('emon') || nameLower.includes('nazmul islam emon')) {
-      designation = 'Department Admin (থিয়েটার বিভাগ), Acting & Stage Instructor';
+      designation = 'Department Admin, Theatre Teacher';
       roleEnum = 'STAFF';
       if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
     } else if (nameLower.includes('muminul') || nameLower.includes('qarimuminulislam')) {
-      designation = 'Department Admin (ক্বিরাত বিভাগ), Senior Qiraat Teacher';
+      designation = 'Department Admin, Qiraat Teacher';
       roleEnum = 'STAFF';
       if (deptQiraat) deptIdsToAssign.push(deptQiraat.id);
     } else if (nameLower.includes('zihad') || nameLower.includes('sayeeduzzaman')) {
-      designation = 'Department Admin (আবৃত্তি ও উপস্থাপনা বিভাগ), Senior Recitation Teacher';
+      designation = 'Department Admin, Recitation Teacher';
       roleEnum = 'STAFF';
       if (deptRecitation) deptIdsToAssign.push(deptRecitation.id);
     } else if (nameLower.includes('tawhid')) {
-      designation = 'Senior Accounts Officer, Finance & Accounts Admin';
+      designation = 'Account Officer';
       roleEnum = 'STAFF';
       if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
     } else if (nameLower.includes('jahed')) {
-      designation = 'Department Admin (Academic Coordination), Workshop Moderator';
+      designation = 'Academic Coordinator, Moderator';
       roleEnum = 'STAFF';
     } else if (nameLower.includes('niamul')) {
-      designation = 'Department Admin (Central Operations), Senior Faculty';
+      designation = 'Department Admin, Coordinator';
       roleEnum = 'STAFF';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('mahi') || nameLower.includes('ahsan al jawad')) {
-      designation = 'Senior Admission Officer, Recitation Teacher, Audition Examiner';
+      designation = 'Admission Officer, Teacher, Audition Examiner';
       roleEnum = 'STAFF';
     } else if (nameLower.includes('nazif')) {
-      designation = 'Teacher (Senior Vocal Faculty), Audition Examiner, Workshop Moderator';
+      designation = 'Vocal Teacher, Audition Examiner, Moderator';
       roleEnum = 'STAFF';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('morshedul')) {
-      designation = 'Teacher (Senior Vocal & Kids Faculty), Workshop Moderator';
+      designation = 'Vocal Teacher, Moderator';
       roleEnum = 'STAFF';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
       if (deptKids) deptIdsToAssign.push(deptKids.id);
     } else if (nameLower.includes('banna') || nameLower.includes('bannah')) {
-      designation = 'Teacher (Senior Vocal Faculty), Audition Examiner';
+      designation = 'Vocal Teacher, Audition Examiner';
       roleEnum = 'STAFF';
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('akib')) {
-      designation = 'Teacher (Recitation & Vocal Faculty), Field Coordinator';
+      designation = 'Teacher, Coordinator';
       roleEnum = 'STAFF';
       if (deptRecitation) deptIdsToAssign.push(deptRecitation.id);
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (nameLower.includes('delwar') || nameLower.includes('zayd')) {
-      designation = 'Teacher (Qiraat Faculty), Audition Examiner';
+      designation = 'Qiraat Teacher, Audition Examiner';
       roleEnum = 'STAFF';
       if (deptQiraat) deptIdsToAssign.push(deptQiraat.id);
     } else if (nameLower.includes('kaium') || nameLower.includes('abdul kaium')) {
-      designation = 'Teacher (Theatre & Acting Faculty), Vocal Instructor';
+      designation = 'Theatre Teacher, Vocal Teacher';
       roleEnum = 'STAFF';
       if (deptTheatre) deptIdsToAssign.push(deptTheatre.id);
       if (deptSongit) deptIdsToAssign.push(deptSongit.id);
     } else if (roles.includes('examiner')) {
-      designation = 'Audition Examiner, Faculty & Evaluator';
+      designation = 'Audition Examiner';
       roleEnum = 'STAFF';
     } else if (roles.includes('teacher') || roles.includes('moderator')) {
-      designation = 'Teacher (Class Instructor), Workshop Moderator';
+      designation = 'Teacher, Moderator';
       roleEnum = 'STAFF';
     } else {
-      designation = 'Teacher (Faculty & Field Coordinator)';
+      designation = 'Teacher';
       roleEnum = 'STAFF';
     }
 
