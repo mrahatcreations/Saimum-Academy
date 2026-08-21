@@ -458,7 +458,49 @@ export default function Staff() {
                                 </span>
                               )}
                             </div>
-                            <span className={styles.designationText}>{staff.designation || staff.email}</span>
+                            {/* Multiple Designations Chips */}
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '4px' }}>
+                              {(staff.designation || '').split(/,\s*/).filter(Boolean).map((des, dIdx) => {
+                                const desLower = des.toLowerCase();
+                                const isDeptAdmin = desLower.includes('admin') || desLower.includes('director');
+                                const isTeacher = desLower.includes('teacher') || desLower.includes('faculty') || desLower.includes('instructor');
+                                const isAccount = desLower.includes('account') || desLower.includes('finance');
+                                const isExaminer = desLower.includes('examiner') || desLower.includes('viva');
+
+                                return (
+                                  <span 
+                                    key={dIdx} 
+                                    style={{
+                                      fontSize: '0.68rem',
+                                      fontWeight: 600,
+                                      padding: '2px 6px',
+                                      borderRadius: '4px',
+                                      backgroundColor: isDeptAdmin 
+                                        ? 'var(--brand-orange-subtle, #FFF4EB)' 
+                                        : isTeacher 
+                                        ? '#ECFDF5' 
+                                        : isAccount 
+                                        ? '#F5F3FF' 
+                                        : isExaminer 
+                                        ? '#FEF3C7' 
+                                        : 'var(--bg-surface-hover, #F1F5F9)',
+                                      color: isDeptAdmin 
+                                        ? 'var(--brand-orange, #FF790E)' 
+                                        : isTeacher 
+                                        ? '#059669' 
+                                        : isAccount 
+                                        ? '#7C3AED' 
+                                        : isExaminer 
+                                        ? '#D97706' 
+                                        : 'var(--text-secondary, #475569)',
+                                      whiteSpace: 'nowrap'
+                                    }}
+                                  >
+                                    {des}
+                                  </span>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
                       </td>
