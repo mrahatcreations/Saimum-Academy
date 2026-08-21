@@ -9,7 +9,10 @@ import {
   Phone,
   Mail,
   Calendar,
-  Layers
+  Layers,
+  GraduationCap,
+  Receipt,
+  ShieldCheck
 } from 'lucide-react';
 import { 
   staffService, 
@@ -466,28 +469,40 @@ export default function Staff() {
                         </div>
                       </td>
 
-                      {/* 2. Designations & Roles (Multiple Tags) */}
+                      {/* 2. Designations & Roles (Sleek Micro Icon Chips) */}
                       <td className={styles.td}>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', maxWidth: '300px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                           {(staff.designation || '').split(/,\s*/).filter(Boolean).map((des, dIdx) => {
                             const desLower = des.toLowerCase();
                             const isSuperAdmin = desLower.includes('super');
                             const isDeptAdmin = desLower.includes('department admin') || desLower.includes('director') || desLower.includes('admin');
-                            const isTeacher = desLower.includes('teacher');
                             const isAccount = desLower.includes('account');
 
-                            let chipClass = styles.chipNeutral;
-                            if (isSuperAdmin) chipClass = styles.chipAccount;
-                            else if (isDeptAdmin) chipClass = styles.chipAdmin;
-                            else if (isTeacher) chipClass = styles.chipTeacher;
-                            else if (isAccount) chipClass = styles.chipAccount;
+                            let icon = <GraduationCap size={15} />;
+                            let chipClass = styles.chipTeacher;
+                            let label = 'Teacher';
+
+                            if (isSuperAdmin) {
+                              icon = <ShieldCheck size={15} />;
+                              chipClass = styles.chipAccount;
+                              label = 'Super Admin';
+                            } else if (isDeptAdmin) {
+                              icon = <Building2 size={15} />;
+                              chipClass = styles.chipAdmin;
+                              label = 'Department Admin';
+                            } else if (isAccount) {
+                              icon = <Receipt size={15} />;
+                              chipClass = styles.chipAccount;
+                              label = 'Account Officer';
+                            }
 
                             return (
                               <span 
                                 key={dIdx} 
-                                className={`${styles.designationChip} ${chipClass}`}
+                                className={`${styles.designationIconChip} ${chipClass}`}
+                                title={label}
                               >
-                                {des}
+                                {icon}
                               </span>
                             );
                           })}
