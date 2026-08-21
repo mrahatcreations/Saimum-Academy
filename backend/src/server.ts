@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import { admissionsRouter } from './routes/admissions';
 import { formBuilderRouter } from './routes/formBuilder';
 import { academicRouter } from './routes/academic';
@@ -24,6 +25,9 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
+
+// Serve Static Uploads
+app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
 // Health Check
 app.get('/api/health', (_req, res) => {
