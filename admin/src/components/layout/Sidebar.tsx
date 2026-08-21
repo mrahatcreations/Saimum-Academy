@@ -12,7 +12,9 @@ import {
   LogOut, 
   ChevronLeft,
   Sparkles,
-  Network
+  Network,
+  CreditCard,
+  TrendingUp
 } from 'lucide-react';
 import styles from '../../App.module.css';
 
@@ -100,7 +102,20 @@ export default function Sidebar({ isCollapsed, toggleSidebar, closeMobileDrawer 
           </NavLink>
         </div>
 
-        {/* Section 3: Administration */}
+        {/* Section 3: Finance & Accounts */}
+        <div className={styles.navSection}>
+          <span className={styles.navLabel}>FINANCE</span>
+          <NavLink to="/payments" className={getNavClass} title="Payments & Fee Collections">
+            <span className={styles.navIcon}><CreditCard size={18} /></span> 
+            <span className={styles.navText}>Payments</span>
+          </NavLink>
+          <NavLink to="/financial-report" className={getNavClass} title="Financial Reports & Accounts">
+            <span className={styles.navIcon}><TrendingUp size={18} /></span> 
+            <span className={styles.navText}>Financial Report</span>
+          </NavLink>
+        </div>
+
+        {/* Section 4: Administration */}
         <div className={styles.navSection}>
           <span className={styles.navLabel}>ADMINISTRATION</span>
           <NavLink to="/hierarchy" className={getNavClass} title="Org Hierarchy Canvas">

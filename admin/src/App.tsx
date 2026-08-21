@@ -17,6 +17,8 @@ const Settings = lazy(() => import('./pages/Settings'));
 const Staff = lazy(() => import('./pages/Staff'));
 const Workshops = lazy(() => import('./pages/Workshops'));
 const OrgHierarchy = lazy(() => import('./pages/OrgHierarchy'));
+const Payments = lazy(() => import('./pages/Payments'));
+const FinancialReport = lazy(() => import('./pages/FinancialReport'));
 
 function PageLoader() {
   return (
@@ -48,6 +50,8 @@ function App() {
               <Route path="branches" element={<Branches />} />
               <Route path="departments" element={<Departments />} />
               <Route path="subjects" element={<Subjects />} />
+              <Route path="payments" element={<Payments />} />
+              <Route path="financial-report" element={<FinancialReport />} />
               <Route path="staff" element={<Staff />} />
               <Route path="hierarchy" element={<OrgHierarchy />} />
               <Route path="organization-tree" element={<OrgHierarchy />} />

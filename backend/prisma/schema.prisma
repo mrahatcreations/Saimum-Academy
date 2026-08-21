@@ -554,5 +554,53 @@ model WorkshopResource {
   updatedAt       DateTime      @updatedAt
 }
 
+// ---------------------------------------------------------------------------
+// 💰 FINANCE & PAYMENTS SYSTEM
+// ---------------------------------------------------------------------------
+
+model Payment {
+  id              String   @id @default(uuid())
+  voucherNo       String   @unique // e.g. "VCH-2026-0001"
+  studentId       String?  // Student ID e.g. "202406000403"
+  studentName     String
+  studentPhone    String?
+  studentPhoto    String?
+  departmentName  String?  // e.g. "সঙ্গীত বিভাগ", "শিশু বিভাগ"
+  branchName      String?  @default("ঢাকা পল্টন শাখা")
+  category        String   @default("ADMISSION_FEE") // ADMISSION_FEE | MONTHLY_TUITION | WORKSHOP_FEE | ID_CARD_FEE | CERTIFICATE_FEE | OTHER
+  month           String?  // e.g. "January 2026", "February 2026"
+  amount          Float
+  discountAmount  Float    @default(0)
+  payableAmount   Float
+  paidAmount      Float
+  dueAmount       Float    @default(0)
+  paymentMethod   String   @default("bKash") // bKash | Nagad | Rocket | Cash / Desk | Bank Transfer
+  trxId           String?
+  status          String   @default("PAID") // PAID | PARTIAL | DUE | REFUNDED
+  collectedBy     String?  // Staff Name or Admin
+  remarks         String?
+  paymentDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Expense {
+  id               String   @id @default(uuid())
+  expenseVoucherNo String   @unique // e.g. "EXP-2026-0001"
+  title            String   // e.g. "Workshop Hall Rental", "Sound System Rent", "Staff Honorarium"
+  category         String   @default("HONORARIUM") // VENUE_RENT | HONORARIUM | EQUIPMENT | PRINTING | UTILITY | REFRESHMENT | OTHER
+  amount           Float
+  paymentMethod    String   @default("Cash / Desk") // Cash / Desk | bKash | Bank Transfer
+  branchName       String?  @default("ঢাকা পল্টন শাখা")
+  departmentName   String?
+  paidTo           String?
+  approvedBy       String?
+  date             String   // YYYY-MM-DD
+  notes            String?
+  receiptUrl       String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
 
 

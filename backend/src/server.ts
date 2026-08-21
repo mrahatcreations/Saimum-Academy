@@ -8,6 +8,8 @@ import { academicRouter } from './routes/academic';
 import { workshopExamsRouter } from './routes/workshopExams';
 import { staffRouter } from './routes/staff';
 import { workshopRouter } from './routes/workshops';
+import { paymentsRouter } from './routes/payments';
+import { financeRouter } from './routes/finance';
 
 dotenv.config();
 
@@ -41,6 +43,8 @@ app.use('/api/academic', academicRouter);
 app.use('/api/workshop-exams', workshopExamsRouter);
 app.use('/api/staff', staffRouter);
 app.use('/api/workshops', workshopRouter);
+app.use('/api/payments', paymentsRouter);
+app.use('/api/finance', financeRouter);
 
 // Global error-handling middleware — catches unhandled errors from routes
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
