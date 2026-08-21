@@ -390,7 +390,11 @@ academicRouter.delete('/subjects/:id', async (req: Request, res: Response) => {
 academicRouter.get('/students', async (req: Request, res: Response) => {
   try {
     const { search, status } = req.query;
-    const where: any = {};
+    const where: any = {
+      person: {
+        staffProfile: null
+      }
+    };
 
     if (status && status !== 'ALL') {
       where.status = String(status);
@@ -398,11 +402,16 @@ academicRouter.get('/students', async (req: Request, res: Response) => {
 
     if (search) {
       const q = String(search).toLowerCase();
-      where.OR = [
-        { studentId: { contains: q } },
-        { person: { fullNameEn: { contains: q } } },
-        { person: { fullNameBn: { contains: q } } },
-        { person: { phone: { contains: q } } }
+      where.AND = [
+        { person: { staffProfile: null } },
+        {
+          OR: [
+            { studentId: { contains: q } },
+            { person: { fullNameEn: { contains: q } } },
+            { person: { fullNameBn: { contains: q } } },
+            { person: { phone: { contains: q } } }
+          ]
+        }
       ];
     }
 

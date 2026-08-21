@@ -472,7 +472,8 @@ export async function importAllSqlData() {
     // - selection_status == 'not_selected' or 'absent' -> REJECTED
     // - selection_status == 'selected' (without student_id) -> WORKSHOP / SELECTED
     // - selection_status == 'pending' -> PENDING_VIVA
-    const hasStudentId = !!(u.student_id && u.student_id.trim() && u.student_id !== "''");
+    const isStaffRole = u.user_role && u.user_role !== 'regular_student' && u.user_role !== 'applicant' && u.user_role !== 'workshop_participant';
+    const hasStudentId = !!(u.student_id && u.student_id.trim() && u.student_id !== "''") && !isStaffRole;
     const rawSelStatus = (u.selection_status || '').toLowerCase();
 
     let regStatus = 'PENDING_VIVA';
