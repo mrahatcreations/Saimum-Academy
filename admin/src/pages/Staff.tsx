@@ -392,8 +392,8 @@ export default function Staff() {
                   />
                 </th>
                 <th className={styles.th}>Staff Member</th>
-                <th className={styles.th}>Role</th>
-                <th className={styles.th}>Assigned Responsibilities</th>
+                <th className={styles.th}>Designations & Roles</th>
+                <th className={styles.th}>Assigned Departments</th>
                 <th className={styles.th}>Contact Phone</th>
                 <th className={styles.th}>Status</th>
                 <th className={styles.th}>Joined</th>
@@ -433,83 +433,86 @@ export default function Staff() {
                         />
                       </td>
 
+                      {/* 1. Staff Member (Avatar, Name, Email, ID) */}
                       <td className={styles.td}>
                         <div className={styles.personCell}>
                           <UserAvatar
                             name={staff.fullName}
                             photoUrl={staff.photoUrl || undefined}
-                            size={34}
+                            size={36}
                             shape="circle"
                           />
                           <div className={styles.personMeta}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
                               <span className={styles.personName}>{staff.fullName}</span>
                               {staff.studentId && (
                                 <span style={{ 
-                                  fontSize: '0.68rem', 
+                                  fontSize: '0.66rem', 
                                   fontWeight: 600, 
-                                  padding: '2px 6px', 
+                                  padding: '1px 5px', 
                                   borderRadius: '4px', 
                                   backgroundColor: 'var(--brand-orange-subtle, #FFF4EB)', 
                                   color: 'var(--brand-orange, #FF790E)',
                                   whiteSpace: 'nowrap'
                                 }}>
-                                  ID #{staff.studentId}
+                                  #{staff.studentId}
                                 </span>
                               )}
                             </div>
-                            {/* Multiple Designations Chips */}
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '4px' }}>
-                              {(staff.designation || '').split(/,\s*/).filter(Boolean).map((des, dIdx) => {
-                                const desLower = des.toLowerCase();
-                                const isDeptAdmin = desLower.includes('admin') || desLower.includes('director');
-                                const isTeacher = desLower.includes('teacher') || desLower.includes('faculty') || desLower.includes('instructor');
-                                const isAccount = desLower.includes('account') || desLower.includes('finance');
-                                const isExaminer = desLower.includes('examiner') || desLower.includes('viva');
-
-                                return (
-                                  <span 
-                                    key={dIdx} 
-                                    style={{
-                                      fontSize: '0.68rem',
-                                      fontWeight: 600,
-                                      padding: '2px 6px',
-                                      borderRadius: '4px',
-                                      backgroundColor: isDeptAdmin 
-                                        ? 'var(--brand-orange-subtle, #FFF4EB)' 
-                                        : isTeacher 
-                                        ? '#ECFDF5' 
-                                        : isAccount 
-                                        ? '#F5F3FF' 
-                                        : isExaminer 
-                                        ? '#FEF3C7' 
-                                        : 'var(--bg-surface-hover, #F1F5F9)',
-                                      color: isDeptAdmin 
-                                        ? 'var(--brand-orange, #FF790E)' 
-                                        : isTeacher 
-                                        ? '#059669' 
-                                        : isAccount 
-                                        ? '#7C3AED' 
-                                        : isExaminer 
-                                        ? '#D97706' 
-                                        : 'var(--text-secondary, #475569)',
-                                      whiteSpace: 'nowrap'
-                                    }}
-                                  >
-                                    {des}
-                                  </span>
-                                );
-                              })}
-                            </div>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                              {staff.email || '—'}
+                            </span>
                           </div>
                         </div>
                       </td>
 
+                      {/* 2. Designations & Roles (Multiple Tags) */}
                       <td className={styles.td}>
-                        {renderRoleBadge(staff.role)}
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', maxWidth: '300px' }}>
+                          {(staff.designation || '').split(/,\s*/).filter(Boolean).map((des, dIdx) => {
+                            const desLower = des.toLowerCase();
+                            const isDeptAdmin = desLower.includes('admin') || desLower.includes('director');
+                            const isTeacher = desLower.includes('teacher') || desLower.includes('faculty') || desLower.includes('instructor');
+                            const isAccount = desLower.includes('account') || desLower.includes('finance');
+                            const isExaminer = desLower.includes('examiner') || desLower.includes('viva');
+
+                            return (
+                              <span 
+                                key={dIdx} 
+                                style={{
+                                  fontSize: '0.70rem',
+                                  fontWeight: 600,
+                                  padding: '3px 8px',
+                                  borderRadius: '4px',
+                                  backgroundColor: isDeptAdmin 
+                                    ? 'var(--brand-orange-subtle, #FFF4EB)' 
+                                    : isTeacher 
+                                    ? '#ECFDF5' 
+                                    : isAccount 
+                                    ? '#F5F3FF' 
+                                    : isExaminer 
+                                    ? '#FEF3C7' 
+                                    : 'var(--bg-surface-hover, #F1F5F9)',
+                                  color: isDeptAdmin 
+                                    ? 'var(--brand-orange, #FF790E)' 
+                                    : isTeacher 
+                                    ? '#059669' 
+                                    : isAccount 
+                                    ? '#7C3AED' 
+                                    : isExaminer 
+                                    ? '#D97706' 
+                                    : 'var(--text-secondary, #475569)',
+                                  whiteSpace: 'nowrap'
+                                }}
+                              >
+                                {des}
+                              </span>
+                            );
+                          })}
+                        </div>
                       </td>
 
-                      {/* Assigned Responsibilities (Departments & Wings) */}
+                      {/* 3. Assigned Departments */}
                       <td className={styles.td}>
                         {staff.role === 'SUPER_ADMIN' ? (
                           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#7C3AED', fontWeight: 600, fontSize: '0.78rem' }}>
