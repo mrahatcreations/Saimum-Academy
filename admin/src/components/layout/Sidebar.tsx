@@ -1,13 +1,18 @@
 import { NavLink } from 'react-router-dom';
 import { 
   LayoutDashboard, 
+  UserPlus,
   Users, 
+  Layers,
   Building2, 
   LibraryBig, 
   BookOpen, 
+  SlidersHorizontal,
   Settings, 
   LogOut, 
-  ChevronLeft
+  ChevronLeft,
+  Sparkles,
+  Network
 } from 'lucide-react';
 import styles from '../../App.module.css';
 
@@ -24,7 +29,7 @@ export default function Sidebar({ isCollapsed, toggleSidebar, closeMobileDrawer 
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
       {/* Collapse Toggle Button (Desktop) */}
-      <div className={styles.collapseBtn} onClick={toggleSidebar}>
+      <div className={styles.collapseBtn} onClick={toggleSidebar} title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}>
         <div className={`${styles.iconRotator} ${isCollapsed ? styles.rotated : ''}`}>
           <ChevronLeft size={16} />
         </div>
@@ -34,7 +39,10 @@ export default function Sidebar({ isCollapsed, toggleSidebar, closeMobileDrawer 
       <div className={styles.sidebarHeader}>
         <div className={styles.brand}>
           <img src="/logo.png" alt="Saimum Logo" className={styles.logoImage} />
-          <span className={styles.brandName}>Saimum</span>
+          <div className={styles.brandInfo}>
+            <span className={styles.brandName}>Saimum</span>
+            <span className={styles.brandSubtitle}>Central Academy</span>
+          </div>
         </div>
         {/* Mobile Close Button */}
         {closeMobileDrawer && (
@@ -44,17 +52,35 @@ export default function Sidebar({ isCollapsed, toggleSidebar, closeMobileDrawer 
         )}
       </div>
       
-      {/* 2. Body: Navigation Menus (Independently Scrollable) */}
+      {/* 2. Body: Navigation Menus */}
       <nav className={styles.sidebarBody}>
+        {/* Section 1: Overview & Admissions */}
         <div className={styles.navSection}>
           <span className={styles.navLabel}>MAIN MENU</span>
           <NavLink to="/" className={getNavClass} end title="Dashboard">
             <span className={styles.navIcon}><LayoutDashboard size={18} /></span> 
             <span className={styles.navText}>Dashboard</span>
           </NavLink>
+          <NavLink to="/admissions" className={getNavClass} title="Admissions">
+            <span className={styles.navIcon}><UserPlus size={18} /></span> 
+            <span className={styles.navText}>Admissions</span>
+          </NavLink>
           <NavLink to="/students" className={getNavClass} title="Students">
             <span className={styles.navIcon}><Users size={18} /></span> 
             <span className={styles.navText}>Students</span>
+          </NavLink>
+        </div>
+        
+        {/* Section 2: Academics Management */}
+        <div className={styles.navSection}>
+          <span className={styles.navLabel}>ACADEMICS</span>
+          <NavLink to="/workshops" className={getNavClass} title="Cultural Workshops">
+            <span className={styles.navIcon}><Sparkles size={18} /></span> 
+            <span className={styles.navText}>Workshops</span>
+          </NavLink>
+          <NavLink to="/batches" className={getNavClass} title="Batches">
+            <span className={styles.navIcon}><Layers size={18} /></span> 
+            <span className={styles.navText}>Batches</span>
           </NavLink>
           <NavLink to="/branches" className={getNavClass} title="Branches">
             <span className={styles.navIcon}><Building2 size={18} /></span> 
@@ -68,26 +94,27 @@ export default function Sidebar({ isCollapsed, toggleSidebar, closeMobileDrawer 
             <span className={styles.navIcon}><BookOpen size={18} /></span> 
             <span className={styles.navText}>Subjects</span>
           </NavLink>
-        </div>
-        
-        <div className={styles.navSection}>
-          <span className={styles.navLabel}>ACADEMICS</span>
-          <NavLink to="/batches" className={getNavClass} title="Active Batches">
-            <div className={styles.navIcon} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <div className={`${styles.navDot} ${styles.dotOrange}`}></div>
-            </div>
-            <span className={styles.navText}>Active Batches</span>
+          <NavLink to="/form-builder" className={getNavClass} title="Form Builder">
+            <span className={styles.navIcon}><SlidersHorizontal size={18} /></span> 
+            <span className={styles.navText}>Form Builder</span>
           </NavLink>
-          <NavLink to="/admissions" className={getNavClass} title="Pending Admissions">
-            <div className={styles.navIcon} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <div className={`${styles.navDot} ${styles.dotBlue}`}></div>
-            </div>
-            <span className={styles.navText}>Pending Admissions</span>
+        </div>
+
+        {/* Section 3: Administration */}
+        <div className={styles.navSection}>
+          <span className={styles.navLabel}>ADMINISTRATION</span>
+          <NavLink to="/hierarchy" className={getNavClass} title="Org Hierarchy Canvas">
+            <span className={styles.navIcon}><Network size={18} /></span> 
+            <span className={styles.navText}>Org Hierarchy</span>
+          </NavLink>
+          <NavLink to="/staff" className={getNavClass} title="Staff Management">
+            <span className={styles.navIcon}><Users size={18} /></span> 
+            <span className={styles.navText}>Staff Management</span>
           </NavLink>
         </div>
       </nav>
       
-      {/* 3. Footer: Settings & Log Out (Always Pinned at Bottom) */}
+      {/* 3. Footer: Settings & Log Out */}
       <div className={styles.sidebarFooter}>
         <NavLink to="/settings" className={getNavClass} title="Settings">
           <span className={styles.navIcon}><Settings size={18} /></span> 

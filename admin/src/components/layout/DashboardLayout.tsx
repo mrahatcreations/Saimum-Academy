@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Outlet, useLocation, NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, Building2, BookOpen, Menu } from 'lucide-react';
 import Sidebar from './Sidebar';
-import Topbar from './Topbar';
 import styles from '../../App.module.css';
 
 export default function DashboardLayout() {
@@ -35,7 +34,18 @@ export default function DashboardLayout() {
       </div>
 
       <main className={styles.main}>
-        <Topbar onMenuClick={() => setMobileDrawerOpen(true)} />
+        {/* Mobile-only header toggle */}
+        <div className={styles.mobileHeaderBar}>
+          <button 
+            className={styles.mobileHamburgerBtn} 
+            onClick={() => setMobileDrawerOpen(true)}
+            aria-label="Open Navigation Menu"
+          >
+            <Menu size={22} />
+          </button>
+          <span className={styles.mobileHeaderTitle}>Saimum Central Academy</span>
+        </div>
+
         <div className={styles.content}>
           <div key={location.pathname} className={styles.pageTransition}>
             <Outlet />

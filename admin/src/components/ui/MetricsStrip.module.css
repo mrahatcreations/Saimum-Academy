@@ -1,0 +1,145 @@
+/* =========================================================================
+   🎓 Saimum Academy — Corporate Minimalist KPI Metrics Strip
+   ========================================================================= */
+
+.metricsStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: transparent;
+  border-top: 1px solid var(--border-light, #E2E8F0);
+  border-bottom: 1px solid var(--border-light, #E2E8F0);
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  margin: 12px 0 16px 0;
+  width: 100%;
+}
+
+[data-theme="dark"] .metricsStrip {
+  border-top-color: #222225;
+  border-bottom-color: #222225;
+}
+
+.metricCell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-right: 1px solid var(--border-light, #E2E8F0);
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.metricCell:last-child {
+  border-right: none;
+}
+
+[data-theme="dark"] .metricCell {
+  border-right-color: #222225;
+}
+
+.metricContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metricLabel {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--text-secondary, #64748B);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.valueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.metricValue {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--text-primary, #0F172A);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .metricValue {
+  color: #FAFAFA;
+}
+
+.deltaBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  line-height: 1.2;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.deltaPositive {
+  color: #047857;
+  background-color: #ECFDF5;
+}
+
+[data-theme="dark"] .deltaPositive {
+  color: #6EE7B7;
+  background-color: #064E3B;
+}
+
+.deltaNegative {
+  color: #B91C1C;
+  background-color: #FEF2F2;
+}
+
+[data-theme="dark"] .deltaNegative {
+  color: #FCA5A5;
+  background-color: #7F1D1D;
+}
+
+.sparklineContainer {
+  width: 90px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .metricsStrip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .metricCell:nth-child(2) {
+    border-right: none;
+  }
+  .metricCell:nth-child(1), .metricCell:nth-child(2) {
+    border-bottom: 1px solid var(--border-light, #E2E8F0);
+  }
+  [data-theme="dark"] .metricCell:nth-child(1), [data-theme="dark"] .metricCell:nth-child(2) {
+    border-bottom-color: #222225;
+  }
+}
+
+@media (max-width: 640px) {
+  .metricsStrip {
+    grid-template-columns: 1fr;
+  }
+  .metricCell {
+    border-right: none;
+    border-bottom: 1px solid var(--border-light, #E2E8F0);
+  }
+  [data-theme="dark"] .metricCell {
+    border-bottom-color: #222225;
+  }
+  .metricCell:last-child {
+    border-bottom: none;
+  }
+}

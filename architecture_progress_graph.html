@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saimum Central Academy — Master Circuit Diagram & Progress</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <!-- SVG Pan Zoom -->
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+
+  <style>
+    :root {
+      --brand-primary: #FF790E;
+      --brand-primary-light: #FFF4EB;
+      --brand-primary-border: #FFD2A8;
+      
+      --circuit-bg: #090D16;
+      --circuit-grid: #172033;
+      --circuit-card: #0F172A;
+      --circuit-border: #1E293B;
+      
+      --status-completed: #10B981;
+      --status-completed-bg: #064E3B;
+      --status-completed-border: #34D399;
+      
+      --status-partial: #F59E0B;
+      --status-partial-bg: #78350F;
+      --status-partial-border: #FBBF24;
+      
+      --status-pending: #64748B;
+      --status-pending-bg: #1E293B;
+      --status-pending-border: #475569;
+
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-subtle: #64748B;
+      
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      background-color: var(--circuit-bg);
+      color: var(--text-main);
+      user-select: none;
+    }
+
+    /* Circuit Grid Background */
+    .circuit-canvas-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--circuit-bg);
+      background-image: 
+        linear-gradient(to right, rgba(23, 32, 51, 0.55) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(23, 32, 51, 0.55) 1px, transparent 1px);
+      background-size: 30px 30px;
+      overflow: hidden;
+    }
+
+    /* Top HUD Bar */
+    .hud-bar {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      right: 18px;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--circuit-border);
+      border-radius: var(--radius-lg);
+      padding: 12px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+    }
+
+    .hud-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hud-badge {
+      background: rgba(255, 121, 14, 0.15);
+      border: 1px solid var(--brand-primary);
+      color: var(--brand-primary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.5px;
+    }
+
+    .hud-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hud-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* HUD Stats & Legend */
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .circuit-legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .legend-node {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .node-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+    .dot-completed { background: var(--status-completed); border: 1px solid var(--status-completed-border); }
+    .dot-partial { background: var(--status-partial); border: 1px solid var(--status-partial-border); }
+    .dot-pending { background: var(--status-pending); border: 1px solid var(--status-pending-border); }
+
+    .progress-pill {
+      background: rgba(255, 121, 14, 0.15);
+      border: 1px solid var(--brand-primary);
+      padding: 5px 12px;
+      border-radius: var(--radius-md);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+
+    /* Floating Pan-Zoom Controls */
+    .controls-floating {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--circuit-border);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 6px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .ctrl-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      transition: all 0.15s ease;
+    }
+
+    .ctrl-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--circuit-border);
+    }
+
+    .ctrl-btn:active {
+      background: var(--brand-primary);
+      color: white;
+    }
+
+    /* Bottom Info Card */
+    .bottom-info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--circuit-border);
+      border-radius: var(--radius-md);
+      padding: 8px 14px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bottom-info kbd {
+      background: #1E293B;
+      border: 1px solid #334155;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-main);
+    }
+
+    /* Mermaid Viewport */
+    #circuit-svg-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: grab;
+    }
+
+    #circuit-svg-container:active {
+      cursor: grabbing;
+    }
+
+    .mermaid {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* High-tech Blueprint Circuit Theme for Mermaid */
+    svg {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: none !important;
+    }
+
+    .cluster rect {
+      fill: rgba(15, 23, 42, 0.85) !important;
+      stroke: #334155 !important;
+      stroke-width: 1.5px !important;
+      rx: 10px !important;
+    }
+
+    .cluster text {
+      fill: #E2E8F0 !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-weight: 700 !important;
+      font-size: 12px !important;
+    }
+
+    .edgePath path {
+      stroke: #64748B !important;
+      stroke-width: 1.8px !important;
+    }
+
+    .edgeLabel {
+      background-color: #090D16 !important;
+      color: #CBD5E1 !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 9.5px !important;
+      padding: 2px 5px !important;
+      border-radius: 4px !important;
+      border: 1px solid #1E293B !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top HUD Bar -->
+  <div class="hud-bar">
+    <div class="hud-left">
+      <span class="hud-badge">CIRCUIT v3.0 LIFECYCLE</span>
+      <div>
+        <div class="hud-title">
+          <span>⚡ সাইমুম সেন্ট্রাল একাডেমি — মাস্টার আর্কিটেকচার সার্কিট</span>
+        </div>
+        <div class="hud-sub">আবেদন ➔ স্লটভিত্তিক ভাইভা ➔ ওয়ার্কশপ ➔ ৫০ মেধা তালিকা (৩ দিন মেয়াদ) ➔ অপেক্ষমাণ সিট পূরণ ➔ (Branch + Subject) রেগুলার ব্যাচ বণ্টন</div>
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <div class="circuit-legend">
+        <div class="legend-node">
+          <div class="node-dot dot-completed"></div>
+          <span>🟢 লাইভ API ও পেজ প্রস্তুত</span>
+        </div>
+        <div class="legend-node">
+          <div class="node-dot dot-partial"></div>
+          <span>🟡 চলমান / মক ফিক্স (In-Progress)</span>
+        </div>
+        <div class="legend-node">
+          <div class="node-dot dot-pending"></div>
+          <span>⚪ পরবর্তী ধাপের ফিচার (Pending)</span>
+        </div>
+      </div>
+
+      <div class="progress-pill">
+        সার্বিক প্রগ্রেস: ~২৮%
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Circuit Board Canvas -->
+  <div class="circuit-canvas-wrapper">
+    <div id="circuit-svg-container">
+      <pre class="mermaid" id="masterCircuit">
+flowchart LR
+    %% =========================================================================
+    %% CIRCUIT STYLING DEFINITIONS
+    %% =========================================================================
+    classDef nodeDone fill:#064E3B,stroke:#10B981,stroke-width:2px,color:#ECFDF5,font-weight:bold;
+    classDef nodePartial fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7,font-weight:bold;
+    classDef nodePending fill:#1E293B,stroke:#475569,stroke-width:1.5px,color:#94A3B8,stroke-dasharray: 4 4;
+    classDef nodeCore fill:#3B1C03,stroke:#FF790E,stroke-width:2.5px,color:#FFEDD5,font-weight:bold;
+    classDef nodeDecision fill:#1F2937,stroke:#FF790E,stroke-width:2px,color:#FFD2A8,font-weight:bold;
+    classDef nodeGateway fill:#1E1B4B,stroke:#818CF8,stroke-width:2px,color:#E0E7FF,font-weight:bold;
+    classDef nodeStorage fill:#0F172A,stroke:#0284C7,stroke-width:2px,color:#BAE6FD,font-weight:bold;
+
+    %% =========================================================================
+    %% 1. CLIENT / INTAKE LAYER
+    %% =========================================================================
+    subgraph CLIENT_LAYER ["🖥️ ১. ক্লায়েন্ট ও মাইক্রো-ফ্রন্টএন্ড বাস (Client Access Layer)"]
+      direction TB
+      ADM["👑 /admin<br/>Central Admin Panel<br/>(Admissions, FormBuilder, Batches, Branches)"]:::nodeDone
+      PUB["🌐 /frontend<br/>Public Website & Forms<br/>(Circular, Online Apply, Notices)"]:::nodePending
+      STU["📱 /student<br/>Student Portal<br/>(Routine, Zoom Class, Attendance, Fees)"]:::nodePending
+      DEP["🏢 /department<br/>Branch & Dept Sub-Panel<br/>(Teacher Evaluation, Attendance)"]:::nodePending
+    end
+
+    %% =========================================================================
+    %% 2. API GATEWAY & CORE BACKEND BUS
+    %% =========================================================================
+    subgraph BACKEND_BUS ["⚙️ ২. ব্যাকএন্ড এপিআই কন্ট্রোলার বাস (/backend)"]
+      direction TB
+      GW["🚀 Express REST API Engine<br/>(/api/academic, /admissions, /form-builder)"]:::nodeDone
+      RBAC["🔐 RBAC Guard Middleware<br/>(SuperAdmin / Director / Secretary Scopes)"]:::nodePending
+      ZOOM_SRV["📹 Zoom Live Class Cloud API<br/>(Auto Meeting Link, ID & Password Sync)"]:::nodePending
+      PRISMA_ORM["⚡ Prisma ORM Engine<br/>(Type-Safe Relational Resolvers)"]:::nodeDone
+    end
+
+    %% =========================================================================
+    %% 3. CENTRAL ACADEMY CORE REGISTRY (BRANCH & SUBJECT MATRIX)
+    %% =========================================================================
+    subgraph ACADEMY_CORE ["🏛️ ৩. সেন্ট্রাল একাডেমি কোর এনটিটি ও আইসোলেশন সার্কিট"]
+      direction TB
+      CA["🏛️ Central Academy Master Core"]:::nodeCore
+      
+      BR_PHYS["🏢 Physical Branches<br/>(Dhaka Central, Mirpur Branch)"]:::nodePartial
+      BR_ONL["🌐 Online Academy Branch<br/>(Global Students & Live Zoom)"]:::nodePartial
+      
+      DEP_MST["🏛️ Master Departments<br/>(সংগীত, অভিনয়, আবৃত্তি বিভাগ)"]:::nodePartial
+      
+      MAP_DB{"🔗 Dept ↔ Branch Map<br/>(DepartmentBranch Many-to-Many)"}:::nodeDone
+      
+      SUB_MST["📚 Master Subject Registry<br/>(কণ্ঠ সংগীত, বাদ্যযন্ত্র - Created ONCE)"]:::nodePartial
+      SUB_OFF["🎯 Branch Subject Offering<br/>(Branch-wise Activated Subject)"]:::nodeDone
+      
+      BATCH_RUN["👥 Ongoing Batches<br/>(Strict Branch + Subject Locked: Batch 1, Batch 2)"]:::nodeDone
+      CLASS_SCHED["📅 Class Scheduler & Routine<br/>(Room & Zoom Link Matrix)"]:::nodePending
+    end
+
+    %% =========================================================================
+    %% 4. ADMISSION, VIVA, WORKSHOP & MERIT LIST LIFECYCLE CIRCUIT
+    %% =========================================================================
+    subgraph LIFECYCLE_CIRCUIT ["🔄 ৪. ৫-ধাপের স্টুডেন্ট লাইফসাইকেল ও মেধা তালিকা পাইপলাইন"]
+      direction TB
+      
+      FB["⚙️ Form Builder Config<br/>(Dynamic Required & System Fields)"]:::nodeDone
+      
+      APP_IN["📝 Online Application Submission<br/>(Branch + Subject Selected | Fee: ৳200)"]:::nodeDone
+      
+      DEDUP_CHECK{"🔍 Person Deduplication<br/>(Phone/Email/NID Match?)"}:::nodeDecision
+      
+      PER_MST["👤 Lifetime Person Master<br/>(1 Person = 1 Lifetime Record)"]:::nodeDone
+      
+      %% Viva Slots
+      VIVA_SLOT_SPLIT{"⚖️ Smart Viva Allocator<br/>(Slot & Day Split)"}:::nodeDecision
+      VIVA_DAY1["📅 Day 1 Slot<br/>(Morning/Evening: 1st 50% Candidates)"]:::nodeDone
+      VIVA_DAY2["📅 Day 2 Slot<br/>(Remaining 50% Candidates / Online)"]:::nodeDone
+      
+      VIVA_EVAL["📊 Viva Board Scoring<br/>(Voice, Rhythm, Expression, Discipline)"]:::nodeDone
+      VIVA_DEC{"ভাইভা সিলেকশন?<br/>(Passed Viva?)"}:::nodeDecision
+      
+      %% Workshop Distribution
+      WS_DISTRIBUTE["🎭 Workshop Batch Allocator<br/>(Distribute by Branch + Subject)"]:::nodePending
+      WS_COHORT["👥 Workshop Training Cohort<br/>(Continuous Training & Attendance)"]:::nodePending
+      
+      %% Final Exam & 50 Seats
+      WS_EXAM["📝 Workshop Final Assessment Exam<br/>(Example: 60 Candidates Passed)"]:::nodePending
+      
+      MERIT_SPLIT{"🏆 Merit Rank Evaluator<br/>(Capacity: 50 Seats)"}:::nodeDecision
+      
+      MERIT_LIST_50["🥇 Primary Merit List (Top 50)<br/>(Rank 1 to 50: 3-Day Offer Window)"]:::nodePending
+      WAITING_LIST_10["⏳ Waiting List<br/>(Rank 51 to 60: Pending Vacancy)"]:::nodePending
+      
+      ENROLL_CHECK{"৩ দিনে ভর্তি ফি দিল?<br/>(Within 3 Days?)"}:::nodeDecision
+      
+      SEAT_EXPIRED["❌ 3-Day Offer Expired<br/>(Seat Released to Waiting List)"]:::nodePending
+      WAIT_CALL["📞 Waiting List Call<br/>(Next Rank Candidate Gets Seat)"]:::nodePending
+      
+      %% Confirmed Regular Student
+      FINAL_ADMITTED["🎓 Confirmed Regular Student<br/>(Permanent Student ID Issued)"]:::nodePartial
+      
+      %% Strict Branch + Subject Lock
+      BRANCH_SUB_LOCK{"🔒 Strict (Branch + Subject) Lock<br/>(Cannot cross to other branch/subject)"}:::nodeDecision
+      
+      MEM_LINK["📋 Ongoing Batch Membership<br/>(Enrolled into Branch & Subject Batch)"]:::nodeDone
+      
+      REJ_LOG["📁 Archive Record<br/>(Future Re-apply Allowed)"]:::nodeDone
+    end
+
+    %% =========================================================================
+    %% 5. FINANCE & PAYMENT BUS
+    %% =========================================================================
+    subgraph FINANCE_BUS ["💳 ৫. পেমেন্ট গেটওয়ে ও ৪-লেয়ার ফি সার্কিট (Finance & Ledger)"]
+      direction TB
+      FEE1["১. আবেদন ফি (৳২০০)<br/>[🟢 লাইভ ডেস্ক/পে]"]:::nodeDone
+      FEE2["২. ওয়ার্কশপ ফি<br/>[⚪ Phase 2]"]:::nodePending
+      FEE3["৩. চূড়ান্ত ভর্তি ফি (৩ দিনের ডেডলাইন)<br/>[⚪ Phase 2]"]:::nodePending
+      FEE4["৪. মাসিক টিউশন ফি<br/>[⚪ Phase 3]"]:::nodePending
+      
+      PAY_GW_ROUTER{"💳 Payment Gateway Router<br/>(bKash / Nagad / SSL / Cash Desk)"}:::nodeGateway
+      
+      WEBHOOK_VAL["🔔 Idempotent Webhook<br/>(TxID Check & Security Validator)"]:::nodePending
+      
+      AUTO_REC["🧾 Auto Digital Receipt<br/>& PDF Voucher Download"]:::nodePending
+      
+      LEDGER_POST["📊 Finance Ledger Deposit<br/>(Central & Branch Ledger Split)"]:::nodePending
+    end
+
+    %% =========================================================================
+    %% 6. DATABASE STORAGE & CLOUD DEPLOYMENT
+    %% =========================================================================
+    subgraph STORAGE_LAYER ["🗄️ ৬. ডাটাবেজ ও ক্লাউড ডেপ্লয়মেন্ট"]
+      DB[("🐘 PostgreSQL / SQLite Database<br/>(Person, Student, Registration, Academic)")]:::nodeStorage
+      DOCKER["🐳 Hostinger KVM VPS via Coolify<br/>(Containerized Docker / Nixpacks)"]:::nodePending
+    end
+
+    %% =========================================================================
+    %% CIRCUIT CONNECTIONS / BUS INTERCONNECTS
+    %% =========================================================================
+    
+    %% Clients to Gateway
+    ADM ==>|Admin CRUD APIs| GW
+    PUB -.->|Form Submission| GW
+    STU -.->|Student APIs| GW
+    DEP -.->|Scoped Branch Calls| GW
+
+    %% Gateway to Engines
+    GW --> RBAC
+    GW --> ZOOM_SRV
+    GW --> PRISMA_ORM
+
+    %% Academic Hierarchy
+    CA --> BR_PHYS
+    CA --> BR_ONL
+    CA --> DEP_MST
+    CA --> SUB_MST
+
+    BR_PHYS <===> MAP_DB
+    BR_ONL <===> MAP_DB
+    DEP_MST <===> MAP_DB
+
+    MAP_DB ==> SUB_OFF
+    SUB_MST ==> SUB_OFF
+    SUB_OFF ==> BATCH_RUN
+
+    %% Class Scheduler
+    BATCH_RUN --> CLASS_SCHED
+    CLASS_SCHED --> ZOOM_SRV
+
+    %% Admission Pipeline
+    FB -.->|Configure Fields| APP_IN
+    APP_IN ==>|Check Existing Person| DEDUP_CHECK
+    DEDUP_CHECK -->|New or Found| PER_MST
+
+    %% Step 1: Viva Slot Split
+    PER_MST ==>|Pending Candidates| VIVA_SLOT_SPLIT
+    VIVA_SLOT_SPLIT -->|Group 1: Day 1| VIVA_DAY1
+    VIVA_SLOT_SPLIT -->|Group 2: Day 2| VIVA_DAY2
+    
+    VIVA_DAY1 ==> VIVA_EVAL
+    VIVA_DAY2 ==> VIVA_EVAL
+    
+    VIVA_EVAL ==> VIVA_DEC
+    VIVA_DEC ==>|Selected| WS_DISTRIBUTE
+    VIVA_DEC -.->|Rejected| REJ_LOG
+
+    %% Step 2: Workshop Distribution
+    WS_DISTRIBUTE ==>|Branch & Subject Filter| WS_COHORT
+    WS_COHORT ==> WS_EXAM
+
+    %% Step 3: Final Exam & 50 Capacity Split
+    WS_EXAM ==> MERIT_SPLIT
+    MERIT_SPLIT ==>|Rank 1-50| MERIT_LIST_50
+    MERIT_SPLIT -.->|Rank 51-60| WAITING_LIST_10
+
+    MERIT_LIST_50 ==> ENROLL_CHECK
+    ENROLL_CHECK ==>|Paid in 3 Days| FINAL_ADMITTED
+    ENROLL_CHECK -.->|3 Days Expired| SEAT_EXPIRED
+
+    SEAT_EXPIRED ==>|Release Vacancy| WAIT_CALL
+    WAITING_LIST_10 ==> WAIT_CALL
+    WAIT_CALL ==>|Admitted| FINAL_ADMITTED
+
+    %% Step 4: Strict Branch + Subject Batch Allocation
+    FINAL_ADMITTED ==> BRANCH_SUB_LOCK
+    BRANCH_SUB_LOCK ==>|Assign Specific Batch| MEM_LINK
+    MEM_LINK ==>|Connect to Active Cohort| BATCH_RUN
+
+    %% Step 5: Finance Flows
+    APP_IN --> FEE1
+    WS_DISTRIBUTE -.-> FEE2
+    FINAL_ADMITTED -.-> FEE3
+    MEM_LINK -.-> FEE4
+
+    FEE1 --> PAY_GW_ROUTER
+    FEE2 -.-> PAY_GW_ROUTER
+    FEE3 -.-> PAY_GW_ROUTER
+    FEE4 -.-> PAY_GW_ROUTER
+
+    PAY_GW_ROUTER --> WEBHOOK_VAL
+    WEBHOOK_VAL --> AUTO_REC
+    WEBHOOK_VAL --> LEDGER_POST
+
+    %% DB Persistence
+    PRISMA_ORM ==> DB
+    BACKEND_BUS -.-> DOCKER
+      </pre>
+    </div>
+  </div>
+
+  <!-- Bottom Floating HUD Hints -->
+  <div class="bottom-info">
+    <span>💡 <b>নেভিগেশন:</b> মাউস ড্র্যাগ করে প্যান করুন, স্ক্রোল করে জুম ইন/আউট করুন।</span>
+    <span><kbd>Drag</kbd> Pan</span>
+    <span><kbd>Scroll</kbd> Zoom</span>
+  </div>
+
+  <!-- Floating Controls -->
+  <div class="controls-floating">
+    <button class="ctrl-btn" id="zoomInBtn" title="Zoom In">+</button>
+    <button class="ctrl-btn" id="zoomOutBtn" title="Zoom Out">−</button>
+    <button class="ctrl-btn" id="resetBtn" title="Reset View">⊙</button>
+    <button class="ctrl-btn" id="fitBtn" title="Fit to Screen">⛶</button>
+  </div>
+
+  <script>
+    // Initialize Mermaid with Dark Circuit Blueprint Theme
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#090D16',
+        primaryColor: '#131E32',
+        primaryTextColor: '#F8FAFC',
+        primaryBorderColor: '#334155',
+        lineColor: '#64748B',
+        secondaryColor: '#1E293B',
+        tertiaryColor: '#090D16',
+        fontFamily: 'Plus Jakarta Sans, Hind Siliguri, JetBrains Mono, sans-serif',
+        fontSize: '11px'
+      }
+    });
+
+    let panZoomInstance = null;
+
+    // Hook svg-pan-zoom after Mermaid finishes rendering
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const svgElement = document.querySelector('#circuit-svg-container svg');
+        if (svgElement) {
+          panZoomInstance = svgPanZoom(svgElement, {
+            zoomEnabled: true,
+            controlIconsEnabled: false,
+            fit: true,
+            center: true,
+            minZoom: 0.1,
+            maxZoom: 10,
+            zoomScaleSensitivity: 0.25,
+            dblClickZoomEnabled: true
+          });
+
+          // Zoom In Button
+          document.getElementById('zoomInBtn').addEventListener('click', () => {
+            panZoomInstance.zoomIn();
+          });
+
+          // Zoom Out Button
+          document.getElementById('zoomOutBtn').addEventListener('click', () => {
+            panZoomInstance.zoomOut();
+          });
+
+          // Reset Zoom & Pan
+          document.getElementById('resetBtn').addEventListener('click', () => {
+            panZoomInstance.reset();
+            panZoomInstance.fit();
+            panZoomInstance.center();
+          });
+
+          // Fit to Screen
+          document.getElementById('fitBtn').addEventListener('click', () => {
+            panZoomInstance.fit();
+            panZoomInstance.center();
+          });
+        }
+      }, 600);
+    });
+  </script>
+
+</body>
+</html>

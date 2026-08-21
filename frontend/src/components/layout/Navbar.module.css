@@ -1,0 +1,243 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.headerScrolled .topBar {
+  display: none;
+}
+
+/* === Top Bar: Dark Brand Identity === */
+
+.topBar {
+  background-color: var(--bg-dark);
+  border-bottom: 1px solid #2A2A2A;
+}
+
+.topBarInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brandLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logoImage {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brandTitle {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-inverse);
+}
+
+.brandSub {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-inverse-muted);
+  letter-spacing: 0.03em;
+}
+
+.topLoginLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-inverse-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.topLoginLink:hover {
+  color: var(--text-inverse);
+}
+
+/* === Nav Bar: Clean White === */
+
+.navBar {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-rule);
+}
+
+.navBarInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 860px) {
+  .navLinks {
+    display: none;
+  }
+}
+
+.navLink {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-body);
+  padding: 6px 14px;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.15s ease;
+}
+
+.navLink:hover {
+  color: var(--text-heading);
+}
+
+.navLinkActive {
+  color: var(--text-heading);
+  font-weight: 700;
+}
+
+.navLinkActive::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background-color: var(--brand-orange);
+}
+
+/* === CTA Button — Sharp, Institutional === */
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 24px;
+  border-radius: 4px;
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: background-color 0.15s ease;
+}
+
+.ctaButton:hover {
+  background-color: var(--brand-orange-dark);
+}
+
+@media (max-width: 860px) {
+  .ctaButton {
+    display: none;
+  }
+}
+
+/* === Hamburger === */
+
+.hamburger {
+  display: none;
+  background: none;
+  border: 1px solid var(--border-rule);
+  border-radius: 4px;
+  padding: 6px;
+  color: var(--text-heading);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.hamburger:hover {
+  border-color: var(--text-heading);
+}
+
+@media (max-width: 860px) {
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* === Mobile Menu — Full-width Dropdown === */
+
+.mobileMenu {
+  display: none;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-rule);
+  padding: 16px 24px 20px 24px;
+  flex-direction: column;
+  gap: 4px;
+}
+
+@media (max-width: 860px) {
+  .mobileMenu {
+    display: flex;
+  }
+}
+
+.mobileLink {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-body);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.mobileLink:hover {
+  color: var(--text-heading);
+}
+
+.mobileLinkActive {
+  color: var(--brand-orange);
+  font-weight: 700;
+}
+
+.mobileCta {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  padding: 12px 24px;
+  border-radius: 4px;
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 0.94rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mobileCta:hover {
+  background-color: var(--brand-orange-dark);
+}

@@ -1,0 +1,206 @@
+/* Departments Page — Heritage Institutional */
+
+.page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page Hero */
+
+.pageHero {
+  background-color: var(--bg-dark);
+  padding: 72px 24px 64px 24px;
+}
+
+.pageHeroInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preTitle {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brand-orange);
+}
+
+.pageTitle {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-inverse);
+  letter-spacing: -0.03em;
+  max-width: 700px;
+}
+
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 2rem;
+  }
+}
+
+.pageDesc {
+  font-size: 0.94rem;
+  color: var(--text-inverse-muted);
+  max-width: 600px;
+  line-height: 1.65;
+}
+
+/* Sections */
+
+.section {
+  padding: 96px 24px;
+}
+
+.sectionInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Department Rows */
+
+.deptRow {
+  display: grid;
+  grid-template-columns: 280px 1fr 1fr;
+  gap: 36px;
+  align-items: flex-start;
+  padding: 44px 0;
+}
+
+.deptRow:first-child {
+  padding-top: 0;
+}
+
+@media (max-width: 960px) {
+  .deptRow {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .deptImageWrap {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .deptRow {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .deptImageWrap {
+    grid-column: span 1;
+  }
+}
+
+.deptImageWrap {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-rule);
+  background-color: #111111;
+  position: relative;
+}
+
+.deptImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.deptRule {
+  border: none;
+  border-top: 1px solid var(--border-rule);
+}
+
+.deptLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.deptTitle {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.deptSubtitle {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--brand-orange);
+  letter-spacing: 0.02em;
+}
+
+.deptOverview {
+  font-size: 0.88rem;
+  color: var(--text-body);
+  line-height: 1.7;
+  margin-top: 4px;
+}
+
+.deptLink {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  text-decoration: none;
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s ease;
+}
+
+.deptLink:hover {
+  color: var(--brand-orange-dark);
+}
+
+/* Features */
+
+.deptRight {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-left: 2px solid var(--border-rule);
+  padding-left: 24px;
+}
+
+.featureLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.featureList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.featureItem {
+  font-size: 0.86rem;
+  color: var(--text-body);
+  line-height: 1.5;
+  padding-left: 16px;
+  position: relative;
+}
+
+.featureItem::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+}

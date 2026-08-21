@@ -1,0 +1,51 @@
+.avatarContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  user-select: none;
+  border-radius: 50%;
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  /* No harsh strokes or heavy shadows */
+  border: none;
+  box-shadow: none;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+/* Clean, balanced, flat look - no harsh contrast or neon strokes */
+.avatarInitials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border-radius: 50%;
+  background-color: #FFF4EB; /* Solid soft warm peach */
+  color: #EA580C;            /* Solid refined brand orange */
+  border: none;
+}
+
+.statusIndicator {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 24%;
+  height: 24%;
+  min-width: 7px;
+  min-height: 7px;
+  border-radius: 50%;
+  background-color: #10B981;
+  border: 1.5px solid #FFFFFF;
+}

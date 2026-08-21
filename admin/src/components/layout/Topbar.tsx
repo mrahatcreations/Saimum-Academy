@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { Plus, Sun, Moon, Menu } from 'lucide-react';
 import styles from '../../App.module.css';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import { UserAvatar } from '../ui/UserAvatar';
+import { SegmentedTabs } from '../ui/SegmentedTabs';
 
 interface TopbarProps {
   onMenuClick?: () => void;
@@ -10,6 +13,7 @@ interface TopbarProps {
 export default function Topbar({ onMenuClick }: TopbarProps) {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const [activeTab, setActiveTab] = useState('overview');
   
   // Create page title from path
   let title = 'Dashboard';
@@ -35,10 +39,15 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
           <h1 key={title} className={styles.titleTransition}>{title}</h1>
         </div>
         
-        <div className={styles.togglePills}>
-          <div className={`${styles.togglePill} ${styles.active}`}>Overview</div>
-          <div className={styles.togglePill}>Analytics</div>
-        </div>
+        <SegmentedTabs
+          options={[
+            { id: 'overview', label: 'Overview' },
+            { id: 'analytics', label: 'Analytics' }
+          ]}
+          value={activeTab}
+          onChange={setActiveTab}
+          size="sm"
+        />
       </div>
       <div className={styles.profile}>
         <button 
@@ -51,9 +60,13 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         <div className={styles.actionBtn} title="Add New">
           <Plus size={20} />
         </div>
-        <div className={styles.avatar}>
-          <img src="https://i.pravatar.cc/150?img=11" alt="Super Admin" />
-        </div>
+        <UserAvatar 
+          name="Super Admin" 
+          size={34} 
+          shape="circle" 
+          showStatus={true} 
+          statusColor="#10B981" 
+        />
       </div>
     </header>
   );

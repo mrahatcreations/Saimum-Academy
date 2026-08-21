@@ -1,0 +1,78 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 0 16px 0;
+  width: 100%;
+}
+
+.left {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-primary, #0F172A);
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.countText {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--text-tertiary, #94A3B8);
+  font-variant-numeric: tabular-nums;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.themeToggleBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  color: var(--text-secondary, #64748B);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.themeToggleBtn:hover {
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  color: var(--text-primary, #0F172A);
+  border-color: var(--border-dashed, #CBD5E1);
+}
+
+[data-theme="dark"] .themeToggleBtn {
+  background: #121214;
+  border-color: #222225;
+  color: #A1A1AA;
+}
+
+[data-theme="dark"] .themeToggleBtn:hover {
+  background-color: #1E1E22;
+  color: #FAFAFA;
+}
+
+.profileAvatarWrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.profileAvatarWrapper:hover {
+  transform: scale(1.04);
+}

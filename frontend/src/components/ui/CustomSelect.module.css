@@ -1,0 +1,70 @@
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.selectTrigger {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 4px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  color: var(--text-heading);
+  font-size: 0.86rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease;
+  user-select: none;
+}
+
+.selectTrigger:hover {
+  border-color: var(--text-muted);
+}
+
+.selectTriggerOpen {
+  border-color: var(--brand-orange) !important;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  border-radius: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px #1A1A1A14;
+  padding: 4px;
+}
+
+.optionItem {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-heading);
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.1s ease;
+}
+
+.optionItem:hover {
+  background-color: var(--bg-section-alt);
+}
+
+.optionSelected {
+  background-color: var(--brand-orange) !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+}

@@ -1,70 +1,43 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
 }
 
 // -----------------------------------------------------------------------------
-// ENUMS
-// -----------------------------------------------------------------------------
-
-enum BranchType {
-  PHYSICAL
-  ONLINE
-}
-
-enum Status {
-  ACTIVE
-  INACTIVE
-  ARCHIVED
-}
-
-enum RegistrationStatus {
-  APPLICANT
-  VIVA_PENDING
-  SELECTED
-  WORKSHOP
-  EXAM_PENDING
-  REGULAR_STUDENT
-  REJECTED
-}
-
-// -----------------------------------------------------------------------------
-// CORE ACADEMY STRUCTURE
+// 1. CORE ACADEMY STRUCTURE
 // -----------------------------------------------------------------------------
 
 model Branch {
-  id          String   @id @default(uuid())
-  name        String
-  code        String?  @unique
-  type        BranchType @default(PHYSICAL)
-  status      Status   @default(ACTIVE)
+  id            String   @id @default(uuid())
+  name          String
+  code          String?  @unique
+  type          String   @default("PHYSICAL") // PHYSICAL | ONLINE
+  status        String   @default("ACTIVE")   // ACTIVE | INACTIVE | ARCHIVED
   
   // Relations
-  departments DepartmentBranch[]
-  subjects    BranchSubject[]
-  registrations Registration[]
+  departments      DepartmentBranch[]
+  subjects         BranchSubject[]
+  registrations    Registration[]
+  workshopExams    WorkshopExam[]
+  staff            Staff[]
+  workshopSessions WorkshopSession[]
+  workshopBatches  WorkshopBatch[]
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 model Department {
   id          String   @id @default(uuid())
   name        String   @unique
-  status      Status   @default(ACTIVE)
+  status      String   @default("ACTIVE")
   
   // Relations
   branches    DepartmentBranch[]
+  assignedStaff StaffDepartmentAssignment[]
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -85,21 +58,18 @@ model DepartmentBranch {
 }
 
 model Subject {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  code        String?
-  status      Status   @default(ACTIVE)
+  id              String   @id @default(uuid())
+  name            String   @unique
+  code            String?
+  status          String   @default("ACTIVE")
 
   // Relations
   branchOfferings BranchSubject[]
+  workshopExams   WorkshopExam[]
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
-
-// -----------------------------------------------------------------------------
-// OFFERINGS & BATCHES
-// -----------------------------------------------------------------------------
 
 // Maps a Master Subject to a specific Branch and Department
 model BranchSubject {
@@ -107,7 +77,7 @@ model BranchSubject {
   branchId           String
   subjectId          String
   departmentBranchId String
-  status             Status   @default(ACTIVE)
+  status             String   @default("ACTIVE")
 
   branch             Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
   subject            Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
@@ -122,72 +92,467 @@ model Batch {
   id              String   @id @default(uuid())
   name            String
   branchSubjectId String
-  status          Status   @default(ACTIVE)
+  status          String   @default("ACTIVE")
 
   branchSubject   BranchSubject @relation(fields: [branchSubjectId], references: [id], onDelete: Cascade)
   memberships     BatchMembership[]
+  coordinators    StaffBatchAssignment[]
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
 
 // -----------------------------------------------------------------------------
-// STUDENTS & ADMISSION
+// 2. PEOPLE DATABASE & ADMISSIONS (CORE ARCHITECTURE)
 // -----------------------------------------------------------------------------
 
-// Single human entity
+// Single lifetime human entity
 model Person {
-  id          String   @id @default(uuid())
-  fullName    String
-  phone       String?  @unique
-  email       String?  @unique
-  dateOfBirth DateTime?
-  
-  registrations Registration[]
-  studentProfile Student?
+  id                        String   @id @default(uuid())
+  fullNameEn                String
+  fullNameBn                String?
+  phone                     String?
+  email                     String?
+  dateOfBirth               String?  // YYYY-MM-DD
+  gender                    String   @default("MALE") // MALE | FEMALE
+  bloodGroup                String?
+  nidBirthCert              String?
+  photoUrl                  String?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  // Family & Guardian
+  fatherName                String?
+  fatherPhone               String?
+  motherName                String?
+  emergencyContactName      String?
+  emergencyContactRelation  String?
+  emergencyContactPhone     String?
+
+  // Addresses (JSON or string fields)
+  presentAddressDivision    String?
+  presentAddressDistrict    String?
+  presentAddressThana       String?
+  presentAddressLine        String?
+
+  permanentAddressDivision  String?
+  permanentAddressDistrict  String?
+  permanentAddressThana     String?
+  permanentAddressLine      String?
+
+  // Academic & Experience
+  academicInstitution       String?
+  currentClass              String?
+  previousCulturalTraining  String?
+
+  // Relations
+  registrations             Registration[]
+  studentProfile            Student?
+  workshopExamResults       WorkshopExamResult[]
+
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
 }
 
-// A single admission lifecycle (Applicant -> Viva -> Workshop -> Regular)
+// A single admission lifecycle registration
 model Registration {
-  id          String   @id @default(uuid())
-  personId    String
-  branchId    String
-  year        Int
-  status      RegistrationStatus @default(APPLICANT)
+  id                String   @id @default(uuid())
+  registrationNo    String   @unique
+  personId          String
+  branchId          String
+  departmentId      String?
+  subjectId         String?
+  applicationYear   Int      @default(2026)
   
-  person      Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
-  branch      Branch   @relation(fields: [branchId], references: [id])
+  // Status: PENDING_VIVA | VIVA_SCHEDULED | SELECTED | REJECTED | WORKSHOP | REGULAR_STUDENT
+  status            String   @default("PENDING_VIVA")
+  
+  // Viva Details
+  vivaDate          String?
+  vivaTime          String?
+  vivaRoom          String?
+  vivaExaminer      String?
+  vivaScore         Float?
+  vivaNotes         String?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  // Payment Details
+  paymentStatus     String   @default("PAID") // PAID | PENDING | REFUNDED
+  paymentAmount     Float    @default(200)
+  paymentMethod     String   @default("Cash / Desk")
+  paymentTrxId      String?
+  paymentDate       DateTime @default(now())
+
+  // Custom Answers (JSON string)
+  customAnswers     String?
+
+  // Session / Circular Link
+  sessionId         String?
+  session           AdmissionSession? @relation(fields: [sessionId], references: [id])
+
+  // Relations
+  person              Person               @relation(fields: [personId], references: [id], onDelete: Cascade)
+  branch              Branch               @relation(fields: [branchId], references: [id])
+  workshopExamResults WorkshopExamResult[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model AdmissionSession {
+  id                String         @id @default(uuid())
+  title             String         // e.g. "Spring 2026 Central Admission Intake"
+  sessionCode       String         @unique // e.g. "2026-S1"
+  year              Int            @default(2026)
+  startDate         String         // YYYY-MM-DD
+  endDate           String         // YYYY-MM-DD
+  applicationFee    Float          @default(200)
+  isActive          Boolean        @default(true)
+  status            String         @default("ACTIVE") // ACTIVE | CLOSED | UPCOMING
+
+  // Branch, Subject & Batch Offerings Configuration
+  targetBranches    String?        @default("[\"All Branches\"]") // JSON array of allowed branches e.g. ["All Branches"], ["Dhaka Central"]
+  targetSubjects    String?        // JSON string or comma-separated allowed subject IDs/names
+  targetBatches     String?        // JSON string or comma-separated allowed batch IDs/names
+
+  // Registration / Serial Number Generation Configuration
+  regPrefix         String?        @default("SA-2026-") // e.g. "SA-2026-", "SRI-"
+  regStartNumber    Int?           @default(1001)       // e.g. 1001, 5001
+  regCounter        Int?           @default(0)          // Number of generated registrations
+
+  registrations     Registration[]
+
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
 }
 
 // Created only when someone becomes a regular student
 model Student {
-  id          String   @id @default(uuid())
-  studentId   String   @unique
-  personId    String   @unique
-  status      Status   @default(ACTIVE)
+  id                String   @id @default(uuid())
+  studentId         String   @unique
+  personId          String   @unique
+  status            String   @default("ACTIVE")
 
-  person      Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
-  batchMemberships BatchMembership[]
+  person            Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+  batchMemberships  BatchMembership[]
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model BatchMembership {
-  id          String   @id @default(uuid())
-  studentId   String
-  batchId     String
-  joinedAt    DateTime @default(now())
-  status      Status   @default(ACTIVE)
+  id                String   @id @default(uuid())
+  studentId         String
+  batchId           String
+  joinedAt          DateTime @default(now())
+  status            String   @default("ACTIVE")
 
-  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  batch       Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  student           Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  batch             Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
 
   @@unique([studentId, batchId])
 }
+
+// -----------------------------------------------------------------------------
+// 3. DYNAMIC FORM BUILDER SETTINGS
+// -----------------------------------------------------------------------------
+
+model FormFieldConfig {
+  id                String   @id
+  section           String   // PROGRAM | PERSONAL | GUARDIAN | ACADEMIC | CUSTOM
+  fieldName         String   @unique
+  labelEn           String
+  labelBn           String?
+  fieldType         String   // TEXT | TEXTAREA | NUMBER | DATE | SELECT | RADIO | CHECKBOX | FILE
+  options           String?  // JSON Array string
+  placeholder       String?
+  helpText          String?
+  isEnabled         Boolean  @default(true)
+  isRequired        Boolean  @default(false)
+  isSystemField     Boolean  @default(false)
+  sortOrder         Int      @default(0)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// 4. WORKSHOP FINAL EXAMINATIONS & MERIT/WAITING LIST ENGINE
+// -----------------------------------------------------------------------------
+
+model WorkshopExam {
+  id                  String               @id @default(uuid())
+  sessionId           String
+  branchId            String
+  subjectId           String
+  title               String               // e.g. "Spring 2026 Vocal Music Workshop Final Exam"
+  examDate            String               // YYYY-MM-DD
+  totalMarks          Float                @default(100)
+  passMarks           Float                @default(60)
+  availableSeats      Int                  @default(50)  // Configured seat quota
+  admissionWindowDays Int                  @default(3)   // 3 days admission countdown
+  status              String               @default("PUBLISHED") // DRAFT | PUBLISHED | COMPLETED
+
+  branch              Branch               @relation(fields: [branchId], references: [id])
+  subject             Subject              @relation(fields: [subjectId], references: [id])
+  results             WorkshopExamResult[]
+
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+}
+
+model WorkshopExamResult {
+  id                  String        @id @default(uuid())
+  examId              String
+  registrationId      String
+  personId            String
+  marks               Float
+  isPassed            Boolean       @default(false)
+  meritRank           Int?          // Rank 1, 2, 3... based on marks
+  
+  // Status: MERIT_OFFERED | WAITING_LIST | ADMITTED | OFFER_EXPIRED | FAILED
+  admissionStatus     String        @default("WAITING_LIST")
+  offerExpiresAt      DateTime?     // 3 days from merit publication
+  waitingRank         Int?          // 1, 2, 3... for waiting list
+
+  examinerFeedback    String?
+
+  exam                WorkshopExam  @relation(fields: [examId], references: [id], onDelete: Cascade)
+  registration        Registration  @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  person              Person        @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@unique([examId, registrationId])
+}
+
+// -----------------------------------------------------------------------------
+// 5. ACADEMY STAFF & COORDINATORS MANAGEMENT (EXCLUDING STUDENTS)
+// -----------------------------------------------------------------------------
+
+model Staff {
+  id              String    @id @default(uuid())
+  fullName        String
+  email           String    @unique
+  phone           String?
+  designation     String?   // e.g. "Director of Academy", "Chief Vocal Coordinator", "Mirpur Regional Coordinator"
+  photoUrl        String?
+  
+  // Roles: SUPER_ADMIN | STAFF
+  role            String    @default("STAFF")
+  
+  // Scoped Primary Branch (Optional)
+  branchId        String?
+  branch          Branch?   @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  
+  // Status: ACTIVE | INACTIVE
+  status          String    @default("ACTIVE")
+  
+  joiningDate     String?   // YYYY-MM-DD
+  notes           String?
+  
+  // A coordinator is assigned to Departments across branches
+  assignedDepartments       StaffDepartmentAssignment[]
+  assignedBatches           StaffBatchAssignment[]
+  moderatedWorkshopBatches  WorkshopBatchModerator[]
+
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+}
+
+model StaffDepartmentAssignment {
+  id           String     @id @default(uuid())
+  staffId      String
+  departmentId String
+  branchId     String?
+
+  staff        Staff      @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime   @default(now())
+
+  @@unique([staffId, departmentId, branchId])
+}
+
+model StaffBatchAssignment {
+  id              String    @id @default(uuid())
+  staffId         String
+  batchId         String
+
+  staff           Staff     @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  batch           Batch     @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime  @default(now())
+
+  @@unique([staffId, batchId])
+}
+
+// =============================================================================
+// 6. THREE-MONTH CULTURAL WORKSHOP MANAGEMENT ENGINE (DIRECT BATCH & MODERATOR MODEL)
+// =============================================================================
+
+model WorkshopSession {
+  id              String          @id @default(uuid())
+  title           String          // e.g. "৩ মাসের বিশেষ সাংস্কৃতিক কর্মশালা ২০২৬"
+  code            String?         @unique // e.g. "WS-2026-SUMMER"
+  year            Int             @default(2026)
+  startDate       String?         // YYYY-MM-DD
+  endDate         String?         // YYYY-MM-DD
+  targetCapacity  Int             @default(150)
+  status          String          @default("ONGOING") // UPCOMING | ONGOING | COMPLETED | ARCHIVED
+  description     String?
+  
+  // Optional scoped primary branch
+  branchId        String?
+  branch          Branch?         @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  
+  batches         WorkshopBatch[]
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model WorkshopBatch {
+  id                  String                      @id @default(uuid())
+  sessionId           String
+  name                String                      // e.g. "ওয়ার্কশপ ব্যাচ ০১"
+  scheduleDays        String?                     // e.g. "শুক্রবার ও শনিবার", "প্রতিদিন", "রবি-মঙ্গল-বৃহস্পতি"
+  timeSlot            String?                     // e.g. "09:00 AM - 12:00 PM"
+  shift               String?                     @default("MORNING") // MORNING | AFTERNOON | EVENING
+  roomNo              String?                     // e.g. "Studio Room 101"
+  maxCapacity         Int                         @default(30)
+  status              String                      @default("ACTIVE") // ACTIVE | COMPLETED
+  
+  branchId            String?
+  branch              Branch?                     @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  
+  session             WorkshopSession             @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  moderators          WorkshopBatchModerator[]
+  enrollments         WorkshopStudentEnrollment[]
+  rotationalSchedules WorkshopRotationalSchedule[]
+  resources           WorkshopResource[]
+  attendanceRecords   WorkshopAttendanceRecord[]
+  assessments         WorkshopAssessment[]
+
+  createdAt           DateTime                    @default(now())
+  updatedAt           DateTime                    @updatedAt
+}
+
+model WorkshopBatchModerator {
+  id              String        @id @default(uuid())
+  workshopBatchId String
+  staffId         String
+  role            String        @default("PRIMARY_MODERATOR") // PRIMARY_MODERATOR | ASSISTANT_MODERATOR
+
+  workshopBatch   WorkshopBatch @relation(fields: [workshopBatchId], references: [id], onDelete: Cascade)
+  staff           Staff         @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime      @default(now())
+
+  @@unique([workshopBatchId, staffId])
+}
+
+model WorkshopStudentEnrollment {
+  id                  String        @id @default(uuid())
+  workshopBatchId     String
+  personId            String?
+  registrationNo      String?
+  studentName         String
+  studentPhone        String?
+  qrCodePayload       String?       // Unique QR code payload for student badge
+  status              String        @default("ENROLLED") // ENROLLED | COMPLETED | GRADUATED | DROPPED
+  
+  attendanceRate      Float         @default(0)   // percentage e.g. 95
+  attendanceScore     Float         @default(0)   // e.g. out of 30
+  classTestScore      Float         @default(0)   // e.g. out of 30
+  finalExamScore      Float         @default(0)   // e.g. out of 40
+  compositeScore      Float         @default(0)   // Total Final Score (Attendance + Class Tests + Final Exam)
+  finalGrade          String?       // "A+", "A", "Pass", "Fail"
+  isQualifiedRegular  Boolean       @default(false)
+
+  workshopBatch       WorkshopBatch @relation(fields: [workshopBatchId], references: [id], onDelete: Cascade)
+  attendanceRecords   WorkshopAttendanceRecord[]
+  assessmentScores    WorkshopAssessmentScore[]
+
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+}
+
+model WorkshopAttendanceRecord {
+  id               String                    @id @default(uuid())
+  workshopBatchId  String
+  enrollmentId     String
+  date             String                    // YYYY-MM-DD
+  time             String?                   // HH:mm:ss
+  status           String                    @default("PRESENT") // PRESENT | LATE | ABSENT
+  scanMethod       String                    @default("QR_SCAN") // QR_SCAN | MANUAL
+  scannedByStaffId String?                   // Staff ID who scanned
+  timestamp        DateTime                  @default(now())
+
+  workshopBatch    WorkshopBatch             @relation(fields: [workshopBatchId], references: [id], onDelete: Cascade)
+  enrollment       WorkshopStudentEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@unique([workshopBatchId, enrollmentId, date])
+}
+
+model WorkshopAssessment {
+  id               String                    @id @default(uuid())
+  workshopBatchId  String
+  title            String                    // e.g. "Weekly Quiz 1", "Final Practical Exam"
+  type             String                    @default("CLASS_TEST") // CLASS_TEST | WEEKLY_QUIZ | FINAL_PRACTICAL
+  date             String                    // YYYY-MM-DD
+  totalMarks       Float                     @default(100)
+  weightPercentage Float                     @default(30) // percentage contribution to final score
+  
+  scores           WorkshopAssessmentScore[]
+
+  workshopBatch    WorkshopBatch             @relation(fields: [workshopBatchId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+}
+
+model WorkshopAssessmentScore {
+  id               String                    @id @default(uuid())
+  assessmentId     String
+  enrollmentId     String
+  marksObtained    Float                     @default(0)
+  feedback         String?
+
+  assessment       WorkshopAssessment        @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  enrollment       WorkshopStudentEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@unique([assessmentId, enrollmentId])
+}
+
+model WorkshopRotationalSchedule {
+  id                  String        @id @default(uuid())
+  workshopBatchId     String
+  dayOfWeek           String        // "FRIDAY", "SATURDAY", "DAILY", etc.
+  timeSlot            String        // "10:00 AM - 11:30 AM"
+  subjectName         String        // "কণ্ঠ সংগীত ও হামদ-নাত", "মঞ্চ অভিনয়", "আবৃত্তি ও উপস্থাপনা"
+  guestInstructorName String?       // e.g. "উস্তাদ মোস্তফা জামান (আমন্ত্রিত শিক্ষক)"
+  roomNo              String?       // "Auditorium Studio", "Classroom 2"
+
+  workshopBatch       WorkshopBatch @relation(fields: [workshopBatchId], references: [id], onDelete: Cascade)
+
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+}
+
+model WorkshopResource {
+  id              String        @id @default(uuid())
+  workshopBatchId String
+  title           String        // "হামদ-নাত লিরিক্স ও সুরলিপি"
+  type            String        @default("LYRICS") // LYRICS | SCRIPT | LECTURE_NOTE
+  content         String?       // Text content or lyrics
+  fileUrl         String?
+  uploadedBy      String?
+
+  workshopBatch   WorkshopBatch @relation(fields: [workshopBatchId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+
+

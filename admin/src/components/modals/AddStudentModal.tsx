@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '../ui/Modal';
 
 interface AddStudentModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAdd: (student: { fullName: string; phone: string; email: string }) => void;
+  initialData?: { id?: string; fullName: string; phone?: string; email?: string } | null;
 }
 
-export default function AddStudentModal({ isOpen, onClose, onAdd }: AddStudentModalProps) {
+export default function AddStudentModal({ isOpen, onClose, onAdd, initialData }: AddStudentModalProps) {
   const [formData, setFormData] = useState({ fullName: '', phone: '', email: '' });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        fullName: initialData.fullName || '',
+        phone: initialData.phone || '',
+        email: initialData.email || ''
+      });
+    } else {
+      setFormData({ fullName: '', phone: '', email: '' });
+    }
+  }, [initialData, isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +30,7 @@ export default function AddStudentModal({ isOpen, onClose, onAdd }: AddStudentMo
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Register New Student">
+    <Modal isOpen={isOpen} onClose={onClose} title={initialData ? "Edit Student Profile" : "Register New Student"}>
       <form onSubmit={handleSubmit}>
         <div className="formGroup">
           <label className="label">Full Name</label>
@@ -46,7 +59,7 @@ export default function AddStudentModal({ isOpen, onClose, onAdd }: AddStudentMo
           <input 
             type="email" 
             className="input" 
-            placeholder="e.g. hasan@example.com"
+            placeholder="e.g. hasan@example.com" 
             value={formData.email}
             onChange={e => setFormData({...formData, email: e.target.value})}
           />
@@ -54,7 +67,7 @@ export default function AddStudentModal({ isOpen, onClose, onAdd }: AddStudentMo
         
         <div className="formActions">
           <button type="button" className="btnCancel" onClick={onClose}>Cancel</button>
-          <button type="submit" className="btnSubmit">Register Student</button>
+          <button type="submit" className="btnSubmit">{initialData ? "Update Student" : "Register Student"}</button>
         </div>
       </form>
     </Modal>

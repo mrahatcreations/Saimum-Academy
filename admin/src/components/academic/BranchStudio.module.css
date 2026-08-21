@@ -1,0 +1,316 @@
+/* =========================================================================
+   Saimum Academy — Branch Studio (Dribbble Standard Minimalist Workspace)
+   Strictly adheres to AGENTS.md (100% Solid Flat Colors, English UI)
+   ========================================================================= */
+
+.studioContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  animation: studioFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes studioFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.headerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light, #E2E8F0);
+  flex-wrap: wrap;
+}
+
+[data-theme="dark"] .headerBar {
+  border-bottom-color: #27272A;
+}
+
+.breadcrumbGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm, 8px);
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  color: var(--text-secondary, #475569);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.backBtn:hover {
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  color: var(--text-primary, #0F172A);
+}
+
+[data-theme="dark"] .backBtn {
+  background-color: #18181B;
+  border-color: #27272A;
+  color: #A1A1AA;
+}
+
+[data-theme="dark"] .backBtn:hover {
+  background-color: #27272A;
+  color: #FAFAFA;
+}
+
+.pageTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+[data-theme="dark"] .pageTitle {
+  color: #FAFAFA;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btnCancel {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm, 8px);
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  color: var(--text-secondary, #475569);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnCancel:hover {
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  color: var(--text-primary, #0F172A);
+}
+
+[data-theme="dark"] .btnCancel {
+  background-color: #18181B;
+  border-color: #27272A;
+  color: #A1A1AA;
+}
+
+.btnSave {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm, 8px);
+  background-color: #FF790E;
+  border: none;
+  color: #FFFFFF;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnSave:hover {
+  background-color: #E66B0A;
+}
+
+.btnSave:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Tabs Bar */
+.tabsContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-light, #E2E8F0);
+  padding-bottom: 2px;
+}
+
+[data-theme="dark"] .tabsContainer {
+  border-bottom-color: #27272A;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748B);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tabBtn:hover {
+  color: var(--text-primary, #0F172A);
+}
+
+.tabBtn.activeTab {
+  color: #FF790E;
+  border-bottom-color: #FF790E;
+}
+
+.tabCount {
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  color: var(--text-secondary, #64748B);
+}
+
+.activeTab .tabCount {
+  background-color: #FFF3EB;
+  color: #FF790E;
+}
+
+[data-theme="dark"] .activeTab .tabCount {
+  background-color: #2A1805;
+  color: #FF790E;
+}
+
+/* Tab Panels */
+.panelCard {
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  border-radius: var(--radius-md, 10px);
+  padding: 24px;
+}
+
+[data-theme="dark"] .panelCard {
+  background-color: #121214;
+  border-color: #27272A;
+}
+
+/* Form Grid */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Checklist Grid */
+.checkGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.checkCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius-sm, 8px);
+  border: 1px solid var(--border-light, #E2E8F0);
+  background-color: var(--bg-body, #F8FAFC);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.checkCard:hover {
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  border-color: #CBD5E1;
+}
+
+.checkCard.selected {
+  border: 2px solid #FF790E;
+  background-color: #FFF9F5;
+}
+
+[data-theme="dark"] .checkCard {
+  background-color: #18181B;
+  border-color: #27272A;
+}
+
+[data-theme="dark"] .checkCard.selected {
+  background-color: #1F1206;
+  border-color: #FF790E;
+}
+
+.checkCardTitle {
+  font-size: 0.90rem;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+  margin-bottom: 2px;
+}
+
+[data-theme="dark"] .checkCardTitle {
+  color: #FAFAFA;
+}
+
+.checkCardSubtitle {
+  font-size: 0.78rem;
+  color: var(--text-secondary, #64748B);
+}
+
+/* Batch Strip Table */
+.batchListStrip {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.batchRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm, 8px);
+  border: 1px solid var(--border-light, #E2E8F0);
+  background-color: var(--bg-surface, #FFFFFF);
+  transition: all 0.15s ease;
+}
+
+.batchRow:hover {
+  background-color: var(--bg-surface-hover, #F8FAFC);
+}
+
+[data-theme="dark"] .batchRow {
+  background-color: #18181B;
+  border-color: #27272A;
+}
+
+.staffPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background-color: #F1F5F9;
+  color: #334155;
+}
+
+[data-theme="dark"] .staffPill {
+  background-color: #27272A;
+  color: #E4E4E7;
+}

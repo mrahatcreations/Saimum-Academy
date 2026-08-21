@@ -1,0 +1,487 @@
+/* =========================================================================
+   Saimum Academy — Full-Screen Staff & Coordinator Studio Workspace
+   Strictly adheres to AGENTS.md and site design system
+   ========================================================================= */
+
+.studioContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  animation: studioFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes studioFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header Bar */
+.headerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light, #E2E8F0);
+  flex-wrap: wrap;
+}
+
+[data-theme="dark"] .headerBar {
+  border-bottom-color: #27272A;
+}
+
+.breadcrumbGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm, 8px);
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  color: var(--text-secondary, #475569);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.backBtn:hover {
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  color: var(--text-primary, #0F172A);
+}
+
+[data-theme="dark"] .backBtn {
+  background-color: #18181B;
+  border-color: #27272A;
+  color: #A1A1AA;
+}
+
+[data-theme="dark"] .backBtn:hover {
+  background-color: #27272A;
+  color: #FAFAFA;
+}
+
+.pageTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+[data-theme="dark"] .pageTitle {
+  color: #FAFAFA;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btnCancel {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm, 8px);
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  color: var(--text-secondary, #475569);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnCancel:hover {
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  color: var(--text-primary, #0F172A);
+}
+
+[data-theme="dark"] .btnCancel {
+  background-color: #18181B;
+  border-color: #27272A;
+  color: #A1A1AA;
+}
+
+.btnSubmit {
+  height: 38px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm, 8px);
+  background-color: var(--brand-orange, #FF790E);
+  border: 1px solid var(--brand-orange, #FF790E);
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btnSubmit:hover {
+  background-color: var(--brand-orange-dark, #D45F00);
+  border-color: var(--brand-orange-dark, #D45F00);
+}
+
+/* Two-Column Canvas */
+.workspaceGrid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .workspaceGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cards */
+.panelCard {
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  border-radius: var(--radius-md, 12px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+[data-theme="dark"] .panelCard {
+  background-color: #18181B;
+  border-color: #27272A;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-light, #E2E8F0);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+}
+
+[data-theme="dark"] .cardHeader {
+  border-bottom-color: #27272A;
+  color: #FAFAFA;
+}
+
+/* Avatar Preview Section */
+.avatarSection {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 0 8px 0;
+}
+
+.avatarDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.avatarName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+}
+
+[data-theme="dark"] .avatarName {
+  color: #FAFAFA;
+}
+
+.avatarSubtitle {
+  font-size: 0.74rem;
+  color: var(--text-secondary, #64748B);
+}
+
+/* Form Styles */
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Branch Pill Filter Navigation */
+.branchPillNav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 4px;
+  background-color: var(--bg-body, #F8FAFC);
+  border: 1px solid var(--border-light, #E2E8F0);
+  border-radius: var(--radius-sm, 8px);
+}
+
+[data-theme="dark"] .branchPillNav {
+  background-color: #141416;
+  border-color: #222225;
+}
+
+.branchPillBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #64748B);
+  font-size: 0.80rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.branchPillBtn:hover {
+  color: var(--text-primary, #0F172A);
+  background-color: var(--bg-surface-hover, #F1F5F9);
+}
+
+[data-theme="dark"] .branchPillBtn:hover {
+  color: #FAFAFA;
+  background-color: #1E1E22;
+}
+
+.branchPillActive {
+  background-color: var(--bg-surface, #FFFFFF) !important;
+  color: var(--text-primary, #0F172A) !important;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .branchPillActive {
+  background-color: #222225 !important;
+  color: #FAFAFA !important;
+}
+
+.pillCountBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background-color: var(--bg-surface-hover, #E2E8F0);
+  color: var(--text-secondary, #475569);
+}
+
+.pillCountBadgeActive {
+  background-color: var(--brand-orange, #FF790E);
+  color: #FFFFFF;
+}
+
+/* Branch Batch Canvas */
+.canvasControlsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary, #64748B);
+  margin-top: 2px;
+}
+
+.quickToggleAllBtn {
+  background: none;
+  border: none;
+  color: var(--brand-orange, #FF790E);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.quickToggleAllBtn:hover {
+  text-decoration: underline;
+}
+
+/* Multiple Batch Cards Grid */
+.batchCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.batchCardItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px;
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  border-radius: var(--radius-md, 12px);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  position: relative;
+}
+
+[data-theme="dark"] .batchCardItem {
+  background-color: #18181B;
+  border-color: #27272A;
+}
+
+.batchCardItem:hover {
+  background-color: var(--bg-surface-hover, #F8FAFC);
+  border-color: #CBD5E1;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .batchCardItem:hover {
+  background-color: #222225;
+  border-color: #3F3F46;
+}
+
+/* Selected State: Solid Neutral Background with Clean Active Tag, NO colored outline */
+.batchCardAssigned {
+  background-color: var(--bg-surface-hover, #F1F5F9) !important;
+  border-color: #94A3B8 !important;
+}
+
+[data-theme="dark"] .batchCardAssigned {
+  background-color: #27272A !important;
+  border-color: #52525B !important;
+}
+
+.cardTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.subjectPillBadge {
+  font-size: 0.70rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background-color: var(--bg-body, #F8FAFC);
+  color: var(--text-secondary, #475569);
+  border: 1px solid var(--border-light, #E2E8F0);
+}
+
+[data-theme="dark"] .subjectPillBadge {
+  background-color: #121214;
+  color: #D4D4D8;
+  border-color: #27272A;
+}
+
+.assignedStateBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background-color: var(--brand-orange, #FF790E);
+  color: #FFFFFF;
+}
+
+.unassignedStateBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.70rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--text-tertiary, #64748B);
+  border: 1px solid var(--border-dashed, #CBD5E1);
+}
+
+.cardMidSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cardBatchTitle {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+  line-height: 1.3;
+}
+
+[data-theme="dark"] .cardBatchTitle {
+  color: #FAFAFA;
+}
+
+.cardBranchText {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #64748B);
+  font-weight: 500;
+}
+
+.cardFooterDivider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light, #E2E8F0);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-tertiary, #64748B);
+}
+
+[data-theme="dark"] .cardFooterDivider {
+  border-top-color: #27272A;
+  color: #A1A1AA;
+}
+
+.studentCounter {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-secondary, #475569);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .studentCounter {
+  color: #D4D4D8;
+}
+
+.emptyNoticeBox {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--text-tertiary, #64748B);
+  font-size: 0.82rem;
+  border: 1px dashed var(--border-dashed, #CBD5E1);
+  border-radius: var(--radius-sm, 8px);
+}
+
+[data-theme="dark"] .emptyNoticeBox {
+  border-color: #2E2E33;
+}

@@ -1,0 +1,199 @@
+/* Branches Page — Heritage Institutional */
+
+.page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page Hero */
+
+.pageHero {
+  background-color: var(--bg-dark);
+  padding: 72px 24px 64px 24px;
+}
+
+.pageHeroInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preTitle {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brand-orange);
+}
+
+.pageTitle {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-inverse);
+  letter-spacing: -0.03em;
+  max-width: 700px;
+}
+
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 2rem;
+  }
+}
+
+.pageDesc {
+  font-size: 0.94rem;
+  color: var(--text-inverse-muted);
+  max-width: 600px;
+  line-height: 1.65;
+}
+
+/* Sections */
+
+.section {
+  padding: 96px 24px;
+}
+
+.sectionInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.campusBlock {
+  padding: 48px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.campusBlock:first-child {
+  padding-top: 0;
+}
+
+.campusBlockInner {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+@media (max-width: 860px) {
+  .campusBlockInner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.campusImageWrap {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-rule);
+  background-color: #111111;
+}
+
+.campusImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.campusInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.campusRule {
+  border: none;
+  border-top: 1px solid var(--border-rule);
+}
+
+.campusHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.campusName {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.campusType {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--brand-orange);
+  letter-spacing: 0.02em;
+}
+
+.campusCode {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border: 1px solid var(--border-rule);
+}
+
+/* Detail Rows — Tabular */
+
+.campusDetails {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  align-items: flex-start;
+}
+
+@media (max-width: 600px) {
+  .detailRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+.detailLabel {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.detailValue {
+  font-size: 0.88rem;
+  color: var(--text-body);
+  line-height: 1.5;
+}
+
+.campusLink {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.campusLink:hover {
+  color: var(--brand-orange-dark);
+}

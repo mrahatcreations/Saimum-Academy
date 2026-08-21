@@ -1,0 +1,163 @@
+/* Track Page — Heritage Institutional */
+
+.trackWrapper {
+  max-width: 760px;
+  margin: 40px auto 80px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.headerBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.preTitle {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-orange);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.desc {
+  font-size: 0.90rem;
+  color: var(--text-muted);
+}
+
+/* Search Card */
+.searchCard {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  padding: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .searchCard {
+    flex-direction: column;
+  }
+}
+
+.searchInput {
+  flex: 1;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 4px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  color: var(--text-heading);
+  font-size: 0.90rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+  width: 100%;
+}
+
+.searchInput:focus {
+  border-color: var(--brand-orange);
+}
+
+.searchBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 24px;
+  border-radius: 4px;
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  border: 1px solid var(--brand-orange);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.searchBtn:hover {
+  background-color: var(--brand-orange-dark);
+}
+
+/* Result Card */
+.resultCard {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.resultTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.regCode {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  font-variant-numeric: tabular-nums;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.infoLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.infoValue {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+/* Viva Schedule Box */
+.vivaAlert {
+  background-color: var(--bg-section-alt);
+  border-left: 3px solid var(--brand-orange);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

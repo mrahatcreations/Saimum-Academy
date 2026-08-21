@@ -1,0 +1,502 @@
+/* =========================================================================
+   🎓 Saimum Academy — Corporate Minimalist Workshops Screen
+   ========================================================================= */
+
+.container {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  min-height: calc(100vh - 140px);
+  background: transparent;
+}
+
+.refreshBtn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.refreshBtn:hover {
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+  border-color: var(--border-medium, #3F3F46);
+}
+
+.tableCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md, 12px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  margin-top: 12px;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: transparent;
+  flex: 1;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.82rem;
+  background: transparent;
+}
+
+.th {
+  padding: 14px 18px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border-light);
+  background-color: var(--bg-surface-hover);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.tr {
+  border-bottom: 1px solid var(--border-light);
+  transition: background-color 0.12s ease;
+}
+
+.tr:hover {
+  background-color: var(--bg-surface-hover);
+}
+
+.td {
+  padding: 16px 18px;
+  vertical-align: middle;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+}
+
+.tableFooterStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  background-color: var(--bg-surface);
+}
+
+.emptyTd {
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 0.82rem;
+}
+
+.batchNameCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.batchPrimaryName {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.batchCapacityText {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.shiftBadge {
+  font-size: 0.70rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background-color: var(--bg-surface-hover);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  display: inline-block;
+}
+
+.roomCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.moderatorsCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modPillRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.modPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background-color: var(--bg-surface-hover);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.btnAssignSmall {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.btnAssignSmall:hover {
+  background-color: var(--bg-surface-hover);
+}
+
+.actionIconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.actionIconBtn:hover {
+  background-color: var(--bg-surface-hover);
+  color: var(--text-primary);
+}
+
+.actionIconBtnDanger:hover {
+  background-color: var(--status-danger-bg, #7F1D1D) !important;
+  color: #EF4444 !important;
+  border-color: var(--status-danger-border, #B91C1C) !important;
+}
+
+.resourceHeaderStrip {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.attendanceControlStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+  flex-wrap: wrap;
+}
+
+.attendanceSelect {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 0.80rem;
+  font-weight: 600;
+  outline: none;
+}
+
+.attendanceDateInput {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 0.80rem;
+  font-weight: 600;
+  outline: none;
+}
+.datePickerWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 5px 10px;
+  transition: border-color 0.15s ease;
+}
+
+.datePickerWrapper:focus-within {
+  border-color: var(--brand-orange);
+}
+
+.calendarIcon {
+  color: var(--brand-orange);
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.attendanceDateInput {
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.80rem;
+  font-weight: 600;
+  outline: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.attendanceDateInput::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.attendanceBtn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: 1px solid var(--border-light);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.attendanceBtn:hover {
+  background-color: var(--bg-surface-hover);
+  color: var(--text-primary);
+}
+
+.attendanceBtnPresent {
+  background-color: var(--status-success-bg, #064E3B) !important;
+  border-color: var(--status-success-border, #047857) !important;
+  color: var(--status-success-text, #6EE7B7) !important;
+}
+
+.attendanceBtnAbsent {
+  background-color: var(--status-danger-bg, #7F1D1D) !important;
+  border-color: var(--status-danger-border, #B91C1C) !important;
+  color: var(--status-danger-text, #FCA5A5) !important;
+}
+
+.attendanceBtnLate {
+  background-color: var(--status-warning-bg, #78350F) !important;
+  border-color: var(--status-warning-border, #B45309) !important;
+  color: var(--status-warning-text, #FCD34D) !important;
+}
+
+.scoreInput {
+  width: 70px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  outline: none;
+}
+
+.btnPrimarySolid,
+.btnAddHeader {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: var(--brand-orange) !important;
+  border: 1px solid var(--brand-orange) !important;
+  color: #FFFFFF !important;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnPrimarySolid:hover,
+.btnAddHeader:hover {
+  background-color: var(--brand-orange-dark) !important;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.addBatchModal {
+  background-color: var(--bg-surface, #121214);
+  border: 1px solid var(--border-light, #27272A);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 620px;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-light, #27272A);
+}
+
+.modalTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary, #FAFAFA);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.modalCloseBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #A1A1AA);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.modalCloseBtn:hover {
+  background: var(--bg-surface-hover, #27272A);
+  color: var(--text-primary, #FAFAFA);
+}
+
+.dayChipsRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  width: 100%;
+}
+
+.dayChip {
+  flex: 1;
+  padding: 5px 0;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  background: var(--bg-surface-hover, #27272A);
+  color: var(--text-secondary, #A1A1AA);
+  border: 1px solid var(--border-light, #27272A);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.dayChip:hover {
+  color: var(--brand-orange, #FF790E);
+  border-color: var(--brand-orange, #FF790E);
+}
+
+.dayChipActive {
+  background-color: var(--brand-orange, #FF790E) !important;
+  color: #FFFFFF !important;
+  border: 1px solid var(--brand-orange, #FF790E) !important;
+}
+
+.presetChip {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  background: var(--bg-surface-hover, #27272A);
+  color: var(--text-secondary, #A1A1AA);
+  border: 1px solid var(--border-light, #27272A);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.presetChip:hover {
+  color: var(--brand-orange, #FF790E);
+  border-color: var(--brand-orange, #FF790E);
+}
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-light, #27272A);
+}
+
+.btnCancel {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border-light, #27272A);
+  border-radius: 6px;
+  color: var(--text-secondary, #A1A1AA);
+  font-size: 0.80rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnCancel:hover {
+  background: var(--bg-surface-hover, #27272A);
+  color: var(--text-primary, #FAFAFA);
+}

@@ -1,0 +1,120 @@
+.tabsContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--border-light, #E2E8F0);
+  margin-bottom: 18px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+[data-theme="dark"] .tabsContainer {
+  border-bottom-color: #222225;
+}
+
+.tabsList {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: max-content;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabsList::-webkit-scrollbar {
+  display: none;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 12px 12px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary, #64748B);
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  border-radius: 6px 6px 0 0;
+}
+
+.tabBtn:hover {
+  color: var(--text-primary, #0F172A);
+  background-color: var(--bg-surface-hover, #F8FAFC);
+}
+
+[data-theme="dark"] .tabBtn {
+  color: #A1A1AA;
+}
+
+[data-theme="dark"] .tabBtn:hover {
+  color: #FAFAFA;
+  background-color: #1A1A1E;
+}
+
+.tabBtn.active {
+  color: var(--text-primary, #0F172A);
+  font-weight: 700;
+}
+
+[data-theme="dark"] .tabBtn.active {
+  color: #FAFAFA;
+}
+
+.label {
+  line-height: 1.2;
+}
+
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  color: var(--text-tertiary, #94A3B8);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+  transition: all 0.15s ease;
+}
+
+[data-theme="dark"] .countBadge {
+  background-color: #222225;
+  color: #71717A;
+}
+
+.activeBadge {
+  background-color: var(--brand-orange, #FF790E);
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .activeBadge {
+  background-color: var(--brand-orange, #FF790E);
+  color: #FFFFFF;
+}
+
+.activeIndicator {
+  position: absolute;
+  bottom: -1px;
+  left: 6px;
+  right: 6px;
+  height: 2px;
+  background-color: var(--brand-orange, #FF790E);
+  border-radius: 3px 3px 0 0;
+}
+
+.actionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 6px;
+  flex-wrap: wrap;
+}

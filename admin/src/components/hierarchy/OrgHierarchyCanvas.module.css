@@ -1,0 +1,820 @@
+/* ==========================================================================
+   ORGANIZATIONAL GRAPH CANVAS — PREMIUM SYSTEM GRAPH & TREE BLUEPRINT
+   100% Solid Flat Colors | Sharp Orthogonal & Bezier SVG Bus Wiring
+   ========================================================================== */
+
+.canvasContainer {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 190px);
+  min-height: 600px;
+  background-color: #F8FAFC;
+  background-image: 
+    radial-gradient(#CBD5E1 1.2px, transparent 1.2px),
+    linear-gradient(to right, #F1F5F9 1px, transparent 1px),
+    linear-gradient(to bottom, #F1F5F9 1px, transparent 1px);
+  background-size: 24px 24px, 120px 120px, 120px 120px;
+  border: 1px solid #CBD5E1;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+/* Floating Control HUD Bar */
+.hudBar {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 40;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  gap: 12px;
+}
+
+.hudGroup {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #FFFFFF;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.searchBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  color: #64748B;
+}
+
+.searchInput {
+  padding: 6px 12px 6px 32px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  background-color: #F8FAFC;
+  color: #0F172A;
+  width: 240px;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: #FF790E;
+  background-color: #FFFFFF;
+}
+
+.hudBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #334155;
+  background-color: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.hudBtn:hover {
+  background-color: #F1F5F9;
+  color: #0F172A;
+  border-color: #94A3B8;
+}
+
+.hudBtnActive {
+  background-color: #FF790E;
+  color: #FFFFFF;
+  border-color: #FF790E;
+}
+
+.hudBtnActive:hover {
+  background-color: #E06708;
+  color: #FFFFFF;
+}
+
+.hudDivider {
+  width: 1px;
+  height: 20px;
+  background-color: #E2E8F0;
+  margin: 0 2px;
+}
+
+.zoomValue {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+  padding: 0 6px;
+  min-width: 48px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace, inherit;
+}
+
+/* Legend Strip */
+.legendPill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Viewport & Pan Area */
+.graphViewport {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  position: relative;
+  overflow: hidden;
+}
+
+.graphViewportDragging {
+  cursor: grabbing;
+}
+
+.panZoomLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  min-width: 2400px;
+  min-height: 1600px;
+  padding: 100px 160px 240px 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* SVG Connection Wires Overlay */
+.svgWireLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wirePath {
+  fill: none;
+  stroke: #94A3B8;
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wirePathActive {
+  stroke: #FF790E;
+  stroke-width: 3px;
+}
+
+.wireJunctionDot {
+  fill: #FF790E;
+  stroke: #FFFFFF;
+  stroke-width: 2px;
+}
+
+/* Graph Nodes Layout */
+.graphContentLayer {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* ==========================================================================
+   NODE LEVEL 1: CENTRAL HEADQUARTERS (HQ CORE)
+   ========================================================================== */
+.hqNodeCard {
+  width: 620px;
+  background-color: #FFFFFF;
+  border: 2px solid #FF790E;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(255, 121, 14, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 20px 24px;
+  position: relative;
+}
+
+.nodePortBottom {
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #FF790E;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 0 0 1px #FF790E;
+  z-index: 10;
+}
+
+.nodePortTop {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #2563EB;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 0 0 1px #2563EB;
+  z-index: 10;
+}
+
+.hqCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #E2E8F0;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+
+.hqBrandGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hqIconBox {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background-color: #FF790E;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hqTitleMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.hqLevelTag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: #FF790E;
+  text-transform: uppercase;
+}
+
+.hqMainTitle {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.3px;
+}
+
+.hqBadge {
+  font-size: 11px;
+  font-weight: 700;
+  background-color: #0F172A;
+  color: #FFFFFF;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.hqStaffList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hqStaffRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.hqStaffRow:hover {
+  border-color: #FF790E;
+  background-color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.staffLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.staffInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.staffName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.staffDesig {
+  font-size: 12px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.staffRolePill {
+  font-size: 11px;
+  font-weight: 700;
+  background-color: #7C3AED;
+  color: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.hqSummaryStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #E2E8F0;
+}
+
+.hqSummaryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #F8FAFC;
+  padding: 8px 4px;
+  border-radius: 6px;
+  border: 1px solid #E2E8F0;
+}
+
+.hqSummaryVal {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.hqSummaryLbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+}
+
+/* Spine Distance */
+.verticalSpineGap {
+  height: 70px;
+  width: 2px;
+}
+
+/* ==========================================================================
+   NODE LEVEL 2: BRANCH NODES (HORIZONTAL ARRAY)
+   ========================================================================== */
+.branchesRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 48px;
+  width: 100%;
+}
+
+.branchBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 330px;
+  position: relative;
+}
+
+.branchCard {
+  width: 100%;
+  background-color: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-top: 4px solid #2563EB;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+  padding: 16px;
+  position: relative;
+}
+
+.branchCardOnline {
+  border-top-color: #8B5CF6;
+}
+
+.branchCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #F1F5F9;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.branchTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.branchIconBox {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: #EFF6FF;
+  color: #2563EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.branchName {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.branchCode {
+  font-size: 11px;
+  font-weight: 800;
+  background-color: #1E293B;
+  color: #FFFFFF;
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+
+.branchSectionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.branchStaffBox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.branchStaffRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.branchStaffRow:hover {
+  border-color: #2563EB;
+  background-color: #FFFFFF;
+}
+
+.emptyText {
+  font-size: 11px;
+  color: #94A3B8;
+  font-style: italic;
+  padding: 4px 0;
+}
+
+.branchToggleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.toggleDeptBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #0F172A;
+  color: #FFFFFF;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.toggleDeptBtn:hover {
+  background-color: #334155;
+}
+
+.deptCountLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+/* ==========================================================================
+   NODE LEVEL 3: MASTER DEPARTMENTS (UNDER EACH BRANCH)
+   ========================================================================== */
+.deptListGap {
+  height: 50px;
+  width: 2px;
+}
+
+.deptArray {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  position: relative;
+}
+
+.deptNodeCard {
+  width: 100%;
+  background-color: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-left: 4px solid #10B981;
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.deptNodeCard:hover {
+  border-color: #10B981;
+  box-shadow: 0 6px 14px rgba(16, 185, 129, 0.1);
+  transform: translateY(-1px);
+}
+
+.deptCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.deptTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deptIconBox {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  background-color: #ECFDF5;
+  color: #10B981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deptTitle {
+  font-size: 13px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.deptBatchTag {
+  font-size: 10px;
+  font-weight: 700;
+  background-color: #047857;
+  color: #FFFFFF;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.deptFacultyBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.deptFacultyItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background-color: #F8FAFC;
+  border-radius: 4px;
+  font-size: 11px;
+  border: 1px solid #E2E8F0;
+  cursor: pointer;
+}
+
+.deptFacultyItem:hover {
+  border-color: #10B981;
+  background-color: #FFFFFF;
+}
+
+.facultyName {
+  font-weight: 700;
+  color: #0F172A;
+  flex: 1;
+}
+
+.facultyRole {
+  font-size: 10px;
+  color: #64748B;
+  font-weight: 600;
+}
+
+.deptBatchesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-top: 6px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.batchBadge {
+  font-size: 10px;
+  font-weight: 600;
+  background-color: #F1F5F9;
+  color: #334155;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #E2E8F0;
+}
+
+/* Spotlight Highlighted State */
+.highlightedNode {
+  outline: 3px solid #FF790E !important;
+  box-shadow: 0 0 0 5px #FFEDD5, 0 8px 20px rgba(255, 121, 14, 0.25) !important;
+}
+
+/* Detail Drawer (Side Panel on Node Click) */
+.drawerOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 380px;
+  background-color: #FFFFFF;
+  border-left: 1px solid #CBD5E1;
+  box-shadow: -6px 0 24px rgba(15, 23, 42, 0.12);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  animation: slideLeft 0.2s ease-out;
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #E2E8F0;
+  background-color: #F8FAFC;
+}
+
+.drawerTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.drawerCloseBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #64748B;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.drawerCloseBtn:hover {
+  background-color: #E2E8F0;
+  color: #0F172A;
+}
+
+.drawerBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.drawerHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.drawerHeroName {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0F172A;
+  margin-top: 10px;
+}
+
+.drawerHeroDesig {
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.drawerField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.drawerLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+}
+
+.drawerValue {
+  font-size: 13px;
+  color: #0F172A;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drawerChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.drawerChipItem {
+  font-size: 12px;
+  background-color: #F1F5F9;
+  color: #0F172A;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  border: 1px solid #E2E8F0;
+}

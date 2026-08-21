@@ -1,0 +1,225 @@
+/* Moderator Assign Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 16px;
+}
+
+.modalContent {
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  border-radius: var(--radius-lg, 16px);
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-modal, 0 20px 25px -5px rgba(0, 0, 0, 0.1));
+  overflow: hidden;
+}
+
+[data-theme="dark"] .modalContent {
+  background-color: #18181B;
+  border-color: #27272A;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light, #E2E8F0);
+}
+
+[data-theme="dark"] .modalHeader {
+  border-bottom-color: #27272A;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modalTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+  margin: 0;
+}
+
+[data-theme="dark"] .modalTitle {
+  color: #FAFAFA;
+}
+
+.modalSubtitle {
+  font-size: 0.76rem;
+  color: var(--text-secondary, #64748B);
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary, #64748B);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  background-color: var(--bg-surface-hover, #F1F5F9);
+  color: var(--text-primary, #0F172A);
+}
+
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: var(--bg-body, #F8FAFC);
+  border-bottom: 1px solid var(--border-light, #E2E8F0);
+  font-size: 0.76rem;
+}
+
+[data-theme="dark"] .actionBar {
+  background-color: #141416;
+  border-bottom-color: #222225;
+}
+
+.selectedCountText {
+  font-weight: 700;
+  color: var(--brand-orange, #FF790E);
+}
+
+.toggleAllBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary, #64748B);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toggleAllBtn:hover {
+  color: var(--text-primary, #0F172A);
+  text-decoration: underline;
+}
+
+/* Staff Grid List */
+.staffGridList {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  max-height: 380px;
+}
+
+.staffCardItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  border-radius: var(--radius-sm, 8px);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+[data-theme="dark"] .staffCardItem {
+  background-color: #1E1E22;
+  border-color: #2E2E33;
+}
+
+.staffCardItem:hover {
+  background-color: var(--bg-surface-hover, #F8FAFC);
+}
+
+[data-theme="dark"] .staffCardItem:hover {
+  background-color: #26262B;
+}
+
+.staffCardSelected {
+  background-color: var(--bg-surface-hover, #F1F5F9) !important;
+  border-color: #94A3B8 !important;
+}
+
+[data-theme="dark"] .staffCardSelected {
+  background-color: #27272A !important;
+  border-color: #52525B !important;
+}
+
+.checkboxBox {
+  flex-shrink: 0;
+}
+
+.staffMetaDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.staffNameTitle {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+}
+
+[data-theme="dark"] .staffNameTitle {
+  color: #FAFAFA;
+}
+
+.staffDesignationText {
+  font-size: 0.72rem;
+  color: var(--text-secondary, #64748B);
+}
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-light, #E2E8F0);
+  background-color: var(--bg-body, #F8FAFC);
+}
+
+[data-theme="dark"] .modalFooter {
+  background-color: #141416;
+  border-top-color: #27272A;
+}
+
+.btnCancel {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border-light, #E2E8F0);
+  border-radius: var(--radius-sm, 6px);
+  color: var(--text-secondary, #64748B);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnSave {
+  padding: 8px 16px;
+  background-color: var(--brand-orange, #FF790E);
+  border: 1px solid var(--brand-orange, #FF790E);
+  color: #FFFFFF;
+  border-radius: var(--radius-sm, 6px);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}

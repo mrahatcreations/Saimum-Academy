@@ -1,0 +1,67 @@
+.checkboxContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  vertical-align: middle;
+}
+
+.checkboxContainer.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.hiddenInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.customBox {
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  border: 1.5px solid var(--border-light, #CBD5E1);
+  background-color: var(--bg-surface, #FFFFFF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] .customBox {
+  border-color: #3F3F46;
+  background-color: #18181B;
+}
+
+.checkboxContainer:hover .customBox:not(.checked):not(.indeterminate) {
+  border-color: var(--brand-orange, #FF790E);
+}
+
+.customBox.checked {
+  background-color: var(--brand-orange, #FF790E);
+  border-color: var(--brand-orange, #FF790E);
+  color: #FFFFFF;
+}
+
+.customBox.indeterminate {
+  background-color: var(--brand-orange, #FF790E);
+  border-color: var(--brand-orange, #FF790E);
+}
+
+.checkIcon {
+  color: #FFFFFF;
+}
+
+.indeterminateDash {
+  width: 8px;
+  height: 2px;
+  background-color: #FFFFFF;
+  border-radius: 1px;
+}

@@ -1,0 +1,789 @@
+.page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =============================================
+   HERO — Institutional Statement
+   ============================================= */
+
+.hero {
+  background-color: var(--bg-dark);
+  color: var(--text-inverse);
+  padding: 80px 24px 0 24px;
+}
+
+.heroInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 64px;
+  align-items: center;
+  padding-bottom: 64px;
+  border-bottom: 1px solid #2A2A2A;
+}
+
+@media (max-width: 860px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heroEstd {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--brand-orange);
+}
+
+.heroHeading {
+  font-family: var(--font-heading);
+  font-size: 4.2rem;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text-inverse);
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  .heroHeading {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroHeading {
+    font-size: 2.2rem;
+  }
+}
+
+.heroOrg {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  color: var(--text-inverse-muted);
+  line-height: 1.5;
+  max-width: 420px;
+}
+
+.heroRight {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.heroImageCard {
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #333333;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background-color: #111111;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.heroImageBadge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+
+.heroSessionBox {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-left: 3px solid var(--brand-orange);
+  padding-left: 20px;
+}
+
+.heroSessionLabel {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-inverse);
+}
+
+.heroSessionDesc {
+  font-size: 0.88rem;
+  color: var(--text-inverse-muted);
+  line-height: 1.6;
+  max-width: 440px;
+}
+
+.heroActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+/* Buttons — sharp rectangular */
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 28px;
+  border-radius: 4px;
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: background-color 0.15s ease;
+}
+
+.btnPrimary:hover {
+  background-color: var(--brand-orange-dark);
+}
+
+.btnOutline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--text-inverse);
+  border: 1px solid #555;
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btnOutline:hover {
+  border-color: var(--text-inverse);
+  color: #FFFFFF;
+}
+
+/* Stats Row */
+
+.statsRow {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 24px 48px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .statsRow {
+    gap: 24px;
+  }
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.statNumber {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-inverse);
+  letter-spacing: -0.02em;
+}
+
+.statLabel {
+  font-size: 0.78rem;
+  color: var(--text-inverse-muted);
+  font-weight: 500;
+}
+
+.statDivider {
+  width: 1px;
+  height: 40px;
+  background-color: #333;
+}
+
+@media (max-width: 600px) {
+  .statDivider {
+    display: none;
+  }
+}
+
+/* =============================================
+   SECTIONS — Common
+   ============================================= */
+
+.section {
+  padding: var(--section-gap) 24px;
+}
+
+.sectionAlt {
+  padding: var(--section-gap) 24px;
+  background-color: var(--bg-section-alt);
+}
+
+.sectionInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: -0.03em;
+}
+
+.sectionSubtitle {
+  font-family: var(--font-heading);
+  font-size: 0.94rem;
+  color: var(--text-muted);
+  max-width: 560px;
+  line-height: 1.6;
+  margin-top: -24px;
+}
+
+/* =============================================
+   NOTICES — Newspaper Style
+   ============================================= */
+
+.noticeList {
+  display: flex;
+  flex-direction: column;
+}
+
+.noticeRow {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 28px 0;
+  border-top: 1px solid var(--border-rule);
+  transition: padding-left 0.2s ease;
+}
+
+.noticeRow:last-child {
+  border-bottom: 1px solid var(--border-rule);
+}
+
+.noticeRow:hover {
+  padding-left: 8px;
+}
+
+@media (max-width: 768px) {
+  .noticeRow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+.noticeDate {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding-top: 3px;
+}
+
+.noticeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.noticeTitle {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.noticeDesc {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.noticeLink {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  text-decoration: none;
+  white-space: nowrap;
+  padding-top: 3px;
+  transition: color 0.15s ease;
+}
+
+.noticeLink:hover {
+  color: var(--brand-orange-dark);
+}
+
+/* =============================================
+   SUBJECTS — Visual 3-Column Grid
+   ============================================= */
+
+.subjectGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 960px) {
+  .subjectGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .subjectGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.subjectItem {
+  background-color: var(--bg-card, #FFFFFF);
+  border: 1px solid var(--border-rule);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.subjectItem:hover {
+  border-color: var(--brand-orange);
+  transform: translateY(-2px);
+}
+
+.subjectImageWrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background-color: #111111;
+  position: relative;
+  overflow: hidden;
+}
+
+.subjectImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.subjectItem:hover .subjectImage {
+  transform: scale(1.03);
+}
+
+.subjectBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.subjectContent {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.subjectTitle {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.subjectDesc {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.subjectLink {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s ease;
+}
+
+.subjectLink:hover {
+  color: var(--brand-orange-dark);
+}
+
+/* =============================================
+   MEDIA GRID — YouTube Songs
+   ============================================= */
+
+.mediaGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .mediaGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .mediaGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mediaCard {
+  display: flex;
+  flex-direction: column;
+  background: none;
+  border: 1px solid var(--border-rule);
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease;
+}
+
+.mediaCard:hover {
+  border-color: var(--text-muted);
+}
+
+.mediaThumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--bg-dark);
+  overflow: hidden;
+}
+
+.mediaImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mediaPlayIcon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  background-color: var(--bg-dark);
+  border: 1px solid #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mediaBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mediaChannel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand-orange);
+}
+
+.mediaTitle {
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.mediaArtist {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.channelLinks {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.channelLink {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-body);
+  text-decoration: none;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-rule);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.channelLink:hover {
+  color: var(--brand-orange);
+  border-color: var(--brand-orange);
+}
+
+/* =============================================
+   ABOUT BAND — Dark Editorial with Visual
+   ============================================= */
+
+.aboutBand {
+  background-color: var(--bg-dark);
+  padding: var(--section-gap) 24px;
+}
+
+.aboutGrid {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .aboutGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.aboutImageCol {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #333333;
+  aspect-ratio: 16 / 11;
+  background-color: #111111;
+}
+
+.aboutImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.aboutImageCaption {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #FFFFFF;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.aboutTextCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.aboutTitle {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-inverse);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.aboutText {
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  color: var(--text-inverse-muted);
+  line-height: 1.75;
+}
+
+.pillarsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding-top: 12px;
+  border-top: 1px solid #2A2A2A;
+}
+
+.pillarItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pillarTitle {
+  font-family: var(--font-heading);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pillarDesc {
+  font-size: 0.82rem;
+  color: var(--text-inverse-muted);
+  line-height: 1.4;
+}
+
+.aboutLink {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  transition: color 0.15s ease;
+}
+
+.aboutLink:hover {
+  color: var(--brand-orange-dark);
+}
+
+/* =============================================
+   BOTTOM CTA
+   ============================================= */
+
+.ctaBanner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  border: 1px solid var(--border-rule);
+  padding: 64px 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.ctaHeading {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  max-width: 560px;
+}
+
+.ctaDesc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+/* =============================================
+   VIDEO MODAL
+   ============================================= */
+
+.videoOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: #000000DD;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.videoContainer {
+  width: 100%;
+  max-width: 800px;
+  background-color: #000000;
+  overflow: hidden;
+}
+
+.videoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: var(--bg-dark);
+}
+
+.videoTitle {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.94rem;
+  color: var(--text-inverse);
+}
+
+.videoClose {
+  background: none;
+  border: none;
+  color: var(--text-inverse);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.videoEmbed {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+
+.videoIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}

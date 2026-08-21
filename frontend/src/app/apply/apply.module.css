@@ -1,0 +1,291 @@
+/* Apply Page — Heritage Institutional */
+
+.applyWrapper {
+  max-width: 800px;
+  margin: 40px auto 80px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.headerBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.preTitle {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-orange);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.desc {
+  font-size: 0.90rem;
+  color: var(--text-muted);
+}
+
+/* Steps Progress Bar */
+.stepperBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin: 10px 0;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.stepCircle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.stepCircleActive {
+  background-color: var(--brand-orange) !important;
+  color: #FFFFFF !important;
+  border-color: var(--brand-orange) !important;
+}
+
+.stepCircleDone {
+  background-color: var(--status-success) !important;
+  color: #FFFFFF !important;
+  border-color: var(--status-success) !important;
+}
+
+.stepLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .stepLabel {
+    display: none;
+  }
+}
+
+/* Form Container */
+.formCard {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (max-width: 600px) {
+  .formCard {
+    padding: 20px;
+  }
+}
+
+.stepTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 14px;
+}
+
+.stepTitle {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.textInput {
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 4px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  color: var(--text-heading);
+  font-size: 0.86rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.textInput:focus {
+  border-color: var(--brand-orange);
+}
+
+.formActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 20px;
+  gap: 12px;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 24px;
+  border-radius: 4px;
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  border: 1px solid var(--brand-orange);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btnPrimary:hover {
+  background-color: var(--brand-orange-dark);
+  border-color: var(--brand-orange-dark);
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  background-color: var(--bg-surface);
+  color: var(--text-body);
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: 1px solid var(--border-rule);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btnSecondary:hover {
+  border-color: var(--text-muted);
+  color: var(--text-heading);
+}
+
+/* Payment Box */
+.paymentBox {
+  background-color: var(--bg-section-alt);
+  border: 1px solid var(--border-rule);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.paymentOptions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .paymentOptions {
+    grid-template-columns: 1fr;
+  }
+}
+
+.payCard {
+  padding: 14px;
+  border: 1px solid var(--border-rule);
+  background-color: var(--bg-surface);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.payCardSelected {
+  border: 1px solid var(--brand-orange) !important;
+  background-color: var(--brand-orange) !important;
+  color: #FFFFFF !important;
+}
+
+/* Success Card */
+.successCard {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.regCodeBadge {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 8px 20px;
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+  margin: 10px 0;
+}

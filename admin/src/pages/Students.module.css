@@ -1,0 +1,160 @@
+/* =========================================================================
+   🎓 Saimum Academy — Corporate Minimalist Table System (Unified Architecture)
+   ========================================================================= */
+
+.container {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  background: transparent;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: transparent;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.82rem;
+  background: transparent;
+}
+
+.th {
+  padding: 14px 16px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  color: var(--text-tertiary, #94A3B8);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border-light, #E2E8F0);
+  background-color: transparent;
+  white-space: nowrap;
+  user-select: none;
+}
+
+[data-theme="dark"] .th {
+  border-bottom-color: #222225;
+}
+
+.checkboxTh, .checkboxTd {
+  width: 40px;
+  padding: 12px 10px 12px 14px;
+  text-align: center;
+}
+
+.tr {
+  border-bottom: 1px solid var(--border-light, #F1F5F9);
+  transition: background-color 0.12s ease;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .tr {
+  border-bottom-color: #1A1A1E;
+}
+
+.tr:hover {
+  background-color: var(--bg-surface-hover, #F8FAFC);
+}
+
+[data-theme="dark"] .tr:hover {
+  background-color: #18181B;
+}
+
+.trSelected {
+  background-color: var(--brand-orange-subtle, #FFF8F2) !important;
+}
+
+[data-theme="dark"] .trSelected {
+  background-color: #201408 !important;
+}
+
+.td {
+  padding: 14px 16px;
+  vertical-align: middle;
+  color: var(--text-primary, #0F172A);
+  font-size: 0.82rem;
+}
+
+[data-theme="dark"] .td {
+  color: #FAFAFA;
+}
+
+.studentIdCell {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-secondary, #64748B);
+  font-variant-numeric: tabular-nums;
+}
+
+.personCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.personMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.personName {
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+  font-size: 0.84rem;
+  letter-spacing: -0.01em;
+}
+
+[data-theme="dark"] .personName {
+  color: #FAFAFA;
+}
+
+.contactCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.phoneText {
+  color: var(--text-secondary, #475569);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.emailText {
+  font-size: 0.74rem;
+  color: var(--text-tertiary, #94A3B8);
+}
+
+.bloodBadge {
+  font-size: 0.70rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: #FEE2E2;
+  color: #DC2626;
+  width: fit-content;
+}
+
+[data-theme="dark"] .bloodBadge {
+  background-color: #450A0A;
+  color: #F87171;
+}
+
+.actionTd {
+  text-align: right;
+  padding-right: 16px;
+}
+
+.loadingRow, .emptyRow {
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--text-tertiary, #94A3B8);
+  font-size: 0.86rem;
+}

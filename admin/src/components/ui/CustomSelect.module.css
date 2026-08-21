@@ -1,0 +1,193 @@
+.selectContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.fullWidth {
+  display: block;
+  width: 100%;
+}
+
+.triggerBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  border-radius: var(--radius-sm, 8px);
+  color: var(--text-primary, #0F172A);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+  user-select: none;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.fullWidth .triggerBtn {
+  width: 100%;
+}
+
+[data-theme="dark"] .triggerBtn {
+  background-color: #18181B;
+  border-color: #27272A;
+  color: #FAFAFA;
+}
+
+.triggerBtn:hover {
+  background-color: var(--bg-surface-hover, #F4F4F5);
+  border-color: var(--border-dashed, #CBD5E1);
+}
+
+[data-theme="dark"] .triggerBtn:hover {
+  background-color: #27272A;
+  border-color: #3F3F46;
+}
+
+.triggerOpen,
+.triggerBtn:focus-visible {
+  border-color: var(--brand-orange, #FF790E) !important;
+  box-shadow: 0 0 0 1px var(--brand-orange, #FF790E);
+}
+
+.variantToolbar {
+  height: 38px;
+  padding: 0 12px;
+}
+
+.variantForm {
+  height: 42px;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.variantCompact {
+  height: 32px;
+  padding: 0 10px;
+  font-size: 0.78rem;
+}
+
+.labelWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.labelPrefix {
+  color: var(--text-tertiary, #94A3B8);
+  font-weight: 500;
+  font-size: 0.78rem;
+}
+
+.labelText {
+  color: var(--text-primary, #0F172A);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .labelText {
+  color: #FAFAFA;
+}
+
+.chevron {
+  color: var(--text-tertiary, #94A3B8);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  color: var(--brand-orange, #FF790E);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 1050;
+  min-width: 140px;
+  max-height: 240px;
+  overflow-y: auto;
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-light, #E2E8F0);
+  border-radius: var(--radius-sm, 8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: dropdownFadeIn 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] .dropdownMenu {
+  background-color: #18181B;
+  border-color: #27272A;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.optionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 0.81rem;
+  font-weight: 500;
+  color: var(--text-primary, #0F172A);
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] .optionItem {
+  color: #E4E4E7;
+}
+
+.optionItem:hover {
+  background-color: var(--bg-surface-hover, #F4F4F5);
+  color: var(--text-primary, #0F172A);
+}
+
+[data-theme="dark"] .optionItem:hover {
+  background-color: #27272A;
+  color: #FFFFFF;
+}
+
+.optionSelected {
+  color: var(--text-primary, #0F172A);
+  font-weight: 600;
+  background-color: var(--bg-surface-hover, #F4F4F5);
+}
+
+[data-theme="dark"] .optionSelected {
+  color: #FFFFFF;
+  background-color: #27272A;
+}
+
+.checkIcon {
+  color: var(--brand-orange, #FF790E);
+  flex-shrink: 0;
+}
