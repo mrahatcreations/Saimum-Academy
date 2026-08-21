@@ -217,7 +217,7 @@ export default function Admissions() {
   const totalCount = registrations.length;
   const pendingVivaCount = registrations.filter(r => r.status === 'PENDING_VIVA').length;
   const scheduledVivaCount = registrations.filter(r => r.status === 'VIVA_SCHEDULED').length;
-  const selectedCount = registrations.filter(r => r.status === 'SELECTED' || r.status === 'WORKSHOP').length;
+  const selectedCount = registrations.filter(r => r.status === 'SELECTED' || r.status === 'WORKSHOP' || r.status === 'REGULAR_STUDENT').length;
   const rejectedCount = registrations.filter(r => r.status === 'REJECTED').length;
 
   // Filter & Sort logic
@@ -225,7 +225,7 @@ export default function Admissions() {
     let result = registrations.filter(reg => {
       if (activeTab === 'PENDING_VIVA' && reg.status !== 'PENDING_VIVA') return false;
       if (activeTab === 'VIVA_SCHEDULED' && reg.status !== 'VIVA_SCHEDULED') return false;
-      if (activeTab === 'SELECTED' && reg.status !== 'SELECTED' && reg.status !== 'WORKSHOP') return false;
+      if (activeTab === 'SELECTED' && reg.status !== 'SELECTED' && reg.status !== 'WORKSHOP' && reg.status !== 'REGULAR_STUDENT') return false;
       if (activeTab === 'REJECTED' && reg.status !== 'REJECTED') return false;
 
       // Text Search

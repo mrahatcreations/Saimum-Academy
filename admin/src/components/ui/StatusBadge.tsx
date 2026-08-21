@@ -28,7 +28,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   // Auto-detect variant from status name if not explicitly provided
   let effectiveVariant = variant;
   if (effectiveVariant === 'auto') {
-    if (['ACTIVE', 'COMPLETED', 'PAID', 'SELECTED', 'APPROVED'].includes(normalizedStatus)) {
+    if (['ACTIVE', 'COMPLETED', 'PAID', 'SELECTED', 'APPROVED', 'REGULAR_STUDENT', 'GRADUATED', 'WORKSHOP'].includes(normalizedStatus)) {
       effectiveVariant = 'success';
     } else if (['PENDING', 'PENDING_VIVA', 'WAITING', 'OVERDUE', 'WARNING'].includes(normalizedStatus)) {
       effectiveVariant = 'warning';
