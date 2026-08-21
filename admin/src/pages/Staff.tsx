@@ -145,14 +145,15 @@ export default function Staff() {
     }
   };
 
-  // Filtered list
+  // Filtered list based on designation / responsibility category
   const filteredStaff = useMemo(() => {
     return staffList.filter(s => {
+      const desLower = (s.designation || '').toLowerCase();
       if (activeTab === 'INACTIVE' && s.status !== 'INACTIVE') return false;
       if (activeTab === 'SUPER_ADMIN' && s.role !== 'SUPER_ADMIN') return false;
-      if (activeTab === 'DEPARTMENT_ADMIN' && s.role !== 'DEPARTMENT_ADMIN') return false;
-      if (activeTab === 'TEACHER' && s.role !== 'TEACHER') return false;
-      if (activeTab === 'ACCOUNT_OFFICER' && s.role !== 'ACCOUNT_OFFICER') return false;
+      if (activeTab === 'DEPARTMENT_ADMIN' && !desLower.includes('department admin') && !desLower.includes('director') && !desLower.includes('coordinator')) return false;
+      if (activeTab === 'TEACHER' && !desLower.includes('teacher') && !desLower.includes('faculty') && !desLower.includes('instructor')) return false;
+      if (activeTab === 'ACCOUNT_OFFICER' && !desLower.includes('account')) return false;
       return true;
     });
   }, [staffList, activeTab]);
@@ -234,11 +235,11 @@ export default function Staff() {
     }
   ];
 
-  // Metric counts
+  // Metric counts based on designation
   const totalStaffCount = staffList.length;
-  const deptAdminCount = staffList.filter(s => s.role === 'DEPARTMENT_ADMIN').length;
-  const teacherCount = staffList.filter(s => s.role === 'TEACHER').length;
-  const accountsOfficerCount = staffList.filter(s => s.role === 'ACCOUNT_OFFICER').length;
+  const deptAdminCount = staffList.filter(s => (s.designation || '').toLowerCase().includes('department admin') || (s.designation || '').toLowerCase().includes('director') || (s.designation || '').toLowerCase().includes('coordinator')).length;
+  const teacherCount = staffList.filter(s => (s.designation || '').toLowerCase().includes('teacher') || (s.designation || '').toLowerCase().includes('faculty') || (s.designation || '').toLowerCase().includes('instructor')).length;
+  const accountsOfficerCount = staffList.filter(s => (s.designation || '').toLowerCase().includes('account')).length;
   const superAdminCount = staffList.filter(s => s.role === 'SUPER_ADMIN').length;
 
   const metricItems: MetricItem[] = useMemo(() => [
@@ -246,7 +247,7 @@ export default function Staff() {
       id: 'total-staff',
       label: 'Total Staff & Team',
       value: totalStaffCount,
-      delta: { value: 'Verified Team', isPositive: true },
+      delta: { value: 'Verified Staff', isPositive: true },
       sparklineData: [2, 3, 3, 4, 4, 5, 5, totalStaffCount || 10],
       sparklineColor: '#FF790E'
     },
@@ -262,7 +263,7 @@ export default function Staff() {
       id: 'teachers',
       label: 'Teachers & Faculty',
       value: teacherCount,
-      delta: { value: 'Class Instructors', isPositive: true },
+      delta: { value: 'Instructors', isPositive: true },
       sparklineData: [2, 4, 6, 8, 10, 12, 14, teacherCount || 17],
       sparklineColor: '#10B981'
     },
