@@ -476,34 +476,16 @@ export default function Staff() {
                             const isAccount = desLower.includes('account') || desLower.includes('finance');
                             const isExaminer = desLower.includes('examiner') || desLower.includes('viva');
 
+                            let chipClass = styles.chipNeutral;
+                            if (isDeptAdmin) chipClass = styles.chipAdmin;
+                            else if (isTeacher) chipClass = styles.chipTeacher;
+                            else if (isAccount) chipClass = styles.chipAccount;
+                            else if (isExaminer) chipClass = styles.chipExaminer;
+
                             return (
                               <span 
                                 key={dIdx} 
-                                style={{
-                                  fontSize: '0.70rem',
-                                  fontWeight: 600,
-                                  padding: '3px 8px',
-                                  borderRadius: '4px',
-                                  backgroundColor: isDeptAdmin 
-                                    ? 'var(--brand-orange-subtle, #FFF4EB)' 
-                                    : isTeacher 
-                                    ? '#ECFDF5' 
-                                    : isAccount 
-                                    ? '#F5F3FF' 
-                                    : isExaminer 
-                                    ? '#FEF3C7' 
-                                    : 'var(--bg-surface-hover, #F1F5F9)',
-                                  color: isDeptAdmin 
-                                    ? 'var(--brand-orange, #FF790E)' 
-                                    : isTeacher 
-                                    ? '#059669' 
-                                    : isAccount 
-                                    ? '#7C3AED' 
-                                    : isExaminer 
-                                    ? '#D97706' 
-                                    : 'var(--text-secondary, #475569)',
-                                  whiteSpace: 'nowrap'
-                                }}
+                                className={`${styles.designationChip} ${chipClass}`}
                               >
                                 {des}
                               </span>
